@@ -308,7 +308,12 @@
 
       return units;
     }
-
+    
+function fixPauseArtifacts(text) {
+  return text
+    .replace(/([a-z0-9])\.\s+(until|and|or|didn't|doesn't|can't|couldn't|wouldn't|if|when|while|at|maybe|a)\b/gi, "$1 ... $2");
+}
+    
     function formatTalkingBookEntry(text) {
       text = text
         .trim()
@@ -343,13 +348,16 @@
 
           title = title.trim().replace(/[.,]+$/, "");
 
-          description = description
+        
+        description = fixPauseArtifacts(
+        description
             .trim()
             .replace(/^["“]\s*/, "")
             .replace(/\s*["”]\s*$/, "")
             .replace(/\s+([.!?])$/g, "$1")
             .replace(/\s+\.\.\./g, " ...")
-            .replace(/([a-z0-9])\.\s+but\b/g, "$1. But");
+            .replace(/([a-z0-9])\.\s+but\b/g, "$1. But")
+);
 
           ending = ending.trim().replace(/\.$/, "");
           endingTitle = endingTitle.trim().replace(/[.,]+$/, "");
