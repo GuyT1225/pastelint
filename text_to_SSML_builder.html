@@ -263,8 +263,8 @@
         return "DB " + digits.split("").join("-");
       });
 
-      const pattern =
-        /^(.+?)\s+DB\s?(\d[\d-]*)\s+(\d+)\s+hours?\s+(\d+)\s+minutes?\s+by\s+(.+?)\.\s*Read by\s+(.+?)(?:\.\s*|\s+)["“]?(.+?)["”]?\s*[-–—]\s*From publisher\.\s*(.+?)\s+DB\s?(\d[\d-]*)\s+(.+?)\.?$/is;
+     const pattern =
+  /^(.+?)\s+DB\s?(\d[\d-]*)\s+(\d+)\s+hours?\s+(\d+)\s+minutes?\s+by\s+(.+?)\.\s*Read by\s+([A-Za-z.\s]+?)\s+"([^"]+)"\s*[-–—]\s*From publisher\.\s*(.+?)\s+DB\s?(\d[\d-]*)\s+(.+?)\.?$/is;
 
       let formatted = text;
 
