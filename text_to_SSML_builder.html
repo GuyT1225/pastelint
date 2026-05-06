@@ -287,7 +287,10 @@
             const formattedDB = "DB " + dbDigits.replace(/-/g, "").split("").join("-");
 
             title = title.trim().replace(/[.,]+$/, "");
-            description = description.trim().replace(/^["“]/, "").replace(/["”]$/, "");
+            description = description
+              .trim()
+              .replace(/^["“]\s*/, "")
+              .replace(/\s*["”]\s*$/, "");
             ending = ending.trim().replace(/\.$/, "");
             endingTitle = endingTitle.trim().replace(/[.,]+$/, "");
 
