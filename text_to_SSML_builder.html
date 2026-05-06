@@ -342,7 +342,7 @@
 
           title = title.trim().replace(/[.,]+$/, "");
 
-          description = cleanDescriptionText(description);
+          description = description
             .trim()
             .replace(/^["“]\s*/, "")
             .replace(/\s*["”]\s*$/, "")
