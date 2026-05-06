@@ -317,7 +317,7 @@
         });
 
       const pattern =
-        /^(.+?)\s+DB\s?(\d[\d-]*)\s+(\d+)\s+hours?\s+(\d+)\s+minutes?\s+by\s+(.+?)\.\s*Read by\s+([A-Za-z.\s]+?)\s+"([^"]+)"\s*[-–—]\s*From publisher\.\s*(.+?)\s+DB\s?(\d[\d-]*)\s+(.+?)\.?$/is;
+        /^(.+?)\s*,?\s+DB\s?(\d[\d-]*)\s+(\d+)\s+hours?\s+(\d+)\s+minutes?\s+by\s+(.+?)\.\s*Read by\s+([A-Za-z.\s]+?)\s+"([^"]+)"\s*[-–—]\s*From\s+(publisher|Goodreads|WorldCat)\.\s*(.+?)\s+DB\s?(\d[\d-]*)\s+(.+?)\.?$/is;
 
       if (!pattern.test(text)) {
         return cleanSpacing(text);
@@ -334,6 +334,7 @@
           authors,
           narrator,
           description,
+          sourceLabel,
           ending,
           endingDb,
           endingTitle
@@ -359,7 +360,7 @@
             hours + " hours, " + minutes + " minutes, by " +
             authors.trim().replace(/[.,]+$/, "") + ". Read by " +
             narrator.trim().replace(/[.,]+$/, "") + '. "' +
-            description.trim() + '"\n\nFrom publisher. ' +
+            description.trim() + '"\n\nFrom ' + sourceLabel + '. ' +
             ending.trim().replace(/\.$/, "") + ". " +
             formattedDB + ". " +
             endingTitle.trim().replace(/[.,]+$/, "") + "."
