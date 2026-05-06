@@ -351,15 +351,14 @@ function fixPauseArtifacts(text) {
         
         description = fixPauseArtifacts(
         description
-             .trim()
-             .replace(/^["“]\s*/, "")
-             .replace(/([a-z])"([a-z])/gi, '$1 "$2')
-             .replace(/\s*"\s*-\s*$/g, '"')
-             .replace(/\s+(['"])/g, "$1")
-             .replace(/\s*["”]\s*$/, "")
-             .replace(/\s+([.!?])$/g, "$1")
-             .replace(/\s+\.\.\./g, " ...")
-             .replace(/([a-z0-9])\.\s+but\b/g, "$1. But")
+              .trim()
+    .replace(/^["“]\s*/, "")
+    .replace(/([a-z])"([a-z])/gi, '$1 "$2')
+    .replace(/\s*"\s*-\s*$/g, '"')
+    .replace(/\s*["”]\s*$/, "")
+    .replace(/\s+([.!?])$/g, "$1")
+    .replace(/\s+\.\.\./g, " ...")
+    .replace(/([a-z0-9])\.\s+but\b/g, "$1. But")
 );
 
           ending = ending.trim().replace(/\.$/, "");
