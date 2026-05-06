@@ -383,6 +383,7 @@
         .replace(/\bDB\s?(\d[\d-]*)\./gi, function (match, digits) {
           return "DB " + digits.replace(/-/g, "").split("").join("-") + ".";
         })
+        .replace(/([a-z0-9])\.\s+but\b/g, "$1. But")
         .replace(/([A-Za-z0-9])$/g, "$1.")
         .trim();
     }
