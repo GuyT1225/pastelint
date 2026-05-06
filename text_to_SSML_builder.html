@@ -345,7 +345,10 @@
           description = description
             .trim()
             .replace(/^["“]\s*/, "")
-            .replace(/\s*["”]\s*$/, "");
+            .replace(/\s*["”]\s*$/, "")
+            .replace(/\s+([.!?])$/g, "$1")
+            .replace(/\s+\.\.\./g, " ...")
+            .replace(/\.\s+but\b/gi, "... but");
 
           ending = ending.trim().replace(/\.$/, "");
           endingTitle = endingTitle.trim().replace(/[.,]+$/, "");
