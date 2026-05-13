@@ -1017,36 +1017,6 @@ function applyTheme(theme) {
   });
 }
 
-/* -----------------------------
-   SAFE TYPO SUPPORT
------------------------------ */
-
-const COMMON_TYPOS = {
-  teh: "the",
-  adn: "and",
-  recieve: "receive",
-  recieved: "received",
-  recieving: "receiving",
-  seperate: "separate",
-  definately: "definitely",
-  occured: "occurred",
-  occuring: "occurring",
-  untill: "until",
-  becuase: "because",
-  taht: "that",
-  wich: "which",
-  thier: "their",
-  beleive: "believe",
-  acheive: "achieve",
-  accomodate: "accommodate",
-  adress: "address",
-  enviroment: "environment",
-  goverment: "government",
-  calender: "calendar",
-  tommorow: "tomorrow",
-  yesturday: "yesterday",
-  alot: "a lot"
-};
 
 function fixCommonTypos(text) {
   let count = 0;
