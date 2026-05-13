@@ -416,7 +416,7 @@ function clearAll(els) {
 
   if (els.changePreview) {
     els.changePreview.textContent =
-"Paste text and click Clean Text to see visible changes.";  }
+"Paste text and click Clean Text to see visible changes.";  
 }
 
 
