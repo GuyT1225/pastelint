@@ -23,9 +23,6 @@ function getElements() {
     output: $("outputText", "output"),
 
     cleanBtn: $("cleanBtn"),
-    rewriteBtn: $("improveBtn", "rewriteBtn"),
-    versionsBtn: $("versionsBtn"),
-
     copyBtn: $("copyBtn"),
     clearBtn: $("clearBtn"),
 
@@ -41,10 +38,6 @@ function getElements() {
     changeSummary: $("improvementList"),
     changePreview: $("changePreview"),
 
-    versionsPanel: $("versionsPanel"),
-    version1: $("versionConcise"),
-    version2: $("versionNatural"),
-    version3: $("versionDirect")
   };
 }
 
@@ -63,17 +56,9 @@ function bindEvents(els) {
   });
 
   els.cleanBtn?.addEventListener("click", () => handleClean(els));
-  els.rewriteBtn?.addEventListener("click", () => handleRewrite(els));
   els.copyBtn?.addEventListener("click", () => copyOutput(els));
   els.clearBtn?.addEventListener("click", () => clearAll(els));
 
-  els.versionsBtn?.addEventListener("click", () => {
-    handleRewrite(els);
-
-    if (els.versionsPanel) {
-      els.versionsPanel.classList.remove("hidden");
-    }
-  });
 }
 
 
@@ -373,15 +358,7 @@ function renderEditPreview(els, edits) {
     .join("");
 }
 
-function renderVersions(els, versions) {
-  const targets = [els.version1, els.version2, els.version3];
 
-  versions.forEach((version, index) => {
-    if (targets[index]) {
-      targets[index].textContent = version.text;
-    }
-  });
-}
 
 
 /* -----------------------------
@@ -437,18 +414,9 @@ function clearAll(els) {
     els.changeSummary.innerHTML = "<li>No improvements yet.</li>";
   }
 
-  if (els.version1) els.version1.textContent = "";
-  if (els.version2) els.version2.textContent = "";
-  if (els.version3) els.version3.textContent = "";
-
-  if (els.versionsPanel) {
-    els.versionsPanel.classList.add("hidden");
-  }
-
   if (els.changePreview) {
     els.changePreview.textContent =
-      "Paste text and click Clean Text or Create SecondDraft to see visible changes.";
-  }
+"Paste text and click Clean Text to see visible changes.";  }
 }
 
 
@@ -461,9 +429,6 @@ function getInputText(els) {
   return els.input?.value.trim() || "";
 }
 
-function getSourceForRewrite(els) {
-  return els.output?.value.trim() || getInputText(els);
-}
 
 function getCleanMode(els) {
   if (!els.modeToggle) return "paragraph";
@@ -483,9 +448,6 @@ function setText(el, text) {
   if (el) el.textContent = text;
 }
 
-function unique(items) {
-  return [...new Set(items.filter(Boolean))];
-}
 
 function escapeRegExp(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
