@@ -6,6 +6,7 @@
 
   <title>SecondDraft | PasteLint</title>
   <meta name="description" content="SecondDraft helps clean text read more naturally by improving readability, tone, rhythm, and flow while preserving meaning. Browser-only, no login, no upload, no backend, no API." />
+
   <link rel="stylesheet" href="css/themes.css" />
   <link rel="stylesheet" href="css/shell.css" />
   <link rel="stylesheet" href="styles.css" />
@@ -29,37 +30,22 @@
   </header>
 
   <main class="page-shell">
-    <section class="hero-section" aria-labelledby="second-draft-title">
-      <p class="eyebrow">Stage 2 · Revise</p>
-      <h1 id="second-draft-title">Make clean text read more naturally</h1>
+    <section class="hero" aria-labelledby="second-draft-title">
+      <p class="eyebrow">SecondDraft Revise</p>
+      <h1 id="second-draft-title">Make clean text read better</h1>
       <p>
-        SecondDraft improves readability, tone, rhythm, and flow while preserving your meaning.
-        It is designed for cleaned text from PasteLint and runs entirely in your browser.
+        Improve clarity, tone, rhythm, and flow while preserving your original meaning.
       </p>
     </section>
 
-    <section class="workflow-line" aria-label="SecondDraft workflow">
-      <span>Clean</span>
-      <span>Revise</span>
-      <span>Understand</span>
-      <span>Use</span>
-    </section>
-
-    <section class="tool-shell" aria-labelledby="tool-title">
-      <section class="tool-panel tool-intro-panel">
-        <h2 id="tool-title">SecondDraft revision tool</h2>
-        <p>
-          Paste text that has already been cleaned, choose the revision style, then review what changed before copying the result.
-        </p>
-      </section>
-
+    <section class="tool-shell" aria-labelledby="controls-title">
       <section class="tool-panel control-panel" aria-labelledby="controls-title">
         <h2 id="controls-title">Revision controls</h2>
 
         <div class="control-group">
           <label for="toneSelect">Tone</label>
           <select id="toneSelect">
-            <option value="natural">Natural</option>
+            <option value="natural" selected>Natural</option>
             <option value="concise">Concise</option>
             <option value="professional">Professional</option>
             <option value="friendly">Friendly</option>
@@ -70,7 +56,7 @@
         <div class="control-group">
           <label for="lengthSelect">Length</label>
           <select id="lengthSelect">
-            <option value="same">Keep similar</option>
+            <option value="same" selected>Keep similar</option>
             <option value="shorter">Shorter</option>
             <option value="expand">Expand slightly</option>
           </select>
@@ -131,11 +117,11 @@
       </section>
     </section>
 
-    <section class="tool-panel trust-panel" aria-labelledby="trust-title">
-      <h2 id="trust-title">Private, practical revision</h2>
+    <section class="trust-panel" aria-labelledby="trust-title">
+      <p class="eyebrow">Private, practical revision</p>
+      <h2 id="trust-title">Clearer writing without changing meaning</h2>
       <p>
-        SecondDraft helps make cleaned text clearer and easier to read without changing the original meaning.
-        Your text stays in your browser. There is no login, no upload, no backend, and no API.
+        SecondDraft runs entirely in your browser. No login, no upload, no backend, and no API.
       </p>
     </section>
   </main>
@@ -145,9 +131,10 @@
       PasteLint is a browser-only text cleanup and revision toolkit.
       <a href="index.html">Clean text</a>,
       <a href="second-draft.html">revise with SecondDraft</a>, or
-      <a href="text_to_SSML_builder.html">build SSML</a>.
+      <a href="SSML_builder.html">build SSML</a>.
     </p>
   </footer>
+
   <script src="js/themes.js"></script>
   <script src="script.js"></script>
 </body>
