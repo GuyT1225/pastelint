@@ -10,8 +10,7 @@
 </head>
 
 <body>
-  <header 
-    class="site-header">
+  <header class="site-header">
     <a class="brand-link" href="index.html">PasteLint</a>
 
     <nav class="tool-nav" aria-label="Tool navigation">
@@ -133,8 +132,6 @@
     let latestChunks = [];
 
     document.addEventListener("DOMContentLoaded", function () {
-      bindThemeButtons();
-
       document.getElementById("input").addEventListener("input", updateCounters);
       document.getElementById("cleanOutput").addEventListener("input", handleCleanEdit);
       document.getElementById("ssmlOutput").addEventListener("input", updateCounters);
@@ -172,16 +169,6 @@
 
       updateCounters();
     });
-
-  
-
-    function applyTheme(theme) {
-      document.documentElement.setAttribute("data-theme", theme);
-
-      document.querySelectorAll("[data-theme-choice]").forEach(function (button) {
-        button.classList.toggle("active", button.getAttribute("data-theme-choice") === theme);
-      });
-    }
 
     function getFooterText() {
       const type = document.getElementById("footerType").value;
@@ -300,12 +287,12 @@
 
       return units;
     }
-    
-function fixPauseArtifacts(text) {
-  return text
-    .replace(/([a-z0-9])\.\s+(until|and|or|didn't|doesn't|can't|couldn't|wouldn't|if|when|while|at|maybe|a)\b/gi, "$1 ... $2");
-}
-    
+
+    function fixPauseArtifacts(text) {
+      return text
+        .replace(/([a-z0-9])\.\s+(until|and|or|didn't|doesn't|can't|couldn't|wouldn't|if|when|while|at|maybe|a)\b/gi, "$1 ... $2");
+    }
+
     function formatTalkingBookEntry(text) {
       text = text
         .trim()
@@ -340,18 +327,17 @@ function fixPauseArtifacts(text) {
 
           title = title.trim().replace(/[.,]+$/, "");
 
-        
-        description = fixPauseArtifacts(
-        description
+          description = fixPauseArtifacts(
+            description
               .trim()
-    .replace(/^["“]\s*/, "")
-    .replace(/([a-z])"([a-z])/gi, '$1 "$2')
-    .replace(/\s*"\s*-\s*$/g, '"')
-    .replace(/\s*["”]\s*$/, "")
-    .replace(/\s+([.!?])$/g, "$1")
-    .replace(/\s+\.\.\./g, " ...")
-    .replace(/([a-z0-9])\.\s+but\b/g, "$1. But")
-);
+              .replace(/^["“]\s*/, "")
+              .replace(/([a-z])"([a-z])/gi, '$1 "$2')
+              .replace(/\s*"\s*-\s*$/g, '"')
+              .replace(/\s*["”]\s*$/, "")
+              .replace(/\s+([.!?])$/g, "$1")
+              .replace(/\s+\.\.\./g, " ...")
+              .replace(/([a-z0-9])\.\s+but\b/g, "$1. But")
+          );
 
           ending = ending.trim().replace(/\.$/, "");
           endingTitle = endingTitle.trim().replace(/[.,]+$/, "");
@@ -534,75 +520,75 @@ function fixPauseArtifacts(text) {
       return units;
     }
 
-   function splitIntoBookAwareChunks(text, limit) {
-  const units = splitIntoBookAwareUnits(text);
-  const chunks = [];
-  let current = "";
-  let pendingHeading = "";
+    function splitIntoBookAwareChunks(text, limit) {
+      const units = splitIntoBookAwareUnits(text);
+      const chunks = [];
+      let current = "";
+      let pendingHeading = "";
 
-  function isStandaloneHeading(text) {
-    return /^[A-Z][A-Za-z0-9 and,&'’:-]{2,80}\.$/.test(text.trim()) && !/\bDB\s?\d/i.test(text);
-  }
+      function isStandaloneHeading(text) {
+        return /^[A-Z][A-Za-z0-9 and,&'’:-]{2,80}\.$/.test(text.trim()) && !/\bDB\s?\d/i.test(text);
+      }
 
-  function pushCurrentChunk() {
-    if (!current.trim()) return;
+      function pushCurrentChunk() {
+        if (!current.trim()) return;
 
-    const parts = current
-      .split(/\n\s*\n+/)
-      .map(function (part) {
-        return part.trim();
-      })
-      .filter(Boolean);
+        const parts = current
+          .split(/\n\s*\n+/)
+          .map(function (part) {
+            return part.trim();
+          })
+          .filter(Boolean);
 
-    const lastPart = parts[parts.length - 1];
+        const lastPart = parts[parts.length - 1];
 
-    if (lastPart && isStandaloneHeading(lastPart) && parts.length > 1) {
-      pendingHeading = lastPart;
-      parts.pop();
-      current = parts.join("\n\n").trim();
-    }
+        if (lastPart && isStandaloneHeading(lastPart) && parts.length > 1) {
+          pendingHeading = lastPart;
+          parts.pop();
+          current = parts.join("\n\n").trim();
+        }
 
-    if (current.trim()) {
-      chunks.push(current.trim());
-    }
+        if (current.trim()) {
+          chunks.push(current.trim());
+        }
 
-    current = "";
-  }
+        current = "";
+      }
 
-  units.forEach(function (unit) {
-    if (pendingHeading) {
-      unit = pendingHeading + "\n\n" + unit;
-      pendingHeading = "";
-    }
+      units.forEach(function (unit) {
+        if (pendingHeading) {
+          unit = pendingHeading + "\n\n" + unit;
+          pendingHeading = "";
+        }
 
-    const candidate = current ? current + "\n\n" + unit : unit;
+        const candidate = current ? current + "\n\n" + unit : unit;
 
-    if (candidate.length <= limit) {
-      current = candidate;
-      return;
-    }
+        if (candidate.length <= limit) {
+          current = candidate;
+          return;
+        }
 
-    pushCurrentChunk();
+        pushCurrentChunk();
 
-    if (unit.length <= limit) {
-      current = unit;
-    } else {
-      splitLongText(unit, limit).forEach(function (part) {
-        if (part.length <= limit) {
-          chunks.push(part);
+        if (unit.length <= limit) {
+          current = unit;
+        } else {
+          splitLongText(unit, limit).forEach(function (part) {
+            if (part.length <= limit) {
+              chunks.push(part);
+            }
+          });
         }
       });
+
+      pushCurrentChunk();
+
+      if (pendingHeading) {
+        chunks.push(pendingHeading);
+      }
+
+      return chunks;
     }
-  });
-
-  pushCurrentChunk();
-
-  if (pendingHeading) {
-    chunks.push(pendingHeading);
-  }
-
-  return chunks;
-}
 
     function generateChunks(wasRedirected) {
       const cleaned = buildFullCleanText();
@@ -953,8 +939,8 @@ function fixPauseArtifacts(text) {
 
       updateCounters();
     }
-    
   </script>
+
   <script src="js/themes.js"></script>
 </body>
 </html>
