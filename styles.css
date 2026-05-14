@@ -1,4 +1,1035 @@
 /* =========================================================
+   PasteLint Design System v1
+   Privacy-first utility shell for PasteLint, SecondDraft,
+   and SSML Builder.
+   CSS only. Preserves light, dark, terminal themes.
+   ========================================================= */
+
+/* -----------------------------
+   Theme Tokens
+----------------------------- */
+
+:root,
+html[data-theme="light"] {
+  --bg: #f6f7f9;
+  --bg-soft: #eef1f5;
+  --surface: #ffffff;
+  --surface-soft: #f8fafc;
+  --surface-muted: #f1f5f9;
+
+  --text: #111827;
+  --text-soft: #374151;
+  --text-muted: #6b7280;
+  --text-faint: #9ca3af;
+
+  --border: #d8dee8;
+  --border-soft: #e6eaf0;
+
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-soft: #dbeafe;
+  --primary-text: #ffffff;
+
+  --success: #047857;
+  --success-soft: #d1fae5;
+
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+
+  --danger: #b91c1c;
+  --danger-soft: #fee2e2;
+
+  --shadow-soft: 0 12px 34px rgba(15, 23, 42, 0.08);
+  --shadow-subtle: 0 1px 2px rgba(15, 23, 42, 0.06);
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  --shell-width: 980px;
+  --panel-width: 860px;
+
+  --font-ui: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --focus-ring: 0 0 0 4px rgba(37, 99, 235, 0.18);
+}
+
+html[data-theme="dark"] {
+  --bg: #0f172a;
+  --bg-soft: #111c33;
+  --surface: #172033;
+  --surface-soft: #1d293d;
+  --surface-muted: #243147;
+
+  --text: #f8fafc;
+  --text-soft: #dbe4ef;
+  --text-muted: #94a3b8;
+  --text-faint: #64748b;
+
+  --border: #334155;
+  --border-soft: #253247;
+
+  --primary: #60a5fa;
+  --primary-hover: #93c5fd;
+  --primary-soft: rgba(96, 165, 250, 0.16);
+  --primary-text: #07111f;
+
+  --success: #34d399;
+  --success-soft: rgba(52, 211, 153, 0.14);
+
+  --warning: #fbbf24;
+  --warning-soft: rgba(251, 191, 36, 0.14);
+
+  --danger: #fb7185;
+  --danger-soft: rgba(251, 113, 133, 0.14);
+
+  --shadow-soft: 0 18px 44px rgba(0, 0, 0, 0.24);
+  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.3);
+
+  --focus-ring: 0 0 0 4px rgba(96, 165, 250, 0.2);
+}
+
+html[data-theme="terminal"] {
+  --bg: #07120c;
+  --bg-soft: #0a1a12;
+  --surface: #0d1f15;
+  --surface-soft: #10291b;
+  --surface-muted: #12331f;
+
+  --text: #d9ffe6;
+  --text-soft: #a7f3c4;
+  --text-muted: #75b98f;
+  --text-faint: #4f8f68;
+
+  --border: #255f3a;
+  --border-soft: #19462b;
+
+  --primary: #43ff88;
+  --primary-hover: #9cffbf;
+  --primary-soft: rgba(67, 255, 136, 0.14);
+  --primary-text: #061009;
+
+  --success: #43ff88;
+  --success-soft: rgba(67, 255, 136, 0.14);
+
+  --warning: #facc15;
+  --warning-soft: rgba(250, 204, 21, 0.14);
+
+  --danger: #fb7185;
+  --danger-soft: rgba(251, 113, 133, 0.14);
+
+  --shadow-soft: none;
+  --shadow-subtle: none;
+
+  --font-ui: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --focus-ring: 0 0 0 3px rgba(67, 255, 136, 0.24);
+}
+
+/* -----------------------------
+   Base Reset
+----------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, var(--bg-soft), transparent 34rem),
+    var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+::selection {
+  background: var(--primary-soft);
+}
+
+/* -----------------------------
+   Global App Shell
+----------------------------- */
+
+.page-shell,
+.app-shell,
+.site-shell,
+main,
+.container {
+  width: min(100% - 32px, var(--shell-width));
+  margin-inline: auto;
+}
+
+main,
+.page-shell,
+.app-shell,
+.site-shell {
+  padding: 28px 0 56px;
+}
+
+.tool-shell,
+.utility-shell,
+.clean-shell,
+.second-draft-shell,
+.ssml-shell {
+  width: min(100%, var(--panel-width));
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+section,
+.tool-section,
+.panel-section {
+  scroll-margin-top: 96px;
+}
+
+/* -----------------------------
+   Header / Navigation
+----------------------------- */
+
+.site-header {
+  width: min(100% - 32px, var(--shell-width));
+  margin: 18px auto 0;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--border-soft);
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  backdrop-filter: blur(14px);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-subtle);
+}
+
+.brand-link,
+.logo,
+.site-title {
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 760;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.brand-link:hover {
+  text-decoration: none;
+  color: var(--primary);
+}
+
+.tool-nav,
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tool-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.tool-nav a:hover {
+  background: var(--surface-muted);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.theme-btn,
+.theme-switcher button {
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.theme-btn:hover,
+.theme-switcher button:hover {
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.theme-btn.active,
+.theme-switcher button.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 42%, var(--border));
+}
+
+/* -----------------------------
+   Hero / Intro
+----------------------------- */
+
+.hero,
+.intro,
+.tool-intro,
+.page-intro {
+  width: min(100%, var(--panel-width));
+  margin: 34px auto 20px;
+  text-align: left;
+}
+
+.hero h1,
+.intro h1,
+.tool-intro h1,
+.page-intro h1 {
+  margin: 0 0 10px;
+  max-width: 720px;
+  color: var(--text);
+  font-size: clamp(2rem, 5vw, 3.35rem);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  font-weight: 820;
+}
+
+.hero h2,
+.intro h2,
+.tool-intro h2,
+.page-intro h2,
+#tool-title {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  font-weight: 780;
+}
+
+.hero p,
+.intro p,
+.tool-intro p,
+.page-intro p,
+.lede,
+.subtitle {
+  max-width: 720px;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.workflow-line,
+.workflow,
+.flow-line {
+  width: min(100%, var(--panel-width));
+  margin: 12px auto 18px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+/* -----------------------------
+   Panels
+----------------------------- */
+
+.panel,
+.card,
+.control-panel,
+.input-panel,
+.output-panel,
+.result-panel,
+.insight-panel,
+.summary-panel,
+.trust-panel,
+.preview-panel,
+.edit-map,
+.change-insight,
+.text-brief,
+.findings-panel,
+.ssml-summary,
+.chunk-panel {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-subtle);
+  text-align: left;
+}
+
+.panel + .panel,
+.card + .card,
+.control-panel + .input-panel,
+.input-panel + .output-panel,
+.output-panel + .insight-panel {
+  margin-top: 0;
+}
+
+.panel-header,
+.card-header,
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.panel h2,
+.panel h3,
+.card h2,
+.card h3,
+.control-panel h2,
+.input-panel h2,
+.output-panel h2,
+.insight-panel h2,
+.summary-panel h2,
+.trust-panel h2 {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: 1.02rem;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  font-weight: 780;
+}
+
+.panel p,
+.card p,
+.control-panel p,
+.input-panel p,
+.output-panel p,
+.insight-panel p,
+.summary-panel p,
+.trust-panel p {
+  margin: 0 0 10px;
+  color: var(--text-muted);
+}
+
+.panel p:last-child,
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+/* -----------------------------
+   Forms / Controls
+----------------------------- */
+
+.controls,
+.control-row,
+.button-row,
+.actions,
+.tool-actions,
+.output-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+label,
+.label,
+.input-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  font-weight: 720;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+input,
+select {
+  min-height: 42px;
+  padding: 9px 12px;
+}
+
+textarea {
+  min-height: 220px;
+  padding: 14px 15px;
+  resize: vertical;
+  font-family: var(--font-ui);
+  line-height: 1.58;
+}
+
+textarea.output,
+.output-textarea,
+#outputText,
+#cleanedText,
+#revisedText,
+#ssmlOutput {
+  min-height: 240px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-faint);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring);
+}
+
+select {
+  cursor: pointer;
+}
+
+/* -----------------------------
+   Buttons
+----------------------------- */
+
+button,
+.button,
+.btn,
+.primary-btn,
+.secondary-btn,
+.copy-btn,
+.clear-btn,
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 15px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-weight: 760;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    opacity 120ms ease;
+}
+
+button:hover,
+.button:hover,
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+button:active,
+.button:active,
+.btn:active {
+  transform: translateY(0);
+}
+
+button:focus-visible,
+.button:focus-visible,
+.btn:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+button:disabled,
+.button:disabled,
+.btn:disabled,
+.is-disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.primary-btn,
+button.primary,
+#cleanBtn,
+#reviseBtn,
+#generateBtn,
+#generateSsmlBtn {
+  background: var(--primary);
+  color: var(--primary-text);
+  border-color: var(--primary);
+}
+
+.primary-btn:hover,
+button.primary:hover,
+#cleanBtn:hover,
+#reviseBtn:hover,
+#generateBtn:hover,
+#generateSsmlBtn:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.secondary-btn,
+button.secondary,
+.copy-btn,
+#copyBtn,
+#copyOutputBtn,
+#copySsmlBtn {
+  background: var(--surface-soft);
+  color: var(--text-soft);
+  border-color: var(--border);
+}
+
+.secondary-btn:hover,
+button.secondary:hover,
+.copy-btn:hover,
+#copyBtn:hover,
+#copyOutputBtn:hover,
+#copySsmlBtn:hover {
+  background: var(--surface-muted);
+  color: var(--text);
+}
+
+.clear-btn,
+button.clear,
+#clearBtn,
+#resetBtn {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border-soft);
+}
+
+.clear-btn:hover,
+button.clear:hover,
+#clearBtn:hover,
+#resetBtn:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 32%, var(--border));
+}
+
+/* -----------------------------
+   Trust Strip
+----------------------------- */
+
+.trust-strip,
+.privacy-strip,
+.utility-trust {
+  width: min(100%, var(--panel-width));
+  margin: 14px auto;
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.trust-strip span,
+.privacy-strip span,
+.utility-trust span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.trust-strip strong,
+.privacy-strip strong,
+.utility-trust strong {
+  color: var(--text-soft);
+}
+
+/* -----------------------------
+   Insight Cards / Summaries
+----------------------------- */
+
+.insights,
+.insight-grid,
+.summary-grid,
+.stats-grid,
+.brief-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.insight-card,
+.stat-card,
+.brief-card,
+.finding-card,
+.summary-card,
+.version-card {
+  padding: 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  color: var(--text-soft);
+}
+
+.insight-card h3,
+.stat-card h3,
+.brief-card h3,
+.finding-card h3,
+.summary-card h3,
+.version-card h3 {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 780;
+}
+
+.insight-card p,
+.stat-card p,
+.brief-card p,
+.finding-card p,
+.summary-card p,
+.version-card p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.metric,
+.count,
+.stat-value {
+  color: var(--text);
+  font-size: 1.3rem;
+  font-weight: 820;
+  letter-spacing: -0.025em;
+}
+
+.badge,
+.pill,
+.tag,
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 780;
+}
+
+.warning,
+.warning-card {
+  background: var(--warning-soft);
+  color: var(--warning);
+  border-color: color-mix(in srgb, var(--warning) 30%, var(--border));
+}
+
+.success,
+.success-card {
+  background: var(--success-soft);
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 30%, var(--border));
+}
+
+/* -----------------------------
+   Edit / Diff / Preview Styling
+----------------------------- */
+
+.edit-preview,
+.visual-preview,
+.diff-preview,
+.change-list,
+.preview-output {
+  padding: 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  color: var(--text-soft);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+mark,
+.highlight,
+.changed,
+.added,
+.improved {
+  padding: 0.08em 0.22em;
+  border-radius: 0.35em;
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.removed,
+.deleted,
+.struck {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  background: var(--danger-soft);
+  border-radius: 0.35em;
+  padding: 0.08em 0.22em;
+}
+
+.simplified,
+.rewritten {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-radius: 0.35em;
+  padding: 0.08em 0.22em;
+}
+
+/* -----------------------------
+   SSML / Code / Chunk Styling
+----------------------------- */
+
+pre,
+code,
+.code-block,
+.ssml-block,
+.chunk-output {
+  font-family: var(--font-mono);
+}
+
+pre,
+.code-block,
+.ssml-block,
+.chunk-output {
+  padding: 15px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  color: var(--text-soft);
+  overflow: auto;
+  line-height: 1.55;
+}
+
+.chunk-list,
+.output-chunks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chunk-item {
+  padding: 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+}
+
+/* -----------------------------
+   Footer
+----------------------------- */
+
+footer,
+.site-footer {
+  width: min(100% - 32px, var(--panel-width));
+  margin: 34px auto 24px;
+  padding: 18px 0;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+footer a,
+.site-footer a {
+  color: var(--text-soft);
+  font-weight: 650;
+}
+
+/* -----------------------------
+   Utility Classes
+----------------------------- */
+
+.muted {
+  color: var(--text-muted);
+}
+
+.small {
+  font-size: 0.88rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* -----------------------------
+   Responsive
+----------------------------- */
+
+@media (max-width: 760px) {
+  body {
+    font-size: 15px;
+  }
+
+  .site-header {
+    align-items: stretch;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+  }
+
+  .tool-nav,
+  .theme-switcher {
+    width: 100%;
+  }
+
+  .tool-nav a,
+  .theme-btn,
+  .theme-switcher button {
+    flex: 1 1 auto;
+  }
+
+  main,
+  .page-shell,
+  .app-shell,
+  .site-shell {
+    padding-top: 22px;
+  }
+
+  .hero,
+  .intro,
+  .tool-intro,
+  .page-intro {
+    margin-top: 26px;
+  }
+
+  .panel,
+  .card,
+  .control-panel,
+  .input-panel,
+  .output-panel,
+  .result-panel,
+  .insight-panel,
+  .summary-panel,
+  .trust-panel,
+  .preview-panel,
+  .edit-map,
+  .change-insight,
+  .text-brief,
+  .findings-panel,
+  .ssml-summary,
+  .chunk-panel {
+    padding: 16px;
+    border-radius: var(--radius-md);
+  }
+
+  .insights,
+  .insight-grid,
+  .summary-grid,
+  .stats-grid,
+  .brief-grid {
+    grid-template-columns: 1fr;
+  }
+
+  textarea {
+    min-height: 190px;
+  }
+
+  .controls,
+  .control-row,
+  .button-row,
+  .actions,
+  .tool-actions,
+  .output-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  button,
+  .button,
+  .btn,
+  .primary-btn,
+  .secondary-btn,
+  .copy-btn,
+  .clear-btn,
+  .action-btn {
+    width: 100%;
+  }
+
+  .trust-strip,
+  .privacy-strip,
+  .utility-trust,
+  .workflow-line,
+  .workflow,
+  .flow-line {
+    border-radius: var(--radius-md);
+  }
+}
+
+@media (max-width: 420px) {
+  .page-shell,
+  .app-shell,
+  .site-shell,
+  main,
+  .container,
+  .site-header,
+  footer,
+  .site-footer {
+    width: min(100% - 22px, var(--shell-width));
+  }
+
+  .hero h1,
+  .intro h1,
+  .tool-intro h1,
+  .page-intro h1 {
+    font-size: 2rem;
+  }
+}/* =========================================================
    PasteLint Shared Design System
    SSML Builder Shell Layout
    Full paste-over styles.css
