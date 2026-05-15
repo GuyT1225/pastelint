@@ -370,7 +370,7 @@ function clearAll(els) {
     els.changePreview.textContent =
 "Paste text and click Clean Text to see visible changes.";  
 }
-
+}
 
 
 /* -----------------------------
