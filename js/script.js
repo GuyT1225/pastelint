@@ -183,7 +183,6 @@ function runPreAnalysis(els) {
     els.issuePanel.innerHTML = issues.length
       ? issues.map(issue => `<li>${escapeHTML(issue)}</li>`).join("")
       : "<li>No obvious issues detected.</li>";
-  }
 }
 
   const issues = detectIssues(text);
