@@ -157,9 +157,34 @@ function runPreAnalysis(els) {
   const text = getInputText(els);
 
   if (!text) {
-    if (els.issuePanel) els.issuePanel.innerHTML = "<li>Paste text to see a quick readability check.</li>";
+    if (els.issuePanel) {
+      els.issuePanel.innerHTML = "<li>Paste text to see a quick readability check.</li>";
+    }
     return;
   }
+
+  let issues = [];
+
+  if (
+    window.PasteLintAnalyzer &&
+    typeof window.PasteLintAnalyzer.analyzeText === "function"
+  ) {
+    const analysis = window.PasteLintAnalyzer.analyzeText(text);
+
+    issues = [
+      ...(analysis.findings || []),
+      ...(analysis.speechRisks || [])
+    ].map(item => item.message);
+  } else {
+    issues = detectIssues(text);
+  }
+
+  if (els.issuePanel) {
+    els.issuePanel.innerHTML = issues.length
+      ? issues.map(issue => `<li>${escapeHTML(issue)}</li>`).join("")
+      : "<li>No obvious issues detected.</li>";
+  }
+}
 
   const issues = detectIssues(text);
 
