@@ -259,6 +259,8 @@ function handleClean(els) {
   }
 
   setOutput(els, result.text);
+  runPreAnalysis(els);
+  
   renderImpact(els, result.impact);
   renderChanges(els, result.changes);
   renderEditPreview(els, result.edits);
