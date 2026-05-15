@@ -215,79 +215,40 @@ function hasRepetition(text) {
 function handleClean(els) {
   const raw = getInputText(els);
   if (!raw) return;
+  const mode = getCleanMode(els);
 
+  let result;
+  if (
+    window.PasteLintCleanEngine &&
+    typeof window.PasteLintCleanEngine.cleanText === "function"
+  ) {
+    const engineResult = window.PasteLintCleanEngine.cleanText(raw, {
+      normalizeSpeechSymbols: false,
+      normalizeDbNumbers: false
+    });
 
-function cleanText(text, mode = "paragraph") {
-  let cleaned = text;
-  const edits = [];
-
-  const impact = {
-    spaces: 0,
-    lines: 0,
-    punctuation: 0,
-    typos: 0,
-    repeatedWords: 0
-  };
-
-  cleaned = cleaned.replace(/[ \t]{2,}/g, () => {
-    impact.spaces++;
-    return " ";
-  });
-
-  cleaned = cleaned.replace(/\n{3,}/g, () => {
-    impact.lines++;
-    return "\n\n";
-  });
-
-  cleaned = cleaned.replace(/\s+([,.;!?])/g, (match, punctuation) => {
-    impact.punctuation++;
-    return punctuation;
-  });
-
-  const typoResult = fixCommonTypos(cleaned);
-  cleaned = typoResult.text;
-  impact.typos = typoResult.count;
-  edits.push(...typoResult.edits);
-
-  const repeatedWordResult = fixRepeatedWords(cleaned);
-  cleaned = repeatedWordResult.text;
-  impact.repeatedWords = repeatedWordResult.count;
-  edits.push(...repeatedWordResult.edits);
-
-  cleaned = applyCleanMode(cleaned, mode);
-
-  return {
-    text: cleaned.trim(),
-    impact,
-    edits,
-    changes: [
-      impact.spaces && "Collapsed extra spaces",
-      impact.lines && "Reduced excessive line breaks",
-      impact.punctuation && "Fixed punctuation spacing",
-      impact.typos && `Fixed ${impact.typos} common typo${impact.typos === 1 ? "" : "s"}`,
-      impact.repeatedWords && `Removed ${impact.repeatedWords} repeated word${impact.repeatedWords === 1 ? "" : "s"}`,
-      mode === "line" && "Flattened text into clean single lines",
-      mode === "paragraph" && "Grouped text into readable paragraphs"
-    ].filter(Boolean)
-  };
-}
-
-function applyCleanMode(text, mode) {
-  if (mode === "line") {
-    return text
-      .split("\n")
-      .map(line => line.trim())
-      .filter(Boolean)
-      .join("\n");
+    result = {
+      text: engineResult.cleaned,
+      changes: engineResult.changes || [],
+      edits: [],
+      impact: {
+        spaces: 0,
+        lines: 0,
+        punctuation: 0,
+        typos: 0,
+        repeatedWords: 0
+      }
+    };
+  } else {
+    result = cleanText(raw, mode);
   }
 
-  return text
-    .split(/\n+/)
-    .map(line => line.trim())
-    .filter(Boolean)
-    .join("\n\n");
+  setOutput(els, result.text);
+  renderImpact(els, result.impact);
+  renderChanges(els, result.changes);
+  renderEditPreview(els, result.edits);
+  updateCounters(els);
 }
-
 
 
 /* -----------------------------
