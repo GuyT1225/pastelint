@@ -38,6 +38,7 @@ function getElements() {
     impactPanel: $("impactList"),
     changeSummary: $("improvementList"),
     changePreview: $("changePreview"),
+    editMap: $("editMap", "changePreview"),
 
   };
 }
@@ -265,7 +266,7 @@ function handleClean(els) {
   
   renderImpact(els, result.impact);
   renderChanges(els, result.changes);
-  renderEditPreview(els, result.edits);
+  renderEditPreview(els, result.edits, result.changes);
   updateCounters(els);
 }
 
@@ -274,59 +275,41 @@ function handleClean(els) {
    PASTELINT RENDERING
 ----------------------------- */
 
-function renderImpact(els, impact) {
-  if (!els.impactPanel) return;
+function renderEditPreview(els, edits, changes = []) {
+  const target = els.editMap || els.changePreview;
+  if (!target) return;
 
-  const parts = [];
+  const engineChanges = Array.isArray(changes) ? changes : [];
 
-  if (impact.shortened > 0) {
-    parts.push(`Shortened by ${impact.shortened} characters`);
-  }
-
-  if (impact.spaces) parts.push("Removed extra spaces");
-  if (impact.lines) parts.push("Reduced line breaks");
-  if (impact.punctuation) parts.push("Fixed punctuation spacing");
-
-  if (impact.typos) {
-    parts.push(`Fixed ${impact.typos} common typo${impact.typos === 1 ? "" : "s"}`);
-  }
-
-  if (impact.repeatedWords) {
-    parts.push(`Removed ${impact.repeatedWords} repeated word${impact.repeatedWords === 1 ? "" : "s"}`);
-  }
-
-  els.impactPanel.innerHTML = parts.length
-    ? parts.map(part => `<li>${escapeHTML(part)}</li>`).join("")
-    : "<li>No major changes.</li>";
-}
-
-function renderChanges(els, changes) {
-  if (!els.changeSummary) return;
-
-  els.changeSummary.innerHTML = changes && changes.length
-    ? changes.map(change => `<li>${escapeHTML(change)}</li>`).join("")
-    : "<li>No major cleanup needed.</li>";
-}
-
-function renderEditPreview(els, edits) {
-  if (!els.changePreview) return;
-
-  if (!edits || edits.length === 0) {
-    els.changePreview.textContent = "No visible word-level edits yet.";
+  if ((!edits || edits.length === 0) && engineChanges.length === 0) {
+    target.textContent = "No visible edits yet.";
     return;
   }
 
-  els.changePreview.innerHTML = edits
-    .map(edit => {
-      return `
-        <div class="edit-item">
-          <span class="edit-before">${escapeHTML(edit.before)}</span>
-          <span class="edit-arrow">→</span>
-          <span class="edit-after">${escapeHTML(edit.after)}</span>
-        </div>
-      `;
-    })
-    .join("");
+  const editItems = (edits || []).map(edit => {
+    return `
+      <div class="edit-item">
+        <span class="edit-before">${escapeHTML(edit.before)}</span>
+        <span class="edit-arrow">→</span>
+        <span class="edit-after">${escapeHTML(edit.after)}</span>
+      </div>
+    `;
+  });
+
+  const changeItems = engineChanges.map(change => {
+    if (typeof change === "string") {
+      return `<div class="edit-item">${escapeHTML(change)}</div>`;
+    }
+
+    return `
+      <div class="edit-item">
+        <strong>${escapeHTML(change.type || "Change")}</strong>
+        <span>${escapeHTML(change.message || "Updated text.")}</span>
+      </div>
+    `;
+  });
+
+  target.innerHTML = [...changeItems, ...editItems].join("");
 }
 
 function renderTextBrief(els, text) {
