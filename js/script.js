@@ -33,7 +33,7 @@ function getElements() {
 
     modeToggle: $("modeToggle"),
 
-    issuePanel: $("analysisList"),
+    issuePanel: $("analysisList", "foundList"),
     impactPanel: $("impactList"),
     changeSummary: $("improvementList"),
     changePreview: $("changePreview"),
