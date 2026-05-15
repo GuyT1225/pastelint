@@ -216,15 +216,6 @@ function handleClean(els) {
   const raw = getInputText(els);
   if (!raw) return;
 
-  const mode = getCleanMode(els);
-  const result = cleanText(raw, mode);
-
-  setOutput(els, result.text);
-  renderImpact(els, result.impact);
-  renderChanges(els, result.changes);
-  renderEditPreview(els, result.edits);
-  updateCounters(els);
-}
 
 function cleanText(text, mode = "paragraph") {
   let cleaned = text;
