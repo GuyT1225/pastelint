@@ -270,7 +270,7 @@ function handleClean(els) {
   renderVisualPreview(
   els,
   raw,
-  result.text
+  result.text,
   result.changes
 );
   updateCounters(els);
