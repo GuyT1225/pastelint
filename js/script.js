@@ -332,7 +332,7 @@ function renderVisualPreview(els, before, after) {
 
   if (before.includes("     ") && !after.includes("     ")) {
     changes.push({
-      before: "broken     spacing",
+      before: "extra spacing",
       after: "broken spacing"
     });
   }
@@ -340,7 +340,7 @@ function renderVisualPreview(els, before, after) {
   if (before.includes("—") && !after.includes("—")) {
     changes.push({
        before: "em dash",
-    after: "dash"
+       after: "dash"
     });
   }
 
