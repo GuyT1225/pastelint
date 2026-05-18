@@ -351,12 +351,12 @@ function renderVisualPreview(els, before, after) {
     });
   }
 
-  if (before.includes("10:00") && after.includes("10 00")) {
-    changes.push({
-      before: "10:00",
-      after: "10 00"
-    });
-  }
+if (before.includes("10:00")) {
+  changes.push({
+    before: "speech time",
+    after: "10 00"
+  });
+}
 
   if (!changes.length) {
     panel.innerHTML =
