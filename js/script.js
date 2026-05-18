@@ -19,8 +19,8 @@ function $(...ids) {
 
 function getElements() {
   return {
-    input: $("inputText", "input"),
-    output: $("outputText", "output"),
+    input: $("inputText", "cleanInput", "input"),
+    output: $("cleanOutput", "outputText", "output"),
 
     cleanBtn: $("cleanBtn"),
     copyBtn: $("copyBtn"),
