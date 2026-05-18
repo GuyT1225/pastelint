@@ -259,6 +259,9 @@ function handleClean(els) {
     };
   } else {
     result = cleanText(raw, mode);
+
+    result.changes = result.changes || [];
+    result.edits = result.edits || [];
   }
 
   setOutput(els, result.text);
