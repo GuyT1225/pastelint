@@ -356,7 +356,63 @@ function renderVisualPreview(els, before, after, changes = []) {
       after: "normalized spacing"
     });
   }
+function renderTextBrief(els, before, after, changes = []) {
+  if (!els.textBrief) return;
 
+  if (!after) {
+    els.textBrief.textContent =
+      "Paste text above, then clean it to see a quick summary of what PasteLint found.";
+    return;
+  }
+
+  const removedChars = Math.max(0, before.length - after.length);
+
+  const changeTypes = Array.isArray(changes)
+    ? changes.map(change => change.type).filter(Boolean)
+    : [];
+
+  const cleanedNotes = [];
+
+  if (removedChars > 0) {
+    cleanedNotes.push(`Cleaned ${removedChars} characters`);
+  }
+
+  if (changeTypes.includes("spacing")) {
+    cleanedNotes.push("normalized spacing");
+  }
+
+  if (
+    changeTypes.includes("dashes") ||
+    changeTypes.includes("punctuation-spacing")
+  ) {
+    cleanedNotes.push("normalized punctuation");
+  }
+
+  if (
+    window.PasteLintAnalyzer &&
+    typeof window.PasteLintAnalyzer.analyzeText === "function"
+  ) {
+    const analysis = window.PasteLintAnalyzer.analyzeText(after);
+    const stats = analysis.stats || {};
+
+    const summary =
+      `${stats.words || 0} words. ` +
+      `${stats.sentences || 0} sentence${stats.sentences === 1 ? "" : "s"}. ` +
+      `${stats.paragraphs || 0} paragraph${stats.paragraphs === 1 ? "" : "s"}. ` +
+      `Estimated read time: ${stats.estimatedReadTimeMinutes || 1} minute${stats.estimatedReadTimeMinutes === 1 ? "" : "s"}.`;
+
+    els.textBrief.textContent = cleanedNotes.length
+      ? `${summary} ${cleanedNotes.join(", ")}.`
+      : summary;
+
+    return;
+  }
+
+  els.textBrief.textContent = cleanedNotes.length
+    ? `${countWords(after)} words. ${cleanedNotes.join(", ")}.`
+    : `${countWords(after)} words.`;
+}
+  
   if (changeTypes.includes("dashes")) {
     previewRows.push({
       before: "em dash",
