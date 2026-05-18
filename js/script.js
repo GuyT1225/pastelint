@@ -333,7 +333,7 @@ function renderVisualPreview(els, before, after) {
   if (before.includes("     ") && !after.includes("     ")) {
     changes.push({
       before: "extra spacing",
-      after: "broken spacing"
+      after: "normalized spacing"
     });
   }
 
