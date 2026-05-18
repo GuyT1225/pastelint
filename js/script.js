@@ -233,9 +233,11 @@ function hasRepetition(text) {
 function handleClean(els) {
   const raw = getInputText(els);
   if (!raw) return;
+
   const mode = getCleanMode(els);
 
   let result;
+
   if (
     window.PasteLintCleanEngine &&
     typeof window.PasteLintCleanEngine.cleanText === "function"
@@ -246,7 +248,7 @@ function handleClean(els) {
     });
 
     result = {
-      text: engineResult.cleaned,
+      text: engineResult.cleaned || "",
       changes: engineResult.changes || [],
       edits: [],
       impact: {
@@ -260,22 +262,32 @@ function handleClean(els) {
   } else {
     result = cleanText(raw, mode);
 
+    result.text = result.text || "";
     result.changes = result.changes || [];
     result.edits = result.edits || [];
   }
 
+  console.log("PASTELINT CLEAN RESULT", result);
+
   setOutput(els, result.text);
   runPreAnalysis(els);
-  renderTextBrief(els, raw, result.text, result.changes);
-  
 
-  renderEditPreview(els, result.edits, result.changes);
+  renderTextBrief(
+    els,
+    raw || "",
+    result.text || "",
+    result.changes || []
+  );
+
+  renderEditPreview(els, result.edits || [], result.changes || []);
+
   renderVisualPreview(
-  els,
-  raw,
-  result.text,
-  result.changes
-);
+    els,
+    raw || "",
+    result.text || "",
+    result.changes || []
+  );
+
   updateCounters(els);
 }
 
