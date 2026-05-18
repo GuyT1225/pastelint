@@ -415,18 +415,18 @@ function renderTextBrief(els, before, after, changes = []) {
   const cleanedNotes = [];
 
   if (removedChars > 0) {
-    cleanedNotes.push(`Cleaned ${removedChars} characters`);
+    cleanedNotes.push(`${removedChars} chars cleaned`);
   }
 
   if (changeTypes.includes("spacing")) {
-    cleanedNotes.push("normalized spacing");
+    cleanedNotes.push("Normalized spacing");
   }
 
   if (
     changeTypes.includes("dashes") ||
     changeTypes.includes("punctuation-spacing")
   ) {
-    cleanedNotes.push("normalized punctuation");
+    cleanedNotes.push("Normalized punctuation");
   }
 
   if (
