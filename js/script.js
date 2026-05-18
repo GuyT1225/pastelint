@@ -39,6 +39,7 @@ function getElements() {
     changeSummary: $("improvementList"),
     changePreview: $("changePreview"),
     editMap: $("editMap", "changePreview"),
+    visualPreview: $("visualPreview"),
 
   };
 }
@@ -317,7 +318,7 @@ function renderEditPreview(els, edits, changes = []) {
 }
 
 function renderVisualPreview(els, before, after) {
-  const panel = els.changePreview;
+  const panel = els.visualPreview;
 
   if (!panel) return;
 
