@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const els = getElements();
-  
+
   bindEvents(els);
   updateCounters(els);
 });
@@ -31,20 +31,17 @@ function getElements() {
     outputCharCount: $("outputCharCount"),
     outputWordCount: $("outputWordCount"),
 
-    modeToggle: $("modeToggle"),
+    modeToggle: $("modeToggle", "viewMode"),
 
     issuePanel: $("analysisList", "foundList"),
     textBrief: $("textBrief"),
     impactPanel: $("impactList"),
     changeSummary: $("improvementList"),
     changePreview: $("changePreview"),
-    editMap: $("editMap", "changePreview"),
-    visualPreview: $("visualPreview"),
-
+    editMap: $("editMap"),
+    visualPreview: $("visualPreview")
   };
 }
-
-
 
 /* -----------------------------
    EVENTS - PASTELINT
@@ -61,10 +58,7 @@ function bindEvents(els) {
   els.cleanBtn?.addEventListener("click", () => handleClean(els));
   els.copyBtn?.addEventListener("click", () => copyOutput(els));
   els.clearBtn?.addEventListener("click", () => clearAll(els));
-
 }
-
-
 
 /* -----------------------------
    SAFE TYPO SUPPORT
@@ -161,7 +155,8 @@ function runPreAnalysis(els) {
 
   if (!text) {
     if (els.issuePanel) {
-      els.issuePanel.innerHTML = "<li>Paste text to see a quick readability check.</li>";
+      els.issuePanel.innerHTML =
+        "<li>Paste text to see a quick readability check.</li>";
     }
     return;
   }
@@ -186,8 +181,9 @@ function runPreAnalysis(els) {
     els.issuePanel.innerHTML = issues.length
       ? issues.map(issue => `<li>${escapeHTML(issue)}</li>`).join("")
       : "<li>No obvious issues detected.</li>";
+  }
 }
-}
+
 function detectIssues(text) {
   const issues = [];
   const sentences = text.split(/[.!?]/).filter(Boolean);
@@ -235,7 +231,6 @@ function handleClean(els) {
   if (!raw) return;
 
   const mode = getCleanMode(els);
-
   let result;
 
   if (
@@ -267,8 +262,6 @@ function handleClean(els) {
     result.edits = result.edits || [];
   }
 
-  console.log("PASTELINT CLEAN RESULT", result);
-
   setOutput(els, result.text);
   runPreAnalysis(els);
 
@@ -279,7 +272,11 @@ function handleClean(els) {
     result.changes || []
   );
 
-  renderEditPreview(els, result.edits || [], result.changes || []);
+  renderEditPreview(
+    els,
+    result.edits || [],
+    result.changes || []
+  );
 
   renderVisualPreview(
     els,
@@ -290,7 +287,6 @@ function handleClean(els) {
 
   updateCounters(els);
 }
-
 
 /* -----------------------------
    PASTELINT RENDERING
@@ -335,7 +331,6 @@ function renderEditPreview(els, edits, changes = []) {
 
 function renderVisualPreview(els, before, after, changes = []) {
   const panel = els.visualPreview;
-
   if (!panel) return;
 
   if (!before || !after) {
@@ -356,6 +351,52 @@ function renderVisualPreview(els, before, after, changes = []) {
       after: "normalized spacing"
     });
   }
+
+  if (changeTypes.includes("dashes")) {
+    previewRows.push({
+      before: "em dash",
+      after: "dash"
+    });
+  }
+
+  if (changeTypes.includes("punctuation-spacing")) {
+    previewRows.push({
+      before: "punctuation spacing",
+      after: "repaired punctuation"
+    });
+  }
+
+  if (before.includes("10:00")) {
+    previewRows.push({
+      before: "speech time",
+      after: "10 00"
+    });
+  }
+
+  if (before.includes("@")) {
+    previewRows.push({
+      before: "@ symbol",
+      after: "spoken at"
+    });
+  }
+
+  if (!previewRows.length) {
+    panel.innerHTML =
+      "<div>No visible cleanup differences detected.</div>";
+    return;
+  }
+
+  panel.innerHTML = previewRows
+    .map(row => `
+      <div class="edit-item">
+        <span class="edit-before">${escapeHTML(row.before)}</span>
+        <span class="edit-arrow">→</span>
+        <span class="edit-after">${escapeHTML(row.after)}</span>
+      </div>
+    `)
+    .join("");
+}
+
 function renderTextBrief(els, before, after, changes = []) {
   if (!els.textBrief) return;
 
@@ -412,51 +453,7 @@ function renderTextBrief(els, before, after, changes = []) {
     ? `${countWords(after)} words. ${cleanedNotes.join(", ")}.`
     : `${countWords(after)} words.`;
 }
-  
-  if (changeTypes.includes("dashes")) {
-    previewRows.push({
-      before: "em dash",
-      after: "dash"
-    });
-  }
 
-  if (changeTypes.includes("punctuation-spacing")) {
-    previewRows.push({
-      before: "punctuation spacing",
-      after: "repaired punctuation"
-    });
-  }
-
-  if (before.includes("10:00")) {
-    previewRows.push({
-      before: "speech time",
-      after: "10 00"
-    });
-  }
-
-  if (before.includes("@")) {
-    previewRows.push({
-      before: "@ symbol",
-      after: "spoken at"
-    });
-  }
-
-  if (!previewRows.length) {
-    panel.innerHTML =
-      "<div>No visible cleanup differences detected.</div>";
-    return;
-  }
-
-  panel.innerHTML = previewRows
-    .map(row => `
-      <div class="edit-item">
-        <span class="edit-before">${escapeHTML(row.before)}</span>
-        <span class="edit-arrow">→</span>
-        <span class="edit-after">${escapeHTML(row.after)}</span>
-      </div>
-    `)
-    .join("");
-}
 /* -----------------------------
    COUNTERS
 ----------------------------- */
@@ -526,13 +523,14 @@ function clearAll(els) {
     els.changeSummary.innerHTML = "<li>No improvements yet.</li>";
   }
 
-  if (els.changePreview) {
-    els.changePreview.textContent =
-      "PasteLint will show a simple before and after view once text is cleaned.";
+  if (els.editMap) {
+    els.editMap.textContent =
+      "Changes will appear here after cleanup.";
   }
 
-  if (els.editMap) {
-    els.editMap.textContent = "Paste text and click Clean Text to see visible changes.";
+  if (els.visualPreview) {
+    els.visualPreview.textContent =
+      "PasteLint will show a simple before and after view once text is cleaned.";
   }
 }
 
@@ -544,7 +542,6 @@ function getInputText(els) {
   return els.input?.value.trim() || "";
 }
 
-
 function getCleanMode(els) {
   if (!els.modeToggle) return "paragraph";
 
@@ -555,7 +552,7 @@ function getCleanMode(els) {
   return els.modeToggle.value === "line" ? "line" : "paragraph";
 }
 
- function setOutput(els, text) {
+function setOutput(els, text) {
   if (els.output) {
     els.output.value = text;
   }
@@ -566,7 +563,6 @@ function getCleanMode(els) {
 function setText(el, text) {
   if (el) el.textContent = text;
 }
-
 
 function escapeRegExp(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -580,4 +576,3 @@ function escapeHTML(text) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
-  
