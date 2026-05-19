@@ -462,40 +462,33 @@ section,
 
 .info-tip{
   position:relative;
-
-  width:12px;
-  height:12px;
+  width:14px;
+  height:14px;
+  min-width:14px;
 
   border:1px solid currentColor;
   border-radius:50%;
-
   background:transparent;
-
   color:inherit;
+  opacity:.6;
 
-  opacity:.55;
-
-  font-size:.50rem;
-  font-weight:600;
-
-  line-height:1;
+  font-size:9px;
+  font-weight:700;
+  font-family:Arial, sans-serif;
+  line-height:14px;
+  text-align:center;
 
   cursor:help;
-
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-
-  transform:translateY(-2px);
+  display:inline-block;
 
   padding:0;
-
-  margin-left:.1rem;
+  margin-left:.15rem;
+  transform:translateY(-1px);
 }
 
 .info-tip:hover,
 .info-tip:focus-visible{
-  opacity:.9;
+  opacity:.95;
 }
 .tooltip{
   position:absolute;
