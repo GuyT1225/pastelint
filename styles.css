@@ -451,6 +451,74 @@ section,
 }
 
 /* -----------------------------
+   TRANSPARENCY HELP
+----------------------------- */
+
+.panel-header h3{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+}
+
+.info-tip{
+  position:relative;
+
+  width:18px;
+  height:18px;
+
+  border:1px solid var(--accent,#00ff9d);
+
+  border-radius:50%;
+
+  background:none;
+
+  color:inherit;
+
+  font-size:.72rem;
+  font-weight:700;
+
+  cursor:help;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.tooltip{
+  position:absolute;
+
+  left:24px;
+  top:-8px;
+
+  width:240px;
+
+  padding:.7rem;
+
+  border-radius:8px;
+
+  background:rgba(0,0,0,.95);
+
+  border:1px solid var(--accent,#00ff9d);
+
+  font-size:.78rem;
+
+  line-height:1.35;
+
+  opacity:0;
+
+  pointer-events:none;
+
+  transition:.15s;
+
+  z-index:50;
+}
+
+.info-tip:hover .tooltip,
+.info-tip:focus .tooltip{
+  opacity:1;
+}
+
+/* -----------------------------
    Forms / Controls
 ----------------------------- */
 
