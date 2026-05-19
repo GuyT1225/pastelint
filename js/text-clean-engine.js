@@ -23,15 +23,33 @@
 
   function removeHiddenCharacters(text, changes) {
     const before = text;
-    const after = text.replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/\u00A0/g, " ");
-    addChange(changes, "hidden-characters", before, after, "Removed hidden and non-breaking characters.");
+    const after = text
+      .replace(/[\u200B-\u200D\uFEFF]/g, "")
+      .replace(/\u00A0/g, " ");
+
+    addChange(
+      changes,
+      "hidden-characters",
+      before,
+      after,
+      "Removed hidden and non-breaking characters."
+    );
+
     return after;
   }
 
   function normalizeLineEndings(text, changes) {
     const before = text;
     const after = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-    addChange(changes, "line-endings", before, after, "Normalized line endings.");
+
+    addChange(
+      changes,
+      "line-endings",
+      before,
+      after,
+      "Normalized line endings."
+    );
+
     return after;
   }
 
@@ -40,6 +58,7 @@
     const after = text
       .replace(/[“”]/g, '"')
       .replace(/[‘’]/g, "'");
+
     addChange(changes, "quotes", before, after, "Normalized smart quotes.");
     return after;
   }
@@ -48,8 +67,30 @@
     const before = text;
     const after = text
       .replace(/[–—]/g, "-")
-      .replace(/\s+-\s+/g, " - ");
+      .replace(/[ \t]+-[ \t]+/g, " - ");
+
     addChange(changes, "dashes", before, after, "Normalized dash characters.");
+    return after;
+  }
+
+  function normalizePunctuationSpacing(text, changes) {
+    const before = text;
+    let after = text;
+
+    after = after.replace(/[ \t]+([,.!?;:])/g, "$1");
+    after = after.replace(/([,.!?;:])([A-Za-z0-9])/g, "$1 $2");
+
+    // Important: only collapse spaces and tabs, not line breaks.
+    after = after.replace(/[ \t]{2,}/g, " ");
+
+    addChange(
+      changes,
+      "punctuation-spacing",
+      before,
+      after,
+      "Repaired spacing around punctuation."
+    );
+
     return after;
   }
 
@@ -63,19 +104,14 @@
     after = after.replace(/\n{3,}/g, "\n\n");
     after = after.trim();
 
-    addChange(changes, "spacing", before, after, "Cleaned extra spacing and blank lines.");
-    return after;
-  }
+    addChange(
+      changes,
+      "spacing",
+      before,
+      after,
+      "Cleaned extra spacing and blank lines."
+    );
 
-  function normalizePunctuationSpacing(text, changes) {
-    const before = text;
-    let after = text;
-
-    after = after.replace(/\s+([,.!?;:])/g, "$1");
-    after = after.replace(/([,.!?;:])([A-Za-z0-9])/g, "$1 $2");
-    after = after.replace(/\s{2,}/g, " ");
-
-    addChange(changes, "punctuation-spacing", before, after, "Repaired spacing around punctuation.");
     return after;
   }
 
@@ -86,7 +122,14 @@
     after = after.replace(/&/g, "and");
     after = after.replace(/@/g, " at ");
 
-    addChange(changes, "speech-symbols", before, after, "Normalized common symbols for spoken output.");
+    addChange(
+      changes,
+      "speech-symbols",
+      before,
+      after,
+      "Normalized common symbols for spoken output."
+    );
+
     return after;
   }
 
@@ -97,7 +140,14 @@
       return "DB " + digits.split("").join("-");
     });
 
-    addChange(changes, "db-number", before, after, "Normalized DB numbers for clearer text-to-speech.");
+    addChange(
+      changes,
+      "db-number",
+      before,
+      after,
+      "Normalized DB numbers for clearer text-to-speech."
+    );
+
     return after;
   }
 
@@ -135,9 +185,10 @@
     cleaned = normalizeSpacing(cleaned, changes);
 
     const analyzer = window.PasteLintAnalyzer;
-    const analysis = analyzer && typeof analyzer.analyzeText === "function"
-      ? analyzer.analyzeText(cleaned)
-      : null;
+    const analysis =
+      analyzer && typeof analyzer.analyzeText === "function"
+        ? analyzer.analyzeText(cleaned)
+        : null;
 
     return {
       original: toText(input),
