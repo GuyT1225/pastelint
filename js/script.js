@@ -528,8 +528,7 @@ function cleanText(text, mode = "paragraph") {
   };
 }
 
-(text, mode = "paragraph") {
-
+function normalizeSpacing(text, mode = "paragraph") {
   const source = String(text)
     .replace(/\u00A0/g, " ")
     .replace(/\r/g, "")
