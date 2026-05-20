@@ -173,12 +173,14 @@ function runPreAnalysis(els) {
       ...(analysis.findings || []),
       ...(analysis.speechRisks || [])
     ].map(item => item.message);
+
   } else {
     issues = detectIssues(text);
   }
 
   if (els.issuePanel) {
     const grouped = groupIssuesForDisplay(issues);
+
     const sections = [];
 
     if (grouped.formatting.items.length) {
@@ -241,9 +243,14 @@ function runPreAnalysis(els) {
 
 function detectIssues(text) {
   const issues = [];
+
   const sentences = text.split(/[.!?]/).filter(Boolean);
 
-  if (sentences.some(sentence => sentence.trim().split(/\s+/).length > 25)) {
+  if (
+    sentences.some(
+      sentence => sentence.trim().split(/\s+/).length > 25
+    )
+  ) {
     issues.push("Some sentences are too long");
   }
 
@@ -268,7 +275,11 @@ function detectIssues(text) {
 
 function hasCommonTypos(text) {
   return Object.keys(COMMON_TYPOS).some(typo => {
-    const pattern = new RegExp(`\\b${escapeRegExp(typo)}\\b`, "i");
+    const pattern = new RegExp(
+      `\\b${escapeRegExp(typo)}\\b`,
+      "i"
+    );
+
     return pattern.test(text);
   });
 }
@@ -278,7 +289,9 @@ function hasRepetition(text) {
 }
 
 function groupIssuesForDisplay(issues) {
+
   const groups = {
+
     formatting: {
       title: "Formatting fixes",
       items: []
@@ -298,9 +311,11 @@ function groupIssuesForDisplay(issues) {
       title: "Other observations",
       items: []
     }
+
   };
 
   issues.forEach(issue => {
+
     const lower = issue.toLowerCase();
 
     if (
@@ -308,24 +323,39 @@ function groupIssuesForDisplay(issues) {
       lower.includes("hidden") ||
       lower.includes("blank")
     ) {
+
       groups.formatting.items.push(issue);
-    } else if (
+
+    }
+
+    else if (
       lower.includes("sentence") ||
       lower.includes("readability") ||
       lower.includes("repeated") ||
       lower.includes("typo")
     ) {
+
       groups.readability.items.push(issue);
-    } else if (
+
+    }
+
+    else if (
       lower.includes("speech") ||
       lower.includes("spoken") ||
       lower.includes("dash") ||
       lower.includes("symbol")
     ) {
+
       groups.speech.items.push(issue);
-    } else {
-      groups.other.items.push(issue);
+
     }
+
+    else {
+
+      groups.other.items.push(issue);
+
+    }
+
   });
 
   return groups;
