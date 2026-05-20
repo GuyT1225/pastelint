@@ -529,6 +529,7 @@ function cleanText(text, mode = "paragraph") {
 }
 
 function normalizeSpacing(text, mode = "paragraph") {
+
   const source = String(text)
     .replace(/\u00A0/g, " ")
     .replace(/\r/g, "")
@@ -537,20 +538,18 @@ function normalizeSpacing(text, mode = "paragraph") {
     .trim();
 
   if (mode === "line") {
-
     return source
       .split("\n")
       .map(line => line.trim())
       .filter(Boolean)
       .join("\n");
-
   }
 
   const lines = source
     .split("\n")
     .map(line => line.trim());
 
-  const rebuilt = [];
+  const paragraphs = [];
 
   let current = [];
 
@@ -559,36 +558,27 @@ function normalizeSpacing(text, mode = "paragraph") {
     if (!line) {
 
       if (current.length) {
-        rebuilt.push(current.join(" "));
+        paragraphs.push(current.join(" "));
         current = [];
       }
 
       return;
     }
 
-    const sentenceEnd =
-      /[.!?:"”]$/.test(line);
-
     current.push(line);
-
-    if (sentenceEnd) {
-      rebuilt.push(current.join(" "));
-      current = [];
-    }
 
   });
 
   if (current.length) {
-    rebuilt.push(current.join(" "));
+    paragraphs.push(current.join(" "));
   }
 
-  return rebuilt
+  return paragraphs
     .join("\n\n")
     .replace(/[ ]{2,}/g, " ")
     .trim();
 
 }
-
 /* -----------------------------
    PASTELINT RENDERING
 ----------------------------- */
