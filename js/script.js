@@ -366,19 +366,25 @@ function renderVisualPreview(els, before, after, changes = []) {
     });
   }
 
-  if (before.includes("10:00")) {
-    previewRows.push({
-      before: "speech time",
-      after: "10 00"
-    });
-  }
+if (
+  before.includes("10:00") &&
+  after.includes("10 00")
+) {
+  previewRows.push({
+    before: "speech time",
+    after: "10 00"
+  });
+}
 
-  if (before.includes("@")) {
-    previewRows.push({
-      before: "@ symbol",
-      after: "spoken at"
-    });
-  }
+if (
+  before.includes("@") &&
+  after.toLowerCase().includes("at")
+) {
+  previewRows.push({
+    before: "@ symbol",
+    after: "spoken at"
+  });
+}
 
   if (!previewRows.length) {
     panel.innerHTML =
