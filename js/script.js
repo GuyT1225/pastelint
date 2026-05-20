@@ -178,9 +178,64 @@ function runPreAnalysis(els) {
   }
 
   if (els.issuePanel) {
-    els.issuePanel.innerHTML = issues.length
-      ? issues.map(issue => `<li>${escapeHTML(issue)}</li>`).join("")
-      : "<li>No obvious issues detected.</li>";
+    const grouped = groupIssuesForDisplay(issues);
+    const sections = [];
+
+    if (grouped.formatting.length) {
+      sections.push(`
+        <div class="issue-group">
+          <strong>Formatting</strong>
+          <ul>
+            ${grouped.formatting
+              .map(issue => `<li>${escapeHTML(issue)}</li>`)
+              .join("")}
+          </ul>
+        </div>
+      `);
+    }
+
+    if (grouped.readability.length) {
+      sections.push(`
+        <div class="issue-group">
+          <strong>Readability</strong>
+          <ul>
+            ${grouped.readability
+              .map(issue => `<li>${escapeHTML(issue)}</li>`)
+              .join("")}
+          </ul>
+        </div>
+      `);
+    }
+
+    if (grouped.speech.length) {
+      sections.push(`
+        <div class="issue-group">
+          <strong>Speech and Narration</strong>
+          <ul>
+            ${grouped.speech
+              .map(issue => `<li>${escapeHTML(issue)}</li>`)
+              .join("")}
+          </ul>
+        </div>
+      `);
+    }
+
+    if (grouped.other.length) {
+      sections.push(`
+        <div class="issue-group">
+          <strong>Other</strong>
+          <ul>
+            ${grouped.other
+              .map(issue => `<li>${escapeHTML(issue)}</li>`)
+              .join("")}
+          </ul>
+        </div>
+      `);
+    }
+
+    els.issuePanel.innerHTML =
+      sections.join("") ||
+      "<p>No obvious issues detected.</p>";
   }
 }
 
@@ -239,7 +294,6 @@ function groupIssuesForDisplay(issues) {
       lower.includes("blank")
     ) {
       groups.formatting.push(issue);
-
     } else if (
       lower.includes("sentence") ||
       lower.includes("readability") ||
@@ -247,7 +301,6 @@ function groupIssuesForDisplay(issues) {
       lower.includes("typo")
     ) {
       groups.readability.push(issue);
-
     } else if (
       lower.includes("speech") ||
       lower.includes("spoken") ||
@@ -255,7 +308,6 @@ function groupIssuesForDisplay(issues) {
       lower.includes("symbol")
     ) {
       groups.speech.push(issue);
-
     } else {
       groups.other.push(issue);
     }
@@ -264,10 +316,6 @@ function groupIssuesForDisplay(issues) {
   return groups;
 }
 
-
-/* -----------------------------
-   PASTELINT CLEAN
------------------------------ */
 /* -----------------------------
    PASTELINT CLEAN
 ----------------------------- */
