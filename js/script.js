@@ -221,7 +221,56 @@ function hasCommonTypos(text) {
 function hasRepetition(text) {
   return /\b(\w+)\s+\1\b/i.test(text);
 }
+function renderTextBrief(...) {
+   ...
+}
 
+function groupIssuesForDisplay(issues) {
+  const groups = {
+    formatting: [],
+    readability: [],
+    speech: [],
+    other: []
+  };
+
+  issues.forEach(issue => {
+    const lower = issue.toLowerCase();
+
+    if (
+      lower.includes("spacing") ||
+      lower.includes("hidden") ||
+      lower.includes("blank")
+    ) {
+      groups.formatting.push(issue);
+
+    } else if (
+      lower.includes("sentence") ||
+      lower.includes("readability") ||
+      lower.includes("repeated") ||
+      lower.includes("typo")
+    ) {
+      groups.readability.push(issue);
+
+    } else if (
+      lower.includes("speech") ||
+      lower.includes("spoken") ||
+      lower.includes("dash") ||
+      lower.includes("symbol")
+    ) {
+      groups.speech.push(issue);
+
+    } else {
+      groups.other.push(issue);
+    }
+  });
+
+  return groups;
+}
+
+
+/* -----------------------------
+   PASTELINT CLEAN
+----------------------------- */
 /* -----------------------------
    PASTELINT CLEAN
 ----------------------------- */
