@@ -181,23 +181,22 @@ function runPreAnalysis(els) {
     const grouped = groupIssuesForDisplay(issues);
     const sections = [];
 
-    if (grouped.formatting.length) {
+    if (grouped.formatting.items.length) {
       sections.push(`
         <div class="issue-group">
-          <strong>Formatting</strong>
+          <strong>${grouped.formatting.title}</strong>
           <ul>
-            ${grouped.formatting
-              .map(issue => `<li>${escapeHTML(issue)}</li>`)
+            ${grouped.formatting.items.map(issue => `<li>${escapeHTML(issue)}</li>`)
               .join("")}
           </ul>
         </div>
       `);
     }
 
-    if (grouped.readability.length) {
+    if (grouped.readability.items.length) {
       sections.push(`
         <div class="issue-group">
-          <strong>Readability</strong>
+          <strong>R${grouped.readibility.title}</strong>
           <ul>
             ${grouped.readability
               .map(issue => `<li>${escapeHTML(issue)}</li>`)
@@ -207,10 +206,10 @@ function runPreAnalysis(els) {
       `);
     }
 
-    if (grouped.speech.length) {
+    if (grouped.speech.items.length) {
       sections.push(`
         <div class="issue-group">
-          <strong>Speech and Narration</strong>
+          <strong>${grouped.speech.title}</strong>
           <ul>
             ${grouped.speech
               .map(issue => `<li>${escapeHTML(issue)}</li>`)
@@ -279,11 +278,26 @@ function hasRepetition(text) {
 
 function groupIssuesForDisplay(issues) {
   const groups = {
-    formatting: [],
-    readability: [],
-    speech: [],
-    other: []
-  };
+  formatting: {
+    title: "Formatting fixes",
+    items: []
+  },
+
+  readability: {
+    title: "Readability risk",
+    items: []
+  },
+
+  speech: {
+    title: "Speech readiness",
+    items: []
+  },
+
+  other: {
+    title: "Other observations",
+    items: []
+  }
+};
 
   issues.forEach(issue => {
     const lower = issue.toLowerCase();
@@ -293,23 +307,23 @@ function groupIssuesForDisplay(issues) {
       lower.includes("hidden") ||
       lower.includes("blank")
     ) {
-      groups.formatting.push(issue);
+      groups.formatting.items.push(issue);
     } else if (
       lower.includes("sentence") ||
       lower.includes("readability") ||
       lower.includes("repeated") ||
       lower.includes("typo")
     ) {
-      groups.readability.push(issue);
+      groups.formatting.items.push(issue);
     } else if (
       lower.includes("speech") ||
       lower.includes("spoken") ||
       lower.includes("dash") ||
       lower.includes("symbol")
     ) {
-      groups.speech.push(issue);
+      groups.speech.items.push(issue);
     } else {
-      groups.other.push(issue);
+      groups.other.items.push(issue);
     }
   });
 
