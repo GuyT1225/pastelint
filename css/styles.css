@@ -424,42 +424,30 @@ main {
 ----------------------------- */
 
 .panel-header h3 {
-  display:inline-flex;
-  align-items:center;
-  gap:.18rem;
-
-  margin:0;
+  display: inline-flex;
+  align-items: center;
+  gap: .18rem;
+  margin: 0;
 }
 
-.info-tip{
-  position:relative;
-
-  display:inline-flex;
-
-  align-items:center;
-  justify-content:center;
-
-  margin-left:.05rem;
-
-  width:auto;
-  height:auto;
-
-  padding:0;
-
-  border:none;
-  background:none;
-
-  opacity:.45;
-
-  color:inherit;
-
-  font-size:.72rem;
-  font-style:italic;
-  font-weight:600;
-
-  vertical-align:middle;
-
-  cursor:help;
+.info-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: .05rem;
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: none;
+  background: none;
+  opacity: .45;
+  color: inherit;
+  font-size: .72rem;
+  font-style: italic;
+  font-weight: 600;
+  vertical-align: middle;
+  cursor: help;
 }
 
 .tooltip {
@@ -757,6 +745,33 @@ ol {
 }
 
 /* -----------------------------
+   COMPACT VISUAL PREVIEW
+----------------------------- */
+
+.compact-preview {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .45rem .65rem;
+}
+
+.compact-preview .edit-before {
+  margin: 0;
+  text-decoration: line-through;
+  opacity: .75;
+}
+
+.compact-preview .edit-after {
+  margin: 0;
+  font-weight: 700;
+}
+
+.compact-preview .edit-arrow {
+  flex: none;
+  padding: 0 .15rem;
+}
+
+/* -----------------------------
    CARDS / LINKS
 ----------------------------- */
 
@@ -798,7 +813,6 @@ ol {
 ----------------------------- */
 
 .site-footer {
-
   padding: 0.8rem 1rem;
   color: var(--muted);
   font-size: 0.88rem;
