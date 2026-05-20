@@ -378,11 +378,11 @@ if (
 
 if (
   before.includes("@") &&
-  after.toLowerCase().includes("at")
+  !after.includes("@")
 ) {
   previewRows.push({
     before: "@ symbol",
-    after: "spoken at"
+    after: "at"
   });
 }
 
