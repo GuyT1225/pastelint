@@ -186,7 +186,8 @@ function runPreAnalysis(els) {
         <div class="issue-group">
           <strong>${grouped.formatting.title}</strong>
           <ul>
-            ${grouped.formatting.items.map(issue => `<li>${escapeHTML(issue)}</li>`)
+            ${grouped.formatting.items
+              .map(issue => `<li>${escapeHTML(issue)}</li>`)
               .join("")}
           </ul>
         </div>
@@ -196,9 +197,9 @@ function runPreAnalysis(els) {
     if (grouped.readability.items.length) {
       sections.push(`
         <div class="issue-group">
-          <strong>R${grouped.readibility.title}</strong>
+          <strong>${grouped.readability.title}</strong>
           <ul>
-            ${grouped.readability
+            ${grouped.readability.items
               .map(issue => `<li>${escapeHTML(issue)}</li>`)
               .join("")}
           </ul>
@@ -211,7 +212,7 @@ function runPreAnalysis(els) {
         <div class="issue-group">
           <strong>${grouped.speech.title}</strong>
           <ul>
-            ${grouped.speech
+            ${grouped.speech.items
               .map(issue => `<li>${escapeHTML(issue)}</li>`)
               .join("")}
           </ul>
@@ -219,12 +220,12 @@ function runPreAnalysis(els) {
       `);
     }
 
-    if (grouped.other.length) {
+    if (grouped.other.items.length) {
       sections.push(`
         <div class="issue-group">
-          <strong>Other</strong>
+          <strong>${grouped.other.title}</strong>
           <ul>
-            ${grouped.other
+            ${grouped.other.items
               .map(issue => `<li>${escapeHTML(issue)}</li>`)
               .join("")}
           </ul>
@@ -278,26 +279,26 @@ function hasRepetition(text) {
 
 function groupIssuesForDisplay(issues) {
   const groups = {
-  formatting: {
-    title: "Formatting fixes",
-    items: []
-  },
+    formatting: {
+      title: "Formatting fixes",
+      items: []
+    },
 
-  readability: {
-    title: "Readability risk",
-    items: []
-  },
+    readability: {
+      title: "Readability risk",
+      items: []
+    },
 
-  speech: {
-    title: "Speech readiness",
-    items: []
-  },
+    speech: {
+      title: "Speech readiness",
+      items: []
+    },
 
-  other: {
-    title: "Other observations",
-    items: []
-  }
-};
+    other: {
+      title: "Other observations",
+      items: []
+    }
+  };
 
   issues.forEach(issue => {
     const lower = issue.toLowerCase();
@@ -314,7 +315,7 @@ function groupIssuesForDisplay(issues) {
       lower.includes("repeated") ||
       lower.includes("typo")
     ) {
-      groups.formatting.items.push(issue);
+      groups.readability.items.push(issue);
     } else if (
       lower.includes("speech") ||
       lower.includes("spoken") ||
@@ -329,7 +330,6 @@ function groupIssuesForDisplay(issues) {
 
   return groups;
 }
-
 /* -----------------------------
    PASTELINT CLEAN
 ----------------------------- */
