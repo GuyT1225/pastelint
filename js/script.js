@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   bindEvents(els);
   updateCounters(els);
+  runPreAnalysis(els);
 });
 
 /* -----------------------------
@@ -14,6 +15,7 @@ function $(...ids) {
     const el = document.getElementById(id);
     if (el) return el;
   }
+
   return null;
 }
 
@@ -95,7 +97,7 @@ function fixCommonTypos(text) {
   let count = 0;
   const edits = [];
 
-  const fixed = text.replace(/\b[A-Za-z']+\b/g, word => {
+  const fixed = String(text).replace(/\b[A-Za-z']+\b/g, word => {
     const lower = word.toLowerCase();
     const replacement = COMMON_TYPOS[lower];
 
@@ -127,7 +129,7 @@ function fixRepeatedWords(text) {
   let count = 0;
   const edits = [];
 
-  const fixed = text.replace(/\b(\w+)\s+\1\b/gi, (match, word) => {
+  const fixed = String(text).replace(/\b(\w+)\s+\1\b/gi, (match, word) => {
     count++;
 
     edits.push({
@@ -143,7 +145,7 @@ function fixRepeatedWords(text) {
 }
 
 function capitalize(text) {
-  return text.charAt(0).toUpperCase() + text.slice(1);
+  return String(text).charAt(0).toUpperCase() + String(text).slice(1);
 }
 
 /* -----------------------------
@@ -154,10 +156,7 @@ function runPreAnalysis(els) {
   const text = getInputText(els);
 
   if (!text) {
-    if (els.issuePanel) {
-      els.issuePanel.innerHTML =
-        "<li>Paste text to see a quick readability check.</li>";
-    }
+    renderEmptyIssues(els);
     return;
   }
 
@@ -169,82 +168,77 @@ function runPreAnalysis(els) {
   ) {
     const analysis = window.PasteLintAnalyzer.analyzeText(text);
 
-    issues = [
+    const analyzerIssues = [
       ...(analysis.findings || []),
       ...(analysis.speechRisks || [])
-    ].map(item => item.message);
+    ]
+      .map(item => item?.message)
+      .filter(Boolean);
 
+    const localIssues = detectIssues(text);
+
+    issues = dedupeList([
+      ...analyzerIssues,
+      ...localIssues
+    ]);
   } else {
-    issues = detectIssues(text);
+    issues = dedupeList(detectIssues(text));
   }
 
-  if (els.issuePanel) {
-    const grouped = groupIssuesForDisplay(issues);
+  renderGroupedIssues(els, issues);
+}
 
-    const sections = [];
+function renderEmptyIssues(els) {
+  if (!els.issuePanel) return;
 
-    if (grouped.formatting.items.length) {
-      sections.push(`
-        <div class="issue-group">
-          <strong>${grouped.formatting.title}</strong>
-          <ul>
-            ${grouped.formatting.items
-              .map(issue => `<li>${escapeHTML(issue)}</li>`)
-              .join("")}
-          </ul>
-        </div>
-      `);
-    }
+  els.issuePanel.innerHTML =
+    "<li>Paste text to see a quick readability check.</li>";
+}
 
-    if (grouped.readability.items.length) {
-      sections.push(`
-        <div class="issue-group">
-          <strong>${grouped.readability.title}</strong>
-          <ul>
-            ${grouped.readability.items
-              .map(issue => `<li>${escapeHTML(issue)}</li>`)
-              .join("")}
-          </ul>
-        </div>
-      `);
-    }
+function renderGroupedIssues(els, issues) {
+  if (!els.issuePanel) return;
 
-    if (grouped.speech.items.length) {
-      sections.push(`
-        <div class="issue-group">
-          <strong>${grouped.speech.title}</strong>
-          <ul>
-            ${grouped.speech.items
-              .map(issue => `<li>${escapeHTML(issue)}</li>`)
-              .join("")}
-          </ul>
-        </div>
-      `);
-    }
+  const grouped = groupIssuesForDisplay(issues);
+  const sections = [];
 
-    if (grouped.other.items.length) {
-      sections.push(`
-        <div class="issue-group">
-          <strong>${grouped.other.title}</strong>
-          <ul>
-            ${grouped.other.items
-              .map(issue => `<li>${escapeHTML(issue)}</li>`)
-              .join("")}
-          </ul>
-        </div>
-      `);
-    }
-
-    els.issuePanel.innerHTML =
-      sections.join("") ||
-      "<p>No obvious issues detected.</p>";
+  if (grouped.formatting.items.length) {
+    sections.push(renderIssueGroup(grouped.formatting));
   }
+
+  if (grouped.readability.items.length) {
+    sections.push(renderIssueGroup(grouped.readability));
+  }
+
+  if (grouped.speech.items.length) {
+    sections.push(renderIssueGroup(grouped.speech));
+  }
+
+  if (grouped.other.items.length) {
+    sections.push(renderIssueGroup(grouped.other));
+  }
+
+  els.issuePanel.innerHTML =
+    sections.join("") ||
+    "<p>No obvious issues detected.</p>";
+}
+
+function renderIssueGroup(group) {
+  return `
+    <div class="issue-group">
+      <strong>${escapeHTML(group.title)}</strong>
+      <ul>
+        ${group.items
+          .map(issue => `<li>${escapeHTML(issue)}</li>`)
+          .join("")}
+      </ul>
+    </div>
+  `;
 }
 
 function detectIssues(text) {
+  const source = String(text);
   const issues = [];
-
-  const sentences = text.split(/[.!?]/).filter(Boolean);
+  const sentences = source.split(/[.!?]/).filter(Boolean);
 
   if (
     sentences.some(
@@ -254,19 +248,19 @@ function detectIssues(text) {
     issues.push("Some sentences are too long");
   }
 
-  if (/(very|really|basically|actually)/i.test(text)) {
+  if (/(very|really|basically|actually)/i.test(source)) {
     issues.push("Contains filler words");
   }
 
-  if (hasRepetition(text)) {
+  if (hasRepetition(source)) {
     issues.push("Repeated words detected");
   }
 
-  if (hasCommonTypos(text)) {
+  if (hasCommonTypos(source)) {
     issues.push("Possible common typos detected");
   }
 
-  if (/(utilize|assistance|facilitate)/i.test(text)) {
+  if (/(utilize|assistance|facilitate)/i.test(source)) {
     issues.push("Overly formal wording");
   }
 
@@ -289,9 +283,7 @@ function hasRepetition(text) {
 }
 
 function groupIssuesForDisplay(issues) {
-
   const groups = {
-
     formatting: {
       title: "Formatting fixes",
       items: []
@@ -311,55 +303,41 @@ function groupIssuesForDisplay(issues) {
       title: "Other observations",
       items: []
     }
-
   };
 
   issues.forEach(issue => {
-
-    const lower = issue.toLowerCase();
+    const lower = String(issue).toLowerCase();
 
     if (
       lower.includes("spacing") ||
       lower.includes("hidden") ||
       lower.includes("blank")
     ) {
-
       groups.formatting.items.push(issue);
-
-    }
-
-    else if (
+    } else if (
       lower.includes("sentence") ||
       lower.includes("readability") ||
       lower.includes("repeated") ||
-      lower.includes("typo")
+      lower.includes("typo") ||
+      lower.includes("filler") ||
+      lower.includes("formal")
     ) {
-
       groups.readability.items.push(issue);
-
-    }
-
-    else if (
+    } else if (
       lower.includes("speech") ||
       lower.includes("spoken") ||
       lower.includes("dash") ||
       lower.includes("symbol")
     ) {
-
       groups.speech.items.push(issue);
-
-    }
-
-    else {
-
+    } else {
       groups.other.items.push(issue);
-
     }
-
   });
 
   return groups;
 }
+
 /* -----------------------------
    PASTELINT CLEAN
 ----------------------------- */
@@ -369,8 +347,35 @@ function handleClean(els) {
   if (!raw) return;
 
   const mode = getCleanMode(els);
-  let result;
+  const result = getCleanResult(raw, mode);
 
+  setOutput(els, result.text);
+  runPreAnalysis(els);
+
+  renderTextBrief(
+    els,
+    raw,
+    result.text,
+    result.changes
+  );
+
+  renderEditPreview(
+    els,
+    result.edits,
+    result.changes
+  );
+
+  renderVisualPreview(
+    els,
+    raw,
+    result.text,
+    result.changes
+  );
+
+  updateCounters(els);
+}
+
+function getCleanResult(raw, mode) {
   if (
     window.PasteLintCleanEngine &&
     typeof window.PasteLintCleanEngine.cleanText === "function"
@@ -380,7 +385,7 @@ function handleClean(els) {
       normalizeDbNumbers: false
     });
 
-    result = {
+    return normalizeCleanResult({
       text: engineResult.cleaned || "",
       changes: engineResult.changes || [],
       edits: [],
@@ -391,39 +396,132 @@ function handleClean(els) {
         typos: 0,
         repeatedWords: 0
       }
-    };
-  } else {
-    result = cleanText(raw, mode);
-
-    result.text = result.text || "";
-    result.changes = result.changes || [];
-    result.edits = result.edits || [];
+    });
   }
 
-  setOutput(els, result.text);
-  runPreAnalysis(els);
+  return normalizeCleanResult(cleanText(raw, mode));
+}
 
-  renderTextBrief(
-    els,
-    raw || "",
-    result.text || "",
-    result.changes || []
-  );
+function normalizeCleanResult(result) {
+  return {
+    text: result?.text || "",
+    changes: Array.isArray(result?.changes) ? result.changes : [],
+    edits: Array.isArray(result?.edits) ? result.edits : [],
+    impact: result?.impact || {
+      spaces: 0,
+      lines: 0,
+      punctuation: 0,
+      typos: 0,
+      repeatedWords: 0
+    }
+  };
+}
 
-  renderEditPreview(
-    els,
-    result.edits || [],
-    result.changes || []
-  );
+/* -----------------------------
+   FALLBACK CLEAN ENGINE
+----------------------------- */
 
-  renderVisualPreview(
-    els,
-    raw || "",
-    result.text || "",
-    result.changes || []
-  );
+function cleanText(text, mode = "paragraph") {
+  const original = String(text);
+  let cleaned = original;
+  const changes = [];
+  let edits = [];
 
-  updateCounters(els);
+  const beforeSpacing = cleaned;
+  cleaned = normalizeSpacing(cleaned, mode);
+
+  if (cleaned !== beforeSpacing) {
+    changes.push({
+      type: "spacing",
+      message: "Cleaned extra spacing and blank lines."
+    });
+  }
+
+  const beforeDashes = cleaned;
+  cleaned = normalizeDashes(cleaned);
+
+  if (cleaned !== beforeDashes) {
+    changes.push({
+      type: "dashes",
+      message: "Normalized dash characters."
+    });
+  }
+
+  const beforePunctuation = cleaned;
+  cleaned = normalizePunctuationSpacing(cleaned);
+
+  if (cleaned !== beforePunctuation) {
+    changes.push({
+      type: "punctuation-spacing",
+      message: "Repaired spacing around punctuation."
+    });
+  }
+
+  const typoResult = fixCommonTypos(cleaned);
+  cleaned = typoResult.text;
+  edits = edits.concat(typoResult.edits);
+
+  if (typoResult.count > 0) {
+    changes.push({
+      type: "typos",
+      message: `Corrected ${typoResult.count} common typo${typoResult.count === 1 ? "" : "s"}.`
+    });
+  }
+
+  const repeatResult = fixRepeatedWords(cleaned);
+  cleaned = repeatResult.text;
+  edits = edits.concat(repeatResult.edits);
+
+  if (repeatResult.count > 0) {
+    changes.push({
+      type: "repeated-words",
+      message: `Removed ${repeatResult.count} repeated word${repeatResult.count === 1 ? "" : "s"}.`
+    });
+  }
+
+  return {
+    text: cleaned.trim(),
+    changes,
+    edits,
+    impact: {
+      spaces: cleaned !== beforeSpacing ? 1 : 0,
+      lines: 0,
+      punctuation: cleaned !== beforePunctuation ? 1 : 0,
+      typos: typoResult.count,
+      repeatedWords: repeatResult.count
+    }
+  };
+}
+
+function normalizeSpacing(text, mode) {
+  const source = String(text).replace(/\u00a0/g, " ");
+
+  if (mode === "line") {
+    return source
+      .split(/\r?\n/)
+      .map(line => line.replace(/[ \t]{2,}/g, " ").trim())
+      .join("\n")
+      .trim();
+  }
+
+  return source
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function normalizeDashes(text) {
+  return String(text)
+    .replace(/[—–]/g, "-")
+    .replace(/→/g, ">");
+}
+
+function normalizePunctuationSpacing(text) {
+  return String(text)
+    .replace(/\s+([,.!?;:])/g, "$1")
+    .replace(/([,.!?;:])(?=\S)/g, "$1 ")
+    .replace(/\b(\d{1,2}):(\d{2})\b/g, "$1 $2")
+    .replace(/[ \t]{2,}/g, " ");
 }
 
 /* -----------------------------
@@ -435,21 +533,12 @@ function renderEditPreview(els, edits, changes = []) {
   if (!target) return;
 
   const engineChanges = Array.isArray(changes) ? changes : [];
+  const safeEdits = Array.isArray(edits) ? edits : [];
 
-  if ((!edits || edits.length === 0) && engineChanges.length === 0) {
+  if (!safeEdits.length && !engineChanges.length) {
     target.textContent = "No visible edits yet.";
     return;
   }
-
-  const editItems = (edits || []).map(edit => {
-    return `
-      <div class="edit-item compact-preview">
-        <span class="edit-before">${escapeHTML(edit.before)}</span>
-        <span class="edit-arrow">→</span>
-        <span class="edit-after">${escapeHTML(edit.after)}</span>
-      </div>
-    `;
-  });
 
   const changeItems = engineChanges.map(change => {
     if (typeof change === "string") {
@@ -460,6 +549,16 @@ function renderEditPreview(els, edits, changes = []) {
       <div class="edit-item">
         <strong>${escapeHTML(change.type || "Change")}</strong>
         <span>${escapeHTML(change.message || "Updated text.")}</span>
+      </div>
+    `;
+  });
+
+  const editItems = safeEdits.map(edit => {
+    return `
+      <div class="edit-item compact-preview">
+        <span class="edit-before">${escapeHTML(edit.before)}</span>
+        <span class="edit-arrow">→</span>
+        <span class="edit-after">${escapeHTML(edit.after)}</span>
       </div>
     `;
   });
@@ -477,6 +576,26 @@ function renderVisualPreview(els, before, after, changes = []) {
     return;
   }
 
+  const previewRows = buildPreviewRows(before, after, changes);
+
+  if (!previewRows.length) {
+    panel.innerHTML =
+      "<div>No visible cleanup differences detected.</div>";
+    return;
+  }
+
+  panel.innerHTML = previewRows
+    .map(row => `
+      <div class="edit-item compact-preview">
+        <span class="edit-before">${escapeHTML(row.before)}</span>
+        <span class="edit-arrow">→</span>
+        <span class="edit-after">${escapeHTML(row.after)}</span>
+      </div>
+    `)
+    .join("");
+}
+
+function buildPreviewRows(before, after, changes = []) {
   const previewRows = [];
 
   const changeTypes = Array.isArray(changes)
@@ -504,41 +623,27 @@ function renderVisualPreview(els, before, after, changes = []) {
     });
   }
 
-if (
-  before.includes("10:00") &&
-  after.includes("10 00")
-) {
-  previewRows.push({
-    before: "speech time",
-    after: "10 00"
-  });
-}
-
-if (
-  before.includes("@") &&
-  !after.includes("@")
-) {
-  previewRows.push({
-    before: "@ symbol",
-    after: "at"
-  });
-}
-
-  if (!previewRows.length) {
-    panel.innerHTML =
-      "<div>No visible cleanup differences detected.</div>";
-    return;
+  if (
+    String(before).includes("10:00") &&
+    String(after).includes("10 00")
+  ) {
+    previewRows.push({
+      before: "speech time",
+      after: "10 00"
+    });
   }
 
-  panel.innerHTML = previewRows
-    .map(row => `
-      <div class="edit-item compact-preview">
-        <span class="edit-before">${escapeHTML(row.before)}</span>
-        <span class="edit-arrow">→</span>
-        <span class="edit-after">${escapeHTML(row.after)}</span>
-      </div>
-    `)
-    .join("");
+  if (
+    String(before).includes("@") &&
+    !String(after).includes("@")
+  ) {
+    previewRows.push({
+      before: "@ symbol",
+      after: "at"
+    });
+  }
+
+  return previewRows;
 }
 
 function renderTextBrief(els, before, after, changes = []) {
@@ -550,7 +655,7 @@ function renderTextBrief(els, before, after, changes = []) {
     return;
   }
 
-  const removedChars = Math.max(0, before.length - after.length);
+  const removedChars = Math.max(0, String(before).length - String(after).length);
 
   const changeTypes = Array.isArray(changes)
     ? changes.map(change => change.type).filter(Boolean)
@@ -613,7 +718,7 @@ function updateCounters(els) {
 }
 
 function countWords(text) {
-  return (text.trim().match(/\b\w+\b/g) || []).length;
+  return (String(text).trim().match(/\b\w+\b/g) || []).length;
 }
 
 /* -----------------------------
@@ -648,15 +753,11 @@ function clearAll(els) {
   if (els.output) els.output.value = "";
 
   updateCounters(els);
+  renderEmptyIssues(els);
 
   if (els.textBrief) {
     els.textBrief.textContent =
       "Paste text above, then clean it to see a quick summary of what PasteLint found.";
-  }
-
-  if (els.issuePanel) {
-    els.issuePanel.innerHTML =
-      "<li>Paste text to see a quick readability check.</li>";
   }
 
   if (els.impactPanel) {
@@ -708,8 +809,12 @@ function setText(el, text) {
   if (el) el.textContent = text;
 }
 
+function dedupeList(items) {
+  return [...new Set((items || []).filter(Boolean))];
+}
+
 function escapeRegExp(text) {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function escapeHTML(text) {
