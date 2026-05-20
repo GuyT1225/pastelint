@@ -305,7 +305,7 @@ function renderEditPreview(els, edits, changes = []) {
 
   const editItems = (edits || []).map(edit => {
     return `
-      <div class="edit-item">
+      <div class="edit-item compact-preview">
         <span class="edit-before">${escapeHTML(edit.before)}</span>
         <span class="edit-arrow">→</span>
         <span class="edit-after">${escapeHTML(edit.after)}</span>
@@ -319,12 +319,11 @@ function renderEditPreview(els, edits, changes = []) {
     }
 
     return `
-<div class="edit-item compact-preview">
-  <span class="edit-before">${escapeHTML(row.before)}</span>
-  <span class="edit-arrow">→</span>
-  <span class="edit-after">${escapeHTML(row.after)}</span>
-</div>
-`;
+      <div class="edit-item">
+        <strong>${escapeHTML(change.type || "Change")}</strong>
+        <span>${escapeHTML(change.message || "Updated text.")}</span>
+      </div>
+    `;
   });
 
   target.innerHTML = [...changeItems, ...editItems].join("");
@@ -389,7 +388,7 @@ function renderVisualPreview(els, before, after, changes = []) {
 
   panel.innerHTML = previewRows
     .map(row => `
-      <div class="edit-item">
+      <div class="edit-item compact-preview">
         <span class="edit-before">${escapeHTML(row.before)}</span>
         <span class="edit-arrow">→</span>
         <span class="edit-after">${escapeHTML(row.after)}</span>
