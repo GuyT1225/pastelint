@@ -528,56 +528,66 @@ function cleanText(text, mode = "paragraph") {
   };
 }
 
-function normalizeSpacing(text, mode) {
+(text, mode = "paragraph") {
+
   const source = String(text)
-    .replace(/\u00a0/g, " ")
-    .replace(/\t/g, " ")
+    .replace(/\u00A0/g, " ")
     .replace(/\r/g, "")
-    .replace(/[ \t]+\n/g, "\n")
-    .replace(/\n[ \t]+/g, "\n");
+    .replace(/\t/g, " ")
+    .replace(/[ ]{2,}/g, " ")
+    .trim();
 
   if (mode === "line") {
+
     return source
       .split("\n")
-      .map(line =>
-        line
-          .replace(/[ \t]{2,}/g, " ")
-          .trim()
-      )
-      .join("\n")
-      .replace(/\n{3,}/g, "\n\n")
-      .trim();
+      .map(line => line.trim())
+      .filter(Boolean)
+      .join("\n");
+
   }
 
-  const blocks = source
-    .split(/\n{2,}/)
-    .map(block =>
-      block
-        .split("\n")
-        .map(line => line.trim())
-        .filter(Boolean)
-        .join(" ")
-    )
-    .filter(Boolean);
+  const lines = source
+    .split("\n")
+    .map(line => line.trim());
 
-  return blocks
+  const rebuilt = [];
+
+  let current = [];
+
+  lines.forEach(line => {
+
+    if (!line) {
+
+      if (current.length) {
+        rebuilt.push(current.join(" "));
+        current = [];
+      }
+
+      return;
+    }
+
+    const sentenceEnd =
+      /[.!?:"”]$/.test(line);
+
+    current.push(line);
+
+    if (sentenceEnd) {
+      rebuilt.push(current.join(" "));
+      current = [];
+    }
+
+  });
+
+  if (current.length) {
+    rebuilt.push(current.join(" "));
+  }
+
+  return rebuilt
     .join("\n\n")
     .replace(/[ ]{2,}/g, " ")
     .trim();
-}
 
-function normalizeDashes(text) {
-  return String(text)
-    .replace(/[—–]/g, "-")
-    .replace(/→/g, ">");
-}
-
-function normalizePunctuationSpacing(text) {
-  return String(text)
-    .replace(/\s+([,.!?;:])/g, "$1")
-    .replace(/([,.!?;:])(?=\S)/g, "$1 ")
-    .replace(/\b(\d{1,2}):(\d{2})\b/g, "$1 $2")
-    .replace(/[ \t]{2,}/g, " ");
 }
 
 /* -----------------------------
