@@ -177,12 +177,12 @@ function runPreAnalysis(els) {
 
     const localIssues = detectIssues(text);
 
-    issues = dedupeList([
+    issues = dedupeIssues([
       ...analyzerIssues,
       ...localIssues
     ]);
   } else {
-    issues = dedupeList(detectIssues(text));
+    issues = dedupeIssues(detectIssues(text));
   }
 
   renderGroupedIssues(els, issues);
@@ -260,7 +260,7 @@ function detectIssues(text) {
     issues.push("Possible common typos detected");
   }
 
-  if (/(utilize|assistance|facilitate)/i.test(source)) {
+  if (/(utilize|assistance|facilitate|leverage|delve|unlock potential|drive outcomes|seamless integration|tapestry)/i.test(source)) {
     issues.push("Overly formal wording");
   }
 
@@ -327,7 +327,10 @@ function groupIssuesForDisplay(issues) {
       lower.includes("speech") ||
       lower.includes("spoken") ||
       lower.includes("dash") ||
-      lower.includes("symbol")
+      lower.includes("symbol") ||
+      lower.includes("ampersand") ||
+      lower.includes("db") ||
+      lower.includes("time")
     ) {
       groups.speech.items.push(issue);
     } else {
@@ -376,6 +379,8 @@ function handleClean(els) {
 }
 
 function getCleanResult(raw, mode) {
+  let result;
+
   if (
     window.PasteLintCleanEngine &&
     typeof window.PasteLintCleanEngine.cleanText === "function"
@@ -385,7 +390,7 @@ function getCleanResult(raw, mode) {
       normalizeDbNumbers: false
     });
 
-    return normalizeCleanResult({
+    result = normalizeCleanResult({
       text: engineResult.cleaned || "",
       changes: engineResult.changes || [],
       edits: [],
@@ -397,9 +402,11 @@ function getCleanResult(raw, mode) {
         repeatedWords: 0
       }
     });
+  } else {
+    result = normalizeCleanResult(cleanText(raw, mode));
   }
 
-  return normalizeCleanResult(cleanText(raw, mode));
+  return postProcessCleanResult(raw, result, mode);
 }
 
 function normalizeCleanResult(result) {
@@ -415,6 +422,34 @@ function normalizeCleanResult(result) {
       repeatedWords: 0
     }
   };
+}
+
+function postProcessCleanResult(raw, result, mode) {
+  const before = result.text;
+  const after = normalizeSpacing(before, mode);
+
+  if (after !== before) {
+    result.text = after;
+
+    addChangeOnce(result.changes, {
+      type: "spacing",
+      message: "Cleaned extra spacing and blank lines."
+    });
+  }
+
+  result.text = result.text.trim();
+
+  return result;
+}
+
+function addChangeOnce(changes, change) {
+  if (!Array.isArray(changes)) return;
+
+  const alreadyExists = changes.some(item => item?.type === change.type);
+
+  if (!alreadyExists) {
+    changes.push(change);
+  }
 }
 
 /* -----------------------------
@@ -494,13 +529,18 @@ function cleanText(text, mode = "paragraph") {
 }
 
 function normalizeSpacing(text, mode) {
-  const source = String(text).replace(/\u00a0/g, " ");
+  const source = String(text)
+    .replace(/\u00a0/g, " ")
+    .replace(/\t/g, " ")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n[ \t]+/g, "\n");
 
   if (mode === "line") {
     return source
       .split(/\r?\n/)
       .map(line => line.replace(/[ \t]{2,}/g, " ").trim())
       .join("\n")
+      .replace(/\n{3,}/g, "\n\n")
       .trim();
   }
 
@@ -598,6 +638,9 @@ function renderVisualPreview(els, before, after, changes = []) {
 function buildPreviewRows(before, after, changes = []) {
   const previewRows = [];
 
+  const beforeText = String(before);
+  const afterText = String(after);
+
   const changeTypes = Array.isArray(changes)
     ? changes.map(change => change.type).filter(Boolean)
     : [];
@@ -624,8 +667,8 @@ function buildPreviewRows(before, after, changes = []) {
   }
 
   if (
-    String(before).includes("10:00") &&
-    String(after).includes("10 00")
+    beforeText.includes("10:00") &&
+    afterText.includes("10 00")
   ) {
     previewRows.push({
       before: "speech time",
@@ -634,8 +677,8 @@ function buildPreviewRows(before, after, changes = []) {
   }
 
   if (
-    String(before).includes("@") &&
-    !String(after).includes("@")
+    beforeText.includes("@") &&
+    !afterText.includes("@")
   ) {
     previewRows.push({
       before: "@ symbol",
@@ -811,6 +854,44 @@ function setText(el, text) {
 
 function dedupeList(items) {
   return [...new Set((items || []).filter(Boolean))];
+}
+
+function dedupeIssues(items) {
+  const seen = new Set();
+  const output = [];
+
+  (items || []).forEach(item => {
+    const issue = String(item || "").trim();
+
+    if (!issue) return;
+
+    const key = getIssueKey(issue);
+
+    if (seen.has(key)) return;
+
+    seen.add(key);
+    output.push(issue);
+  });
+
+  return output;
+}
+
+function getIssueKey(issue) {
+  const lower = String(issue).toLowerCase();
+
+  if (lower.includes("sentence")) return "long-sentence";
+  if (lower.includes("filler")) return "filler";
+  if (lower.includes("repeated")) return "repeated";
+  if (lower.includes("formal")) return "formal";
+  if (lower.includes("spacing")) return "spacing";
+  if (lower.includes("blank")) return "blank-lines";
+  if (lower.includes("dash")) return "dash";
+  if (lower.includes("symbol")) return "symbol";
+  if (lower.includes("ampersand")) return "ampersand";
+  if (lower.includes("spoken")) return "spoken";
+  if (lower.includes("typo")) return "typo";
+
+  return lower;
 }
 
 function escapeRegExp(text) {
