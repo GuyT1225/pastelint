@@ -221,9 +221,6 @@ function hasCommonTypos(text) {
 function hasRepetition(text) {
   return /\b(\w+)\s+\1\b/i.test(text);
 }
-function renderTextBrief(...) {
-   ...
-}
 
 function groupIssuesForDisplay(issues) {
   const groups = {
