@@ -532,21 +532,37 @@ function normalizeSpacing(text, mode) {
   const source = String(text)
     .replace(/\u00a0/g, " ")
     .replace(/\t/g, " ")
+    .replace(/\r/g, "")
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n[ \t]+/g, "\n");
 
   if (mode === "line") {
     return source
-      .split(/\r?\n/)
-      .map(line => line.replace(/[ \t]{2,}/g, " ").trim())
+      .split("\n")
+      .map(line =>
+        line
+          .replace(/[ \t]{2,}/g, " ")
+          .trim()
+      )
       .join("\n")
       .replace(/\n{3,}/g, "\n\n")
       .trim();
   }
 
-  return source
-    .replace(/[ \t]{2,}/g, " ")
-    .replace(/\n{3,}/g, "\n\n")
+  const blocks = source
+    .split(/\n{2,}/)
+    .map(block =>
+      block
+        .split("\n")
+        .map(line => line.trim())
+        .filter(Boolean)
+        .join(" ")
+    )
+    .filter(Boolean);
+
+  return blocks
+    .join("\n\n")
+    .replace(/[ ]{2,}/g, " ")
     .trim();
 }
 
