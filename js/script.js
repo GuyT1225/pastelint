@@ -545,18 +545,43 @@ function normalizeSpacing(text, mode = "paragraph") {
       .join("\n");
   }
 
-  const rawParagraphs = source
-    .split(/\n\s*\n/);
+  const lines = source
+    .split("\n")
+    .map(line => line.trim());
 
-  const rebuilt = rawParagraphs
-    .map(block =>
-      block
-        .split("\n")
-        .map(line => line.trim())
-        .filter(Boolean)
-        .join(" ")
-    )
-    .filter(Boolean);
+  const rebuilt = [];
+  let current = [];
+
+  lines.forEach(line => {
+
+    if (!line) {
+
+      if (current.length > 0) {
+        rebuilt.push(current.join(" "));
+        current = [];
+      }
+
+      return;
+    }
+
+    current.push(line);
+
+    const sentenceEnd =
+      /[.!?:"”]$/.test(line);
+
+    if (
+      sentenceEnd &&
+      current.join(" ").split(/\s+/).length > 35
+    ) {
+      rebuilt.push(current.join(" "));
+      current = [];
+    }
+
+  });
+
+  if (current.length) {
+    rebuilt.push(current.join(" "));
+  }
 
   return rebuilt
     .join("\n\n")
