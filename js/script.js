@@ -554,7 +554,6 @@ function normalizeSpacing(text, mode = "paragraph") {
 
   lines.forEach(line => {
 
-    /* Ignore empty lines for paragraph mode */
     if (!line) {
       return;
     }
@@ -576,8 +575,12 @@ function normalizeSpacing(text, mode = "paragraph") {
         .filter(Boolean)
         .length;
 
-    /* Larger paragraph targets */
+    const looksLikeIVR =
+      /\b(DB\d+|meeting|story|menu|press\s+\d+|dial|kids|books|email|library)\b/i
+        .test(line);
+
     if (
+      looksLikeIVR ||
       sentenceCount >= 5 ||
       wordCount >= 120
     ) {
@@ -588,9 +591,7 @@ function normalizeSpacing(text, mode = "paragraph") {
   });
 
   if (current.length) {
-    rebuilt.push(
-      current.join(" ")
-    );
+    rebuilt.push(current.join(" "));
   }
 
   return rebuilt
