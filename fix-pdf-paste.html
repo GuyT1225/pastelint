@@ -1,4 +1,218 @@
 <!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Fix Text Copied from PDF | PasteLint</title>
+  <meta name="description" content="Fix messy text copied from PDFs. Remove awkward line breaks, spacing problems, and broken formatting directly in your browser.">
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/shell.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand-link" href="index.html">PasteLint</a>
+
+    <nav class="tool-nav" aria-label="Tool navigation">
+      <a href="index.html">Clean</a>
+      <a href="second-draft.html">SecondDraft</a>
+      <a href="SSML_builder.html">SSML Builder</a>
+    </nav>
+
+    <nav class="theme-switcher" aria-label="Theme selector">
+      <button class="theme-btn active" type="button" data-theme-choice="light">Light</button>
+      <button class="theme-btn" type="button" data-theme-choice="dark">Dark</button>
+      <button class="theme-btn" type="button" data-theme-choice="terminal">Terminal</button>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+   <section class="hero">
+  <div class="eyebrow">PASTELINT PDF CLEANUP</div>
+
+  <h1>Fix text copied from PDF</h1>
+
+  <p>
+    Remove broken line breaks, spacing issues, and messy formatting from PDF text before reusing it in email, documents, IVR scripts, websites, or text to speech tools.
+  </p>
+</section>
+<section class="tool-panel">
+
+  <h2>Common PDF copy problems</h2>
+
+  <ul>
+    <li>Every sentence appears on its own line</li>
+    <li>Broken spacing after copying from PDFs</li>
+    <li>Text copied in short fragments</li>
+    <li>Awkward line breaks from columns</li>
+    <li>Formatting breaks when pasting into email or documents</li>
+    <li>PDF text becomes difficult to use in TTS or IVR workflows</li>
+
+  </ul>
+
+</section>
+    <section class="tool-shell" aria-labelledby="tool-title">
+      <div class="tool-panel control-panel" aria-label="Cleaning controls">
+        <div class="control-group">
+          <label for="cleanMode">Cleanup mode</label>
+          <select id="cleanMode">
+            <option value="standard" selected>Standard cleanup</option>
+            <option value="ai">AI text cleanup</option>
+            <option value="pdf">PDF or document paste</option>
+            <option value="web">Website or email paste</option>
+            <option value="ivr">IVR and TTS prep</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="viewMode">Review mode</label>
+          <select id="viewMode">
+            <option value="paragraph" selected>Paragraph</option>
+            <option value="line">Line by line</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="tool-panel input-panel">
+        <label for="input">Paste your messy text</label>
+        <textarea id="input" placeholder="Paste text from AI tools, PDFs, websites, emails, or documents..."></textarea>
+
+        <div class="meta">
+          <span id="inputCharCount">0 chars</span>
+          <span id="inputWordCount">0 words</span>
+        </div>
+      </div>
+
+      <div class="tool-panel action-panel">
+        <button id="cleanBtn" type="button">Clean text</button>
+        <button id="copyBtn" type="button">Copy clean text</button>
+        <button id="clearBtn" type="button">Clear</button>
+      </div>
+
+      <div class="tool-panel output-panel">
+        <label for="output">Clean output</label>
+        <textarea id="output" placeholder="Clean text will appear here..." readonly></textarea>
+
+        <div class="meta">
+          <span id="outputCharCount">0 chars</span>
+          <span id="outputWordCount">0 words</span>
+        </div>
+      </div>
+
+<div class="tool-panel insight-panel">
+
+  <div class="panel-header">
+    <h3>
+      Text Brief
+      <button class="info-tip" aria-label="About Text Brief">
+        ?
+        <span class="tooltip">
+          Summary of cleaned text including word count, sentences, paragraphs, reading time, and cleanup activity.
+        </span>
+      </button>
+    </h3>
+  </div>
+
+  <div id="textBrief">
+    Paste text above, then clean it to see a quick summary of what PasteLint found.
+  </div>
+
+</div>
+
+<div class="tool-panel insight-panel">
+
+  <div class="panel-header">
+    <h3>
+      What PasteLint Found
+      <button class="info-tip" aria-label="About What PasteLint Found">
+        ?
+        <span class="tooltip">
+          Issues detected before or during cleanup such as spacing, formatting, readability, and speech related findings.
+        </span>
+      </button>
+    </h3>
+  </div>
+
+  <ul id="foundList">
+    <li>No cleanup issues detected yet.</li>
+  </ul>
+
+</div>
+
+<div class="tool-panel insight-panel">
+
+  <div class="panel-header">
+    <h3>
+      Edit Map
+      <button class="info-tip" aria-label="About Edit Map">
+        ?
+        <span class="tooltip">
+          Lists changes PasteLint applied and explains what was modified.
+        </span>
+      </button>
+    </h3>
+  </div>
+
+  <div id="editMap">
+    Changes will appear here after cleanup.
+  </div>
+
+</div>
+
+<div class="tool-panel insight-panel">
+
+  <div class="panel-header">
+    <h3>
+      Visual cleanup preview
+      <button class="info-tip" aria-label="About Visual Cleanup Preview">
+        ?
+        <span class="tooltip">
+          Shows examples of cleanup actions and how text was changed.
+        </span>
+      </button>
+    </h3>
+  </div>
+
+  <div id="visualPreview">
+    PasteLint will show a simple before and after view once text is cleaned.
+  </div>
+
+</div>
+    </section>
+
+    <section class="trust-panel">
+      <p class="eyebrow">Privacy-first text cleanup</p>
+      <h2>Plain text that works everywhere</h2>
+      <p>
+        PasteLint runs in your browser. No login, no upload, no backend, and no API. It helps turn messy copied text into clean, readable text you can reuse.
+      </p>
+    </section>
+
+    <section class="next-step-panel">
+      <p class="eyebrow">Need a cleaner rewrite?</p>
+      <h2>Move from Clean to SecondDraft</h2>
+      <p>
+        After cleaning pasted text, use SecondDraft to improve tone, rhythm, and flow without changing the meaning.
+      </p>
+      <a href="second-draft.html">Open SecondDraft</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      PasteLint cleans messy text, and SecondDraft makes AI-written text sound more natural without sending anything to a server.
+    </p>
+  </footer>
+
+<script src="js/utils.js"></script>
+<script src="js/themes.js"></script>
+<script src="js/text-analyzer.js"></script>
+<script src="js/text-clean-engine.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html><!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -175,7 +389,52 @@
   <div id="versionsPanel" class="versions-panel" hidden></div>
 
 </section>
+<section class="landing-section">
+  <div class="section-heading">
+    <h2>Clean PDF text before you reuse it</h2>
+    <p>
+      PasteLint runs entirely in your browser. Fix copied PDF text before using it in email,
+      documents, websites, IVR scripts, accessibility workflows, or text to speech systems.
+    </p>
+  </div>
 
+  <div class="landing-info-card">
+    <h3>No upload. No account. No backend.</h3>
+    <p>Your text stays on your device while you clean spacing, line breaks, and formatting.</p>
+  </div>
+</section>
+
+<section class="landing-section">
+  <div class="section-heading">
+    <h2>Frequently asked questions</h2>
+    <p>Common questions about fixing text copied from PDFs.</p>
+  </div>
+
+  <div class="landing-info-grid">
+    <section class="landing-info-card">
+      <h3>Why does copied PDF text look broken?</h3>
+      <p>
+        PDFs often store text in short visual fragments, columns, or positioned blocks.
+        Copying can introduce awkward line breaks, strange spacing, and broken paragraphs.
+      </p>
+    </section>
+
+    <section class="landing-info-card">
+      <h3>Can PasteLint remove PDF line breaks?</h3>
+      <p>
+        Yes. PasteLint rebuilds paragraphs and repairs copied formatting directly in your browser.
+      </p>
+    </section>
+
+    <section class="landing-info-card">
+      <h3>Does PasteLint upload PDF text?</h3>
+      <p>
+        No. PasteLint runs locally in your browser. There is no login, upload, backend, or API.
+      </p>
+    </section>
+  </div>
+</section>
+  
 <section class="landing-section">
   <div class="section-heading">
     <h2>Why PDF text gets messy</h2>
