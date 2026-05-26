@@ -537,6 +537,7 @@ function normalizeSpacing(text, mode = "paragraph") {
     .replace(/[ ]{2,}/g, " ")
     .trim();
 
+  /* Preserve line mode exactly */
   if (mode === "line") {
     return source
       .split("\n")
@@ -545,6 +546,7 @@ function normalizeSpacing(text, mode = "paragraph") {
       .join("\n");
   }
 
+  /* Paragraph reconstruction */
   const lines = source
     .split("\n")
     .map(line => line.trim());
@@ -554,10 +556,15 @@ function normalizeSpacing(text, mode = "paragraph") {
 
   lines.forEach(line => {
 
+    /* Blank line = possible paragraph boundary */
     if (!line) {
 
       if (current.length > 0) {
-        rebuilt.push(current.join(" "));
+
+        const paragraph = current.join(" ");
+
+        rebuilt.push(paragraph);
+
         current = [];
       }
 
@@ -566,21 +573,39 @@ function normalizeSpacing(text, mode = "paragraph") {
 
     current.push(line);
 
-    const sentenceEnd =
-      /[.!?:"”]$/.test(line);
+    const paragraphText =
+      current.join(" ");
 
+    const wordCount =
+      paragraphText
+        .split(/\s+/)
+        .filter(Boolean)
+        .length;
+
+    const sentenceCount =
+      paragraphText
+        .split(/[.!?]+/)
+        .filter(Boolean)
+        .length;
+
+    /* Soft grouping:
+       ~4 sentences OR ~80 words */
     if (
-      sentenceEnd &&
-      current.join(" ").split(/\s+/).length > 35
+      wordCount > 80 ||
+      sentenceCount >= 4
     ) {
-      rebuilt.push(current.join(" "));
+      rebuilt.push(paragraphText);
+
       current = [];
     }
 
   });
 
+  /* Flush remaining text */
   if (current.length) {
-    rebuilt.push(current.join(" "));
+    rebuilt.push(
+      current.join(" ")
+    );
   }
 
   return rebuilt
