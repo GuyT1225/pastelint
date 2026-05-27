@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Prepare Text for TTS | PasteLint</title>
+
+  <meta
+    name="description"
+    content="Clean and prepare text for text to speech systems. Fix spacing, line breaks, symbols, and formatting before narration, IVR, or accessibility workflows."
+  />
+
+  <link rel="canonical" href="https://guyt1225.github.io/pastelint/tts-text-cleanup.html">
+
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/shell.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+
+<header class="site-header">
+
+  <a class="brand-link" href="index.html">
+    PasteLint
+  </a>
+
+  <nav class="tool-nav" aria-label="Tool navigation">
+    <a href="index.html">Clean</a>
+    <a href="second-draft.html">SecondDraft</a>
+    <a href="SSML_builder.html">SSML Builder</a>
+  </nav>
+
+  <nav class="theme-switcher" aria-label="Theme selector">
+    <button class="theme-btn active" type="button" data-theme-choice="light">Light</button>
+    <button class="theme-btn" type="button" data-theme-choice="dark">Dark</button>
+    <button class="theme-btn" type="button" data-theme-choice="terminal">Terminal</button>
+  </nav>
+
+</header>
+
+<main class="page-shell">
+
+<section class="hero">
+
+  <p class="eyebrow">
+    PASTELINT · TTS PREP
+  </p>
+
+  <h1>
+    Prepare text for text to speech
+  </h1>
+
+  <p>
+    Clean copied text before using it in narration, accessibility tools,
+    read aloud workflows, IVR systems, or text to speech applications.
+  </p>
+
+</section>
+
+<section class="tool-panel">
+
+  <h2>
+    Common text to speech problems
+  </h2>
+
+  <ul>
+
+    <li>Broken PDF line breaks interrupt narration</li>
+
+    <li>Symbols like @ and & sound awkward</li>
+
+    <li>Long sentences reduce listenability</li>
+
+    <li>Copied text includes hidden formatting</li>
+
+    <li>IVR scripts need spacing cleanup</li>
+
+    <li>Narration text often needs paragraph rebuilding</li>
+
+  </ul>
+
+</section>
+
+<section class="tool-shell" id="tool">
+
+<div class="tool-panel input-panel">
+
+<label for="input">
+Paste text for TTS cleanup
+</label>
+
+<textarea
+id="input"
+placeholder="Paste narration, IVR, accessibility, audiobook, or TTS text..."
+></textarea>
+
+<div class="meta">
+<span id="inputCharCount">0 chars</span>
+<span id="inputWordCount">0 words</span>
+</div>
+
+</div>
+
+<div class="tool-panel action-panel">
+
+<button id="cleanBtn" type="button">
+Clean text
+</button>
+
+<button id="copyBtn" type="button">
+Copy clean text
+</button>
+
+<button id="clearBtn" type="button">
+Clear
+</button>
+
+</div>
+
+<div class="tool-panel output-panel">
+
+<label for="output">
+Prepared output
+</label>
+
+<textarea
+id="output"
+readonly
+placeholder="Prepared text will appear here..."
+></textarea>
+
+<div class="meta">
+<span id="outputCharCount">0 chars</span>
+<span id="outputWordCount">0 words</span>
+</div>
+
+</div>
+
+</section>
+
+<section class="landing-section">
+
+<div class="section-heading">
+
+<h2>
+Examples of narration cleanup
+</h2>
+
+<p>
+Examples of issues that affect read aloud systems.
+</p>
+
+</div>
+
+<div class="example-grid">
+
+<article class="example-card">
+
+<div>
+
+<strong>
+Before
+</strong>
+
+<p>
+Meet me @ 10:00 — Books & Movies
+</p>
+
+</div>
+
+<div>
+
+<strong>
+After
+</strong>
+
+<p>
+Meet me at 10:00 — Books and Movies
+</p>
+
+</div>
+
+</article>
+
+<article class="example-card">
+
+<div>
+
+<strong>
+Before
+</strong>
+
+<p>
+This sentence is extremely long and keeps going and going and can become difficult for narration systems.
+</p>
+
+</div>
+
+<div>
+
+<strong>
+After
+</strong>
+
+<p>
+Shorter sentences are easier to listen to.
+</p>
+
+</div>
+
+</article>
+
+<article class="example-card">
+
+<div>
+
+<strong>
+Before
+</strong>
+
+<p>
+chapter title DB132206 10 hours 19 minutes
+</p>
+
+</div>
+
+<div>
+
+<strong>
+After
+</strong>
+
+<p>
+chapter title DB132206 10 hours 19 minutes
+</p>
+
+</div>
+
+</article>
+
+</div>
+
+</section>
+
+<section class="landing-info-grid">
+
+<section class="landing-info-card">
+
+<h2>
+Useful for
+</h2>
+
+<ul>
+
+<li>Text to speech preparation</li>
+
+<li>Accessibility workflows</li>
+
+<li>Read aloud tools</li>
+
+<li>IVR scripts</li>
+
+<li>Audiobook preparation</li>
+
+<li>Narration review</li>
+
+</ul>
+
+</section>
+
+<section class="landing-info-card">
+
+<h2>
+Privacy first
+</h2>
+
+<ul>
+
+<li>No upload</li>
+
+<li>No account</li>
+
+<li>No backend</li>
+
+<li>No API</li>
+
+<li>Browser only processing</li>
+
+</ul>
+
+</section>
+
+</section>
+
+<section class="landing-section final-cta">
+
+<h2>
+Prepare text before narration
+</h2>
+
+<p>
+Run cleanup before sending text into speech systems.
+</p>
+
+<a class="btn btn-primary" href="#tool">
+
+Prepare this text
+
+</a>
+
+</section>
+
+</main>
+
+<footer class="site-footer">
+
+<p>
+
+PasteLint helps prepare copied text for reuse,
+accessibility workflows,
+IVR systems,
+and narration.
+
+</p>
+
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/themes.js"></script>
+<script src="js/text-analyzer.js"></script>
+<script src="js/text-clean-engine.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
