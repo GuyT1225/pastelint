@@ -2,9 +2,9 @@
 
 **Plain text that works everywhere.**
 
-PasteLint is a privacy-first browser-based text cleanup and narration preparation toolkit.
+PasteLint is a privacy-first browser-based text cleanup toolkit designed to help clean, normalize, and prepare messy copied text before reuse.
 
-It helps clean messy pasted text from:
+PasteLint helps repair text copied from:
 
 * PDFs
 * AI tools
@@ -12,18 +12,35 @@ It helps clean messy pasted text from:
 * emails
 * Word documents
 * OCR exports
-* copied transcripts
+* transcripts
 * IVR scripts
 * accessibility workflows
 
 Everything runs locally in the browser.
+
 No uploads. No accounts. No APIs. No backend.
 
 ---
 
 # Live Project
 
-[https://guyt1225.github.io/pastelint/](https://guyt1225.github.io/pastelint/)
+https://guyt1225.github.io/pastelint/
+
+---
+
+# What PasteLint Can Do
+
+PasteLint currently helps:
+
+* clean copied PDF text
+* repair messy AI-generated formatting
+* remove hidden characters
+* normalize pasted text
+* repair spacing and punctuation
+* detect readability and narration risks
+* prepare text for IVR and TTS workflows
+* clean OCR and transcript formatting
+* improve readability before publishing or narration
 
 ---
 
@@ -36,7 +53,6 @@ PasteLint is intentionally designed as:
 * lightweight
 * explainable
 * accessibility-aware
-* speech-aware
 * utility-focused
 
 The goal is not to create an “AI humanizer” or detector bypass tool.
@@ -54,13 +70,28 @@ PasteLint aims to feel more like a trusted public utility than a hype-driven AI 
 
 ---
 
+# Why This Exists
+
+PasteLint began as a practical solution for real-world communication problems:
+
+* messy pasted text
+* IVR narration cleanup
+* accessibility formatting
+* speech synthesis preparation
+* AI-generated text cleanup
+* PDF and OCR formatting repair
+
+The project continues to evolve through real operational workflows rather than artificial demo scenarios.
+
+---
+
 # Current Tools
 
 ## PasteLint Clean
 
 Cleans messy pasted text and formatting problems.
 
-Current capabilities:
+Current capabilities include:
 
 * extra spacing cleanup
 * punctuation spacing repair
@@ -86,11 +117,9 @@ The system also includes:
 
 SecondDraft improves readability, tone, rhythm, and flow while preserving the original meaning.
 
-The goal is not aggressive rewriting.
+The goal is restrained revision rather than aggressive rewriting.
 
-The goal is restrained revision.
-
-Planned areas of focus:
+Current and planned areas of focus include:
 
 * filler reduction
 * readability improvement
@@ -135,79 +164,6 @@ The builder was originally developed to support real-world public library IVR sy
 
 ---
 
-# Speech-Aware Direction
-
-PasteLint is evolving toward:
-
-> speech-aware readability infrastructure
-
-The project increasingly focuses on:
-
-* auditory readability
-* narration optimization
-* pacing awareness
-* accessibility-aware text structure
-* screen-reader usability
-* spoken hierarchy
-* cognitive readability
-
-Examples of current speech-risk detection include:
-
-* ampersands
-* at-symbols
-* slash characters
-* em dashes
-* en dashes
-* overly long sentences
-* narration pacing risks
-
----
-
-# Architecture
-
-PasteLint uses a modular browser-only architecture.
-
-No frameworks.
-No backend.
-No build tools.
-No APIs.
-
-Current architecture direction:
-
-```text
-/js/
-  engines/
-  pages/
-```
-
-Core shared infrastructure:
-
-```text
-text-clean-engine.js
-text-analyzer.js
-```
-
-Planned engine structure:
-
-```text
-/js/
-  engines/
-    text-clean-engine.js
-    text-analyzer.js
-    second-draft-engine.js
-    speech-risk-engine.js
-    ssml-engine.js
-
-  pages/
-    clean-page.js
-    second-draft-page.js
-    ssml-builder-page.js
-```
-
-The long-term goal is reusable text infrastructure shared across all tools.
-
----
-
 # Current Analyzer Capabilities
 
 The shared analyzer layer currently detects:
@@ -220,10 +176,51 @@ The shared analyzer layer currently detects:
 * punctuation issues
 * speech risks
 * narration formatting risks
-* em dashes and en dashes
 * accessibility-related readability concerns
 
-This analyzer is becoming the shared intelligence layer across the platform.
+Current speech-related detection includes:
+
+* ampersands
+* at-symbols
+* slash characters
+* em dashes
+* en dashes
+* overly long sentences
+* narration pacing risks
+
+The analyzer is gradually becoming a shared intelligence layer across the platform.
+
+---
+
+# Architecture
+
+PasteLint uses a modular browser-only architecture.
+
+No frameworks.
+No backend.
+No build tools.
+No APIs.
+
+Current shared infrastructure includes:
+
+```text
+/js/text-clean-engine.js
+/js/text-analyzer.js
+```
+
+The project is gradually moving toward a more reusable shared-engine architecture across cleanup, readability, narration, and accessibility workflows.
+
+Long-term architectural goals include:
+
+```text
+shared cleanup engines
+shared analyzers
+reusable cleanup profiles
+page-specific controllers
+browser-native processing
+```
+
+The overall goal is stable, understandable, reusable text infrastructure shared across all tools.
 
 ---
 
@@ -283,26 +280,19 @@ Your text stays on your device.
 
 # Project Direction
 
-PasteLint is currently transitioning from:
+PasteLint is gradually expanding beyond basic text cleanup into broader readability and narration-oriented cleanup workflows.
 
-```text
-text cleanup utility
-```
+Current areas of focus include:
 
-into:
-
-```text
-speech-aware text infrastructure
-```
-
-Long-term goals include:
-
-* narration optimization
 * accessibility-aware formatting
+* narration-safe cleanup
 * speech-risk analysis
 * reusable readability infrastructure
 * explainable cleanup systems
+* browser-native processing
 * AI-era utility discoverability
+
+Future improvements may include additional narration, accessibility, and spoken-text preparation workflows.
 
 ---
 
@@ -323,21 +313,6 @@ The goal is boringly safe, stable, understandable software.
 
 ---
 
-# Why This Exists
-
-PasteLint began as a practical solution for real-world communication problems:
-
-* messy pasted text
-* IVR narration cleanup
-* accessibility formatting
-* speech synthesis preparation
-* AI-generated text cleanup
-* PDF and OCR formatting repair
-
-The project continues to evolve through real operational workflows rather than artificial demo scenarios.
-
----
-
 # Status
 
 PasteLint is actively under development.
@@ -346,11 +321,11 @@ Current work includes:
 
 * modular engine refactoring
 * analyzer expansion
-* narration optimization
 * shared infrastructure extraction
-* speech-aware cleanup systems
-* UI stabilization
+* narration-aware cleanup systems
 * accessibility-focused improvements
+* UI stabilization
+* reusable cleanup profiles
 
 ---
 
