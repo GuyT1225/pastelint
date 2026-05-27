@@ -240,7 +240,6 @@ function fixRepeatedWords(text, changes) {
   }
 
   function cleanText(input, options = {}) {
-     console.log("PasteLintCleanEngine active");
      
     const changes = [];
     let cleaned = toText(input);
