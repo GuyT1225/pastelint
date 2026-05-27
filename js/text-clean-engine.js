@@ -20,7 +20,95 @@
       });
     }
   }
+   
+const COMMON_TYPOS = {
+     teh: "the",
+     adn: "and",
+     recieve: "receive",
+     recieved: "received",
+     recieving: "receiving",
+     seperate: "separate",
+     definately: "definitely",
+     occured: "occurred",
+     occuring: "occurring",
+     untill: "until",
+     becuase: "because",
+     taht: "that",
+     wich: "which",
+     thier: "their",
+     beleive: "believe",
+     acheive: "achieve",
+     accomodate: "accommodate",
+     adress: "address",
+     enviroment: "environment",
+     goverment: "government",
+     calender: "calendar",
+     tommorow: "tomorrow",
+     yesturday: "yesterday",
+     alot: "a lot"
+};
 
+function capitalize(text) {
+  return String(text).charAt(0).toUpperCase() + String(text).slice(1);
+}
+
+function fixCommonTypos(text, changes) {
+  const before = text;
+  let count = 0;
+
+  const after = String(text).replace(/\b[A-Za-z']+\b/g, word => {
+    const lower = word.toLowerCase();
+    const replacement = COMMON_TYPOS[lower];
+
+    if (!replacement) return word;
+
+    count++;
+
+    if (word === word.toUpperCase()) {
+      return replacement.toUpperCase();
+    }
+
+    if (word[0] === word[0].toUpperCase()) {
+      return capitalize(replacement);
+    }
+
+    return replacement;
+  });
+
+  if (count > 0) {
+    addChange(
+      changes,
+      "typos",
+      before,
+      after,
+      `Corrected ${count} common typo${count === 1 ? "" : "s"}.`
+    );
+  }
+
+  return after;
+}
+
+function fixRepeatedWords(text, changes) {
+  const before = text;
+  let count = 0;
+
+  const after = String(text).replace(/\b(\w+)\s+\1\b/gi, (match, word) => {
+    count++;
+    return word;
+  });
+
+  if (count > 0) {
+    addChange(
+      changes,
+      "repeated-words",
+      before,
+      after,
+      `Removed ${count} repeated word${count === 1 ? "" : "s"}.`
+    );
+  }
+
+  return after;
+}
   function removeHiddenCharacters(text, changes) {
     const before = text;
     const after = text
@@ -180,7 +268,10 @@
     if (settings.normalizeSpeechSymbols) {
       cleaned = normalizeSymbolsForSpeech(cleaned, changes);
     }
-
+     
+     cleaned = fixCommonTypos(cleaned, changes);
+     cleaned = fixRepeatedWords(cleaned, changes);
+     
      cleaned = normalizeSpacing(cleaned, changes);
      cleaned = normalizePunctuationSpacing(cleaned, changes);
 
