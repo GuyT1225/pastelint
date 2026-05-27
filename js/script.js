@@ -385,10 +385,9 @@ function getCleanResult(raw, mode) {
     window.PasteLintCleanEngine &&
     typeof window.PasteLintCleanEngine.cleanText === "function"
   ) {
-    const engineResult = window.PasteLintCleanEngine.cleanText(raw, {
-      normalizeSpeechSymbols: false,
-      normalizeDbNumbers: false
-    });
+   const engineOptions = getEngineOptionsForMode(mode);
+
+   const engineResult = window.PasteLintCleanEngine.cleanText(raw, engineOptions);
 
     result = normalizeCleanResult({
       text: engineResult.cleaned || "",
@@ -876,6 +875,19 @@ function getCleanMode(els) {
   return els.modeToggle.value === "line" ? "line" : "paragraph";
 }
 
+ function getEngineOptionsForMode(mode) {
+  const options = {
+    normalizeSpeechSymbols: false,
+    normalizeDbNumbers: false
+  };
+
+  if (mode === "ivr") {
+    options.normalizeSpeechSymbols = true;
+    options.normalizeDbNumbers = true;
+  }
+
+  return options;
+}
 function setOutput(els, text) {
   if (els.output) {
     els.output.value = text;
