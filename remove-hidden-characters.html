@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Remove Hidden Characters | PasteLint</title>
+
+<meta
+name="description"
+content="Remove hidden characters, strange spaces, invisible formatting, and copy paste artifacts from text. Browser-only and privacy-first."
+>
+
+<link rel="canonical" href="https://guyt1225.github.io/pastelint/remove-hidden-characters.html">
+
+<link rel="stylesheet" href="css/themes.css" />
+<link rel="stylesheet" href="css/shell.css" />
+<link rel="stylesheet" href="css/styles.css" />
+
+</head>
+
+<body>
+
+<header class="site-header">
+
+<a class="brand-link" href="index.html">
+PasteLint
+</a>
+
+<nav class="tool-nav">
+
+<a href="index.html">Clean</a>
+<a href="second-draft.html">SecondDraft</a>
+<a href="SSML_builder.html">SSML Builder</a>
+
+</nav>
+
+<nav class="theme-switcher">
+
+<button class="theme-btn active" type="button" data-theme-choice="light">
+Light
+</button>
+
+<button class="theme-btn" type="button" data-theme-choice="dark">
+Dark
+</button>
+
+<button class="theme-btn" type="button" data-theme-choice="terminal">
+Terminal
+</button>
+
+</nav>
+
+</header>
+
+<main class="page-shell">
+
+<section class="hero">
+
+<p class="eyebrow">
+
+PASTELINT · HIDDEN CHARACTER CLEANUP
+
+</p>
+
+<h1>
+
+Remove hidden characters from text
+
+</h1>
+
+<p>
+
+Remove invisible characters,
+strange spaces,
+copy paste artifacts,
+and hidden formatting before reusing text.
+
+</p>
+
+</section>
+
+<section class="tool-panel">
+
+<h2>
+
+Common hidden text problems
+
+</h2>
+
+<ul>
+
+<li>Invisible characters copied from websites</li>
+
+<li>PDF copy paste inserts strange spaces</li>
+
+<li>Zero width characters break formatting</li>
+
+<li>Word documents introduce hidden symbols</li>
+
+<li>Text looks normal but behaves strangely</li>
+
+<li>Unexpected spacing appears after paste</li>
+
+</ul>
+
+</section>
+
+<section class="tool-shell" id="tool">
+
+<div class="tool-panel input-panel">
+
+<label for="input">
+
+Paste text to inspect
+
+</label>
+
+<textarea
+id="input"
+placeholder="Paste copied text with strange spacing or invisible characters..."
+></textarea>
+
+<div class="meta">
+
+<span id="inputCharCount">
+0 chars
+</span>
+
+<span id="inputWordCount">
+0 words
+</span>
+
+</div>
+
+</div>
+
+<div class="tool-panel action-panel">
+
+<button id="cleanBtn" type="button">
+
+Clean text
+
+</button>
+
+<button id="copyBtn" type="button">
+
+Copy clean text
+
+</button>
+
+<button id="clearBtn" type="button">
+
+Clear
+
+</button>
+
+</div>
+
+<div class="tool-panel output-panel">
+
+<label for="output">
+
+Clean output
+
+</label>
+
+<textarea
+id="output"
+readonly
+placeholder="Cleaned text will appear here..."
+></textarea>
+
+<div class="meta">
+
+<span id="outputCharCount">
+0 chars
+</span>
+
+<span id="outputWordCount">
+0 words
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="landing-section">
+
+<div class="section-heading">
+
+<h2>
+
+Examples of hidden formatting
+
+</h2>
+
+<p>
+
+Examples of cleanup issues caused by invisible formatting.
+
+</p>
+
+</div>
+
+<div class="example-grid">
+
+<article class="example-card">
+
+<div>
+
+<strong>
+
+Before
+
+</strong>
+
+<p>
+
+Text   with   strange   spacing
+
+</p>
+
+</div>
+
+<div>
+
+<strong>
+
+After
+
+</strong>
+
+<p>
+
+Text with normal spacing
+
+</p>
+
+</div>
+
+</article>
+
+<article class="example-card">
+
+<div>
+
+<strong>
+
+Before
+
+</strong>
+
+<p>
+
+Copied text contains invisible formatting artifacts
+
+</p>
+
+</div>
+
+<div>
+
+<strong>
+
+After
+
+</strong>
+
+<p>
+
+Copied text becomes easier to reuse
+
+</p>
+
+</div>
+
+</article>
+
+<article class="example-card">
+
+<div>
+
+<strong>
+
+Before
+
+</strong>
+
+<p>
+
+PDF copy paste introduces odd spacing
+
+</p>
+
+</div>
+
+<div>
+
+<strong>
+
+After
+
+</strong>
+
+<p>
+
+Spacing becomes normalized
+
+</p>
+
+</div>
+
+</article>
+
+</div>
+
+</section>
+
+<section class="landing-info-grid">
+
+<section class="landing-info-card">
+
+<h2>
+
+Useful for
+
+</h2>
+
+<ul>
+
+<li>PDF copy paste cleanup</li>
+
+<li>Website text cleanup</li>
+
+<li>Word documents</li>
+
+<li>Email formatting repair</li>
+
+<li>AI text cleanup</li>
+
+<li>TTS preparation</li>
+
+</ul>
+
+</section>
+
+<section class="landing-info-card">
+
+<h2>
+
+Privacy first
+
+</h2>
+
+<ul>
+
+<li>No upload</li>
+
+<li>No account</li>
+
+<li>No backend</li>
+
+<li>No API</li>
+
+<li>Browser only</li>
+
+</ul>
+
+</section>
+
+</section>
+
+<section class="landing-section final-cta">
+
+<h2>
+
+Fix strange copy paste formatting
+
+</h2>
+
+<p>
+
+Clean invisible formatting before reuse.
+
+</p>
+
+<a class="btn btn-primary" href="#tool">
+
+Clean this text
+
+</a>
+
+</section>
+
+</main>
+
+<footer class="site-footer">
+
+<p>
+
+PasteLint helps clean invisible formatting,
+copied text artifacts,
+and hidden characters.
+
+</p>
+
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/themes.js"></script>
+<script src="js/text-analyzer.js"></script>
+<script src="js/text-clean-engine.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
