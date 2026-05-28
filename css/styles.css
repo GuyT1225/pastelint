@@ -356,8 +356,8 @@ main {
 .hero,
 .tool-intro,
 .page-intro {
-  width: min(100% - 1.25rem, var(--page-width));
-  margin: 1.4rem auto 1rem;
+  width: min(100% - 2rem, var(--page-width));
+  margin: 2rem auto 1.25rem;
   text-align: left;
 }
 
@@ -397,10 +397,10 @@ main {
 .subtitle-small,
 .tool-intro p,
 .page-intro p {
-  max-width: 720px;
-  margin: 0.5rem 0 0;
+  max-width: 680px;
+  margin: 0.65rem 0 0;
   color: var(--muted);
-  line-height: 1.55;
+  line-height: 1.7;
 }
 
 /* -----------------------------
