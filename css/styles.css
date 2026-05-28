@@ -689,6 +689,7 @@ button,
   font-weight: 730;
   line-height: 1;
   text-decoration: none;
+  letter-spacing: -0.01em; 
 }
 
 button:hover,
@@ -901,6 +902,7 @@ ol {
   color: var(--muted);
   font-size: 0.88rem;
   text-align: left;
+  line-height: 1.65; 
 }
 
 .site-footer p {
