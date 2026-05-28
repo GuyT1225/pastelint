@@ -206,6 +206,19 @@ h3,
   font-weight: 650;
 }
 
+.eyebrow,
+.mini-label,
+.panel-kicker,
+.section-kicker {
+  display: inline-block;
+  margin-bottom: 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
 p,
 .helper-text,
 .muted,
