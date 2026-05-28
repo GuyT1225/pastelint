@@ -287,15 +287,15 @@ a:hover {
 .site-header,
 main,
 .site-footer {
-  width: min(100% - 2rem, var(--page-width));
+  width: min(100% - 2rem, 980px);
   margin-left: auto;
   margin-right: auto;
 }
 
 main {
   display: grid;
-  gap: var(--space-xl);
-  padding: 0 0 4rem;
+  gap: 1.4rem;
+  padding: clamp(0.5rem, 1vw, 1rem);
 }
 
 .site-header {
@@ -664,6 +664,10 @@ select {
   border-radius: var(--radius-md);
   background: var(--editor-bg);
   color: var(--text);
+  min-height: 48px;
+  padding: 0 1rem;
+  font-weight: 500;
+  letter-spacing: -0.01em; 
   outline: none;
   transition:
     border-color 140ms ease,
@@ -673,12 +677,11 @@ select {
 
 textarea {
   min-height: 180px;
-  padding: 1.05rem 1.1rem;
-  resize: vertical;
-  font-family: var(--font-sans);
-  font-size: 0.98rem;
-  line-height: 1.7;
-  letter-spacing: -0.006em;
+padding: 1.15rem 1.2rem;
+font-size: 1rem;
+line-height: 1.65;
+letter-spacing: -0.012em;
+border-radius: 18px;
   overflow-wrap: anywhere;
 }
 
