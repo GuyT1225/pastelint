@@ -58,6 +58,10 @@ html[data-theme="light"] {
 
   --panel-soft: color-mix(in srgb, var(--panel) 96%, white 4%);
   --panel-strong: color-mix(in srgb, var(--panel) 88%, white 12%);
+
+  --editor-bg: color-mix(in srgb, var(--surface) 88%, white 12%);
+  --editor-border: color-mix(in srgb, var(--border) 82%, var(--accent) 18%);
+  --editor-focus-bg: color-mix(in srgb, var(--surface) 94%, white 6%);
    
   --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
@@ -95,6 +99,10 @@ html[data-theme="dark"] {
   --panel-soft: color-mix(in srgb, var(--panel) 96%, white 2%);
   --panel-strong: color-mix(in srgb, var(--panel) 82%, white 18%);
 
+  --editor-bg: color-mix(in srgb, var(--surface) 92%, black 8%);
+  --editor-border: color-mix(in srgb, var(--border) 78%, var(--accent) 22%);
+  --editor-focus-bg: color-mix(in srgb, var(--surface) 96%, white 4%);
+
   --focus-ring: 0 0 0 3px rgba(96, 165, 250, 0.25);
 }
 
@@ -124,6 +132,10 @@ html[data-theme="terminal"] {
 
   --warning: #ffe066;
   --warning-soft: rgba(255, 224, 102, 0.12);
+
+  --editor-bg: color-mix(in srgb, var(--surface) 88%, black 12%);
+  --editor-border: color-mix(in srgb, var(--border) 82%, var(--accent) 18%);
+  --editor-focus-bg: color-mix(in srgb, var(--surface) 94%, var(--accent) 6%);
 
   --tooltip-bg: #020806;
   --tooltip-text: #d8ffe4;
@@ -571,7 +583,7 @@ main {
 .textarea-block,
 .input-block {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.55rem;
 }
 
 label,
@@ -589,19 +601,25 @@ textarea,
 input,
 select {
   width: 100%;
-  border: 1px solid var(--border);
+  border: 1px solid var(--editor-border);
   border-radius: var(--radius-md);
-  background: var(--surface);
+  background: var(--editor-bg);
   color: var(--text);
   outline: none;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease,
+    box-shadow 140ms ease;
 }
 
 textarea {
-  min-height: 160px;
-  padding: 1rem;
+  min-height: 180px;
+  padding: 1.05rem 1.1rem;
   resize: vertical;
   font-family: var(--font-sans);
-  line-height: 1.6;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  letter-spacing: -0.006em;
   overflow-wrap: anywhere;
 }
 
@@ -614,7 +632,7 @@ input[readonly] {
 input,
 select {
   min-height: 2.6rem;
-  padding: 0.65rem 0.85rem;;
+  padding: 0.65rem 0.85rem;
 }
 
 textarea::placeholder,
@@ -626,6 +644,7 @@ textarea:focus,
 input:focus,
 select:focus {
   border-color: var(--accent);
+  background: var(--editor-focus-bg);
   box-shadow: var(--focus-ring);
 }
 
@@ -636,8 +655,10 @@ select:focus {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.5rem;
+  margin-top: 0.35rem;
   color: var(--faint);
-  font-size: 0.86rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
 }
 
 /* -----------------------------
