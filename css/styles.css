@@ -53,13 +53,9 @@ html[data-theme="light"] {
   --tooltip-bg: #07110d;
   --tooltip-text: #f4fff8;
 
-  --font-ui: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-
-  --page-width: 760px;
+  --page-width: 980px;
   --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+
 
   --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
@@ -153,7 +149,6 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-size: 16px;
   
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -164,7 +159,50 @@ body {
   letter-spacing: -0.01em;
    
 }
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
 
+h1 {
+  font-size: clamp(2.1rem, 5vw, 3.35rem);
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+  font-weight: 750;
+}
+
+h2 {
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+
+h3,
+.panel-title,
+.section-title {
+  font-size: 1.05rem;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-weight: 650;
+}
+
+p,
+.helper-text,
+.muted,
+.description {
+  line-height: 1.65;
+}
+
+.hero p,
+.lede,
+.subtitle {
+  max-width: 720px;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.7;
+}
 button,
 input,
 textarea,
@@ -197,15 +235,15 @@ a:hover {
 .site-header,
 main,
 .site-footer {
-  width: min(100% - 1.25rem, var(--page-width));
+  width: min(100% - 2rem, var(--page-width));
   margin-left: auto;
   margin-right: auto;
 }
 
 main {
   display: grid;
-  gap: 1rem;
-  padding: 0 0 3rem;
+  gap: var(--space-xl);
+  padding: 0 0 4rem;
 }
 
 .site-header {
@@ -372,7 +410,7 @@ main {
 .tool-shell {
   width: 100%;
   display: grid;
-  gap: 1rem;
+  gap: var(--space-xl);
 }
 
 .tool-panel,
@@ -389,12 +427,12 @@ main {
 .preview-panel,
 .result-panel {
   width: 100%;
-  padding: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--panel);
   color: var(--text);
-  box-shadow: none;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 
 .tool-header,
@@ -534,7 +572,7 @@ textarea {
   min-height: 160px;
   padding: 0.75rem;
   resize: vertical;
-  font-family: var(--font-ui);
+  font-family: var(--font-sans);
   line-height: 1.52;
   overflow-wrap: anywhere;
 }
@@ -918,19 +956,19 @@ html[data-theme="terminal"] .tooltip {
     justify-content: flex-start;
   }
 
-  .tool-panel,
-  .panel,
-  .section,
-  .card,
-  .textarea-card,
-  .input-panel,
-  .output-panel,
-  .insight-panel,
-  .trust-panel,
-  .next-step-panel,
-  .positioning-panel {
-    padding: 0.9rem;
-  }
+.tool-panel,
+.panel,
+.section,
+.card,
+.textarea-card,
+.input-panel,
+.output-panel,
+.insight-panel,
+.trust-panel,
+.next-step-panel,
+.positioning-panel {
+  padding: 1rem;
+}
 
   textarea {
     min-height: 145px;
