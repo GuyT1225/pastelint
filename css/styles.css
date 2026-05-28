@@ -56,7 +56,9 @@ html[data-theme="light"] {
   --page-width: 980px;
   --radius-sm: 8px;
 
-
+  --panel-soft: color-mix(in srgb, var(--panel) 96%, white 4%);
+  --panel-strong: color-mix(in srgb, var(--panel) 88%, white 12%);
+   
   --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
@@ -89,6 +91,9 @@ html[data-theme="dark"] {
 
   --tooltip-bg: #07110d;
   --tooltip-text: #f4fff8;
+
+  --panel-soft: color-mix(in srgb, var(--panel) 96%, white 2%);
+  --panel-strong: color-mix(in srgb, var(--panel) 82%, white 18%);
 
   --focus-ring: 0 0 0 3px rgba(96, 165, 250, 0.25);
 }
@@ -439,6 +444,17 @@ main {
      transform 140ms ease;
 }
 
+.trust-panel,
+.next-step-panel,
+.positioning-panel,
+.preview-panel {
+  background: var(--panel-soft);
+}
+
+.input-panel,
+.output-panel {
+  background: var(--panel-strong);
+}
 .tool-panel:hover,
 .panel:hover,
 .section:hover,
