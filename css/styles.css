@@ -225,6 +225,16 @@ p,
 .description {
   line-height: 1.65;
 }
+.panel p,
+.section p,
+.card p {
+  max-width: 72ch;
+}
+.muted,
+.helper-text,
+.secondary-text {
+  color: var(--faint);
+}
 
 .hero p,
 .lede,
@@ -486,8 +496,8 @@ main {
 .card:hover,
 .tool-card:hover {
   border-color: var(--border-strong);
+  transform: translateY(-1px);
 }
-
 .tool-header,
 .panel-header,
 .section-header {
@@ -496,6 +506,14 @@ main {
   margin-bottom: 1rem;
 }
 
+.panel-content,
+.section-content,
+.analysis-content,
+.insight-content {
+  display: grid;
+  gap: 0.9rem;
+  line-height: 1.65;
+}
 .tool-header h2,
 .panel-header h2,
 .panel-header h3,
@@ -932,17 +950,20 @@ ol {
 ----------------------------- */
 
 .site-footer {
-  padding: 0.8rem 1rem;
+  padding: 1.25rem 1rem 2rem;
   color: var(--muted);
   font-size: 0.88rem;
+  line-height: 1.65;
   text-align: left;
-  line-height: 1.65; 
+  opacity: 0.82;
+}
+.site-footer a {
+  text-decoration: none;
 }
 
-.site-footer p {
-  margin: 0;
+.site-footer a:hover {
+  text-decoration: underline;
 }
-
 /* -----------------------------
    TERMINAL HARDENING
 ----------------------------- */
