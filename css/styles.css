@@ -59,6 +59,10 @@ html[data-theme="light"] {
   --panel-soft: color-mix(in srgb, var(--panel) 96%, white 4%);
   --panel-strong: color-mix(in srgb, var(--panel) 88%, white 12%);
 
+  --tier-core: color-mix(in srgb, var(--panel) 86%, white 14%);
+  --tier-diagnostic: color-mix(in srgb, var(--panel) 94%, white 6%);
+  --tier-support: color-mix(in srgb, var(--panel) 98%, white 2%);
+
   --editor-bg: color-mix(in srgb, var(--surface) 88%, white 12%);
   --editor-border: color-mix(in srgb, var(--border) 82%, var(--accent) 18%);
   --editor-focus-bg: color-mix(in srgb, var(--surface) 94%, white 6%);
@@ -99,6 +103,10 @@ html[data-theme="dark"] {
   --panel-soft: color-mix(in srgb, var(--panel) 96%, white 2%);
   --panel-strong: color-mix(in srgb, var(--panel) 82%, white 18%);
 
+  --tier-core: color-mix(in srgb, var(--panel) 78%, white 22%);
+  --tier-diagnostic: color-mix(in srgb, var(--panel) 90%, white 10%);
+  --tier-support: color-mix(in srgb, var(--panel) 96%, white 4%); 
+
   --editor-bg: color-mix(in srgb, var(--surface) 92%, black 8%);
   --editor-border: color-mix(in srgb, var(--border) 78%, var(--accent) 22%);
   --editor-focus-bg: color-mix(in srgb, var(--surface) 96%, white 4%);
@@ -136,6 +144,10 @@ html[data-theme="terminal"] {
   --editor-bg: color-mix(in srgb, var(--surface) 88%, black 12%);
   --editor-border: color-mix(in srgb, var(--border) 82%, var(--accent) 18%);
   --editor-focus-bg: color-mix(in srgb, var(--surface) 94%, var(--accent) 6%);
+
+  --tier-core: color-mix(in srgb, var(--panel) 86%, var(--accent) 8%);
+  --tier-diagnostic: color-mix(in srgb, var(--panel) 94%, var(--accent) 4%);
+  --tier-support: color-mix(in srgb, var(--panel) 98%, var(--accent) 2%); 
 
   --tooltip-bg: #020806;
   --tooltip-text: #d8ffe4;
@@ -488,7 +500,23 @@ main {
 
 .input-panel,
 .output-panel {
-  background: var(--panel-strong);
+  background: var(--tier-core);
+}
+
+.insight-panel,
+.preview-panel,
+.result-panel {
+  background: var(--tier-diagnostic);
+}
+
+.trust-panel,
+.next-step-panel,
+.positioning-panel {
+  background: var(--tier-support);
+}
+.input-panel,
+.output-panel {
+  border-color: color-mix(in srgb, var(--border-strong) 78%, var(--accent) 22%);
 }
 .tool-panel:hover,
 .panel:hover,
