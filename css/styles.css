@@ -430,17 +430,29 @@ main {
   padding: clamp(1.25rem, 3vw, 2rem);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: var(--panel);
+  background: color-mix(in srgb, var(--panel) 92%, white 8%);
   color: var(--text);
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition:
+     border-color 140ms ease,
+     background 140ms ease,
+     transform 140ms ease;
+}
+
+.tool-panel:hover,
+.panel:hover,
+.section:hover,
+.card:hover,
+.tool-card:hover {
+  border-color: var(--border-strong);
 }
 
 .tool-header,
 .panel-header,
 .section-header {
   display: grid;
-  gap: 0.35rem;
-  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .tool-header h2,
@@ -570,10 +582,10 @@ select {
 
 textarea {
   min-height: 160px;
-  padding: 0.75rem;
+  padding: 1rem;
   resize: vertical;
   font-family: var(--font-sans);
-  line-height: 1.52;
+  line-height: 1.6;
   overflow-wrap: anywhere;
 }
 
@@ -585,8 +597,8 @@ input[readonly] {
 
 input,
 select {
-  min-height: 2.35rem;
-  padding: 0.55rem 0.7rem;
+  min-height: 2.6rem;
+  padding: 0.65rem 0.85rem;;
 }
 
 textarea::placeholder,
