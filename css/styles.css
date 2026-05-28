@@ -846,39 +846,60 @@ ol {
 #changePreview,
 #impactList,
 #improvementList {
+  display: grid;
+  gap: 0.9rem;
   color: var(--muted);
-  line-height: 1.55;
+  line-height: 1.7;
 }
-
-.edit-item {
+.analysis-row,
+.insight-row,
+.diagnostic-row,
+.change-row {
   display: grid;
   gap: 0.35rem;
-  padding: 0.7rem;
-  margin: 0.55rem 0;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface);
+  padding: 0.85rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+}
+
+.analysis-row:last-child,
+.insight-row:last-child,
+.diagnostic-row:last-child,
+.change-row:last-child {
+  border-bottom: none;
+}
+.edit-item {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem 0;
+  margin: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 84%, transparent);
+  background: transparent;
 }
 
 .edit-before {
   color: var(--danger);
-  background: var(--danger-soft);
-  border-radius: 6px;
-  padding: 0.2rem 0.35rem;
+  background: color-mix(in srgb, var(--danger-soft) 70%, transparent);
+  border-radius: 10px;
+  padding: 0.45rem 0.65rem;
   overflow-wrap: anywhere;
+  line-height: 1.6;
 }
 
 .edit-after {
   color: var(--success);
-  background: var(--success-soft);
-  border-radius: 6px;
-  padding: 0.2rem 0.35rem;
+  background: color-mix(in srgb, var(--success-soft) 70%, transparent);
+  border-radius: 10px;
+  padding: 0.45rem 0.65rem;
   overflow-wrap: anywhere;
+  line-height: 1.6;
 }
 
 .edit-arrow {
   color: var(--faint);
-  font-weight: 800;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* -----------------------------
