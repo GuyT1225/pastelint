@@ -169,22 +169,50 @@ function runPreAnalysis(els) {
     const analysis = window.PasteLintAnalyzer.analyzeText(text);
 
     const analyzerIssues = [
-      ...(analysis.findings || []),
-      ...(analysis.speechRisks || [])
-    ]
-      .map(item => item?.message)
-      .filter(Boolean);
+  ...(analysis.findings || []),
+  ...(analysis.speechRisks || [])
+]
+  .filter(item => item && item.message)
+  .map(item => ({
+    type: item.type || "observation",
+    severity: item.severity || "low",
+    message: item.message,
+    text: item.text || ""
+  }));
 
-    const localIssues = detectIssues(text);
-
-    issues = dedupeIssues([
-      ...analyzerIssues,
-      ...localIssues
-    ]);
+    const localIssues = detectIssues(text).map(message => ({
+      type: "local-observation",
+      severity: "low",
+      message,
+      text: ""
+    }));
+    
+  issues = dedupeStructuredIssues([
+    ...analyzerIssues,
+    ...localIssues
+  ]);
+    
   } else {
     issues = dedupeIssues(detectIssues(text));
   }
+function dedupeStructuredIssues(items) {
+  const seen = new Set();
+  const output = [];
 
+  (items || []).forEach(item => {
+    const message = String(item?.message || "").trim();
+    if (!message) return;
+
+    const key = getIssueKey(message);
+
+    if (seen.has(key)) return;
+
+    seen.add(key);
+    output.push(item);
+  });
+
+  return output;
+}
   renderGroupedIssues(els, issues);
 }
 
@@ -226,13 +254,85 @@ function renderIssueGroup(group) {
   return `
     <div class="issue-group">
       <strong>${escapeHTML(group.title)}</strong>
-      <ul>
+      <div class="diagnostic-list">
         ${group.items
-          .map(issue => `<li>${escapeHTML(issue)}</li>`)
+          .map(issue => renderDiagnosticItem(issue))
           .join("")}
-      </ul>
+      </div>
     </div>
   `;
+}
+
+function renderDiagnosticItem(issue) {
+  const item = normalizeIssueForDisplay(issue);
+
+  return `
+    <div class="diagnostic-row">
+      <strong>${escapeHTML(item.label)}</strong>
+      <span>${escapeHTML(item.detail)}</span>
+      <small>${escapeHTML(item.why)}</small>
+    </div>
+  `;
+}
+
+function normalizeIssueForDisplay(issue) {
+  const message = typeof issue === "string" ? issue : issue?.message || "";
+  const type = typeof issue === "string" ? "" : issue?.type || "";
+  const lower = message.toLowerCase();
+
+  if (type === "extra-spacing" || lower.includes("spacing")) {
+    return {
+      label: "Extra spacing detected",
+      detail: "PasteLint can normalize spacing and reduce messy gaps.",
+      why: "Why it matters: cleaner spacing makes text easier to scan."
+    };
+  }
+
+  if (type === "excess-line-breaks" || lower.includes("blank")) {
+    return {
+      label: "Extra blank lines detected",
+      detail: "PasteLint can tighten paragraph spacing.",
+      why: "Why it matters: broken spacing can make short text feel harder to read."
+    };
+  }
+
+  if (type === "hidden-characters" || lower.includes("hidden")) {
+    return {
+      label: "Hidden characters detected",
+      detail: "PasteLint can remove invisible formatting characters.",
+      why: "Why it matters: hidden characters can cause odd copy and paste behavior."
+    };
+  }
+
+  if (type === "long-sentence" || lower.includes("long sentence")) {
+    return {
+      label: "Long sentence detected",
+      detail: "This may be harder to read quickly or aloud.",
+      why: "Where: review the highlighted long sentence in the source text."
+    };
+  }
+
+  if (type === "dash-character" || lower.includes("dash")) {
+    return {
+      label: "Dash character detected",
+      detail: "Em dashes or en dashes may create awkward pauses.",
+      why: "Why it matters: speech systems may not handle long dashes naturally."
+    };
+  }
+
+  if (type === "ampersand" || lower.includes("ampersand")) {
+    return {
+      label: "Ampersand detected",
+      detail: "Consider replacing ampersands with the word and.",
+      why: "Why it matters: this is clearer for TTS, IVR, and screen readers."
+    };
+  }
+
+  return {
+    label: message || "Observation",
+    detail: "PasteLint found something worth reviewing.",
+    why: "Why it matters: reviewing issues helps keep text clean and readable."
+  };
 }
 
 function detectIssues(text) {
