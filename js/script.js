@@ -266,13 +266,26 @@ function renderIssueGroup(group) {
 function renderDiagnosticItem(issue) {
   const item = normalizeIssueForDisplay(issue);
 
-  return `
-    <div class="diagnostic-row">
-      <strong>${escapeHTML(item.label)}</strong>
-      <span>${escapeHTML(item.detail)}</span>
-      <small>${escapeHTML(item.why)}</small>
-    </div>
-  `;
+return `
+  <div class="diagnostic-row">
+    <strong>${escapeHTML(item.label)}</strong>
+
+    <span class="diagnostic-fix">
+      <strong>Fix:</strong>
+      ${escapeHTML(item.fix)}
+    </span>
+
+    <span class="diagnostic-where">
+      <strong>Where:</strong>
+      ${escapeHTML(item.where)}
+    </span>
+
+    <small>
+      <strong>Why:</strong>
+      ${escapeHTML(item.why)}
+    </small>
+  </div>
+`;
 }
 
 function normalizeIssueForDisplay(issue) {
@@ -281,57 +294,64 @@ function normalizeIssueForDisplay(issue) {
   const lower = message.toLowerCase();
 
   if (type === "extra-spacing" || lower.includes("spacing")) {
-    return {
-      label: "Extra spacing detected",
-      detail: "PasteLint can normalize spacing and reduce messy gaps.",
-      why: "Why it matters: cleaner spacing makes text easier to scan."
+   return {
+    label: "Extra spacing detected",
+    fix: "Normalized extra spacing.",
+    where: "Spacing clusters in the pasted text.",
+    why: "Cleaner spacing makes text easier to scan."
     };
   }
 
   if (type === "excess-line-breaks" || lower.includes("blank")) {
-    return {
-      label: "Extra blank lines detected",
-      detail: "PasteLint can tighten paragraph spacing.",
-      why: "Why it matters: broken spacing can make short text feel harder to read."
+   return {
+    label: "Extra blank lines detected",
+    fix: "Tightened paragraph spacing.",
+    where: "Between paragraphs containing multiple blank lines.",
+    why: "Broken spacing can make short text harder to read."
     };
   }
 
   if (type === "hidden-characters" || lower.includes("hidden")) {
-    return {
-      label: "Hidden characters detected",
-      detail: "PasteLint can remove invisible formatting characters.",
-      why: "Why it matters: hidden characters can cause odd copy and paste behavior."
+   return {
+    label: "Hidden characters detected",
+    fix: "Removed invisible formatting characters.",
+    where: "Copied content from external sources.",
+    why: "Hidden characters can cause strange formatting behavior."
     };
   }
 
   if (type === "long-sentence" || lower.includes("long sentence")) {
     return {
       label: "Long sentence detected",
-      detail: "This may be harder to read quickly or aloud.",
-      why: "Where: review the highlighted long sentence in the source text."
-    };
+      fix: "Flagged for readability review.",
+      where: "A sentence significantly longer than surrounding text.",
+      why: "Long sentences can be harder to read or hear aloud."
+      };
   }
 
   if (type === "dash-character" || lower.includes("dash")) {
-    return {
+   return {
       label: "Dash character detected",
-      detail: "Em dashes or en dashes may create awkward pauses.",
-      why: "Why it matters: speech systems may not handle long dashes naturally."
+      fix: "Flagged for speech review.",
+      where: "Em dash or en dash usage.",
+      why: "Speech systems may pause awkwardly around long dashes."
     };
   }
 
   if (type === "ampersand" || lower.includes("ampersand")) {
     return {
       label: "Ampersand detected",
-      detail: "Consider replacing ampersands with the word and.",
-      why: "Why it matters: this is clearer for TTS, IVR, and screen readers."
-    };
+      fix: "Suggested replacing with the word and.",
+      where: "Ampersand characters in the text.",
+      why: "This is often clearer for TTS and accessibility tools."
+      };
   }
 
-  return {
-    label: message || "Observation",
-    detail: "PasteLint found something worth reviewing.",
-    why: "Why it matters: reviewing issues helps keep text clean and readable."
+ return {
+  label: message || "Observation",
+  fix: "Review suggested.",
+  where: "General text content.",
+  why: "Reviewing findings helps keep text clean and readable."
   };
 }
 
