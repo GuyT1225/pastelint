@@ -169,32 +169,37 @@ function runPreAnalysis(els) {
     const analysis = window.PasteLintAnalyzer.analyzeText(text);
 
     const analyzerIssues = [
-  ...(analysis.findings || []),
-  ...(analysis.speechRisks || [])
-]
-  .filter(item => item && item.message)
-  .map(item => ({
-    type: item.type || "observation",
-    severity: item.severity || "low",
-    message: item.message,
-    text: item.text || ""
-  }));
+      ...(analysis.findings || []),
+      ...(analysis.speechRisks || [])
+    ]
+      .filter(item => item && item.message)
+      .map(item => ({
+        type: item.type || "observation",
+        severity: item.severity || "low",
+        message: item.message,
+        text: item.text || "",
+        sourceText: text
+      }));
 
     const localIssues = detectIssues(text).map(message => ({
       type: "local-observation",
       severity: "low",
       message,
-      text: ""
+      text: "",
+      sourceText: text
     }));
-    
-  issues = dedupeStructuredIssues([
-    ...analyzerIssues,
-    ...localIssues
-  ]);
-    
+
+    issues = dedupeStructuredIssues([
+      ...analyzerIssues,
+      ...localIssues
+    ]);
   } else {
     issues = dedupeIssues(detectIssues(text));
   }
+
+  renderGroupedIssues(els, issues);
+}
+
 function dedupeStructuredIssues(items) {
   const seen = new Set();
   const output = [];
@@ -212,8 +217,6 @@ function dedupeStructuredIssues(items) {
   });
 
   return output;
-}
-  renderGroupedIssues(els, issues);
 }
 
 function renderEmptyIssues(els) {
@@ -266,92 +269,130 @@ function renderIssueGroup(group) {
 function renderDiagnosticItem(issue) {
   const item = normalizeIssueForDisplay(issue);
 
-return `
-  <div class="diagnostic-row">
-    <strong>${escapeHTML(item.label)}</strong>
+  return `
+    <div class="diagnostic-row">
+      <strong>${escapeHTML(item.label)}</strong>
 
-    <span class="diagnostic-fix">
-      <strong>Fix:</strong>
-      ${escapeHTML(item.fix)}
-    </span>
+      <span class="diagnostic-fix">
+        <strong>Fix:</strong>
+        ${escapeHTML(item.fix)}
+      </span>
 
-    <span class="diagnostic-where">
-      <strong>Where:</strong>
-      ${escapeHTML(item.where)}
-    </span>
+      <span class="diagnostic-where">
+        <strong>Where:</strong>
+        ${escapeHTML(item.where)}
+      </span>
 
-    <small>
-      <strong>Why:</strong>
-      ${escapeHTML(item.why)}
-    </small>
-  </div>
-`;
+      <small>
+        <strong>Why:</strong>
+        ${escapeHTML(item.why)}
+      </small>
+    </div>
+  `;
+}
+
+function getIssueSnippet(text = "", search = "") {
+  if (!text || !search) return "";
+
+  const index = text.toLowerCase().indexOf(search.toLowerCase());
+
+  if (index === -1) return "";
+
+  const start = Math.max(0, index - 25);
+  const end = Math.min(text.length, index + search.length + 25);
+
+  return text.slice(start, end).trim();
 }
 
 function normalizeIssueForDisplay(issue) {
   const message = typeof issue === "string" ? issue : issue?.message || "";
   const type = typeof issue === "string" ? "" : issue?.type || "";
   const lower = message.toLowerCase();
+  const sourceText =
+  typeof issue === "string"
+    ? ""
+    : issue?.sourceText || "";
+
+const issueText =
+  typeof issue === "string"
+    ? ""
+    : issue?.text || "";
+
+const snippet =
+  getIssueSnippet(sourceText, issueText);
 
   if (type === "extra-spacing" || lower.includes("spacing")) {
-   return {
-    label: "Extra spacing detected",
-    fix: "Normalized extra spacing.",
-    where: "Spacing clusters in the pasted text.",
-    why: "Cleaner spacing makes text easier to scan."
+    return {
+      label: "Extra spacing detected",
+      fix: "Normalized extra spacing.",
+      where: "Spacing clusters in the pasted text.",
+      why: "Cleaner spacing makes text easier to scan."
     };
   }
 
   if (type === "excess-line-breaks" || lower.includes("blank")) {
-   return {
-    label: "Extra blank lines detected",
-    fix: "Tightened paragraph spacing.",
-    where: "Between paragraphs containing multiple blank lines.",
-    why: "Broken spacing can make short text harder to read."
+    return {
+      label: "Extra blank lines detected",
+      fix: "Tightened paragraph spacing.",
+      where: "Between paragraphs containing multiple blank lines.",
+      why: "Broken spacing can make short text harder to read."
     };
   }
 
   if (type === "hidden-characters" || lower.includes("hidden")) {
-   return {
-    label: "Hidden characters detected",
-    fix: "Removed invisible formatting characters.",
-    where: "Copied content from external sources.",
-    why: "Hidden characters can cause strange formatting behavior."
+    return {
+      label: "Hidden characters detected",
+      fix: "Removed invisible formatting characters.",
+      where: "Copied content from external sources.",
+      why: "Hidden characters can cause strange formatting behavior."
     };
   }
 
   if (type === "long-sentence" || lower.includes("long sentence")) {
-    return {
-      label: "Long sentence detected",
-      fix: "Flagged for readability review.",
-      where: "A sentence significantly longer than surrounding text.",
-      why: "Long sentences can be harder to read or hear aloud."
-      };
-  }
+  return {
+    label: "Long sentence detected",
+    fix: "Flagged for readability review.",
+    where: snippet
+      ? `Near: "${snippet}"`
+      : "A sentence significantly longer than surrounding text.",
+    why: "Long sentences can be harder to read or hear aloud."
+  };
+}
 
-  if (type === "dash-character" || lower.includes("dash")) {
-   return {
-      label: "Dash character detected",
-      fix: "Flagged for speech review.",
-      where: "Em dash or en dash usage.",
-      why: "Speech systems may pause awkwardly around long dashes."
-    };
-  }
+if (type === "dash-character" || lower.includes("dash")) {
+  const dashSnippet =
+    getIssueSnippet(sourceText, "—") ||
+    getIssueSnippet(sourceText, "–");
 
-  if (type === "ampersand" || lower.includes("ampersand")) {
-    return {
-      label: "Ampersand detected",
-      fix: "Suggested replacing with the word and.",
-      where: "Ampersand characters in the text.",
-      why: "This is often clearer for TTS and accessibility tools."
-      };
-  }
+  return {
+    label: "Dash character detected",
+    fix: "Flagged for speech review.",
+    where: dashSnippet
+      ? `Near: "${dashSnippet}"`
+      : "Em dash or en dash usage.",
+    why: "Speech systems may pause awkwardly around long dashes."
+  };
+}
 
- return {
-  label: message || "Observation",
-  fix: "Review suggested.",
-  where: "General text content.",
-  why: "Reviewing findings helps keep text clean and readable."
+ if (type === "ampersand" || lower.includes("ampersand")) {
+  const ampSnippet =
+    getIssueSnippet(sourceText, "&");
+
+  return {
+    label: "Ampersand detected",
+    fix: "Suggested replacing with the word and.",
+    where: ampSnippet
+      ? `Near: "${ampSnippet}"`
+      : "Ampersand characters in the text.",
+    why: "This is often clearer for TTS and accessibility tools."
+  };
+}
+
+  return {
+    label: message || "Observation",
+    fix: "Review suggested.",
+    where: "General text content.",
+    why: "Reviewing findings helps keep text clean and readable."
   };
 }
 
@@ -385,80 +426,6 @@ function detectIssues(text) {
   }
 
   return issues;
-}
-
-function hasCommonTypos(text) {
-  return Object.keys(COMMON_TYPOS).some(typo => {
-    const pattern = new RegExp(
-      `\\b${escapeRegExp(typo)}\\b`,
-      "i"
-    );
-
-    return pattern.test(text);
-  });
-}
-
-function hasRepetition(text) {
-  return /\b(\w+)\s+\1\b/i.test(text);
-}
-
-function groupIssuesForDisplay(issues) {
-  const groups = {
-    formatting: {
-      title: "Formatting fixes",
-      items: []
-    },
-
-    readability: {
-      title: "Readability risk",
-      items: []
-    },
-
-    speech: {
-      title: "Speech readiness",
-      items: []
-    },
-
-    other: {
-      title: "Other observations",
-      items: []
-    }
-  };
-
-  issues.forEach(issue => {
-    const lower = String(issue).toLowerCase();
-
-    if (
-      lower.includes("spacing") ||
-      lower.includes("hidden") ||
-      lower.includes("blank")
-    ) {
-      groups.formatting.items.push(issue);
-    } else if (
-      lower.includes("sentence") ||
-      lower.includes("readability") ||
-      lower.includes("repeated") ||
-      lower.includes("typo") ||
-      lower.includes("filler") ||
-      lower.includes("formal")
-    ) {
-      groups.readability.items.push(issue);
-    } else if (
-      lower.includes("speech") ||
-      lower.includes("spoken") ||
-      lower.includes("dash") ||
-      lower.includes("symbol") ||
-      lower.includes("ampersand") ||
-      lower.includes("db") ||
-      lower.includes("time")
-    ) {
-      groups.speech.items.push(issue);
-    } else {
-      groups.other.items.push(issue);
-    }
-  });
-
-  return groups;
 }
 
 /* -----------------------------
