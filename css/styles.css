@@ -876,6 +876,38 @@ ol {
 #analysisList li {
   margin: 0.3rem 0;
 }
+.diagnostic-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.diagnostic-row {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+}
+
+.diagnostic-row:last-child {
+  border-bottom: none;
+}
+
+.diagnostic-row strong {
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.diagnostic-row span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.diagnostic-row small {
+  color: var(--faint);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
 
 #textBrief,
 #editMap,
