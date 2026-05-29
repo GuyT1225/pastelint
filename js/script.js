@@ -226,6 +226,78 @@ function renderEmptyIssues(els) {
     "<li>Paste text to see a quick readability check.</li>";
 }
 
+function groupIssuesForDisplay(issues = []) {
+  const groups = {
+    formatting: {
+      title: "Formatting fixes",
+      items: []
+    },
+
+    readability: {
+      title: "Readability risk",
+      items: []
+    },
+
+    speech: {
+      title: "Speech readiness",
+      items: []
+    },
+
+    other: {
+      title: "Other observations",
+      items: []
+    }
+  };
+
+  issues.forEach(issue => {
+    const type =
+      typeof issue === "string"
+        ? ""
+        : issue.type || "";
+
+    const message =
+      typeof issue === "string"
+        ? issue.toLowerCase()
+        : (issue.message || "").toLowerCase();
+
+    if (
+      type.includes("spacing") ||
+      type.includes("blank") ||
+      message.includes("spacing") ||
+      message.includes("blank")
+    ) {
+      groups.formatting.items.push(issue);
+      return;
+    }
+
+    if (
+      type.includes("sentence") ||
+      type.includes("readability") ||
+      message.includes("sentence") ||
+      message.includes("filler") ||
+      message.includes("formal")
+    ) {
+      groups.readability.items.push(issue);
+      return;
+    }
+
+    if (
+      type.includes("dash") ||
+      type.includes("ampersand") ||
+      type.includes("speech") ||
+      message.includes("dash") ||
+      message.includes("ampersand")
+    ) {
+      groups.speech.items.push(issue);
+      return;
+    }
+
+    groups.other.items.push(issue);
+  });
+
+  return groups;
+}
+
 function renderGroupedIssues(els, issues) {
   if (!els.issuePanel) return;
 
