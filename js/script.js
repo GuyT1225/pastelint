@@ -428,6 +428,21 @@ function detectIssues(text) {
   return issues;
 }
 
+function hasRepetition(text) {
+  return /\b(\w+)\s+\1\b/i.test(text);
+}
+
+function hasCommonTypos(text) {
+  return Object.keys(COMMON_TYPOS).some(typo => {
+    const pattern = new RegExp(
+      `\\b${escapeRegExp(typo)}\\b`,
+      "i"
+    );
+
+    return pattern.test(text);
+  });
+}
+
 /* -----------------------------
    PASTELINT CLEAN
 ----------------------------- */
