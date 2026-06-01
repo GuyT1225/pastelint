@@ -368,27 +368,21 @@ function renderDiagnosticItem(issue) {
 
   return `
     <div class="diagnostic-row">
-      <strong>${escapeHTML(item.label)}</strong>
 
-      <span class="diagnostic-fix">
-        <strong>Fix:</strong>
-        ${escapeHTML(item.fix)}
-      </span>
+      <div class="diagnostic-title">
+        ${escapeHTML(item.label)}
+      </div>
 
-      <span class="diagnostic-where">
-        <strong>Where:</strong>
+      <div class="diagnostic-where">
+        <strong>Where</strong><br>
         ${escapeHTML(item.where)}
-      </span>
+      </div>
 
-      <small>
-        <strong>Why:</strong>
-        ${escapeHTML(item.why)}
-      </small>
-
-      <small class="diagnostic-impact">
-        <strong>Impact:</strong>
+      <div class="diagnostic-impact">
+        <strong>Impact</strong><br>
         ${escapeHTML(item.impact)}
-      </small>
+      </div>
+
     </div>
   `;
 }
