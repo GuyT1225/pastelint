@@ -299,5 +299,82 @@
   </footer>
   <script src="js/themes.js"></script>
   <script src="js/second-draft.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("input");
+  const output = document.getElementById("output");
+  const rewriteBtn = document.getElementById("rewriteBtn");
+  const copyBtn = document.getElementById("copyBtn");
+  const clearBtn = document.getElementById("clearBtn");
+
+  const charCount = document.getElementById("charCount");
+  const wordCount = document.getElementById("wordCount");
+  const outputCharCount = document.getElementById("outputCharCount");
+  const outputWordCount = document.getElementById("outputWordCount");
+
+  function countWords(text) {
+    return (String(text).trim().match(/\b\w+\b/g) || []).length;
+  }
+
+  function updateCounts() {
+    const source = input?.value || "";
+    const result = output?.value || "";
+
+    if (charCount) charCount.textContent = `${source.length} chars`;
+    if (wordCount) wordCount.textContent = `${countWords(source)} words`;
+    if (outputCharCount) outputCharCount.textContent = `${result.length} chars`;
+    if (outputWordCount) outputWordCount.textContent = `${countWords(result)} words`;
+  }
+
+  function cleanAIText(text) {
+    return String(text)
+      .replace(/\s+/g, " ")
+      .replace(/\bit is important to note that\b/gi, "")
+      .replace(/\bin order to\b/gi, "to")
+      .replace(/\butilized?\b/gi, "used")
+      .replace(/\bfacilitate\b/gi, "help")
+      .replace(/\bleveraging\b/gi, "using")
+      .replace(/\bcomprehensive solution\b/gi, "solution")
+      .replace(/\bdrive meaningful outcomes\b/gi, "improve results")
+      .replace(/\s+([,.!?])/g, "$1")
+      .replace(/^\s*,?\s*/, "")
+      .trim();
+  }
+
+  input?.addEventListener("input", updateCounts);
+
+  rewriteBtn?.addEventListener("click", () => {
+    const source = input?.value || "";
+    if (!source.trim()) return;
+
+    output.value = cleanAIText(source);
+    updateCounts();
+  });
+
+  copyBtn?.addEventListener("click", async () => {
+    if (!output?.value) return;
+
+    try {
+      await navigator.clipboard.writeText(output.value);
+      const oldText = copyBtn.textContent;
+      copyBtn.textContent = "Copied";
+      setTimeout(() => {
+        copyBtn.textContent = oldText;
+      }, 1200);
+    } catch {
+      output.select();
+      document.execCommand("copy");
+    }
+  });
+
+  clearBtn?.addEventListener("click", () => {
+    if (input) input.value = "";
+    if (output) output.value = "";
+    updateCounts();
+  });
+
+  updateCounts();
+});
+</script>
 </body>
 </html>
