@@ -197,7 +197,8 @@ function runPreAnalysis(els) {
     issues = dedupeIssues(detectIssues(text));
   }
 
-  renderGroupedIssues(els, issues);
+ renderGroupedIssues(els, issues);
+ renderDiagnosticsForPage(issues);
 }
 
 function dedupeStructuredIssues(items) {
@@ -366,6 +367,42 @@ function renderDiagnosticItem(issue) {
       </small>
     </div>
   `;
+}
+
+function renderDiagnosticsForPage(issues = []) {
+  const container = document.getElementById("diagnosticList");
+
+  if (!container) return;
+
+  if (!issues.length) {
+    container.innerHTML = `
+      <div class="diagnostic-row">
+        No issues detected.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML =
+    issues.map(renderDiagnosticItem).join("");
+}
+
+function renderDiagnosticsForPage(issues = []) {
+  const container = document.getElementById("diagnosticList");
+
+  if (!container) return;
+
+  if (!issues.length) {
+    container.innerHTML = `
+      <div class="diagnostic-row">
+        No issues detected.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML =
+    issues.map(renderDiagnosticItem).join("");
 }
 
 function getIssueSnippet(text = "", search = "") {
