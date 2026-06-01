@@ -122,6 +122,25 @@
         </div>
       </section>
 
+  <div hidden>
+  <select id="toneMode">
+    <option value="natural" selected>Natural</option>
+  </select>
+
+  <input id="rewriteStrength" type="range" min="1" max="3" value="2" />
+  <span id="strengthLabel">Balanced</span>
+
+  <input id="humanizeMode" type="checkbox" checked />
+
+  <button id="paragraphMode" type="button" class="active">Paragraph</button>
+  <button id="lineMode" type="button">Line by line</button>
+
+  <div id="lineView" hidden></div>
+  <div id="lineResults"></div>
+  <div id="versionsPanel" hidden></div>
+  <ul id="changeList"></ul>
+</div>
+      
       <section class="tool-panel">
         <div class="tool-actions">
           <button id="rewriteBtn" class="primary-btn" type="button">Clean this text</button>
