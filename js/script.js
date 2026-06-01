@@ -201,6 +201,30 @@ function runPreAnalysis(els) {
  renderDiagnosticsForPage(issues);
 }
 
+  function detectIssues(text) {
+  const source = String(text || "");
+  const issues = [];
+  const sentences = source.split(/[.!?]/).filter(Boolean);
+
+  if (sentences.some(sentence => sentence.trim().split(/\s+/).length > 25)) {
+    issues.push("Some sentences are too long");
+  }
+
+  if (/(very|really|basically|actually)/i.test(source)) {
+    issues.push("Contains filler words");
+  }
+
+  if (/\b(\w+)\s+\1\b/i.test(source)) {
+    issues.push("Repeated words detected");
+  }
+
+  if (/(utilize|assistance|facilitate|leverage|delve|unlock potential|drive outcomes|seamless integration|tapestry)/i.test(source)) {
+    issues.push("Overly formal wording");
+  }
+
+  return issues;
+  }
+
 function dedupeStructuredIssues(items) {
   const seen = new Set();
   const output = [];
