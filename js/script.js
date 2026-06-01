@@ -359,6 +359,11 @@ function renderDiagnosticItem(issue) {
         <strong>Why:</strong>
         ${escapeHTML(item.why)}
       </small>
+
+      <small class="diagnostic-impact">
+        <strong>Impact:</strong>
+        ${escapeHTML(item.impact)}
+      </small>
     </div>
   `;
 }
@@ -380,25 +385,29 @@ function normalizeIssueForDisplay(issue) {
   const message = typeof issue === "string" ? issue : issue?.message || "";
   const type = typeof issue === "string" ? "" : issue?.type || "";
   const lower = message.toLowerCase();
+
   const sourceText =
-  typeof issue === "string"
-    ? ""
-    : issue?.sourceText || "";
+    typeof issue === "string"
+      ? ""
+      : issue?.sourceText || "";
 
-const issueText =
-  typeof issue === "string"
-    ? ""
-    : issue?.text || "";
+  const issueText =
+    typeof issue === "string"
+      ? ""
+      : issue?.text || "";
 
-const snippet =
-  getIssueSnippet(sourceText, issueText);
+  const snippet =
+    getIssueSnippet(sourceText, issueText);
 
   if (type === "extra-spacing" || lower.includes("spacing")) {
     return {
       label: "Extra spacing detected",
       fix: "Normalized extra spacing.",
-      where: "Spacing clusters in the pasted text.",
-      why: "Cleaner spacing makes text easier to scan."
+      where: snippet
+        ? `Near: "${snippet}"`
+        : "Spacing clusters in the pasted text.",
+      why: "Cleaner spacing makes text easier to scan.",
+      impact: "May affect readability and visual consistency."
     };
   }
 
@@ -406,8 +415,11 @@ const snippet =
     return {
       label: "Extra blank lines detected",
       fix: "Tightened paragraph spacing.",
-      where: "Between paragraphs containing multiple blank lines.",
-      why: "Broken spacing can make short text harder to read."
+      where: snippet
+        ? `Near: "${snippet}"`
+        : "Between paragraphs containing multiple blank lines.",
+      why: "Broken spacing can make short text harder to read.",
+      impact: "May interrupt flow and make short text feel harder to follow."
     };
   }
 
@@ -415,106 +427,115 @@ const snippet =
     return {
       label: "Hidden characters detected",
       fix: "Removed invisible formatting characters.",
-      where: "Copied content from external sources.",
-      why: "Hidden characters can cause strange formatting behavior."
+      where: snippet
+        ? `Near: "${snippet}"`
+        : "Copied content from external sources.",
+      why: "Hidden characters can cause strange formatting behavior.",
+      impact: "May cause copy, paste, publishing, or screen-reader issues."
     };
   }
 
   if (type === "long-sentence" || lower.includes("long sentence")) {
-  return {
-    label: "Long sentence detected",
-    fix: "Flagged for readability review.",
-    where: snippet
-      ? `Near: "${snippet}"`
-      : "A sentence significantly longer than surrounding text.",
-    why: "Long sentences can be harder to read or hear aloud."
-  };
-}
+    return {
+      label: "Long sentence detected",
+      fix: "Flagged for readability review.",
+      where: snippet
+        ? `Near: "${snippet}"`
+        : "A sentence significantly longer than surrounding text.",
+      why: "Long sentences can be harder to read or hear aloud.",
+      impact: "May reduce readability and increase listening fatigue."
+    };
+  }
 
-if (type === "dash-character" || lower.includes("dash")) {
-  const dashSnippet =
-    getIssueSnippet(sourceText, "—") ||
-    getIssueSnippet(sourceText, "–");
+  if (type === "dash-character" || lower.includes("dash")) {
+    const dashSnippet =
+      getIssueSnippet(sourceText, "—") ||
+      getIssueSnippet(sourceText, "–");
 
-  return {
-    label: "Dash character detected",
-    fix: "Flagged for speech review.",
-    where: dashSnippet
-      ? `Near: "${dashSnippet}"`
-      : "Em dash or en dash usage.",
-    why: "Speech systems may pause awkwardly around long dashes."
-  };
-}
+    return {
+      label: "Dash character detected",
+      fix: "Flagged for speech review.",
+      where: dashSnippet
+        ? `Near: "${dashSnippet}"`
+        : "Em dash or en dash usage.",
+      why: "Speech systems may pause awkwardly around long dashes.",
+      impact: "May affect TTS pacing, narration flow, or screen-reader rhythm."
+    };
+  }
 
- if (type === "ampersand" || lower.includes("ampersand")) {
-  const ampSnippet =
-    getIssueSnippet(sourceText, "&");
+  if (type === "ampersand" || lower.includes("ampersand")) {
+    const ampSnippet =
+      getIssueSnippet(sourceText, "&");
 
-  return {
-    label: "Ampersand detected",
-    fix: "Suggested replacing with the word and.",
-    where: ampSnippet
-      ? `Near: "${ampSnippet}"`
-      : "Ampersand characters in the text.",
-    why: "This is often clearer for TTS and accessibility tools."
-  };
-}
+    return {
+      label: "Ampersand detected",
+      fix: "Suggested replacing with the word and.",
+      where: ampSnippet
+        ? `Near: "${ampSnippet}"`
+        : "Ampersand characters in the text.",
+      why: "This is often clearer for TTS and accessibility tools.",
+      impact: "May be read awkwardly by speech tools or confuse some listeners."
+    };
+  }
+
+  if (lower.includes("filler")) {
+    return {
+      label: "Filler wording detected",
+      fix: "Flagged for clarity review.",
+      where: snippet
+        ? `Near: "${snippet}"`
+        : "Common filler words in the pasted text.",
+      why: "Filler words can make text feel less direct.",
+      impact: "May reduce clarity and make the text feel less polished."
+    };
+  }
+
+  if (lower.includes("repeated words")) {
+    return {
+      label: "Repeated words detected",
+      fix: "Flagged repeated wording.",
+      where: snippet
+        ? `Near: "${snippet}"`
+        : "Repeated words in the pasted text.",
+      why: "Repeated words are usually accidental copy or typing errors.",
+      impact: "May make the text look unedited or harder to trust."
+    };
+  }
+
+  if (lower.includes("common typos")) {
+    return {
+      label: "Possible typo detected",
+      fix: "Flagged likely typo for review.",
+      where: snippet
+        ? `Near: "${snippet}"`
+        : "Possible typo in the pasted text.",
+      why: "Typos can distract readers and reduce trust.",
+      impact: "May affect professionalism or readability."
+    };
+  }
+
+  if (lower.includes("formal wording")) {
+    return {
+      label: "Overly formal wording detected",
+      fix: "Flagged for plain-language review.",
+      where: snippet
+        ? `Near: "${snippet}"`
+        : "Formal or AI-style wording in the pasted text.",
+      why: "Overly formal wording can make text feel robotic or harder to read.",
+      impact: "May make the message feel less natural or less direct."
+    };
+  }
 
   return {
     label: message || "Observation",
     fix: "Review suggested.",
-    where: "General text content.",
-    why: "Reviewing findings helps keep text clean and readable."
+    where: snippet
+      ? `Near: "${snippet}"`
+      : "General text content.",
+    why: "Reviewing findings helps keep text clean and readable.",
+    impact: "May affect clarity, readability, or reuse depending on context."
   };
 }
-
-function detectIssues(text) {
-  const source = String(text);
-  const issues = [];
-  const sentences = source.split(/[.!?]/).filter(Boolean);
-
-  if (
-    sentences.some(
-      sentence => sentence.trim().split(/\s+/).length > 25
-    )
-  ) {
-    issues.push("Some sentences are too long");
-  }
-
-  if (/(very|really|basically|actually)/i.test(source)) {
-    issues.push("Contains filler words");
-  }
-
-  if (hasRepetition(source)) {
-    issues.push("Repeated words detected");
-  }
-
-  if (hasCommonTypos(source)) {
-    issues.push("Possible common typos detected");
-  }
-
-  if (/(utilize|assistance|facilitate|leverage|delve|unlock potential|drive outcomes|seamless integration|tapestry)/i.test(source)) {
-    issues.push("Overly formal wording");
-  }
-
-  return issues;
-}
-
-function hasRepetition(text) {
-  return /\b(\w+)\s+\1\b/i.test(text);
-}
-
-function hasCommonTypos(text) {
-  return Object.keys(COMMON_TYPOS).some(typo => {
-    const pattern = new RegExp(
-      `\\b${escapeRegExp(typo)}\\b`,
-      "i"
-    );
-
-    return pattern.test(text);
-  });
-}
-
 /* -----------------------------
    PASTELINT CLEAN
 ----------------------------- */
