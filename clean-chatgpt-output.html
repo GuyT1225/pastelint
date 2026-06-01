@@ -278,19 +278,19 @@
 <script src="js/script.js"></script>
 <script src="js/ai-cleanup.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("click", event => {
+  const button = event.target.closest("#cleanBtn, #rewriteBtn");
+  if (!button) return;
+
   const input = document.getElementById("input");
   const output = document.getElementById("output");
-  const cleanBtn = document.getElementById("rewriteBtn");
 
-  cleanBtn?.addEventListener("click", () => {
-    if (!input || !output || !window.PasteLintAI) return;
+  if (!input || !output || !window.PasteLintAI) return;
 
-    window.setTimeout(() => {
-      output.value = window.PasteLintAI.clean(output.value || input.value);
-      output.dispatchEvent(new Event("input", { bubbles: true }));
-    }, 0);
-  });
+  window.setTimeout(() => {
+    output.value = window.PasteLintAI.clean(output.value || input.value);
+    output.dispatchEvent(new Event("input", { bubbles: true }));
+  }, 20);
 });
 </script>
   
