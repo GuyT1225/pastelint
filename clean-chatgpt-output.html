@@ -276,5 +276,65 @@
   <script src="js/text-clean-engine.js"></script>
   <script src="js/text-analyzer.js"></script>
   <script src="js/script.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("input");
+  const output = document.getElementById("output");
+  const cleanBtn = document.getElementById("cleanBtn");
+
+  function cleanAIPhrases(text) {
+  return String(text)
+
+    // Common AI fillers
+    .replace(/\bit is important to note that\b/gi, "")
+    .replace(/\bit should be noted that\b/gi, "")
+    .replace(/\bit is worth noting that\b/gi, "")
+    .replace(/\bit is essential to understand that\b/gi, "")
+
+    // Verbosity
+    .replace(/\bin order to\b/gi, "to")
+    .replace(/\bfor the purpose of\b/gi, "for")
+    .replace(/\bin the event that\b/gi, "if")
+
+    // Corporate speak
+    .replace(/\bleverage\b/gi, "use")
+    .replace(/\bleveraging\b/gi, "using")
+    .replace(/\butilize\b/gi, "use")
+    .replace(/\butilizing\b/gi, "using")
+
+    // AI favorites
+    .replace(/\bnavigate\b/gi, "handle")
+    .replace(/\bdelve into\b/gi, "explore")
+    .replace(/\bunlock\b/gi, "gain")
+    .replace(/\bempower\b/gi, "help")
+    .replace(/\bfacilitate improved\b/gi, "improve")
+    .replace(/\bfacilitate\b/gi, "help")
+
+    // AI marketing language
+    .replace(/\bdrive meaningful outcomes\b/gi, "improve results")
+    .replace(/\bdrive outcomes\b/gi, "improve results")
+    .replace(/\bcomprehensive solution\b/gi, "solution")
+    .replace(/\brobust solution\b/gi, "solution")
+    .replace(/\bplays a crucial role in ensuring\b/gi, "helps")
+    .replace(/\bmeaningful outcomes\b/gi, "results")
+    .replace(/\bdynamic landscape\b/gi, "changing environment")
+    .replace(/\bever-evolving\b/gi, "changing")
+
+    // Cleanup
+    .replace(/\s+/g, " ")
+    .replace(/\s+([,.!?])/g, "$1")
+    .trim();
+}
+  cleanBtn?.addEventListener("click", () => {
+    if (!input || !output) return;
+
+    window.setTimeout(() => {
+      output.value = cleanAIPhrases(output.value || input.value);
+
+      output.dispatchEvent(new Event("input", { bubbles: true }));
+    }, 0);
+  });
+});
+</script>
 </body>
 </html>
