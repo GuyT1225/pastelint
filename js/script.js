@@ -925,11 +925,22 @@ function renderEditPreview(els, edits, changes = []) {
     }
 
     return `
-      <div class="edit-item">
-        <strong>${escapeHTML(change.type || "Change")}</strong>
-        <span>${escapeHTML(change.message || "Updated text.")}</span>
-      </div>
-    `;
+  <div class="edit-item">
+
+    <strong>${escapeHTML(change.type || "Change")}</strong>
+
+    <div class="edit-proof">
+      <span class="edit-label">Found</span>
+      <span>${escapeHTML(change.before || change.message || "Original text")}</span>
+    </div>
+
+    <div class="edit-proof">
+      <span class="edit-label">Changed</span>
+      <span>${escapeHTML(change.after || "Updated text")}</span>
+    </div>
+
+  </div>
+`;
   });
 
   const editItems = safeEdits.map(edit => {
