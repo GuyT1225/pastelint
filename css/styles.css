@@ -1022,6 +1022,20 @@ ol {
   background: transparent;
 }
 
+.edit-proof {
+  margin-top: 0.35rem;
+}
+
+.edit-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.15rem;
+}
+
 .edit-before {
   color: var(--danger);
   background: color-mix(in srgb, var(--danger-soft) 70%, transparent);
