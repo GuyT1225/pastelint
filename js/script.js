@@ -1060,15 +1060,25 @@ function renderTextBrief(els, before, after, changes = []) {
     const analysis = window.PasteLintAnalyzer.analyzeText(after);
     const stats = analysis.stats || {};
 
-    const summary =
-      `${stats.words || 0} words. ` +
-      `${stats.sentences || 0} sentence${stats.sentences === 1 ? "" : "s"}. ` +
-      `${stats.paragraphs || 0} paragraph${stats.paragraphs === 1 ? "" : "s"}. ` +
-      `Estimated read time: ${stats.estimatedReadTimeMinutes || 1} minute${stats.estimatedReadTimeMinutes === 1 ? "" : "s"}.`;
+  const summaryParts = [
+  `${stats.words || 0} words`,
+  `${stats.sentences || 0} sentences`,
+  `${stats.paragraphs || 0} paragraphs`,
+  `${stats.estimatedReadTimeMinutes || 1} min read`
+];
 
-    els.textBrief.textContent = cleanedNotes.length
-      ? `${summary} ${cleanedNotes.join(", ")}.`
-      : summary;
+const cleanupParts = cleanedNotes.length
+  ? cleanedNotes
+  : ["No cleanup changes applied"];
+
+els.textBrief.innerHTML = `
+  <div class="brief-line">
+    ${summaryParts.map(item => `<span>${escapeHTML(item)}</span>`).join("")}
+  </div>
+  <div class="brief-line brief-cleanup">
+    ${cleanupParts.map(item => `<span>${escapeHTML(item)}</span>`).join("")}
+  </div>
+`;
 
     return;
   }
