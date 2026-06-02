@@ -1230,3 +1230,96 @@ html[data-theme="terminal"] .tooltip {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* -----------------------------
+   HIERARCHY SPRINT
+   Summary + Diagnostics Density Pass
+----------------------------- */
+.summary-panel,
+.diagnostics-panel {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.summary-panel {
+  padding: clamp(1.1rem, 2vw, 1.6rem);
+}
+
+.summary-panel h2,
+.diagnostics-panel h2 {
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.45rem;
+}
+
+.summary-panel p,
+.diagnostics-panel p {
+  max-width: 62ch;
+  line-height: 1.55;
+}
+
+.summary-panel .text-brief,
+.summary-panel .summary-copy {
+  font-size: 0.98rem;
+  color: var(--muted);
+}
+
+.diagnostic-group {
+  padding: 1rem;
+  margin-top: 0.85rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel) 88%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+}
+
+.diagnostic-group h3 {
+  font-size: 0.92rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.45rem;
+}
+
+.diagnostic-group p,
+.diagnostic-group li {
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+#foundList,
+#analysisList {
+  display: grid;
+  gap: 0.45rem;
+}
+
+#foundList li,
+#analysisList li {
+  margin: 0;
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+}
+
+.diagnostic-detail,
+.issue-detail,
+.issue-proof {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 700px) {
+  .summary-panel,
+  .diagnostics-panel {
+    max-width: 100%;
+  }
+
+  .diagnostic-group {
+    padding: 0.85rem;
+  }
+
+  #foundList li,
+  #analysisList li {
+    padding: 0.5rem 0.55rem;
+  }
+}
