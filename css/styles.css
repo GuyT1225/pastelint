@@ -900,7 +900,7 @@ ol {
 }
 
 .diagnostic-title {
-  color: var(--text);
+  color: var(--success);
   font-size: 0.98rem;
   font-weight: 750;
   line-height: 1.35;
@@ -917,6 +917,28 @@ ol {
 .diagnostic-impact {
   color: var(--muted);
   font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+   .summary-total {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 0.75rem;
+}
+
+.summary-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.summary-list li {
+  margin: 0.35rem 0;
+}
+
+.summary-result {
+  margin-top: 0.9rem;
+  color: var(--muted);
   line-height: 1.6;
 }
 
