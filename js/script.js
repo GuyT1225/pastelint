@@ -434,35 +434,17 @@ function renderDiagnosticItem(issue) {
       </div>
 
       <div class="diagnostic-where">
-        <strong>Where</strong><br>
+        <strong>Location</strong><br>
         ${escapeHTML(item.where)}
       </div>
 
       <div class="diagnostic-impact">
-        <strong>Impact</strong><br>
+        <strong>Why it matters</strong><br>
         ${escapeHTML(item.impact)}
       </div>
 
     </div>
   `;
-}
-
-function renderDiagnosticsForPage(issues = []) {
-  const container = document.getElementById("diagnosticList");
-
-  if (!container) return;
-
-  if (!issues.length) {
-    container.innerHTML = `
-      <div class="diagnostic-row">
-        No issues detected.
-      </div>
-    `;
-    return;
-  }
-
-  container.innerHTML =
-    issues.map(renderDiagnosticItem).join("");
 }
 
 function renderDiagnosticsForPage(issues = []) {
