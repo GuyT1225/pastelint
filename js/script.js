@@ -438,14 +438,14 @@ function renderDiagnosticItem(issue) {
         ${escapeHTML(item.where)}
       </div>
 
+      <div class="diagnostic-fix">
+        <strong>Suggestion</strong><br>
+        ${escapeHTML(item.fix || "Review this section.")}
+      </div>
+
       <div class="diagnostic-impact">
         <strong>Why it matters</strong><br>
         ${escapeHTML(item.impact)}
-      </div>
-
-      <div class="diagnostic-fix">
-        <strong>Suggestion</strong><br>
-        ${escapeHTML(item.fix || "Review this section before using the text.")}
       </div>
 
     </div>
