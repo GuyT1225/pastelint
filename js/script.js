@@ -435,7 +435,7 @@ function renderDiagnosticItem(issue) {
 
       <div class="diagnostic-where">
         <strong>Found</strong><br>
-        ${escapeHTML(item.where)}
+        ${escapeHTML(item.proof || item.where)}
       </div>
 
       <div class="diagnostic-fix">
@@ -498,8 +498,13 @@ function normalizeIssueForDisplay(issue) {
       ? ""
       : issue?.text || "";
 
-  const snippet =
-    getIssueSnippet(sourceText, issueText);
+ const snippet =
+  getIssueSnippet(sourceText, issueText);
+
+const proofSnippet =
+  snippet
+    ? `"${snippet}"`
+    : "";
 
   if (type === "extra-spacing" || lower.includes("spacing")) {
     return {
@@ -538,16 +543,17 @@ function normalizeIssueForDisplay(issue) {
   }
 
   if (type === "long-sentence" || lower.includes("long sentence")) {
-    return {
-      label: "Long sentence detected",
-      fix: "Flagged for readability review.",
-      where: snippet
-        ? `Near: "${snippet}"`
-        : "A sentence significantly longer than surrounding text.",
-      why: "Long sentences can be harder to read or hear aloud.",
-      impact: "May reduce readability and increase listening fatigue."
-    };
-  }
+  return {
+    label: "Long sentence detected",
+    fix: "Consider splitting this into shorter sentences.",
+    proof: proofSnippet,
+    where: snippet
+      ? `Near: "${snippet}"`
+      : "A sentence significantly longer than surrounding text.",
+    why: "Long sentences can be harder to read or hear aloud.",
+    impact: "May reduce readability and increase listening fatigue."
+  };
+}
 
   if (type === "dash-character" || lower.includes("dash")) {
     const dashSnippet =
@@ -616,17 +622,18 @@ function normalizeIssueForDisplay(issue) {
     };
   }
 
-  if (lower.includes("formal wording")) {
-    return {
-      label: "Overly formal wording detected",
-      fix: "Flagged for plain-language review.",
-      where: snippet
-        ? `Near: "${snippet}"`
-        : "Formal or AI-style wording in the pasted text.",
-      why: "Overly formal wording can make text feel robotic or harder to read.",
-      impact: "May make the message feel less natural or less direct."
-    };
-  }
+ if (lower.includes("formal wording")) {
+  return {
+    label: "Overly formal wording detected",
+    fix: "Consider replacing formal or AI-style phrasing with simpler wording.",
+    proof: proofSnippet,
+    where: snippet
+      ? `Near: "${snippet}"`
+      : "Formal or AI-style wording in the pasted text.",
+    why: "Overly formal wording can make text feel robotic or harder to read.",
+    impact: "May make the message feel less natural or less direct."
+  };
+}
 
   return {
     label: message || "Observation",
