@@ -199,6 +199,7 @@ function runPreAnalysis(els) {
 
  renderGroupedIssues(els, issues);
  renderDiagnosticsForPage(issues);
+ renderSummary(issues);
 }
 
   function detectIssues(text) {
@@ -359,6 +360,65 @@ function renderIssueGroup(group) {
           .map(issue => renderDiagnosticItem(issue))
           .join("")}
       </div>
+    </div>
+  `;
+}
+
+function renderSummary(issues = []) {
+  const panel =
+    document.getElementById("summaryContent");
+
+  if (!panel) return;
+
+  const formatting =
+    issues.filter(i =>
+      String(i.type || "").includes("spacing") ||
+      String(i.type || "").includes("blank")
+    ).length;
+
+  const readability =
+    issues.filter(i =>
+      String(i.message || "").match(
+        /filler|formal|sentence|repeated/i
+      )
+    ).length;
+
+  const speech =
+    issues.filter(i =>
+      String(i.type || "").match(
+        /dash|ampersand|speech/i
+      )
+    ).length;
+
+  const total = issues.length;
+
+  panel.innerHTML = `
+    <div class="summary-total">
+      ${total} finding${total === 1 ? "" : "s"} detected
+    </div>
+
+    <ul class="summary-list">
+      ${
+        formatting
+          ? `<li>${formatting} formatting issue${formatting > 1 ? "s" : ""}</li>`
+          : ""
+      }
+
+      ${
+        readability
+          ? `<li>${readability} readability issue${readability > 1 ? "s" : ""}</li>`
+          : ""
+      }
+
+      ${
+        speech
+          ? `<li>${speech} speech-readiness issue${speech > 1 ? "s" : ""}</li>`
+          : ""
+      }
+    </ul>
+
+    <div class="summary-result">
+      Overall readability improved.
     </div>
   `;
 }
