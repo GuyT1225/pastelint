@@ -906,6 +906,37 @@ ol {
   line-height: 1.35;
 }
 
+.diagnostic-title {
+  margin-bottom: 0.65rem;
+}
+
+.diagnostic-row strong {
+  display: block;
+  margin-top: 0.6rem;
+  margin-bottom: 0.15rem;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: var(--muted);
+}
+
+.diagnostic-where,
+.diagnostic-fix,
+.diagnostic-impact {
+  margin-bottom: 0.45rem;
+}
+
+.diagnostic-row {
+  padding: 0.9rem 0;
+}
+
+.diagnostic-row + .diagnostic-row {
+  border-top: 1px solid var(--border);
+}
+
 .diagnostic-row strong {
   color: var(--text);
   font-size: 0.95rem;
