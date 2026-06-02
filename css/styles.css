@@ -1323,3 +1323,30 @@ html[data-theme="terminal"] .tooltip {
     padding: 0.5rem 0.55rem;
   }
 }
+
+/* -----------------------------
+   TEXT BRIEF SCANNABLE CHUNKS
+----------------------------- */
+
+.brief-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.7rem;
+  line-height: 1.5;
+}
+
+.brief-line span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.brief-line span:not(:last-child)::after {
+  content: "•";
+  margin-left: 0.7rem;
+  color: var(--muted);
+}
+
+.brief-cleanup {
+  margin-top: 0.45rem;
+  color: var(--muted);
+}
