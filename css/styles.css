@@ -920,6 +920,41 @@ ol {
   line-height: 1.6;
 }
 
+   /* -----------------------------
+   DIAGNOSTIC HIERARCHY REFINEMENT
+----------------------------- */
+
+.diagnostic-title {
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 0.45rem;
+}
+
+.diagnostic-row strong {
+  display: block;
+  margin-top: 0.45rem;
+  margin-bottom: 0.1rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.diagnostic-where,
+.diagnostic-impact,
+.diagnostic-fix {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.diagnostic-row + .diagnostic-row {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+}
+
    .summary-total {
   font-size: 1rem;
   font-weight: 700;
