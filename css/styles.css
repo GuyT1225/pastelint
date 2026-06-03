@@ -1439,7 +1439,7 @@ html[data-theme="terminal"] .tooltip {
 .review-chapter {
   width: min(100% - 2rem, var(--page-width));
   max-width: none;
-  margin: 3.2rem auto 1.4rem;
+  margin: 5.5rem auto 2rem;
   padding: 0;
   text-align: left;
 }
