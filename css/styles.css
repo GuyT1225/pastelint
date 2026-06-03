@@ -1520,7 +1520,12 @@ html[data-theme="terminal"] .tooltip {
   opacity: 0.85;
 }
 .found-category {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
   margin-top: 1rem;
+  margin-bottom: 0.75rem;
 
   font-size: 0.72rem;
   font-weight: 800;
@@ -1529,4 +1534,36 @@ html[data-theme="terminal"] .tooltip {
 
   color: var(--success);
   opacity: 0.8;
+}
+
+.found-category::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.22;
+}
+.fixed-category {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: var(--success);
+  opacity: 0.8;
+}
+
+.fixed-category::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.22;
 }
