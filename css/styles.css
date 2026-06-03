@@ -1437,8 +1437,9 @@ html[data-theme="terminal"] .tooltip {
 ----------------------------- */
 
 .review-chapter {
-  max-width: 760px;
-  margin: 2.4rem auto 0.9rem;
+  width: min(100% - 2rem, var(--page-width));
+  margin: 3.2rem auto 1.4rem;
+  text-align: left;
 }
 
 .review-kicker {
@@ -1451,12 +1452,13 @@ html[data-theme="terminal"] .tooltip {
 }
 
 .review-chapter h2 {
+  max-width: 720px;
   margin: 0;
   color: var(--text);
-  font-size: clamp(1.55rem, 3vw, 2.35rem);
-  font-weight: 850;
+  font-size: clamp(2rem, 6vw, 3.15rem);
+  font-weight: 900;
   line-height: 1.05;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.04em;
 }
 
 .review-chapter p {
