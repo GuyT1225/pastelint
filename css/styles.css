@@ -1464,43 +1464,11 @@ html[data-theme="terminal"] .tooltip {
 }
 
 .review-chapter p {
-  max-width: 58ch;
+  max-width: 52ch;
   margin: 0.65rem 0 0;
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.55;
-}
-/* -----------------------------
-   REVIEW CHAPTER
------------------------------ */
-
-.review-chapter {
-  width: min(100% - 2rem, var(--page-width));
-  max-width: none;
-  margin: 3.2rem auto 1.4rem;
-  padding: 0;
-  text-align: left;
+  color: var(--text);
+  opacity: 0.78;
+  font-size: 1.05rem;
+  line-height: 1.65;
 }
 
-.review-kicker {
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--success);
-  margin-bottom: 0.5rem;
-}
-
-.review-chapter h2 {
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 3rem);
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-}
-
-.review-chapter p {
-  max-width: 60ch;
-  margin-top: 0.8rem;
-  color: var(--muted);
-  line-height: 1.6;
-}
