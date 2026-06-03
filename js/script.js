@@ -1043,14 +1043,15 @@ function renderTextBrief(els, before, after, changes = []) {
   if (!els.textBrief) return;
 
   if (!after) {
-  els.textBrief.innerHTML = `
-  <strong>Formatting quality</strong> — ${formattingStatus}.<br>
-  <strong>Readability score</strong> — ${wordCount} words after cleanup.<br>
-  <strong>Speech risks</strong> — ${speechStatus}.<br>
-  <strong>Structure review</strong> — ${structureStatus}.
-`;
-  return;
-}
+    els.textBrief.innerHTML = `
+      <strong>Formatting quality</strong> — Waiting for analysis.<br>
+      <strong>Readability score</strong> — Waiting for analysis.<br>
+      <strong>Speech risks</strong> — Waiting for analysis.<br>
+      <strong>Structure review</strong> — Waiting for analysis.
+    `;
+    return;
+  }
+
   const removedChars = Math.max(0, String(before).length - String(after).length);
 
   const changeTypes = Array.isArray(changes)
@@ -1064,66 +1065,38 @@ function renderTextBrief(els, before, after, changes = []) {
   }
 
   if (changeTypes.includes("spacing")) {
-    cleanedNotes.push("Normalized spacing");
+    cleanedNotes.push("normalized spacing");
   }
 
   if (
     changeTypes.includes("dashes") ||
     changeTypes.includes("punctuation-spacing")
   ) {
-    cleanedNotes.push("Normalized punctuation");
-  }
-
-  if (
-    window.PasteLintAnalyzer &&
-    typeof window.PasteLintAnalyzer.analyzeText === "function"
-  ) {
-    const analysis = window.PasteLintAnalyzer.analyzeText(after);
-    const stats = analysis.stats || {};
-
-  const summaryParts = [
-  `${stats.words || 0} words`,
-  `${stats.sentences || 0} sentences`,
-  `${stats.paragraphs || 0} paragraphs`,
-  `${stats.estimatedReadTimeMinutes || 1} min read`
-];
-
-const cleanupParts = cleanedNotes.length
-  ? cleanedNotes
-  : ["No cleanup changes applied"];
-
-els.textBrief.innerHTML = `
-  <div class="brief-line">
-    ${summaryParts.map(item => `<span>${escapeHTML(item)}</span>`).join("")}
-  </div>
-  <div class="brief-line brief-cleanup">
-    ${cleanupParts.map(item => `<span>${escapeHTML(item)}</span>`).join("")}
-  </div>
-`;
-
-    return;
+    cleanedNotes.push("normalized punctuation");
   }
 
   const wordCount = countWords(after);
-const formattingStatus = cleanedNotes.length
-  ? cleanedNotes.join(", ")
-  : "No major formatting cleanup needed";
 
-const readabilityStatus = `${wordCount} words after cleanup`;
-const speechStatus = changeTypes.includes("dashes")
-  ? "Dash cleanup may improve speech flow"
-  : "No major speech risks detected";
+  const formattingStatus = cleanedNotes.length
+    ? cleanedNotes.join(", ")
+    : "No major formatting cleanup needed";
 
-const structureStatus = changeTypes.includes("spacing")
-  ? "Spacing and paragraph structure reviewed"
-  : "Structure looks usable";
+  const readabilityStatus = `${wordCount} words after cleanup`;
 
-els.textBrief.innerHTML = `
-  <strong>Formatting quality</strong> — ${formattingStatus}.<br>
-  <strong>Readability score</strong> — ${readabilityStatus}.<br>
-  <strong>Speech risks</strong> — ${speechStatus}.<br>
-  <strong>Structure review</strong> — ${structureStatus}.
-`;
+  const speechStatus = changeTypes.includes("dashes")
+    ? "Dash cleanup may improve speech flow"
+    : "No major speech risks detected";
+
+  const structureStatus = changeTypes.includes("spacing")
+    ? "Spacing and paragraph structure reviewed"
+    : "Structure looks usable";
+
+  els.textBrief.innerHTML = `
+    <strong>Formatting quality</strong> — ${formattingStatus}.<br>
+    <strong>Readability score</strong> — ${readabilityStatus}.<br>
+    <strong>Speech risks</strong> — ${speechStatus}.<br>
+    <strong>Structure review</strong> — ${structureStatus}.
+  `;
 }
 
 /* -----------------------------
