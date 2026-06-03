@@ -1406,34 +1406,7 @@ html[data-theme="terminal"] .tooltip {
 }
 
 /* -----------------------------
-   TEXT BRIEF SCANNABLE CHUNKS
------------------------------ */
-
-.brief-line {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem 0.7rem;
-  line-height: 1.5;
-}
-
-.brief-line span {
-  display: inline-flex;
-  align-items: center;
-}
-
-.brief-line span:not(:last-child)::after {
-  content: "•";
-  margin-left: 0.7rem;
-  color: var(--muted);
-}
-
-.brief-cleanup {
-  margin-top: 0.45rem;
-  color: var(--muted);
-}
-
-/* -----------------------------
-   REVIEW CHAPTER BREAKS
+   REVIEW CHAPTER
 ----------------------------- */
 
 .review-chapter {
@@ -1471,15 +1444,35 @@ html[data-theme="terminal"] .tooltip {
   font-size: 1.05rem;
   line-height: 1.65;
 }
-.panel-number {
-  display: inline-block;
-  margin-right: 0.45rem;
 
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+/* -----------------------------
+   REVIEW CARDS
+----------------------------- */
+
+.insight-panel {
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+.review-card-label {
+  display: block;
+  margin-bottom: 0.4rem;
 
   color: var(--success);
-  opacity: 0.8;
+  opacity: 0.55;
+
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.insight-panel .panel-header {
+  margin-bottom: 0.75rem;
+}
+
+.insight-panel h3 {
+  font-size: 1.05rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
 }
 
