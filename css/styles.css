@@ -1490,6 +1490,15 @@ html[data-theme="terminal"] .tooltip {
     var(--success) 4%
   );
 }
+.summary-label {
+  margin-bottom: 0.6rem;
+
+  color: var(--success);
+
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
 #textBrief {
   font-size: 0.95rem;
   line-height: 1.7;
