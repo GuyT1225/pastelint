@@ -1507,3 +1507,15 @@ html[data-theme="terminal"] .tooltip {
 #textBrief strong {
   color: var(--text);
 }
+.draft-notes-kicker {
+  margin-top: 1.8rem;
+  margin-bottom: 1rem;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: var(--muted);
+  opacity: 0.85;
+}
