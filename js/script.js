@@ -1043,11 +1043,14 @@ function renderTextBrief(els, before, after, changes = []) {
   if (!els.textBrief) return;
 
   if (!after) {
-    els.textBrief.textContent =
-      "Paste text above, then clean it to see a quick summary of what PasteLint found.";
-    return;
-  }
-
+  els.textBrief.innerHTML = `
+  <strong>Formatting quality</strong> — ${formattingStatus}.<br>
+  <strong>Readability score</strong> — ${wordCount} words after cleanup.<br>
+  <strong>Speech risks</strong> — ${speechStatus}.<br>
+  <strong>Structure review</strong> — ${structureStatus}.
+`;
+  return;
+}
   const removedChars = Math.max(0, String(before).length - String(after).length);
 
   const changeTypes = Array.isArray(changes)
@@ -1101,9 +1104,26 @@ els.textBrief.innerHTML = `
     return;
   }
 
-  els.textBrief.textContent = cleanedNotes.length
-    ? `${countWords(after)} words. ${cleanedNotes.join(", ")}.`
-    : `${countWords(after)} words.`;
+  const wordCount = countWords(after);
+const formattingStatus = cleanedNotes.length
+  ? cleanedNotes.join(", ")
+  : "No major formatting cleanup needed";
+
+const readabilityStatus = `${wordCount} words after cleanup`;
+const speechStatus = changeTypes.includes("dashes")
+  ? "Dash cleanup may improve speech flow"
+  : "No major speech risks detected";
+
+const structureStatus = changeTypes.includes("spacing")
+  ? "Spacing and paragraph structure reviewed"
+  : "Structure looks usable";
+
+els.textBrief.innerHTML = `
+  <strong>Formatting quality</strong> — ${formattingStatus}.<br>
+  <strong>Readability score</strong> — ${readabilityStatus}.<br>
+  <strong>Speech risks</strong> — ${speechStatus}.<br>
+  <strong>Structure review</strong> — ${structureStatus}.
+`;
 }
 
 /* -----------------------------
