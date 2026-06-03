@@ -1471,4 +1471,15 @@ html[data-theme="terminal"] .tooltip {
   font-size: 1.05rem;
   line-height: 1.65;
 }
+.panel-number {
+  display: inline-block;
+  margin-right: 0.45rem;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+
+  color: var(--success);
+  opacity: 0.8;
+}
 
