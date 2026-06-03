@@ -1455,15 +1455,15 @@ html[data-theme="terminal"] .tooltip {
 }
 
 .review-card-label {
-  display: block;
-  margin-bottom: 0.4rem;
+  display: inline-block;
+  margin-bottom: 0.45rem;
 
   color: var(--success);
   opacity: 0.55;
 
   font-size: 0.68rem;
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
 }
 
 .insight-panel .panel-header {
@@ -1475,4 +1475,26 @@ html[data-theme="terminal"] .tooltip {
   font-weight: 750;
   letter-spacing: -0.02em;
 }
+.editorial-summary {
+  margin-top: 1.4rem;
+  margin-bottom: 2rem;
 
+  padding: 1rem 1.2rem;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: color-mix(
+    in srgb,
+    var(--panel) 96%,
+    var(--success) 4%
+  );
+}
+#textBrief {
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+#textBrief strong {
+  color: var(--text);
+}
