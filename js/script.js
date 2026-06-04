@@ -426,30 +426,23 @@ function renderSummary(issues = []) {
 function renderDiagnosticItem(issue) {
   const item = normalizeIssueForDisplay(issue);
 
-  return `
-    <div class="diagnostic-row">
+ return `
+  <div class="diagnostic-row">
 
-      <div class="diagnostic-title">
-        ${escapeHTML(item.label)}
-      </div>
-
-      <div class="diagnostic-where">
-        <strong>Found</strong><br>
-        ${escapeHTML(item.proof || item.where)}
-      </div>
-
-      <div class="diagnostic-fix">
-        <strong>Suggestion</strong><br>
-        ${escapeHTML(item.fix || "Review this section.")}
-      </div>
-
-      <div class="diagnostic-impact">
-        <strong>Why it matters</strong><br>
-        ${escapeHTML(item.impact)}
-      </div>
-
+    <div class="diagnostic-title">
+      ${escapeHTML(item.label)}
     </div>
-  `;
+
+    <div class="diagnostic-summary">
+      ${escapeHTML(item.fix || "Review this section.")}
+    </div>
+
+    <div class="diagnostic-impact">
+      ${escapeHTML(item.impact)}
+    </div>
+
+  </div>
+`;
 }
 
 function renderDiagnosticsForPage(issues = []) {
