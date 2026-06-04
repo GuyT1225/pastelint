@@ -1508,16 +1508,15 @@ html[data-theme="terminal"] .tooltip {
   color: var(--text);
 }
 .draft-notes-kicker {
-  margin-top: 1.8rem;
-  margin-bottom: 1rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1.4rem;
 
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+  color: var(--success);
+
+  font-size: 0.82rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-
-  color: var(--muted);
-  opacity: 0.85;
 }
 .found-category,
 .fixed-category,
@@ -1550,14 +1549,14 @@ html[data-theme="terminal"] .tooltip {
 .draft-note-heading {
   width: min(100% - 2rem, var(--page-width));
   max-width: 880px;
-  margin: 2.4rem auto 0.8rem;
+  margin: 1.35rem auto 0.85rem;
 }
 
 .draft-note-kicker {
   color: var(--success);
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 850;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: 0.35rem;
 }
@@ -1566,9 +1565,8 @@ html[data-theme="terminal"] .tooltip {
   margin: 0;
   max-width: 620px;
   color: var(--text);
-  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
   font-weight: 850;
-  line-height: 1.05;
+  line-height: 1.1;
   letter-spacing: -0.035em;
 }
-
