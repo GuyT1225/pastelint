@@ -1508,8 +1508,10 @@ html[data-theme="terminal"] .tooltip {
   color: var(--text);
 }
 .draft-notes-kicker {
-  margin-top: 2.5rem;
-  margin-bottom: 1.4rem;
+  width: min(100% - 2rem, var(--page-width));
+  max-width: 880px;
+
+  margin: 2rem auto 0.35rem;
 
   color: var(--success);
 
@@ -1518,38 +1520,36 @@ html[data-theme="terminal"] .tooltip {
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-.found-category,
-.fixed-category,
-.proof-category {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 
-  margin-top: 1rem;
-  margin-bottom: 0.75rem;
-
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-
-  color: var(--success);
-  opacity: 0.8;
-}
-
-.found-category::after,
-.fixed-category::after,
-.proof-category::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.22;
-}
 .draft-note-heading {
   width: min(100% - 2rem, var(--page-width));
   max-width: 880px;
-  margin: 2.1rem auto 0.75rem;
+
+  margin: 0 auto 0.9rem;
+}
+
+.draft-note-kicker {
+  color: var(--success);
+
+  font-size: clamp(1.15rem, 2.4vw, 1.65rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: none;
+
+  margin-bottom: 0.2rem;
+}
+
+.draft-note-heading h3 {
+  margin: 0;
+
+  max-width: 620px;
+
+  color: var(--text);
+
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 750;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
 }
 
 .draft-note-kicker {
