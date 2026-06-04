@@ -640,7 +640,34 @@ main {
 .info-tip:focus-visible .tooltip {
   opacity: 1;
 }
+.mode-row {
+  width: min(100%, var(--page-width));
+  margin: 0 auto 1.5rem;
 
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.mode-row .control-group {
+  margin: 0;
+}
+
+.mode-row label {
+  display: block;
+  margin-bottom: 0.45rem;
+}
+
+@media (max-width: 640px) {
+  .mode-row {
+    grid-template-columns: 1fr;
+  }
+}
 /* -----------------------------
    FORMS
 ----------------------------- */
@@ -1564,16 +1591,3 @@ html[data-theme="terminal"] .tooltip {
   margin: 0.2rem 0 0.35rem;
 }
 
-.draft-note-heading h3 {
-  font-family: "Instrument Sans", sans-serif;
-
-  font-size: clamp(2.1rem, 4vw, 3.25rem);
-
-  font-weight: 800;
-
-  line-height: 0.95;
-
-  letter-spacing: -0.04em;
-
-  margin: 0.2rem 0 0.35rem;
-}
