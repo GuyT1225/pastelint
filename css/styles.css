@@ -1522,10 +1522,8 @@ html[data-theme="terminal"] .tooltip {
 }
 
 .draft-note-heading {
-  width: min(100% - 2rem, var(--page-width));
-  max-width: 880px;
-
-  margin: 0 auto 0.9rem;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .draft-note-kicker {
@@ -1552,21 +1550,30 @@ html[data-theme="terminal"] .tooltip {
   letter-spacing: -0.025em;
 }
 
-.draft-note-kicker {
-  color: var(--success);
-  font-size: 0.72rem;
-  font-weight: 850;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin-bottom: 0.28rem;
+.draft-note-heading h3 {
+  font-family: "Instrument Sans", sans-serif;
+
+  font-size: clamp(2.1rem, 4vw, 3.25rem);
+
+  font-weight: 800;
+
+  line-height: 0.95;
+
+  letter-spacing: -0.04em;
+
+  margin: 0.2rem 0 0.35rem;
 }
 
 .draft-note-heading h3 {
-  margin: 0;
-  max-width: 620px;
-  color: var(--text);
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
-  font-weight: 750;
-  line-height: 1.2;
-  letter-spacing: -0.025em;
+  font-family: "Instrument Sans", sans-serif;
+
+  font-size: clamp(2.1rem, 4vw, 3.25rem);
+
+  font-weight: 800;
+
+  line-height: 0.95;
+
+  letter-spacing: -0.04em;
+
+  margin: 0.2rem 0 0.35rem;
 }
