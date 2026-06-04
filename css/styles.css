@@ -640,6 +640,11 @@ main {
 .info-tip:focus-visible .tooltip {
   opacity: 1;
 }
+
+/* -----------------------------
+   MODE ROW
+----------------------------- */
+
 .mode-row {
   width: min(100%, var(--page-width));
   margin: 0 auto 1.5rem;
