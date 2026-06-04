@@ -1436,7 +1436,34 @@ html[data-theme="terminal"] .tooltip {
     padding: 0.5rem 0.55rem;
   }
 }
+/* -----------------------------
+   OUTPUT CHAPTER
+----------------------------- */
 
+.output-chapter {
+  width: min(100% - 2rem, var(--page-width));
+  margin: 1.5rem auto -0.5rem;
+  padding: 0;
+  text-align: left;
+}
+
+.output-chapter h2 {
+  max-width: 720px;
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.output-chapter p {
+  max-width: 52ch;
+  margin: 0.55rem 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
 /* -----------------------------
    REVIEW CHAPTER
 ----------------------------- */
