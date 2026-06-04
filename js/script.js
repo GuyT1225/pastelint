@@ -927,16 +927,10 @@ function renderEditPreview(els, edits, changes = []) {
     return `
   <div class="edit-item">
 
-    <strong>${escapeHTML(change.type || "Change")}</strong>
+    <strong>${escapeHTML(formatChangeLabel(change.type || "Change"))}</strong>
 
     <div class="edit-proof">
-      <span class="edit-label">Found</span>
-      <span>${escapeHTML(change.before || change.message || "Original text")}</span>
-    </div>
-
-    <div class="edit-proof">
-      <span class="edit-label">Changed</span>
-      <span>${escapeHTML(change.after || "Updated text")}</span>
+      ${escapeHTML(change.message || "Cleanup applied")}
     </div>
 
   </div>
