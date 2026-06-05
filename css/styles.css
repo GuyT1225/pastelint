@@ -2923,3 +2923,36 @@ html[data-theme="light"] {
 .next-step-panel {
   max-width: 980px !important;
 }
+/* =========================================================
+   PHASE 6F — LOCK TOOL + OUTPUT TO MASTER SPINE
+   ========================================================= */
+
+.hero,
+.hero-chapter,
+.mode-row,
+.input-panel,
+.action-panel,
+.output-chapter,
+.output-panel,
+.workflow-chapter,
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  transform: translateX(-7rem) !important;
+}
+
+@media (max-width: 760px) {
+  .hero,
+  .hero-chapter,
+  .mode-row,
+  .input-panel,
+  .action-panel,
+  .output-chapter,
+  .output-panel,
+  .workflow-chapter,
+  .trust-panel,
+  .landing-info-card,
+  .next-step-panel {
+    transform: none !important;
+  }
+}
