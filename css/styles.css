@@ -3029,3 +3029,77 @@ html[data-theme="light"] {
     width: min(100% - 1rem, 100%) !important;
   }
 }
+/* =========================================================
+   PHASE 6H — FINAL FRAME LOCK
+   One left edge + one right edge
+   ========================================================= */
+
+/* Set one usable frame */
+.page-shell {
+  width: min(100% - 2rem, 1080px) !important;
+  margin-inline: auto !important;
+}
+
+/* Lock major sections to same frame */
+.hero,
+.tool-shell,
+.inspection-chapter,
+.output-chapter,
+.output-panel,
+.workflow-chapter,
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  width: 100% !important;
+  max-width: none !important;
+  margin-inline: 0 !important;
+  justify-self: stretch !important;
+}
+
+/* Tool fields share same right edge as report rails */
+.mode-row,
+.input-panel,
+.action-panel {
+  width: 100% !important;
+  max-width: none !important;
+  margin-inline: 0 !important;
+  grid-column: 1 / -1 !important;
+}
+
+/* Clean Draft shares same frame as input */
+.output-chapter,
+.output-panel {
+  grid-column: 1 / -1 !important;
+}
+
+/* Inspection grid keeps three-column system inside same frame */
+.inspection-chapter,
+.inspection-chapter .draft-note-heading,
+.inspection-chapter .review-notes-section,
+.inspection-chapter .tool-panel.insight-panel,
+.inspection-chapter .editorial-summary {
+  grid-template-columns:
+    minmax(7rem, 0.9fr)
+    minmax(24rem, 2.8fr)
+    minmax(20rem, 2.3fr) !important;
+
+  column-gap: clamp(1.5rem, 3vw, 3rem) !important;
+}
+
+/* Let headline column breathe slightly */
+.inspection-chapter .draft-note-heading h3 {
+  max-width: 24ch !important;
+}
+
+/* Support sections align to the same left frame but remain readable */
+.workflow-chapter,
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  max-width: 760px !important;
+}
+
+/* Footer aligns with same page frame */
+.site-footer {
+  width: min(100% - 2rem, 1080px) !important;
+}
