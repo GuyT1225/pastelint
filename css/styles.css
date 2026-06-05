@@ -2586,3 +2586,51 @@ html[data-theme="light"] {
   font-size: 0.98rem !important;
   line-height: 1.65 !important;
 }
+/* =========================================================
+   PHASE 5F — INSPECTION POLISH
+   ========================================================= */
+
+/* Pull category labels and details closer together */
+.inspection-chapter .review-notes-section,
+.inspection-chapter .tool-panel.insight-panel {
+  padding-top: 0.75rem !important;
+}
+
+/* Make details more legible */
+.inspection-chapter #textBrief,
+.inspection-chapter #foundList,
+.inspection-chapter #editMap,
+.inspection-chapter #visualPreview {
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+}
+
+/* Calm excessive spacing inside detail rows */
+.inspection-chapter #foundList li {
+  padding-bottom: 0.95rem !important;
+  margin-bottom: 0.95rem !important;
+}
+
+/* Bring Text Brief closer to same rhythm as 01–03 */
+.inspection-chapter .editorial-summary {
+  margin-top: 1.25rem !important;
+  margin-bottom: clamp(3rem, 6vw, 4.5rem) !important;
+}
+
+.inspection-chapter .summary-label {
+  align-self: start !important;
+  margin-top: 0.15rem !important;
+}
+
+/* Give the chapter rails a little more presence */
+.inspection-chapter .draft-note-heading {
+  border-bottom-color: color-mix(in srgb, var(--success) 72%, transparent) !important;
+}
+
+/* Slightly soften tiny uppercase labels */
+.inspection-chapter .summary-label,
+.inspection-chapter .found-category,
+.inspection-chapter .fixed-category,
+.inspection-chapter .proof-category {
+  opacity: 0.95 !important;
+}
