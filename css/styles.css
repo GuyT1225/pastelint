@@ -1671,4 +1671,271 @@ html[data-theme="terminal"] .tooltip {
   border: 0;
   color: var(--muted);
 }
+/* =========================================================
+   PASTELINT GRID SYSTEM / EDITORIAL LAYOUT SPRINT
+   Phase 2 — Invisible 8-column ownership system
+   Place at bottom of styles.css
+   ========================================================= */
 
+/* -----------------------------
+   GRID FOUNDATION
+----------------------------- */
+
+.page-shell.workflow-grid {
+  width: min(100% - 2rem, var(--page-width));
+  margin-inline: auto;
+  padding: clamp(0.5rem, 1vw, 1rem) 0 clamp(3rem, 6vw, 5rem);
+
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  column-gap: clamp(0.75rem, 2vw, 1.5rem);
+  row-gap: clamp(2.5rem, 5vw, 5rem);
+}
+
+.workflow-chapter {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: 0;
+  position: relative;
+}
+
+/* -----------------------------
+   COLUMN OWNERSHIP
+----------------------------- */
+
+.hero-chapter {
+  grid-column: 2 / 8;
+}
+
+.input-chapter {
+  grid-column: 1 / -1;
+}
+
+.inspection-chapter {
+  grid-column: 2 / 8;
+}
+
+.output-chapter {
+  grid-column: 2 / 8;
+}
+
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  grid-column: 2 / 8;
+}
+
+/* -----------------------------
+   HERO REBALANCE
+----------------------------- */
+
+.hero.workflow-chapter {
+  width: 100%;
+  max-width: 48rem;
+  margin: clamp(2.25rem, 6vw, 4.5rem) 0 0;
+  padding: 0;
+}
+
+.hero.workflow-chapter h1 {
+  max-width: 12ch;
+  margin-bottom: 0.75rem;
+}
+
+.hero.workflow-chapter p {
+  max-width: 58ch;
+}
+
+/* -----------------------------
+   INPUT CHAPTER
+----------------------------- */
+
+.input-chapter.tool-shell {
+  width: 100%;
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.input-chapter .mode-row {
+  width: 100%;
+  margin: 0;
+}
+
+.input-chapter .input-panel {
+  margin: 0;
+}
+
+.input-chapter .action-panel {
+  margin: 0;
+}
+
+/* -----------------------------
+   INSPECTION CHAPTER
+----------------------------- */
+
+.inspection-chapter {
+  display: grid;
+  gap: clamp(1.15rem, 2.5vw, 1.75rem);
+}
+
+.inspection-chapter > .review-kicker,
+.output-chapter > .review-kicker {
+  margin: 0 0 -0.65rem;
+}
+
+.inspection-chapter > h2,
+.output-chapter > h2 {
+  max-width: 720px;
+  margin: 0;
+
+  color: var(--text);
+  font-size: clamp(2.1rem, 5vw, 3.35rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.inspection-chapter > p,
+.output-chapter > p {
+  max-width: 54ch;
+  margin: -0.65rem 0 0;
+
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.inspection-chapter .editorial-summary,
+.inspection-chapter .review-notes-section,
+.inspection-chapter .insight-panel {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+}
+
+.inspection-chapter .editorial-summary {
+  margin-top: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+/* -----------------------------
+   FOUND / FIXED / PROOF RHYTHM
+----------------------------- */
+
+.inspection-chapter .draft-note-heading {
+  margin: clamp(1.1rem, 2.5vw, 1.75rem) 0 0.15rem;
+}
+
+.inspection-chapter .draft-note-kicker {
+  margin-bottom: 0.25rem;
+
+  color: var(--success);
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.inspection-chapter .draft-note-heading h3 {
+  max-width: 720px;
+  margin: 0;
+
+  font-family: var(--font-sans);
+  color: var(--text);
+  font-size: clamp(1.25rem, 3vw, 2.15rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.inspection-chapter .review-notes-section {
+  margin: 0;
+}
+
+.inspection-chapter .tool-panel.insight-panel {
+  margin: 0;
+}
+
+/* -----------------------------
+   OUTPUT CHAPTER AUTHORITY
+----------------------------- */
+
+.output-chapter {
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.output-chapter .output-panel {
+  width: 100%;
+  margin: 0;
+}
+
+.output-chapter textarea {
+  min-height: clamp(16rem, 36vw, 28rem);
+}
+
+/* -----------------------------
+   SUPPORT CHAPTERS
+----------------------------- */
+
+.workflow-chapter.trust-panel,
+.workflow-chapter.landing-info-card,
+.workflow-chapter.next-step-panel {
+  margin: 0;
+}
+
+.workflow-chapter.trust-panel h2,
+.workflow-chapter.landing-info-card h2,
+.workflow-chapter.next-step-panel h2 {
+  max-width: 720px;
+}
+
+.workflow-chapter.trust-panel p,
+.workflow-chapter.landing-info-card p,
+.workflow-chapter.next-step-panel p {
+  max-width: 62ch;
+}
+
+/* -----------------------------
+   RESPONSIVE GRID
+----------------------------- */
+
+@media (max-width: 760px) {
+  .page-shell.workflow-grid {
+    width: min(100% - 1rem, var(--page-width));
+    grid-template-columns: 1fr;
+    row-gap: clamp(2rem, 7vw, 3.5rem);
+  }
+
+  .workflow-chapter,
+  .hero-chapter,
+  .input-chapter,
+  .inspection-chapter,
+  .output-chapter,
+  .trust-panel,
+  .landing-info-card,
+  .next-step-panel {
+    grid-column: 1 / -1;
+  }
+
+  .hero.workflow-chapter {
+    max-width: none;
+    margin-top: 2rem;
+  }
+
+  .hero.workflow-chapter h1 {
+    max-width: 13ch;
+  }
+
+  .inspection-chapter > h2,
+  .output-chapter > h2 {
+    font-size: clamp(2rem, 12vw, 3rem);
+  }
+
+  .inspection-chapter .draft-note-heading h3 {
+    font-size: clamp(1.5rem, 9vw, 2.35rem);
+  }
+
+  .output-chapter textarea {
+    min-height: 16rem;
+  }
+}
