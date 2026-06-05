@@ -2956,3 +2956,76 @@ html[data-theme="light"] {
     transform: none !important;
   }
 }
+/* =========================================================
+   PHASE 6G — TRUE PAGE FRAME / MASTER LEFT EDGE
+   ========================================================= */
+
+/* Kill the temporary shift */
+.hero,
+.hero-chapter,
+.mode-row,
+.input-panel,
+.action-panel,
+.output-chapter,
+.output-panel,
+.workflow-chapter,
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  transform: none !important;
+}
+
+/* One shared page frame */
+.page-shell {
+  width: min(100% - 2rem, 1180px) !important;
+  margin-inline: auto !important;
+}
+
+/* Hero, tool, report, output all begin on same left edge */
+.hero,
+.hero-chapter,
+.tool-shell,
+.mode-row,
+.input-panel,
+.action-panel,
+.inspection-chapter,
+.output-chapter,
+.output-panel,
+.workflow-chapter,
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  justify-self: stretch !important;
+}
+
+/* Tool area spans the same right boundary as the inspection rails */
+.mode-row,
+.input-panel,
+.action-panel,
+.output-panel {
+  grid-column: 1 / -1 !important;
+}
+
+/* Hero and Clean Draft title start at same master left edge */
+.hero,
+.hero-chapter,
+.output-chapter {
+  grid-column: 1 / -1 !important;
+}
+
+/* Keep inspection on the same frame */
+.inspection-chapter {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+}
+
+/* Mobile remains simple */
+@media (max-width: 760px) {
+  .page-shell {
+    width: min(100% - 1rem, 100%) !important;
+  }
+}
