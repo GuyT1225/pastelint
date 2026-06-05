@@ -2501,3 +2501,36 @@ html[data-theme="terminal"] .tooltip {
 .inspection-chapter #visualPreview {
   grid-column: 3 !important;
 }
+/* =========================================================
+   PHASE 5C — INSPECTION WIDTH + COLUMN BALANCE
+   ========================================================= */
+
+.inspection-chapter {
+  width: min(100%, 1180px) !important;
+  justify-self: center !important;
+}
+
+.inspection-chapter,
+.inspection-chapter .draft-note-heading,
+.inspection-chapter .review-notes-section,
+.inspection-chapter .tool-panel.insight-panel,
+.inspection-chapter .editorial-summary {
+  grid-template-columns:
+    minmax(7rem, 0.9fr)
+    minmax(24rem, 2.8fr)
+    minmax(22rem, 2.6fr) !important;
+
+  column-gap: clamp(1.5rem, 4vw, 4rem) !important;
+}
+
+.inspection-chapter .draft-note-heading h3 {
+  max-width: 20ch !important;
+}
+
+.inspection-chapter #textBrief,
+.inspection-chapter #foundList,
+.inspection-chapter #editMap,
+.inspection-chapter #visualPreview {
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
