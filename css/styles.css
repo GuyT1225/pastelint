@@ -2634,3 +2634,104 @@ html[data-theme="light"] {
 .inspection-chapter .proof-category {
   opacity: 0.95 !important;
 }
+/* =========================================================
+   PHASE 6 — PAGE-WIDE EDITORIAL ALIGNMENT
+   ========================================================= */
+
+.page-shell {
+  width: min(100% - 2rem, 1180px) !important;
+  margin-inline: auto !important;
+
+  display: grid !important;
+  grid-template-columns:
+    minmax(7rem, 0.85fr)
+    minmax(28rem, 3.4fr)
+    minmax(18rem, 2fr) !important;
+
+  column-gap: clamp(1.25rem, 3vw, 3rem) !important;
+}
+
+/* Main intro aligns to the middle + right field */
+.hero,
+.hero-chapter {
+  grid-column: 2 / -1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-inline: 0 !important;
+}
+
+/* Tool area uses the same grid */
+.tool-shell {
+  grid-column: 1 / -1 !important;
+
+  display: grid !important;
+  grid-template-columns:
+    minmax(7rem, 0.85fr)
+    minmax(28rem, 3.4fr)
+    minmax(18rem, 2fr) !important;
+
+  column-gap: clamp(1.25rem, 3vw, 3rem) !important;
+}
+
+/* Functional tool controls span the working field */
+.mode-row,
+.input-panel,
+.action-panel {
+  grid-column: 2 / -1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-inline: 0 !important;
+}
+
+/* Inspection owns the full editorial grid */
+.inspection-chapter {
+  grid-column: 1 / -1 !important;
+}
+
+/* Clean output aligns with the same middle + right field */
+.output-chapter,
+.output-panel {
+  grid-column: 2 / -1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-inline: 0 !important;
+}
+
+/* Bottom support sections align with Clean Output */
+.workflow-chapter,
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  grid-column: 2 / -1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-inline: 0 !important;
+}
+
+/* Footer follows same readable field */
+.site-footer {
+  width: min(100% - 2rem, 1180px) !important;
+}
+
+/* Mobile collapse */
+@media (max-width: 760px) {
+  .page-shell,
+  .tool-shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero,
+  .hero-chapter,
+  .mode-row,
+  .input-panel,
+  .action-panel,
+  .inspection-chapter,
+  .output-chapter,
+  .output-panel,
+  .workflow-chapter,
+  .trust-panel,
+  .landing-info-card,
+  .next-step-panel {
+    grid-column: 1 !important;
+  }
+}
