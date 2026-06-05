@@ -2862,3 +2862,64 @@ html[data-theme="light"] {
 .inspection-chapter > p {
   margin-bottom: 0.25rem !important;
 }
+/* =========================================================
+   PHASE 6E — MASTER LEFT SPINE
+   Align page with 01 / 02 / 03
+   ========================================================= */
+
+/* Hero aligns to same left edge as 01–03 */
+.hero,
+.hero-chapter {
+  grid-column: 1 / -1 !important;
+}
+
+/* Tool controls/input/buttons align to same left edge */
+.mode-row,
+.input-panel,
+.action-panel {
+  grid-column: 1 / -1 !important;
+}
+
+/* Inspection intro also starts on the master left edge */
+.inspection-chapter > .review-kicker,
+.inspection-chapter > h2,
+.inspection-chapter > p {
+  grid-column: 1 / -1 !important;
+}
+
+/* Text Brief starts from master left edge */
+.inspection-chapter .summary-label {
+  grid-column: 1 / 3 !important;
+}
+
+.inspection-chapter #textBrief {
+  grid-column: 3 !important;
+}
+
+/* Clean Output starts from master left edge */
+.output-chapter,
+.output-panel {
+  grid-column: 1 / -1 !important;
+}
+
+/* Bottom sections start from master left edge */
+.workflow-chapter,
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  grid-column: 1 / -1 !important;
+}
+
+/* Keep content readable inside wide rows */
+.hero,
+.mode-row,
+.input-panel,
+.action-panel,
+.output-chapter,
+.output-panel,
+.workflow-chapter,
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  max-width: 980px !important;
+}
