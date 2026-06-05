@@ -2558,3 +2558,31 @@ html[data-theme="light"] {
 .inspection-chapter {
   max-width: 1180px !important;
 }
+/* =========================================================
+   PHASE 5E — COLUMN REBALANCE
+   ========================================================= */
+
+.inspection-chapter,
+.inspection-chapter .draft-note-heading,
+.inspection-chapter .review-notes-section,
+.inspection-chapter .tool-panel.insight-panel,
+.inspection-chapter .editorial-summary {
+  grid-template-columns:
+    minmax(7rem, 0.85fr)
+    minmax(28rem, 3.4fr)
+    minmax(18rem, 2fr) !important;
+
+  column-gap: clamp(1.25rem, 3vw, 3rem) !important;
+}
+
+.inspection-chapter .draft-note-heading h3 {
+  max-width: 22ch !important;
+}
+
+.inspection-chapter #textBrief,
+.inspection-chapter #foundList,
+.inspection-chapter #editMap,
+.inspection-chapter #visualPreview {
+  font-size: 0.98rem !important;
+  line-height: 1.65 !important;
+}
