@@ -2776,3 +2776,46 @@ html[data-theme="light"] {
 .inspection-chapter .draft-note-heading:first-of-type {
   margin-top: 0 !important;
 }
+/* =========================================================
+   PHASE 6C — INSPECTION INTRO MIRRORS CHAPTER GRID
+   ========================================================= */
+
+/* Header/title/subtitle align with 01–03 middle column */
+.inspection-chapter > .review-kicker,
+.inspection-chapter > h2,
+.inspection-chapter > p {
+  grid-column: 2 / -1 !important;
+  margin-inline: 0 !important;
+}
+
+/* TEXT BRIEF moves up into the intro rhythm */
+.inspection-chapter .editorial-summary {
+  margin-top: 1.25rem !important;
+  margin-bottom: clamp(4.5rem, 8vw, 6.5rem) !important;
+  padding-top: 1rem !important;
+
+  border-top: 1px solid color-mix(in srgb, var(--success) 72%, transparent) !important;
+}
+
+/* TEXT BRIEF sits under the report intro */
+.inspection-chapter .summary-label {
+  grid-column: 2 !important;
+  margin: 0 !important;
+  align-self: start !important;
+}
+
+/* Text brief details stay on the shared right rail */
+.inspection-chapter #textBrief {
+  grid-column: 3 !important;
+  align-self: start !important;
+}
+
+/* Make the intro subtitle feel like the same family as chapter headlines */
+.inspection-chapter > p {
+  max-width: 42ch !important;
+}
+
+/* Reduce awkward dead space before 01 */
+.inspection-chapter .draft-note-heading:first-of-type {
+  margin-top: clamp(2.5rem, 5vw, 4rem) !important;
+}
