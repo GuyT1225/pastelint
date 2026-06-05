@@ -2534,3 +2534,27 @@ html[data-theme="terminal"] .tooltip {
   font-size: 0.92rem;
   line-height: 1.65;
 }
+/* =========================================================
+   PHASE 5D — PAGE WIDTH FOR EDITORIAL GRID
+   ========================================================= */
+
+:root,
+html[data-theme="light"] {
+  --page-width: 1180px;
+}
+
+/* Keep input/output from becoming too wide */
+.hero-chapter,
+.input-chapter,
+.output-chapter,
+.workflow-chapter.trust-panel,
+.workflow-chapter.landing-info-card,
+.workflow-chapter.next-step-panel {
+  max-width: 980px !important;
+  justify-self: center !important;
+}
+
+/* Let inspection use the expanded editorial width */
+.inspection-chapter {
+  max-width: 1180px !important;
+}
