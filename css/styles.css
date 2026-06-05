@@ -3103,3 +3103,47 @@ html[data-theme="light"] {
 .site-footer {
   width: min(100% - 2rem, 1080px) !important;
 }
+/* =========================================================
+   PHASE 6I — FRAME + RAIL BREATHING ROOM
+   ========================================================= */
+
+.page-shell {
+  width: min(100% - 2rem, 1160px) !important;
+  margin-inline: auto !important;
+}
+
+.site-footer {
+  width: min(100% - 2rem, 1160px) !important;
+}
+
+/* Wider left rail + calmer middle/detail balance */
+.inspection-chapter,
+.inspection-chapter .draft-note-heading,
+.inspection-chapter .review-notes-section,
+.inspection-chapter .tool-panel.insight-panel,
+.inspection-chapter .editorial-summary {
+  grid-template-columns:
+    minmax(9rem, 1fr)
+    minmax(24rem, 2.4fr)
+    minmax(18rem, 1.8fr) !important;
+
+  column-gap: clamp(1.5rem, 3vw, 3rem) !important;
+}
+
+/* Keep the working fields locked to the wider frame */
+.mode-row,
+.input-panel,
+.action-panel,
+.output-panel {
+  width: 100% !important;
+  max-width: none !important;
+  grid-column: 1 / -1 !important;
+}
+
+/* Keep lower support sections readable */
+.workflow-chapter,
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  max-width: 780px !important;
+}
