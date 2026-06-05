@@ -7,16 +7,19 @@
   <title>PasteLint — Fix ChatGPT Output, PDF Text & Copy-Paste Formatting</title>
   <meta
     name="description"
-    content=content="Fix ChatGPT output, PDF text, hidden characters, spacing issues, and broken copy-paste formatting. Browser-based text cleanup with no login, upload, or API."
+    content="Fix ChatGPT output, PDF text, hidden characters, spacing issues, and broken copy-paste formatting. Browser-based text cleanup with no login, upload, or API."
   />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
   <link rel="stylesheet" href="css/themes.css" />
   <link rel="stylesheet" href="css/shell.css" />
   <link rel="stylesheet" href="css/styles.css" />
-
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -36,18 +39,18 @@
     </nav>
   </header>
 
-  <main class="page-shell">
-    <section class="hero">
+  <main class="page-shell workflow-grid">
+
+    <section class="hero workflow-chapter hero-chapter">
       <p class="eyebrow">PasteLint Clean</p>
-      <h1>Fix what copy and<br>
-          paste broke.</h1>
+      <h1>Fix what copy and<br>paste broke.</h1>
       <p>
-       Fix ChatGPT output, PDF text, hidden characters,
-spacing problems, and broken copy-paste formatting.
+        Fix ChatGPT output, PDF text, hidden characters, spacing problems,
+        and broken copy-paste formatting.
       </p>
     </section>
 
-    <section class="tool-shell" aria-labelledby="tool-title">
+    <section class="tool-shell workflow-chapter input-chapter" aria-labelledby="tool-title">
       <div class="mode-row" aria-label="Cleaning controls">
         <div class="control-group">
           <label for="cleanMode">Cleanup mode</label>
@@ -84,130 +87,109 @@ spacing problems, and broken copy-paste formatting.
         <button id="copyBtn" type="button">Copy clean text</button>
         <button id="clearBtn" type="button">Clear</button>
       </div>
+    </section>
 
-      <section class="output-chapter">
-  <div class="review-kicker">
-    CLEAN OUTPUT
-  </div>
+    <section class="workflow-chapter inspection-chapter">
+      <div class="review-kicker">INSPECTION REPORT</div>
+      <h2>What PasteLint found</h2>
+      <p>
+        Issues detected, fixes applied, and proof you can review.
+      </p>
 
-  <h2>
-    Clean Draft
-  </h2>
+      <div class="editorial-summary">
+        <div class="summary-label">TEXT BRIEF</div>
 
-  <p>
-    Your repaired text, ready to copy.
-  </p>
-</section>
+        <div id="textBrief">
+          <strong>Formatting quality</strong><br>
+          — Waiting for analysis.<br><br>
 
-<div class="tool-panel output-panel">
-  <textarea id="output" readonly placeholder="Clean text will appear here..."></textarea>
+          <strong>Readability score</strong><br>
+          — Waiting for analysis.<br><br>
 
-  <div class="meta">
-    <span id="outputCharCount">0 chars</span>
-    <span id="outputWordCount">0 words</span>
-  </div>
-</div>
-<section class="review-chapter">
-  <div class="review-kicker">
-    EDITOR'S MARKS
-  </div>
+          <strong>Speech risks</strong><br>
+          — Waiting for analysis.<br><br>
 
-  <h2>
-    What We Found
-  </h2>
+          <strong>Structure review</strong><br>
+          — Waiting for analysis.
+        </div>
+      </div>
 
-  <div class="editorial-summary">
-    <div class="summary-label">
-      TEXT BRIEF
-    </div>
+      <div class="draft-note-heading">
+        <div class="draft-note-kicker">01. FOUND</div>
+        <h3>Issues detected before or during cleanup.</h3>
+      </div>
 
-    <div id="textBrief">
-      <strong>Formatting quality</strong><br>
-      — Waiting for analysis.<br><br>
+      <section class="review-notes-section">
+        <div class="found-category">Formatting</div>
 
-      <strong>Readability score</strong><br>
-      — Waiting for analysis.<br><br>
+        <ul id="foundList">
+          <li>No cleanup issues detected yet.</li>
+        </ul>
+      </section>
 
-      <strong>Speech risks</strong><br>
-      — Waiting for analysis.<br><br>
+      <div class="draft-note-heading">
+        <div class="draft-note-kicker">02. FIXED</div>
+        <h3>Changes PasteLint applied to clean the draft.</h3>
+      </div>
 
-      <strong>Structure review</strong><br>
-      — Waiting for analysis.
-    </div>
-  </div>
+      <div class="tool-panel insight-panel">
+        <div class="fixed-category">Cleanup Log</div>
 
-  <div class="review-kicker draft-notes-kicker">
-    DRAFT NOTES
-  </div>
-</section>
+        <div id="editMap">
+          Changes will appear here after cleanup.
+        </div>
+      </div>
 
-<div class="draft-note-heading">
-  <div class="draft-note-kicker">01. FOUND</div>
-  <h3>Issues detected before or during cleanup.</h3>
-</div>
+      <div class="draft-note-heading">
+        <div class="draft-note-kicker">03. PROOF</div>
+        <h3>Before and after evidence you can review.</h3>
+      </div>
 
-<section class="review-notes-section">
-  <div class="found-category">
-    Formatting
-  </div>
+      <div class="tool-panel insight-panel">
+        <div class="proof-category">Before and After</div>
 
-  <ul id="foundList">
-    <li>No cleanup issues detected yet.</li>
-  </ul>
-</section>
+        <div id="visualPreview">
+          PasteLint will show a simple before and after view once text is cleaned.
+        </div>
+      </div>
+    </section>
 
-<div class="draft-note-heading">
-  <div class="draft-note-kicker">02. FIXED</div>
-  <h3>Changes PasteLint applied to clean the draft.</h3>
-</div>
+    <section class="workflow-chapter output-chapter">
+      <div class="review-kicker">CLEAN OUTPUT</div>
+      <h2>Clean Draft</h2>
+      <p>
+        Your repaired text, ready to copy.
+      </p>
 
-<div class="tool-panel insight-panel">
-  <div class="fixed-category">
-    Cleanup Log
-  </div>
+      <div class="tool-panel output-panel">
+        <textarea id="output" readonly placeholder="Clean text will appear here..."></textarea>
 
-  <div id="editMap">
-    Changes will appear here after cleanup.
-  </div>
-</div>
+        <div class="meta">
+          <span id="outputCharCount">0 chars</span>
+          <span id="outputWordCount">0 words</span>
+        </div>
+      </div>
+    </section>
 
-<div class="draft-note-heading">
-  <div class="draft-note-kicker">03. PROOF</div>
-  <h3>Before and after evidence you can review.</h3>
-</div>
-
-<div class="tool-panel insight-panel">
-  <div class="proof-category">
-    Before and After
-  </div>
-
-  <div id="visualPreview">
-    PasteLint will show a simple before and after view once text is cleaned.
-  </div>
-</div>
-    <section class="trust-panel">
+    <section class="workflow-chapter trust-panel">
       <p class="eyebrow">Privacy-first text cleanup</p>
       <h2>Plain text that works everywhere</h2>
       <p>
-        PasteLint runs in your browser. No login, no upload, no backend, and no API. It helps turn messy copied text into clean, readable text you can reuse.
+        PasteLint runs in your browser. No login, no upload, no backend, and no API.
+        It helps turn messy copied text into clean, readable text you can reuse.
       </p>
     </section>
-<section class="landing-info-card">
 
-  <p class="eyebrow">PDF CLEANUP</p>
+    <section class="workflow-chapter landing-info-card">
+      <p class="eyebrow">PDF Cleanup</p>
+      <h2>Fix text copied from PDF</h2>
+      <p>
+        Remove awkward line breaks, spacing problems, and broken formatting from copied PDF text before reusing it.
+      </p>
+      <a href="fix-pdf-paste.html">Open PDF cleanup page</a>
+    </section>
 
-  <h2>Fix text copied from PDF</h2>
-
-  <p>
-    Remove awkward line breaks, spacing problems, and broken formatting from copied PDF text before reusing it.
-  </p>
-
-  <a href="fix-pdf-paste.html">
-    Open PDF cleanup page
-  </a>
-
-</section>
-    <section class="next-step-panel">
+    <section class="workflow-chapter next-step-panel">
       <p class="eyebrow">Need a cleaner rewrite?</p>
       <h2>Move from Clean to SecondDraft</h2>
       <p>
@@ -215,145 +197,87 @@ spacing problems, and broken copy-paste formatting.
       </p>
       <a href="second-draft.html">Open SecondDraft</a>
     </section>
+
+    <section class="workflow-chapter next-step-panel">
+      <div class="panel-header">
+        <h2>Popular Uses</h2>
+      </div>
+
+      <p>
+        Explore additional ways to use PasteLint.
+      </p>
+
+      <ul>
+        <li>
+          <a href="clean-text-message.html">
+            Clean up a text message before you send it
+          </a>
+        </li>
+      </ul>
+    </section>
+
   </main>
-</main>
 
-<section class="next-step-panel">
-  <div class="panel-header">
-    <h2>Popular Uses</h2>
-  </div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-brand">
+        PasteLint — browser-based text cleanup tools.
+      </p>
 
-  <p>
-    Explore additional ways to use PasteLint.
-  </p>
+      <p class="footer-note">
+        No login. No upload. Everything runs in your browser.
+      </p>
 
-  <ul>
-    <li>
-      <a href="clean-text-message.html">
-        Clean up a text message before you send it
-      </a>
-    </li>
-  </ul>
-</section>
+      <div class="footer-columns">
+        <div>
+          <h4>Popular cleanup tasks</h4>
 
-<footer class="site-footer">
-  
-<footer class="site-footer">
+          <p>
+            <a href="fix-pdf-paste.html">Fix Text Copied from PDF</a>
+            <span>|</span>
+            <a href="clean-chatgpt-output.html">Clean ChatGPT Output</a>
+            <span>|</span>
+            <a href="remove-hidden-characters.html">Remove Hidden Characters</a>
+          </p>
 
-  <div class="footer-inner">
+          <p>
+            <a href="tts-text-cleanup.html">Prepare Text for TTS</a>
+            <span>|</span>
+            <a href="ivr-text-prep.html">IVR Text Prep</a>
+            <span>|</span>
+            <a href="SSML_builder.html">SSML Builder</a>
+          </p>
+        </div>
 
-    <p class="footer-brand">
-      PasteLint — browser-based text cleanup tools.
-    </p>
+        <div>
+          <h4>Core tools</h4>
 
-    <p class="footer-note">
-      No login. No upload. Everything runs in your browser.
-    </p>
+          <p>
+            <a href="index.html">PasteLint Clean</a>
+            <span>|</span>
+            <a href="second-draft.html">SecondDraft</a>
+          </p>
+        </div>
 
-    <div class="footer-columns">
+        <div>
+          <h4>Legal</h4>
 
-      <div>
-
-        <h4>Popular cleanup tasks</h4>
-
-        <p>
-
-          <a href="fix-pdf-paste.html">
-            Fix Text Copied from PDF
-          </a>
-
-          <span>|</span>
-
-          <a href="clean-chatgpt-output.html">
-            Clean ChatGPT Output
-          </a>
-
-          <span>|</span>
-
-          <a href="remove-hidden-characters.html">
-            Remove Hidden Characters
-          </a>
-
-        </p>
-
-        <p>
-
-          <a href="tts-text-cleanup.html">
-            Prepare Text for TTS
-          </a>
-
-          <span>|</span>
-
-          <a href="ivr-text-prep.html">
-            IVR Text Prep
-          </a>
-
-          <span>|</span>
-
-          <a href="SSML_builder.html">
-            SSML Builder
-          </a>
-
-        </p>
-
+          <p>
+            <a href="privacy.html">Privacy Policy</a>
+            <span>|</span>
+            <a href="terms.html">Terms</a>
+            <span>|</span>
+            <a href="contact.html">Contact</a>
+          </p>
+        </div>
       </div>
-
-      <div>
-
-        <h4>Core tools</h4>
-
-        <p>
-
-          <a href="index.html">
-            PasteLint Clean
-          </a>
-
-          <span>|</span>
-
-          <a href="second-draft.html">
-            SecondDraft
-          </a>
-
-        </p>
-
-      </div>
-
-      <div>
-
-        <h4>Legal</h4>
-
-        <p>
-
-          <a href="privacy.html">
-            Privacy Policy
-          </a>
-
-          <span>|</span>
-
-          <a href="terms.html">
-            Terms
-          </a>
-
-          <span>|</span>
-
-          <a href="contact.html">
-            Contact
-          </a>
-
-        </p>
-
-      </div>
-
     </div>
+  </footer>
 
-  </div>
-
-</footer>
-
-<script src="js/utils.js"></script>
-<script src="js/themes.js"></script>
-<script src="js/text-analyzer.js"></script>
-<script src="js/text-clean-engine.js"></script>
-<script src="js/script.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/text-analyzer.js"></script>
+  <script src="js/text-clean-engine.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
