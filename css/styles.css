@@ -1939,3 +1939,353 @@ html[data-theme="terminal"] .tooltip {
     min-height: 16rem;
   }
 }
+/* =========================================================
+   PHASE 3 — TRANSFORMATION ZONE HIERARCHY
+   Inspection supports. Output leads.
+   ========================================================= */
+
+/* Make inspection feel like evidence, not the final destination */
+.inspection-chapter {
+  padding-top: clamp(0.5rem, 2vw, 1rem);
+}
+
+.inspection-chapter > h2 {
+  font-size: clamp(1.85rem, 4vw, 2.75rem);
+  max-width: 13ch;
+}
+
+.inspection-chapter > p {
+  max-width: 46ch;
+}
+
+/* Text brief becomes quieter and more report-like */
+.inspection-chapter .editorial-summary {
+  padding: clamp(1rem, 2vw, 1.35rem);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel) 96%, var(--success) 4%);
+  box-shadow: none;
+}
+
+/* Found / Fixed / Proof become numbered editorial beats */
+.inspection-chapter .draft-note-heading {
+  display: grid;
+  gap: 0.25rem;
+  padding-top: clamp(0.75rem, 2vw, 1.25rem);
+  border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+}
+
+.inspection-chapter .draft-note-kicker {
+  color: var(--success);
+  opacity: 0.88;
+}
+
+.inspection-chapter .draft-note-heading h3 {
+  max-width: 16ch;
+}
+
+/* Remove excess card feeling from evidence blocks */
+.inspection-chapter .insight-panel {
+  padding: clamp(1rem, 2vw, 1.35rem);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel) 96%, var(--bg) 4%);
+  box-shadow: none;
+}
+
+/* Output gets stronger visual authority */
+.output-chapter {
+  padding-top: clamp(0.5rem, 2vw, 1rem);
+}
+
+.output-chapter > h2 {
+  font-size: clamp(2.45rem, 6vw, 4.25rem);
+  max-width: 11ch;
+}
+
+.output-chapter > p {
+  max-width: 42ch;
+  font-size: clamp(1rem, 2vw, 1.12rem);
+}
+
+/* Output panel should feel like the destination */
+.output-chapter .output-panel {
+  border-color: color-mix(in srgb, var(--border-strong) 65%, var(--accent) 35%);
+  background: var(--tier-core);
+}
+
+/* Give output textarea more calm reading space */
+.output-chapter textarea {
+  min-height: clamp(18rem, 42vw, 32rem);
+  font-size: clamp(1rem, 1.4vw, 1.08rem);
+  line-height: 1.75;
+}
+
+/* Copy/action panel should remain useful but quiet */
+.input-chapter .action-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.input-chapter .action-panel:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Mobile keeps hierarchy but avoids oversized headers */
+@media (max-width: 760px) {
+  .inspection-chapter > h2,
+  .output-chapter > h2 {
+    max-width: 13ch;
+  }
+
+  .inspection-chapter .draft-note-heading h3 {
+    max-width: 100%;
+  }
+
+  .output-chapter textarea {
+    min-height: 18rem;
+  }
+}
+/* =========================================================
+   PHASE 4 — LEFT ANCHOR + EDITORIAL LEDGE
+   ========================================================= */
+
+/* Kill accidental centering inside the workflow */
+.page-shell.workflow-grid,
+.workflow-chapter,
+.hero,
+.tool-shell,
+.inspection-chapter,
+.output-chapter,
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  text-align: left;
+}
+
+/* Make support sections less panel-heavy */
+.workflow-chapter.trust-panel,
+.workflow-chapter.landing-info-card,
+.workflow-chapter.next-step-panel {
+  padding-inline: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Keep only functional panels visually panel-like */
+.inspection-chapter .editorial-summary,
+.inspection-chapter .insight-panel {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding-inline: 0;
+}
+
+/* Editorial ledge for 01 / 02 / 03 sections */
+.inspection-chapter .draft-note-heading {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1.5fr) minmax(0, 4.5fr);
+  column-gap: clamp(1rem, 4vw, 3rem);
+  align-items: end;
+
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  padding-top: 0;
+  border-top: 0;
+}
+
+.inspection-chapter .draft-note-kicker {
+  grid-column: 1;
+  margin: 0;
+}
+
+.inspection-chapter .draft-note-heading h3 {
+  grid-column: 2;
+  max-width: 22ch;
+  margin: 0;
+}
+
+/* Line begins under/after the heavy number, leading into the content */
+.inspection-chapter .review-notes-section,
+.inspection-chapter .insight-panel {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1.5fr) minmax(0, 4.5fr);
+  column-gap: clamp(1rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.inspection-chapter .found-category,
+.inspection-chapter .fixed-category,
+.inspection-chapter .proof-category {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  margin: 0 0 0.9rem;
+  color: var(--success);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.inspection-chapter .found-category::before,
+.inspection-chapter .fixed-category::before,
+.inspection-chapter .proof-category::before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--success) 42%, transparent);
+}
+
+.inspection-chapter #foundList,
+.inspection-chapter #editMap,
+.inspection-chapter #visualPreview {
+  grid-column: 2;
+}
+
+/* Let the details breathe */
+.inspection-chapter #foundList li {
+  padding-block: 0.85rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+}
+
+.inspection-chapter #foundList li:last-child {
+  border-bottom: 0;
+}
+
+/* Mobile: return to clean vertical flow */
+@media (max-width: 760px) {
+  .inspection-chapter .draft-note-heading,
+  .inspection-chapter .review-notes-section,
+  .inspection-chapter .insight-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .inspection-chapter .draft-note-kicker,
+  .inspection-chapter .draft-note-heading h3,
+  .inspection-chapter .found-category,
+  .inspection-chapter .fixed-category,
+  .inspection-chapter .proof-category,
+  .inspection-chapter #foundList,
+  .inspection-chapter #editMap,
+  .inspection-chapter #visualPreview {
+    grid-column: 1;
+  }
+}
+/* =========================================================
+   PHASE 4B — STRONG EDITORIAL LEDGE TEST
+   ========================================================= */
+
+.inspection-chapter {
+  grid-column: 2 / 8;
+}
+
+/* Force the big numbered heading and its following content into a ledge system */
+.inspection-chapter .draft-note-heading {
+  display: grid !important;
+  grid-template-columns: minmax(8rem, 1.25fr) minmax(0, 4.75fr) !important;
+  column-gap: clamp(1.25rem, 5vw, 4rem) !important;
+  align-items: end !important;
+  margin-top: clamp(2.5rem, 6vw, 4rem) !important;
+  margin-bottom: 0.4rem !important;
+}
+
+.inspection-chapter .draft-note-kicker {
+  grid-column: 1 !important;
+  margin: 0 !important;
+}
+
+.inspection-chapter .draft-note-heading h3 {
+  grid-column: 2 !important;
+  max-width: 22ch !important;
+  margin: 0 !important;
+}
+
+/* Force category + details to sit in the right content rail */
+.inspection-chapter .review-notes-section,
+.inspection-chapter .tool-panel.insight-panel {
+  display: grid !important;
+  grid-template-columns: minmax(8rem, 1.25fr) minmax(0, 4.75fr) !important;
+  column-gap: clamp(1.25rem, 5vw, 4rem) !important;
+
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Right rail labels */
+.inspection-chapter .found-category,
+.inspection-chapter .fixed-category,
+.inspection-chapter .proof-category {
+  grid-column: 2 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+
+  margin: 0 0 0.8rem !important;
+
+  color: var(--success) !important;
+  font-size: 0.78rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+}
+
+.inspection-chapter .found-category::before,
+.inspection-chapter .fixed-category::before,
+.inspection-chapter .proof-category::before {
+  content: "" !important;
+  flex: 1 !important;
+  height: 1px !important;
+  background: color-mix(in srgb, var(--success) 45%, transparent) !important;
+}
+
+/* Right rail content */
+.inspection-chapter #foundList,
+.inspection-chapter #editMap,
+.inspection-chapter #visualPreview {
+  grid-column: 2 !important;
+}
+
+/* Make sure legacy card padding does not survive */
+.inspection-chapter .insight-panel > * {
+  max-width: none;
+}
+
+@media (max-width: 760px) {
+  .inspection-chapter .draft-note-heading,
+  .inspection-chapter .review-notes-section,
+  .inspection-chapter .tool-panel.insight-panel {
+    grid-template-columns: 1fr !important;
+  }
+
+  .inspection-chapter .draft-note-kicker,
+  .inspection-chapter .draft-note-heading h3,
+  .inspection-chapter .found-category,
+  .inspection-chapter .fixed-category,
+  .inspection-chapter .proof-category,
+  .inspection-chapter #foundList,
+  .inspection-chapter #editMap,
+  .inspection-chapter #visualPreview {
+    grid-column: 1 !important;
+  }
+}
+/* TEMP CSS LOAD TEST */
+.inspection-chapter {
+  outline: 4px solid red !important;
+}
