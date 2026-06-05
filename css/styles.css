@@ -2735,3 +2735,44 @@ html[data-theme="light"] {
     grid-column: 1 !important;
   }
 }
+/* =========================================================
+   PHASE 6B — INSPECTION HEADER + TEXT BRIEF ALIGNMENT
+   ========================================================= */
+
+/* Move Inspection intro into the same headline column */
+.inspection-chapter > .review-kicker,
+.inspection-chapter > h2,
+.inspection-chapter > p {
+  grid-column: 2 / -1 !important;
+}
+
+/* Text Brief uses same label/details relationship as 01–03 */
+.inspection-chapter .editorial-summary {
+  grid-column: 1 / -1 !important;
+
+  display: grid !important;
+  grid-template-columns:
+    minmax(7rem, 0.85fr)
+    minmax(28rem, 3.4fr)
+    minmax(18rem, 2fr) !important;
+
+  column-gap: clamp(1.25rem, 3vw, 3rem) !important;
+
+  margin-top: 1.4rem !important;
+  margin-bottom: clamp(4rem, 8vw, 6rem) !important;
+}
+
+.inspection-chapter .summary-label {
+  grid-column: 2 !important;
+  align-self: start !important;
+}
+
+.inspection-chapter #textBrief {
+  grid-column: 3 !important;
+  align-self: start !important;
+}
+
+/* Tighten the transition into 01 */
+.inspection-chapter .draft-note-heading:first-of-type {
+  margin-top: 0 !important;
+}
