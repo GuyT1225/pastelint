@@ -2819,3 +2819,46 @@ html[data-theme="light"] {
 .inspection-chapter .draft-note-heading:first-of-type {
   margin-top: clamp(2.5rem, 5vw, 4rem) !important;
 }
+/* =========================================================
+   PHASE 6D — TEXT BRIEF AS CHAPTER ZERO
+   ========================================================= */
+
+/* Pull Text Brief into the intro block rhythm */
+.inspection-chapter .editorial-summary {
+  padding-top: 0 !important;
+  border-top: 0 !important;
+  margin-top: 1rem !important;
+}
+
+/* TEXT BRIEF becomes the section label before the rule */
+.inspection-chapter .summary-label {
+  grid-column: 2 / -1 !important;
+  margin: 0 0 0.85rem !important;
+
+  color: var(--success) !important;
+  font-size: 0.82rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+}
+
+/* Add the rule below TEXT BRIEF */
+.inspection-chapter .summary-label::after {
+  content: "" !important;
+  display: block !important;
+  width: 100% !important;
+  height: 1px !important;
+  margin-top: 0.85rem !important;
+  background: color-mix(in srgb, var(--success) 72%, transparent) !important;
+}
+
+/* Details start under the rule, fixed to the right rail */
+.inspection-chapter #textBrief {
+  grid-column: 3 !important;
+  margin-top: 0.85rem !important;
+}
+
+/* Keep the intro visually tied to Text Brief */
+.inspection-chapter > p {
+  margin-bottom: 0.25rem !important;
+}
