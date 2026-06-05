@@ -2465,3 +2465,39 @@ html[data-theme="terminal"] .tooltip {
     grid-column: 1 !important;
   }
 }
+/* =========================================================
+   PHASE 5B — WIDEN INSPECTION GRID
+   ========================================================= */
+
+.inspection-chapter {
+  grid-column: 1 / -1 !important;
+}
+
+.inspection-chapter,
+.inspection-chapter .draft-note-heading,
+.inspection-chapter .review-notes-section,
+.inspection-chapter .tool-panel.insight-panel,
+.inspection-chapter .editorial-summary {
+  grid-template-columns:
+    minmax(7rem, 1fr)
+    minmax(22rem, 2.6fr)
+    minmax(20rem, 2.4fr) !important;
+}
+
+.inspection-chapter .draft-note-heading h3 {
+  max-width: 18ch !important;
+}
+
+.inspection-chapter .summary-label,
+.inspection-chapter .found-category,
+.inspection-chapter .fixed-category,
+.inspection-chapter .proof-category {
+  grid-column: 2 !important;
+}
+
+.inspection-chapter #textBrief,
+.inspection-chapter #foundList,
+.inspection-chapter #editMap,
+.inspection-chapter #visualPreview {
+  grid-column: 3 !important;
+}
