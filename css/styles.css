@@ -2215,7 +2215,7 @@ html[data-theme="terminal"] .tooltip {
 .inspection-chapter .review-notes-section,
 .inspection-chapter .tool-panel.insight-panel {
   display: grid !important;
-  grid-template-columns: minmax(8rem, 1.25fr) minmax(0, 4.75fr) !important;
+  grid-template-columns: 5.5rem 1fr !important;
   column-gap: clamp(1.25rem, 5vw, 4rem) !important;
 
   width: 100% !important;
@@ -2285,7 +2285,4 @@ html[data-theme="terminal"] .tooltip {
     grid-column: 1 !important;
   }
 }
-/* TEMP CSS LOAD TEST */
-.inspection-chapter {
-  outline: 4px solid red !important;
-}
+
