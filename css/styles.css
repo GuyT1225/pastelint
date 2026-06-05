@@ -2270,3 +2270,198 @@ html[data-theme="terminal"] .tooltip {
   margin-bottom: 0 !important;
   border-bottom: 0 !important;
 }
+/* =========================================================
+   PHASE 5 — UNIFIED INSPECTION GRID
+   | ccc | ccccc | cccc |
+   ========================================================= */
+
+.inspection-chapter {
+  display: grid !important;
+  grid-template-columns: 1.15fr 2fr 2.25fr !important;
+  column-gap: clamp(1.25rem, 4vw, 3rem) !important;
+}
+
+/* Top intro spans the full inspection area */
+.inspection-chapter > .review-kicker,
+.inspection-chapter > h2,
+.inspection-chapter > p,
+.inspection-chapter > .editorial-summary {
+  grid-column: 1 / -1 !important;
+}
+
+/* 01 / 02 / 03 chapter heading */
+.inspection-chapter .draft-note-heading {
+  grid-column: 1 / -1 !important;
+
+  display: grid !important;
+  grid-template-columns: 1.15fr 2fr 2.25fr !important;
+  column-gap: clamp(1.25rem, 4vw, 3rem) !important;
+
+  margin-top: clamp(3rem, 7vw, 5rem) !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 1rem !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--success) 55%, transparent) !important;
+}
+
+/* Stack 01. over FOUND */
+.inspection-chapter .draft-note-kicker {
+  grid-column: 1 !important;
+
+  width: min-content !important;
+  margin: 0 !important;
+
+  color: var(--success) !important;
+  font-size: clamp(1.8rem, 4vw, 3rem) !important;
+  font-weight: 900 !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.045em !important;
+}
+
+/* Big white chapter title in middle column */
+.inspection-chapter .draft-note-heading h3 {
+  grid-column: 2 !important;
+
+  max-width: 12ch !important;
+  margin: 0 !important;
+
+  color: var(--text) !important;
+  font-size: clamp(1.8rem, 4vw, 3rem) !important;
+  font-weight: 900 !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.045em !important;
+}
+
+/* Detail rows share same 3-column structure */
+.inspection-chapter .review-notes-section,
+.inspection-chapter .tool-panel.insight-panel {
+  grid-column: 1 / -1 !important;
+
+  display: grid !important;
+  grid-template-columns: 1.15fr 2fr 2.25fr !important;
+  column-gap: clamp(1.25rem, 4vw, 3rem) !important;
+
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 1rem 0 0 !important;
+
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* FORMATTING / CLEANUP LOG / BEFORE AND AFTER in middle column */
+.inspection-chapter .found-category,
+.inspection-chapter .fixed-category,
+.inspection-chapter .proof-category {
+  grid-column: 2 !important;
+
+  margin: 0 !important;
+
+  color: var(--success) !important;
+  font-size: 0.82rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+}
+
+/* Remove old pseudo rails */
+.inspection-chapter .found-category::before,
+.inspection-chapter .found-category::after,
+.inspection-chapter .fixed-category::before,
+.inspection-chapter .fixed-category::after,
+.inspection-chapter .proof-category::before,
+.inspection-chapter .proof-category::after {
+  content: none !important;
+}
+
+/* Details fixed to right column */
+.inspection-chapter #foundList,
+.inspection-chapter #editMap,
+.inspection-chapter #visualPreview {
+  grid-column: 3 !important;
+
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+/* Keep found details readable */
+.inspection-chapter #foundList {
+  display: grid !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.inspection-chapter #foundList li {
+  padding: 0 0 1.25rem !important;
+  margin: 0 0 1.25rem !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 58%, transparent) !important;
+}
+
+.inspection-chapter #foundList li:last-child {
+  margin-bottom: 0 !important;
+  border-bottom: 0 !important;
+}
+
+/* Text Brief uses the same right-detail rail */
+.inspection-chapter .editorial-summary {
+  display: grid !important;
+  grid-template-columns: 1.15fr 2fr 2.25fr !important;
+  column-gap: clamp(1.25rem, 4vw, 3rem) !important;
+
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.inspection-chapter .summary-label {
+  grid-column: 2 !important;
+}
+
+.inspection-chapter #textBrief {
+  grid-column: 3 !important;
+  max-width: none !important;
+}
+
+.inspection-chapter,
+.inspection-chapter .draft-note-heading,
+.inspection-chapter .review-notes-section,
+.inspection-chapter .tool-panel.insight-panel,
+.inspection-chapter .editorial-summary {
+
+  grid-template-columns:
+    minmax(8rem, 1.2fr)
+    minmax(14rem, 2fr)
+    minmax(18rem, 2.4fr) !important;
+}
+
+/* Mobile returns to simple stacked reading */
+@media (max-width: 760px) {
+  .inspection-chapter,
+  .inspection-chapter .draft-note-heading,
+  .inspection-chapter .review-notes-section,
+  .inspection-chapter .tool-panel.insight-panel,
+  .inspection-chapter .editorial-summary {
+    grid-template-columns: 1fr !important;
+  }
+
+  .inspection-chapter > .review-kicker,
+  .inspection-chapter > h2,
+  .inspection-chapter > p,
+  .inspection-chapter > .editorial-summary,
+  .inspection-chapter .draft-note-kicker,
+  .inspection-chapter .draft-note-heading h3,
+  .inspection-chapter .found-category,
+  .inspection-chapter .fixed-category,
+  .inspection-chapter .proof-category,
+  .inspection-chapter #foundList,
+  .inspection-chapter #editMap,
+  .inspection-chapter #visualPreview,
+  .inspection-chapter .summary-label,
+  .inspection-chapter #textBrief {
+    grid-column: 1 !important;
+  }
+}
