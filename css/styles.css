@@ -3282,3 +3282,26 @@ html[data-theme="light"] {
   max-width: none !important;
   margin-top: 1.25rem !important;
 }
+/* =========================================================
+   PHASE 6O — 04 CLEANED ATTACHES TO CONTENT COLUMN
+   ========================================================= */
+
+/* 04 should not use a full rail like 01–03 */
+.cleaned-heading {
+  border-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Clean text belongs under the heading/content columns, not the number rail */
+.output-panel {
+  grid-column: 2 / -1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-top: 1rem !important;
+}
+
+/* Keep output text area feeling attached to 04 */
+.output-panel textarea {
+  min-height: 260px !important;
+}
