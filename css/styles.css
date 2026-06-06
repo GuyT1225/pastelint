@@ -767,12 +767,10 @@ textarea:focus-visible {
 }
 
 /* -----------------------------
-   SUPPORT SECTIONS
+   NEXT STEPS
 ----------------------------- */
 
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
+.next-steps-panel {
   grid-column: 2 / -1;
   max-width: none;
   width: 100%;
@@ -782,28 +780,47 @@ textarea:focus-visible {
   background: transparent;
   box-shadow: none;
 
-  margin-top: clamp(0.5rem, 2vw, 1.5rem);
+  margin-top: 0;
 }
 
-.trust-panel h2,
-.landing-info-card h2,
-.next-step-panel h2 {
-  max-width: 720px;
-  margin-bottom: 0.45rem;
-  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
-  line-height: 1.1;
-  letter-spacing: -0.035em;
+.next-steps-panel h2 {
+  max-width: 12ch;
+  margin: 0 0 1.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
 }
 
-.trust-panel p,
-.landing-info-card p,
-.next-step-panel p {
-  max-width: 72ch;
-  margin-bottom: 0.6rem;
+.next-steps-list {
+  display: grid;
+  gap: 1.2rem;
+  max-width: 46rem;
+}
+
+.next-steps-list a {
+  display: grid;
+  gap: 0.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  text-decoration: none;
+}
+
+.next-steps-list strong {
+  color: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.next-steps-list span {
   color: var(--muted);
-  line-height: 1.65;
+  line-height: 1.55;
 }
 
+.next-steps-list a:hover strong {
+  color: var(--accent);
+}
 /* -----------------------------
    FOOTER
 ----------------------------- */
