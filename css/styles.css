@@ -1,6 +1,6 @@
 /* =========================================================
    PasteLint styles.css
-   SSML Builder-style stable design system
+   Clean design system + master editorial grid
    Browser-only. No dependencies.
    Supports light, dark, terminal themes.
    ========================================================= */
@@ -11,19 +11,14 @@
 
 :root,
 html[data-theme="light"] {
-
   --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Instrument Sans", "Inter", system-ui, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 
+  --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 22px;
 
-  --space-xs: 0.5rem;
-  --space-sm: 0.75rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
   --bg: #f7f8fb;
   --panel: #ffffff;
   --surface: #f8fafc;
@@ -50,23 +45,12 @@ html[data-theme="light"] {
   --warning: #b45309;
   --warning-soft: #fef3c7;
 
-  --tooltip-bg: #07110d;
-  --tooltip-text: #f4fff8;
-
-  --page-width: 980px;
-  --radius-sm: 8px;
-
-  --panel-soft: color-mix(in srgb, var(--panel) 96%, white 4%);
-  --panel-strong: color-mix(in srgb, var(--panel) 88%, white 12%);
-
-  --tier-core: color-mix(in srgb, var(--panel) 86%, white 14%);
-  --tier-diagnostic: color-mix(in srgb, var(--panel) 94%, white 6%);
-  --tier-support: color-mix(in srgb, var(--panel) 98%, white 2%);
+  --page-width: 1160px;
+  --content-width: 980px;
 
   --editor-bg: color-mix(in srgb, var(--surface) 88%, white 12%);
   --editor-border: color-mix(in srgb, var(--border) 82%, var(--accent) 18%);
   --editor-focus-bg: color-mix(in srgb, var(--surface) 94%, white 6%);
-   
   --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
@@ -97,20 +81,9 @@ html[data-theme="dark"] {
   --warning: #fbbf24;
   --warning-soft: rgba(251, 191, 36, 0.14);
 
-  --tooltip-bg: #07110d;
-  --tooltip-text: #f4fff8;
-
-  --panel-soft: color-mix(in srgb, var(--panel) 96%, white 2%);
-  --panel-strong: color-mix(in srgb, var(--panel) 82%, white 18%);
-
-  --tier-core: color-mix(in srgb, var(--panel) 78%, white 22%);
-  --tier-diagnostic: color-mix(in srgb, var(--panel) 90%, white 10%);
-  --tier-support: color-mix(in srgb, var(--panel) 96%, white 4%); 
-
   --editor-bg: color-mix(in srgb, var(--surface) 92%, black 8%);
   --editor-border: color-mix(in srgb, var(--border) 78%, var(--accent) 22%);
   --editor-focus-bg: color-mix(in srgb, var(--surface) 96%, white 4%);
-
   --focus-ring: 0 0 0 3px rgba(96, 165, 250, 0.25);
 }
 
@@ -144,17 +117,6 @@ html[data-theme="terminal"] {
   --editor-bg: color-mix(in srgb, var(--surface) 88%, black 12%);
   --editor-border: color-mix(in srgb, var(--border) 82%, var(--accent) 18%);
   --editor-focus-bg: color-mix(in srgb, var(--surface) 94%, var(--accent) 6%);
-
-  --tier-core: color-mix(in srgb, var(--panel) 86%, var(--accent) 8%);
-  --tier-diagnostic: color-mix(in srgb, var(--panel) 94%, var(--accent) 4%);
-  --tier-support: color-mix(in srgb, var(--panel) 98%, var(--accent) 2%); 
-
-  --tooltip-bg: #020806;
-  --tooltip-text: #d8ffe4;
-
-  --font-ui: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-
   --focus-ring: 0 0 0 3px rgba(87, 255, 138, 0.2);
 }
 
@@ -170,6 +132,7 @@ html[data-theme="terminal"] {
 
 html {
   min-height: 100%;
+  scroll-behavior: smooth;
   background: var(--bg);
 }
 
@@ -178,88 +141,20 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
   letter-spacing: -0.01em;
-   
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
+
 h1,
 h2,
 h3,
+h4,
 p {
   margin-top: 0;
-}
-
-h1 {
-  font-size: clamp(2.1rem, 5vw, 3.35rem);
-  line-height: 1.02;
-  letter-spacing: -0.055em;
-  font-weight: 750;
-}
-
-h2 {
-  font-size: clamp(1.45rem, 3vw, 2rem);
-  line-height: 1.15;
-  letter-spacing: -0.04em;
-  font-weight: 700;
-}
-
-h3,
-.panel-title,
-.section-title {
-  font-size: 1.05rem;
-  line-height: 1.25;
-  letter-spacing: -0.025em;
-  font-weight: 650;
-}
-
-.eyebrow,
-.mini-label,
-.panel-kicker,
-.section-kicker {
-  display: inline-block;
-  margin-bottom: 0.65rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--faint);
-}
-
-p,
-.helper-text,
-.muted,
-.description {
-  line-height: 1.65;
-}
-.panel p,
-.section p,
-.card p {
-  max-width: 72ch;
-}
-.muted,
-.helper-text,
-.secondary-text {
-  color: var(--faint);
-}
-
-.hero p,
-.lede,
-.subtitle {
-  max-width: 720px;
-  font-size: clamp(1rem, 2vw, 1.15rem);
-  line-height: 1.7;
-}
-button,
-input,
-textarea,
-select {
-  font: inherit;
 }
 
 a {
@@ -272,77 +167,52 @@ a:hover {
   color: var(--accent-hover);
 }
 
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
 ::selection {
   background: var(--accent-soft);
 }
 
-.hidden {
+.hidden,
+[hidden] {
   display: none !important;
 }
 
 /* -----------------------------
-   GLOBAL LAYOUT
+   HEADER
 ----------------------------- */
 
 .site-header,
-main,
 .site-footer {
-  width: min(100% - 2rem, 980px);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-main {
-  display: grid;
-  gap: 1.4rem;
-  padding: clamp(0.5rem, 1vw, 1rem);
+  width: min(100% - 2rem, var(--page-width));
+  margin-inline: auto;
 }
 
 .site-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
   padding: 1rem 0 0.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.85rem;
 }
 
-.brand,
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-}
-
-.brand-link,
-.header-brand a {
+.brand-link {
+  justify-self: start;
   color: var(--text);
-  font-weight: 760;
+  font-weight: 800;
   text-decoration: none;
 }
 
-.brand-link:hover,
-.header-brand a:hover {
-  color: var(--accent);
-}
-
-.brand-pill {
-  padding: 0.2rem 0.55rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  color: var(--muted);
-  font-size: 0.75rem;
-}
-
-/* -----------------------------
-   NAV / THEME
------------------------------ */
-
 .tool-nav {
+  justify-self: center;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
   font-size: 0.86rem;
 }
 
@@ -352,23 +222,18 @@ main {
 }
 
 .tool-nav a:hover,
-.tool-nav a:focus {
+.tool-nav a:focus-visible {
   color: var(--text);
   text-decoration: underline;
 }
 
-.theme-switcher,
-.theme-toggle,
-.theme-controls {
+.theme-switcher {
+  justify-self: end;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 0.45rem;
 }
 
-.theme-switcher button,
-.theme-toggle button,
-.theme-controls button,
 .theme-btn {
   min-height: 1.9rem;
   padding: 0.35rem 0.75rem;
@@ -377,322 +242,149 @@ main {
   background: transparent;
   color: var(--text);
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 750;
   cursor: pointer;
 }
 
-.theme-switcher button:hover,
-.theme-toggle button:hover,
-.theme-controls button:hover,
 .theme-btn:hover {
   border-color: var(--border-strong);
   background: var(--surface);
 }
 
-.theme-switcher button.active,
-.theme-toggle button.active,
-.theme-controls button.active,
 .theme-btn.active,
-.theme-switcher button[aria-pressed="true"],
-.theme-toggle button[aria-pressed="true"],
-.theme-controls button[aria-pressed="true"] {
+.theme-btn[aria-pressed="true"] {
   background: var(--accent);
   color: var(--accent-text);
   border-color: var(--accent);
 }
 
 /* -----------------------------
-   HERO / INTRO
+   MASTER GRID
 ----------------------------- */
 
-.hero,
-.tool-intro,
-.page-intro {
+.page-shell.workflow-grid {
   width: min(100% - 2rem, var(--page-width));
-  margin: 2rem auto 1.25rem;
-  text-align: left;
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 4rem) 0 clamp(4rem, 8vw, 6rem);
+
+  display: grid;
+  grid-template-columns:
+    minmax(8rem, 0.95fr)
+    minmax(24rem, 2.8fr)
+    minmax(18rem, 2.2fr);
+  column-gap: clamp(1.5rem, 3vw, 3rem);
+  row-gap: clamp(3.5rem, 7vw, 6rem);
 }
 
-.hero-kicker,
-.eyebrow {
-  margin: 0 0 0.45rem;
-  color: var(--muted);
+.workflow-chapter,
+.tool-shell,
+.inspection-chapter,
+.output-panel {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: 0;
+}
+
+.hero,
+.input-chapter,
+.inspection-chapter,
+.cleaned-heading,
+.output-panel {
+  max-width: var(--content-width);
+  justify-self: start;
+}
+
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  grid-column: 2 / -1;
+  max-width: 46rem;
+  justify-self: start;
+}
+
+/* -----------------------------
+   HERO
+----------------------------- */
+
+.hero {
+  padding: 0;
+}
+
+.eyebrow,
+.review-kicker,
+.summary-label,
+.found-category,
+.fixed-category,
+.proof-category {
+  color: var(--success);
   font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-weight: 900;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.hero h1,
-.tool-intro h1,
-.page-intro h1 {
-  margin: 0 0 0.65rem;
-  max-width: 720px;
-  color: var(--text);
-  font-size: clamp(2rem, 6vw, 3.15rem);
-  line-height: 1.05;
-  letter-spacing: -0.04em;
+.hero .eyebrow {
+  margin: 0 0 0.45rem;
 }
 
-.hero h2,
-.tool-intro h2,
-.page-intro h2 {
-  margin: 0 0 0.55rem;
-  color: var(--text);
-  font-size: clamp(1.45rem, 3vw, 2.15rem);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+.hero h1 {
+  max-width: 12ch;
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.7rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
 }
 
-.hero p,
-.subtitle,
-.subtitle-small,
-.tool-intro p,
-.page-intro p {
-  max-width: 680px;
-  margin: 0.65rem 0 0;
+.hero p {
+  max-width: 58ch;
+  margin: 0;
   color: var(--muted);
-  line-height: 1.7;
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  line-height: 1.65;
 }
 
 /* -----------------------------
-   TOOL SHELL / PANELS
+   PANELS / FORM
 ----------------------------- */
 
 .tool-shell {
-  width: 100%;
-  display: grid;
-  gap: var(--space-xl);
-}
-
-.tool-panel,
-.panel,
-.section,
-.card,
-.textarea-card,
-.input-panel,
-.output-panel,
-.insight-panel,
-.trust-panel,
-.next-step-panel,
-.positioning-panel,
-.preview-panel,
-.result-panel {
-  width: 100%;
-  padding: clamp(1.25rem, 3vw, 2rem);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: color-mix(in srgb, var(--panel) 92%, white 8%);
-  backdrop-filter: blur(6px); 
-  color: var(--text);
-  box-shadow:
-  0 1px 2px rgba(15, 23, 42, 0.06),
-  0 8px 24px rgba(15, 23, 42, 0.04);
-  transition:
-     border-color 140ms ease,
-     background 140ms ease,
-     transform 140ms ease;
-}
-
-.trust-panel,
-.next-step-panel,
-.positioning-panel,
-.preview-panel {
-  background: var(--panel-soft);
-}
-
-.input-panel,
-.output-panel {
-  background: var(--tier-core);
-}
-
-.insight-panel,
-.preview-panel,
-.result-panel {
-  background: var(--tier-diagnostic);
-}
-
-.trust-panel,
-.next-step-panel,
-.positioning-panel {
-  background: var(--tier-support);
-}
-.input-panel,
-.output-panel {
-  border-color: color-mix(in srgb, var(--border-strong) 78%, var(--accent) 22%);
-}
-.tool-panel:hover,
-.panel:hover,
-.section:hover,
-.card:hover,
-.tool-card:hover {
-  border-color: var(--border-strong);
-  transform: translateY(-1px);
-  box-shadow:
-   0 2px 6px rgba(15, 23, 42, 0.08),
-   0 14px 32px rgba(15, 23, 42, 0.08); 
-}
-.tool-header,
-.panel-header,
-.section-header {
-  display: grid;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.panel-content,
-.section-content,
-.analysis-content,
-.insight-content {
-  display: grid;
-  gap: 0.9rem;
-  line-height: 1.65;
-}
-.tool-header h2,
-.panel-header h2,
-.panel-header h3,
-.section h2,
-.card h2,
-.trust-panel h2,
-.next-step-panel h2,
-.insight-panel h2,
-.insight-panel h3 {
-  margin: 0;
-  color: var(--text);
-  font-size: 1.18rem;
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-.tool-header p,
-.panel p,
-.tool-panel p,
-.trust-panel p,
-.next-step-panel p,
-.micro-note {
-  margin: 0;
-  color: var(--muted);
-}
-
-.insight-section,
-.insight-grid {
   display: grid;
   gap: 1rem;
 }
 
-/* -----------------------------
-   TRANSPARENCY HELP
------------------------------ */
-
-.panel-header h3 {
-  display: inline-flex;
-  align-items: center;
-  gap: .18rem;
-  margin: 0;
-}
-
-.info-tip {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: .05rem;
-  width: auto;
-  height: auto;
-  padding: 0;
-  border: none;
-  background: none;
-  opacity: .45;
-  color: inherit;
-  font-size: .72rem;
-  font-style: italic;
-  font-weight: 600;
-  vertical-align: middle;
-  cursor: help;
-}
-
-.tooltip {
-  position: absolute;
-  left: 0.85rem;
-  top: -0.35rem;
-  width: 230px;
-  padding: 0.65rem 0.75rem;
-  border-radius: 10px;
-  background: var(--tooltip-bg);
-  border: 1px solid var(--border-strong);
-  color: var(--tooltip-text);
-  font-size: 0.76rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1.4;
-  text-align: left;
-  white-space: normal;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
-  z-index: 50;
-  display: block;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-}
-
-.info-tip:hover .tooltip,
-.info-tip:focus-visible .tooltip {
-  opacity: 1;
-}
-
-/* -----------------------------
-   MODE ROW
------------------------------ */
-
 .mode-row {
-  width: min(100%, var(--page-width));
-  margin: 0 auto 1.5rem;
-
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-
-  padding: 0;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
 }
 
-.mode-row .control-group {
-  margin: 0;
-}
-
-.mode-row label {
-  display: block;
-  margin-bottom: 0.45rem;
-}
-
-@media (max-width: 640px) {
-  .mode-row {
-    grid-template-columns: 1fr;
-  }
-}
-/* -----------------------------
-   FORMS
------------------------------ */
-
-.field,
-.textarea-block,
-.input-block {
+.control-group {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.45rem;
 }
 
-label,
-.label,
-.input-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
+label {
   color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.tool-panel,
+.input-panel,
+.output-panel {
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 76%, var(--accent) 24%);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--panel) 80%, var(--surface-strong) 20%);
+  color: var(--text);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.input-panel,
+.output-panel {
+  padding: clamp(1rem, 2.2vw, 1.4rem);
 }
 
 textarea,
@@ -703,37 +395,24 @@ select {
   border-radius: var(--radius-md);
   background: var(--editor-bg);
   color: var(--text);
-  min-height: 48px;
-  padding: 0 1rem;
-  font-weight: 500;
-  letter-spacing: -0.01em; 
   outline: none;
-  transition:
-    border-color 140ms ease,
-    background 140ms ease,
-    box-shadow 140ms ease;
+  transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
 }
 
 textarea {
   min-height: 180px;
-padding: 1.15rem 1.2rem;
-font-size: 1rem;
-line-height: 1.65;
-letter-spacing: -0.012em;
-border-radius: 18px;
+  padding: 1.1rem 1.15rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  resize: vertical;
   overflow-wrap: anywhere;
-}
-
-textarea[readonly],
-input[readonly] {
-  background: var(--surface-strong);
-  color: var(--muted);
 }
 
 input,
 select {
   min-height: 2.6rem;
   padding: 0.65rem 0.85rem;
+  font-weight: 650;
 }
 
 textarea::placeholder,
@@ -749,54 +428,41 @@ select:focus {
   box-shadow: var(--focus-ring);
 }
 
-.meta,
-.field-meta,
-.counter-row {
+textarea[readonly],
+input[readonly] {
+  background: var(--surface-strong);
+  color: var(--muted);
+}
+
+.meta {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.5rem;
-  margin-top: 0.35rem;
+  margin-top: 0.4rem;
   color: var(--faint);
   font-size: 0.78rem;
-  line-height: 1.4;
 }
 
 /* -----------------------------
-   EDITOR GRID
+   BUTTONS / POST-CLEAN CHOICES
 ----------------------------- */
 
-.editor-grid,
-.tool-layout,
-.two-column {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-/* -----------------------------
-   BUTTONS
------------------------------ */
-
-.controls,
-.control-panel,
-.tool-actions,
-.button-row,
-.actions,
-.output-actions {
+.action-panel {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 button,
 .btn,
-.primary-btn,
-.secondary-btn,
-.clear-btn,
-.copy-btn,
-.action-btn {
+.action-panel a,
+.post-clean-actions a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -807,27 +473,21 @@ button,
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
-  font-size: 0.88rem;
-  font-weight: 730;
+  font-size: 0.86rem;
+  font-weight: 800;
   line-height: 1;
   text-decoration: none;
-  letter-spacing: -0.01em; 
 }
 
 button:hover,
 .btn:hover,
-.primary-btn:hover,
-.secondary-btn:hover,
-.clear-btn:hover,
-.copy-btn:hover,
-.action-btn:hover {
+.action-panel a:hover {
   border-color: var(--border-strong);
   background: var(--surface-strong);
   text-decoration: none;
 }
 
 button:focus-visible,
-.btn:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible,
@@ -836,83 +496,217 @@ textarea:focus-visible {
   box-shadow: var(--focus-ring);
 }
 
-.primary-btn,
-button.primary,
-#cleanBtn,
-#reviseBtn,
-#generateBtn,
-#generateSsmlBtn {
+#cleanBtn {
   background: var(--accent);
   color: var(--accent-text);
   border-color: var(--accent);
 }
 
-.primary-btn:hover,
-button.primary:hover,
-#cleanBtn:hover,
-#reviseBtn:hover,
-#generateBtn:hover,
-#generateSsmlBtn:hover {
+#cleanBtn:hover {
   background: var(--accent-hover);
   border-color: var(--accent-hover);
 }
 
-.secondary-btn,
-.copy-btn,
-#copyBtn,
-#copyOutputBtn,
-#copySsmlBtn {
+#copyBtn {
   background: transparent;
   color: var(--text);
-  border-color: var(--border);
 }
 
-.clear-btn,
-button.clear,
-#clearBtn,
-#resetBtn {
+#clearBtn {
   background: transparent;
   color: var(--muted);
 }
 
-.clear-btn:hover,
-button.clear:hover,
-#clearBtn:hover,
-#resetBtn:hover {
+#clearBtn:hover {
   background: var(--danger-soft);
   color: var(--danger);
   border-color: var(--danger);
 }
 
-button:disabled,
-.btn:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
+.post-clean-actions[hidden] {
+  display: none !important;
+}
+
+.post-clean-actions:not([hidden]) {
+  display: inline-flex;
+  gap: 0.7rem;
+  margin-left: auto;
+  align-items: center;
+}
+
+.post-clean-actions a {
+  min-height: 2.05rem;
+  padding: 0.55rem 0.9rem;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+}
+
+.post-clean-actions a:hover,
+.post-clean-actions a:focus-visible {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+  border-color: var(--accent);
 }
 
 /* -----------------------------
-   LISTS / INSIGHT OUTPUTS
+   INSPECTION GRID
 ----------------------------- */
 
-ul,
-ol {
-  padding-left: 1.25rem;
+.inspection-chapter {
+  display: grid;
+  grid-template-columns:
+    minmax(8rem, 0.95fr)
+    minmax(24rem, 2.8fr)
+    minmax(18rem, 2.2fr);
+  column-gap: clamp(1.5rem, 3vw, 3rem);
+  row-gap: clamp(1.1rem, 2vw, 1.5rem);
+}
+
+.inspection-chapter > .review-kicker,
+.inspection-chapter > h2,
+.inspection-chapter > p,
+.inspection-chapter > .editorial-summary,
+.inspection-chapter .draft-note-heading,
+.inspection-chapter .review-notes-section,
+.inspection-chapter .insight-panel {
+  grid-column: 1 / -1;
+}
+
+.review-kicker {
+  margin-bottom: -0.55rem;
+}
+
+.inspection-chapter > h2 {
+  max-width: 12ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.inspection-chapter > p {
+  max-width: 48ch;
+  margin: -0.4rem 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.editorial-summary,
+.draft-note-heading,
+.review-notes-section,
+.insight-panel,
+.cleaned-heading {
+  display: grid;
+  grid-template-columns:
+    minmax(8rem, 0.95fr)
+    minmax(24rem, 2.8fr)
+    minmax(18rem, 2.2fr);
+  column-gap: clamp(1.5rem, 3vw, 3rem);
+}
+
+.editorial-summary {
+  margin-top: 0.65rem;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.summary-label {
+  grid-column: 1 / 3;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--success) 70%, transparent);
+}
+
+#textBrief {
+  grid-column: 3;
+  display: grid;
+  gap: 0.75rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+#textBrief strong {
+  color: var(--text);
+}
+
+.draft-note-heading {
+  margin-top: clamp(2.75rem, 6vw, 5rem);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--success) 70%, transparent);
+  align-items: end;
+}
+
+.draft-note-kicker {
+  grid-column: 1;
+  margin: 0;
+  color: var(--success);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.draft-note-heading h3 {
+  grid-column: 2 / -1;
+  max-width: 24ch;
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.review-notes-section,
+.insight-panel {
+  margin: 0;
+  padding: 0.95rem 0 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.found-category,
+.fixed-category,
+.proof-category {
+  grid-column: 2;
+  margin: 0;
 }
 
 #foundList,
-#analysisList {
+#editMap,
+#visualPreview {
+  grid-column: 3;
+  width: 100%;
   margin: 0;
+  padding: 0;
   color: var(--muted);
+  line-height: 1.65;
 }
 
-#foundList li,
-#analysisList li {
-  margin: 0.3rem 0;
-}
-
-.diagnostic-list {
+#foundList {
   display: grid;
-  gap: 0.95rem;
+  gap: 0;
+  list-style: none;
+}
+
+#foundList li {
+  margin: 0 0 1.15rem;
+  padding: 0 0 1.15rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 58%, transparent);
+  background: transparent;
+}
+
+#foundList li:last-child {
+  margin-bottom: 0;
+  border-bottom: 0;
 }
 
 .diagnostic-row,
@@ -920,274 +714,85 @@ ol {
 .insight-row,
 .change-row {
   display: grid;
-  gap: 0.48rem;
-  padding: 0.95rem 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
-}
-
-.diagnostic-row:last-child,
-.analysis-row:last-child,
-.insight-row:last-child,
-.change-row:last-child {
-  border-bottom: none;
+  gap: 0.45rem;
+  padding: 0 0 1rem;
+  margin: 0 0 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 58%, transparent);
 }
 
 .diagnostic-title {
   color: var(--success);
-  font-size: 0.98rem;
-  font-weight: 750;
-  line-height: 1.35;
+  font-weight: 900;
+  line-height: 1.3;
 }
 
-.diagnostic-title {
-  margin-bottom: 0.65rem;
-}
-
-.diagnostic-row strong {
-  display: block;
-  margin-top: 0.6rem;
-  margin-bottom: 0.15rem;
-
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-
-  color: var(--muted);
-}
-
-.diagnostic-where,
-.diagnostic-fix,
-.diagnostic-impact {
-  margin-bottom: 0.45rem;
-}
-
-.diagnostic-row {
-  padding: 0.9rem 0;
-}
-
-.diagnostic-row + .diagnostic-row {
-  border-top: 1px solid var(--border);
-}
-
-.diagnostic-row strong {
-  color: var(--text);
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
-
-.diagnostic-row span,
-.diagnostic-where,
-.diagnostic-impact {
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-   /* -----------------------------
-   DIAGNOSTIC HIERARCHY REFINEMENT
------------------------------ */
-
-.diagnostic-title {
-  font-size: 1rem;
-  font-weight: 800;
-  line-height: 1.25;
-  margin-bottom: 0.45rem;
-}
-
-.diagnostic-row strong {
-  display: block;
-  margin-top: 0.45rem;
-  margin-bottom: 0.1rem;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
+.diagnostic-row small,
 .diagnostic-where,
 .diagnostic-impact,
 .diagnostic-fix {
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.diagnostic-row + .diagnostic-row {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
-}
-
-   .summary-total {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--success);
-  margin-bottom: 0.75rem;
-}
-
-.summary-list {
-  margin: 0;
-  padding-left: 1.25rem;
-}
-
-.summary-list li {
-  margin: 0.35rem 0;
-}
-
-.summary-result {
-  margin-top: 0.9rem;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-.diagnostic-row small {
   color: var(--muted);
   font-size: 0.92rem;
-  line-height: 1.6;
+  line-height: 1.55;
 }
 
-.issue-group {
-  display: grid;
-  gap: 0.75rem;
-  margin-bottom: 1.35rem;
+/* -----------------------------
+   04 CLEANED + OUTPUT
+----------------------------- */
+
+.cleaned-heading {
+  grid-column: 1 / -1;
+  margin-top: clamp(1rem, 3vw, 2rem);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--success) 70%, transparent);
 }
 
-.issue-group:last-child {
-  margin-bottom: 0;
+.output-panel {
+  grid-column: 2 / -1;
+  max-width: none;
+  margin-top: -4.5rem;
 }
 
-.issue-group > strong {
-  display: block;
-  color: var(--text);
-  font-size: 0.98rem;
-  font-weight: 750;
-  line-height: 1.35;
-}
-
-#textBrief,
-#editMap,
-#visualPreview,
-#changePreview,
-#impactList,
-#improvementList {
-  display: grid;
-  gap: 0.9rem;
-  color: var(--muted);
+.output-panel textarea {
+  min-height: clamp(14rem, 24vw, 20rem);
   line-height: 1.7;
 }
 
-.edit-item {
-  display: grid;
-  gap: 0.55rem;
-  padding: 1rem 0;
-  margin: 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 84%, transparent);
+/* -----------------------------
+   SUPPORT SECTIONS
+----------------------------- */
+
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  padding: 0;
+  border: 0;
   background: transparent;
+  box-shadow: none;
+  margin-top: clamp(0.5rem, 2vw, 1.5rem);
 }
 
-.edit-proof {
-  margin-top: 0.35rem;
+.trust-panel h2,
+.landing-info-card h2,
+.next-step-panel h2 {
+  max-width: 720px;
+  margin-bottom: 0.45rem;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
 }
 
-.edit-label {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+.trust-panel p,
+.landing-info-card p,
+.next-step-panel p {
+  max-width: 62ch;
+  margin-bottom: 0.6rem;
   color: var(--muted);
-  margin-bottom: 0.15rem;
+  line-height: 1.65;
 }
 
-.edit-before {
-  color: var(--danger);
-  background: color-mix(in srgb, var(--danger-soft) 70%, transparent);
-  border-radius: 10px;
-  padding: 0.45rem 0.65rem;
-  overflow-wrap: anywhere;
-  line-height: 1.6;
-}
-
-.edit-after {
-  color: var(--success);
-  background: color-mix(in srgb, var(--success-soft) 70%, transparent);
-  border-radius: 10px;
-  padding: 0.45rem 0.65rem;
-  overflow-wrap: anywhere;
-  line-height: 1.6;
-}
-
-.edit-arrow {
-  color: var(--faint);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-/* -----------------------------
-   COMPACT VISUAL PREVIEW
------------------------------ */
-
-.compact-preview {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  padding: .45rem .65rem;
-}
-
-.compact-preview .edit-before {
+.next-step-panel ul {
   margin: 0;
-  text-decoration: line-through;
-  opacity: .75;
-}
-
-.compact-preview .edit-after {
-  margin: 0;
-  font-weight: 700;
-}
-
-.compact-preview .edit-arrow {
-  flex: none;
-  padding: 0 .15rem;
-}
-
-/* -----------------------------
-   CARDS / LINKS
------------------------------ */
-
-.tool-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.85rem;
-}
-
-.tool-card {
-  display: grid;
-  gap: 0.35rem;
-  padding: 1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--panel);
-  color: var(--text);
-  text-decoration: none;
-}
-
-.tool-card:hover {
-  border-color: var(--border-strong);
-  background: var(--surface);
-  text-decoration: none;
-}
-
-.tool-card h3 {
-  margin: 0;
-  color: var(--text);
-}
-
-.tool-card p {
-  margin: 0;
-  color: var(--muted);
+  padding-left: 1.25rem;
 }
 
 /* -----------------------------
@@ -1195,13 +800,12 @@ ol {
 ----------------------------- */
 
 .site-footer {
-  padding: 1.25rem 1rem 2rem;
+  padding: 1.25rem 0 2.5rem;
   color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.65;
-  text-align: left;
-  opacity: 0.82;
 }
+
 .site-footer a {
   text-decoration: none;
 }
@@ -1209,123 +813,129 @@ ol {
 .site-footer a:hover {
   text-decoration: underline;
 }
+
+.footer-inner {
+  max-width: 760px;
+}
+
+.footer-columns {
+  display: grid;
+  gap: 0.75rem;
+}
+
 /* -----------------------------
    TERMINAL HARDENING
 ----------------------------- */
 
-html[data-theme="terminal"] body {
-  text-shadow: none;
-}
-
 html[data-theme="terminal"] .tool-panel,
-html[data-theme="terminal"] .panel,
-html[data-theme="terminal"] .section,
-html[data-theme="terminal"] .card,
-html[data-theme="terminal"] .textarea-card,
 html[data-theme="terminal"] .input-panel,
-html[data-theme="terminal"] .output-panel,
-html[data-theme="terminal"] .insight-panel,
-html[data-theme="terminal"] .trust-panel,
-html[data-theme="terminal"] .next-step-panel,
-html[data-theme="terminal"] .positioning-panel,
-html[data-theme="terminal"] .preview-panel,
-html[data-theme="terminal"] .result-panel,
-html[data-theme="terminal"] .tool-card {
+html[data-theme="terminal"] .output-panel {
   box-shadow: none;
-  border-color: var(--border);
 }
 
 html[data-theme="terminal"] textarea,
 html[data-theme="terminal"] input,
 html[data-theme="terminal"] select {
   caret-color: var(--accent);
-  box-shadow: none;
-}
-
-html[data-theme="terminal"] .tooltip {
-  border-color: var(--accent);
 }
 
 /* -----------------------------
    RESPONSIVE
 ----------------------------- */
 
-@media (min-width: 900px) {
-  .tool-layout.two-column,
-  .editor-grid.two-column {
-    grid-template-columns: 1fr 1fr;
+@media (max-width: 900px) {
+  .site-header {
+    grid-template-columns: 1fr;
+    justify-items: start;
   }
 
-  .tool-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .brand-link,
+  .tool-nav,
+  .theme-switcher {
+    justify-self: start;
+  }
+
+  .page-shell.workflow-grid,
+  .inspection-chapter,
+  .editorial-summary,
+  .draft-note-heading,
+  .review-notes-section,
+  .insight-panel,
+  .cleaned-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .hero,
+  .input-chapter,
+  .inspection-chapter,
+  .cleaned-heading,
+  .output-panel,
+  .trust-panel,
+  .landing-info-card,
+  .next-step-panel {
+    grid-column: 1 / -1;
+    max-width: none;
+  }
+
+  .mode-row {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-label,
+  #textBrief,
+  .draft-note-kicker,
+  .draft-note-heading h3,
+  .found-category,
+  .fixed-category,
+  .proof-category,
+  #foundList,
+  #editMap,
+  #visualPreview {
+    grid-column: 1;
+  }
+
+  .output-panel {
+    margin-top: 0;
+  }
+
+  .post-clean-actions:not([hidden]) {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .post-clean-actions a {
+    flex: 1;
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 640px) {
   body {
     font-size: 15px;
   }
 
-  .site-header {
-    align-items: flex-start;
+  .site-header,
+  .site-footer,
+  .page-shell.workflow-grid {
+    width: min(100% - 1rem, 100%);
   }
 
-  .brand,
-  .header-brand,
-  .tool-nav,
   .theme-switcher,
-  .theme-toggle,
-  .theme-controls {
-    width: 100%;
-  }
-
   .tool-nav,
-  .theme-switcher,
-  .theme-toggle,
-  .theme-controls {
-    justify-content: flex-start;
+  .action-panel {
+    flex-wrap: wrap;
   }
 
-.tool-panel,
-.panel,
-.section,
-.card,
-.textarea-card,
-.input-panel,
-.output-panel,
-.insight-panel,
-.trust-panel,
-.next-step-panel,
-.positioning-panel {
-  padding: 1rem;
-}
+  .action-panel > button {
+    flex: 1;
+  }
 
   textarea {
     min-height: 145px;
   }
 
-  .controls,
-  .control-panel,
-  .tool-actions,
-  .button-row,
-  .actions,
-  .output-actions {
-    align-items: stretch;
-  }
-
-  .controls > button,
-  .control-panel > button,
-  .tool-actions > button,
-  .button-row > button,
-  .actions > button {
-    width: 100%;
-  }
-
-  .tooltip {
-    left: auto;
-    right: 0;
-    top: 1.25rem;
-    width: min(250px, 80vw);
+  .draft-note-heading h3,
+  .cleaned-heading h3 {
+    max-width: 100%;
   }
 }
 
@@ -1342,2114 +952,4 @@ html[data-theme="terminal"] .tooltip {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
-}
-
-/* -----------------------------
-   HIERARCHY SPRINT
-   Summary + Diagnostics Density Pass
------------------------------ */
-.summary-panel,
-.diagnostics-panel {
-  max-width: 760px;
-  margin-inline: auto;
-}
-
-.summary-panel {
-  padding: clamp(1.1rem, 2vw, 1.6rem);
-}
-
-.summary-panel h2,
-.diagnostics-panel h2 {
-  font-size: clamp(1.25rem, 2vw, 1.55rem);
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.45rem;
-}
-
-.summary-panel p,
-.diagnostics-panel p {
-  max-width: 62ch;
-  line-height: 1.55;
-}
-
-.summary-panel .text-brief,
-.summary-panel .summary-copy {
-  font-size: 0.98rem;
-  color: var(--muted);
-}
-
-.diagnostic-group {
-  padding: 1rem;
-  margin-top: 0.85rem;
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--panel) 88%, var(--bg));
-  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
-}
-
-.diagnostic-group h3 {
-  font-size: 0.92rem;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  margin: 0 0 0.45rem;
-}
-
-.diagnostic-group p,
-.diagnostic-group li {
-  font-size: 0.92rem;
-  line-height: 1.45;
-}
-
-#foundList,
-#analysisList {
-  display: grid;
-  gap: 0.45rem;
-}
-
-#foundList li,
-#analysisList li {
-  margin: 0;
-  padding: 0.55rem 0.65rem;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--bg) 70%, transparent);
-}
-
-.diagnostic-detail,
-.issue-detail,
-.issue-proof {
-  color: var(--muted);
-  font-size: 0.86rem;
-  line-height: 1.45;
-}
-
-@media (max-width: 700px) {
-  .summary-panel,
-  .diagnostics-panel {
-    max-width: 100%;
-  }
-
-  .diagnostic-group {
-    padding: 0.85rem;
-  }
-
-  #foundList li,
-  #analysisList li {
-    padding: 0.5rem 0.55rem;
-  }
-}
-/* -----------------------------
-   OUTPUT CHAPTER
------------------------------ */
-
-.output-chapter {
-  width: min(100% - 2rem, var(--page-width));
-  margin: 1.5rem auto -0.5rem;
-  padding: 0;
-  text-align: left;
-}
-
-.output-chapter h2 {
-  max-width: 720px;
-  margin: 0;
-  color: var(--text);
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
-  font-weight: 900;
-  line-height: 0.98;
-  letter-spacing: -0.045em;
-}
-
-.output-chapter p {
-  max-width: 52ch;
-  margin: 0.55rem 0 0;
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.6;
-}
-/* -----------------------------
-   REVIEW CHAPTER
------------------------------ */
-
-.review-chapter {
-  width: min(100% - 2rem, var(--page-width));
-  max-width: none;
-  margin: 5.5rem auto 2rem;
-  padding: 0;
-  text-align: left;
-}
-
-.review-kicker {
-  color: var(--success);
-  font-size: 0.82rem;
-  font-weight: 850;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 0.35rem;
-}
-
-.review-chapter h2 {
-  max-width: 720px;
-  margin: 0;
-  color: var(--text);
-  font-size: clamp(2.5rem, 5vw, 3.75rem);
-  font-weight: 900;
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-}
-
-.review-chapter p {
-  max-width: 52ch;
-  margin: 0.65rem 0 0;
-  color: var(--text);
-  opacity: 0.78;
-  font-size: 1.05rem;
-  line-height: 1.65;
-}
-
-/* -----------------------------
-   REVIEW CARDS
------------------------------ */
-
-.insight-panel {
-  max-width: 880px;
-  margin-inline: auto;
-}
-
-.review-card-label {
-  display: inline-block;
-  margin-bottom: 0.45rem;
-
-  color: var(--success);
-  opacity: 0.55;
-
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.insight-panel .panel-header {
-  margin-bottom: 0.75rem;
-}
-
-.insight-panel h3 {
-  font-size: 1.05rem;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-}
-.editorial-summary {
-  margin-top: 1rem;
-  margin-bottom: 1.45rem;
-
-  padding: 0.85rem 1rem;
-
-  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
-  border-radius: 10px;
-
-  background: color-mix(
-    in srgb,
-    var(--panel) 98%,
-    var(--success) 2%
-  );
-}
-.summary-label {
-  margin-bottom: 0.6rem;
-
-  color: var(--success);
-
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-}
-#textBrief {
-  font-size: 0.95rem;
-  line-height: 1.7;
-}
-
-#textBrief strong {
-  color: var(--text);
-}
-.draft-notes-kicker {
-  width: min(100% - 2rem, var(--page-width));
-  max-width: 880px;
-
-  margin: 1.15rem auto 0.65rem;
-
-  color: var(--success);
-
-  font-size: 0.82rem;
-  font-weight: 850;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.draft-note-heading {
-  margin-top: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.draft-note-kicker {
-  color: var(--success);
-
-  font-size: clamp(1.25rem, 2.8vw, 1.85rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1;
-
-  margin-bottom: 0.15rem;
-}
-.draft-note-heading h3 {
-  margin: 0;
-
-  max-width: 620px;
-
-  color: var(--text);
-
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
-  font-weight: 750;
-  line-height: 1.22;
-  letter-spacing: -0.025em;
-}
-
-.draft-note-heading h3 {
-  font-family: "Instrument Sans", sans-serif;
-
-  font-size: clamp(2.1rem, 4vw, 3.25rem);
-
-  font-weight: 800;
-
-  line-height: 0.95;
-
-  letter-spacing: -0.04em;
-
-  margin: 0.2rem 0 0.35rem;
-}
-/* -----------------------------
-   TYPOGRAPHY-FIRST REVIEW NOTES
------------------------------ */
-
-.review-notes-section {
-  width: min(100% - 2rem, var(--page-width));
-  max-width: 880px;
-  margin: 0 auto 2.5rem;
-  padding: 0;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-}
-
-.review-notes-section .found-category {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  margin: 0 0 1.15rem;
-
-  color: var(--success);
-  font-size: 0.88rem;
-  font-weight: 900;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.review-notes-section .found-category::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: color-mix(in srgb, var(--success) 45%, transparent);
-}
-
-.review-notes-section #foundList {
-  display: grid;
-  gap: 1.05rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.review-notes-section #foundList li {
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  border: 0;
-  color: var(--muted);
-}
-/* =========================================================
-   PASTELINT GRID SYSTEM / EDITORIAL LAYOUT SPRINT
-   Phase 2 — Invisible 8-column ownership system
-   Place at bottom of styles.css
-   ========================================================= */
-
-/* -----------------------------
-   GRID FOUNDATION
------------------------------ */
-
-.page-shell.workflow-grid {
-  width: min(100% - 2rem, var(--page-width));
-  margin-inline: auto;
-  padding: clamp(0.5rem, 1vw, 1rem) 0 clamp(3rem, 6vw, 5rem);
-
-  display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
-  column-gap: clamp(0.75rem, 2vw, 1.5rem);
-  row-gap: clamp(2.5rem, 5vw, 5rem);
-}
-
-.workflow-chapter {
-  grid-column: 1 / -1;
-  width: 100%;
-  margin: 0;
-  position: relative;
-}
-
-/* -----------------------------
-   COLUMN OWNERSHIP
------------------------------ */
-
-.hero-chapter {
-  grid-column: 2 / 8;
-}
-
-.input-chapter {
-  grid-column: 1 / -1;
-}
-
-.inspection-chapter {
-  grid-column: 2 / 8;
-}
-
-.output-chapter {
-  grid-column: 2 / 8;
-}
-
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  grid-column: 2 / 8;
-}
-
-/* -----------------------------
-   HERO REBALANCE
------------------------------ */
-
-.hero.workflow-chapter {
-  width: 100%;
-  max-width: 48rem;
-  margin: clamp(2.25rem, 6vw, 4.5rem) 0 0;
-  padding: 0;
-}
-
-.hero.workflow-chapter h1 {
-  max-width: 12ch;
-  margin-bottom: 0.75rem;
-}
-
-.hero.workflow-chapter p {
-  max-width: 58ch;
-}
-
-/* -----------------------------
-   INPUT CHAPTER
------------------------------ */
-
-.input-chapter.tool-shell {
-  width: 100%;
-  display: grid;
-  gap: clamp(1rem, 2vw, 1.5rem);
-}
-
-.input-chapter .mode-row {
-  width: 100%;
-  margin: 0;
-}
-
-.input-chapter .input-panel {
-  margin: 0;
-}
-
-.input-chapter .action-panel {
-  margin: 0;
-}
-
-/* -----------------------------
-   INSPECTION CHAPTER
------------------------------ */
-
-.inspection-chapter {
-  display: grid;
-  gap: clamp(1.15rem, 2.5vw, 1.75rem);
-}
-
-.inspection-chapter > .review-kicker,
-.output-chapter > .review-kicker {
-  margin: 0 0 -0.65rem;
-}
-
-.inspection-chapter > h2,
-.output-chapter > h2 {
-  max-width: 720px;
-  margin: 0;
-
-  color: var(--text);
-  font-size: clamp(2.1rem, 5vw, 3.35rem);
-  font-weight: 900;
-  line-height: 0.98;
-  letter-spacing: -0.045em;
-}
-
-.inspection-chapter > p,
-.output-chapter > p {
-  max-width: 54ch;
-  margin: -0.65rem 0 0;
-
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.65;
-}
-
-.inspection-chapter .editorial-summary,
-.inspection-chapter .review-notes-section,
-.inspection-chapter .insight-panel {
-  width: 100%;
-  max-width: none;
-  margin-inline: 0;
-}
-
-.inspection-chapter .editorial-summary {
-  margin-top: 0.35rem;
-  margin-bottom: 0.5rem;
-}
-
-/* -----------------------------
-   FOUND / FIXED / PROOF RHYTHM
------------------------------ */
-
-.inspection-chapter .draft-note-heading {
-  margin: clamp(1.1rem, 2.5vw, 1.75rem) 0 0.15rem;
-}
-
-.inspection-chapter .draft-note-kicker {
-  margin-bottom: 0.25rem;
-
-  color: var(--success);
-  font-size: clamp(1.25rem, 3vw, 2rem);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.04em;
-}
-
-.inspection-chapter .draft-note-heading h3 {
-  max-width: 720px;
-  margin: 0;
-
-  font-family: var(--font-sans);
-  color: var(--text);
-  font-size: clamp(1.25rem, 3vw, 2.15rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.04em;
-}
-
-.inspection-chapter .review-notes-section {
-  margin: 0;
-}
-
-.inspection-chapter .tool-panel.insight-panel {
-  margin: 0;
-}
-
-/* -----------------------------
-   OUTPUT CHAPTER AUTHORITY
------------------------------ */
-
-.output-chapter {
-  display: grid;
-  gap: clamp(1rem, 2.5vw, 1.5rem);
-}
-
-.output-chapter .output-panel {
-  width: 100%;
-  margin: 0;
-}
-
-.output-chapter textarea {
-  min-height: clamp(16rem, 36vw, 28rem);
-}
-
-/* -----------------------------
-   SUPPORT CHAPTERS
------------------------------ */
-
-.workflow-chapter.trust-panel,
-.workflow-chapter.landing-info-card,
-.workflow-chapter.next-step-panel {
-  margin: 0;
-}
-
-.workflow-chapter.trust-panel h2,
-.workflow-chapter.landing-info-card h2,
-.workflow-chapter.next-step-panel h2 {
-  max-width: 720px;
-}
-
-.workflow-chapter.trust-panel p,
-.workflow-chapter.landing-info-card p,
-.workflow-chapter.next-step-panel p {
-  max-width: 62ch;
-}
-
-/* -----------------------------
-   RESPONSIVE GRID
------------------------------ */
-
-@media (max-width: 760px) {
-  .page-shell.workflow-grid {
-    width: min(100% - 1rem, var(--page-width));
-    grid-template-columns: 1fr;
-    row-gap: clamp(2rem, 7vw, 3.5rem);
-  }
-
-  .workflow-chapter,
-  .hero-chapter,
-  .input-chapter,
-  .inspection-chapter,
-  .output-chapter,
-  .trust-panel,
-  .landing-info-card,
-  .next-step-panel {
-    grid-column: 1 / -1;
-  }
-
-  .hero.workflow-chapter {
-    max-width: none;
-    margin-top: 2rem;
-  }
-
-  .hero.workflow-chapter h1 {
-    max-width: 13ch;
-  }
-
-  .inspection-chapter > h2,
-  .output-chapter > h2 {
-    font-size: clamp(2rem, 12vw, 3rem);
-  }
-
-  .inspection-chapter .draft-note-heading h3 {
-    font-size: clamp(1.5rem, 9vw, 2.35rem);
-  }
-
-  .output-chapter textarea {
-    min-height: 16rem;
-  }
-}
-/* =========================================================
-   PHASE 3 — TRANSFORMATION ZONE HIERARCHY
-   Inspection supports. Output leads.
-   ========================================================= */
-
-/* Make inspection feel like evidence, not the final destination */
-.inspection-chapter {
-  padding-top: clamp(0.5rem, 2vw, 1rem);
-}
-
-.inspection-chapter > h2 {
-  font-size: clamp(1.85rem, 4vw, 2.75rem);
-  max-width: 13ch;
-}
-
-.inspection-chapter > p {
-  max-width: 46ch;
-}
-
-/* Text brief becomes quieter and more report-like */
-.inspection-chapter .editorial-summary {
-  padding: clamp(1rem, 2vw, 1.35rem);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--panel) 96%, var(--success) 4%);
-  box-shadow: none;
-}
-
-/* Found / Fixed / Proof become numbered editorial beats */
-.inspection-chapter .draft-note-heading {
-  display: grid;
-  gap: 0.25rem;
-  padding-top: clamp(0.75rem, 2vw, 1.25rem);
-  border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
-}
-
-.inspection-chapter .draft-note-kicker {
-  color: var(--success);
-  opacity: 0.88;
-}
-
-.inspection-chapter .draft-note-heading h3 {
-  max-width: 16ch;
-}
-
-/* Remove excess card feeling from evidence blocks */
-.inspection-chapter .insight-panel {
-  padding: clamp(1rem, 2vw, 1.35rem);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--panel) 96%, var(--bg) 4%);
-  box-shadow: none;
-}
-
-/* Output gets stronger visual authority */
-.output-chapter {
-  padding-top: clamp(0.5rem, 2vw, 1rem);
-}
-
-.output-chapter > h2 {
-  font-size: clamp(2.45rem, 6vw, 4.25rem);
-  max-width: 11ch;
-}
-
-.output-chapter > p {
-  max-width: 42ch;
-  font-size: clamp(1rem, 2vw, 1.12rem);
-}
-
-/* Output panel should feel like the destination */
-.output-chapter .output-panel {
-  border-color: color-mix(in srgb, var(--border-strong) 65%, var(--accent) 35%);
-  background: var(--tier-core);
-}
-
-/* Give output textarea more calm reading space */
-.output-chapter textarea {
-  min-height: clamp(18rem, 42vw, 32rem);
-  font-size: clamp(1rem, 1.4vw, 1.08rem);
-  line-height: 1.75;
-}
-
-/* Copy/action panel should remain useful but quiet */
-.input-chapter .action-panel {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  align-items: center;
-  justify-content: flex-start;
-
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-.input-chapter .action-panel:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-/* Mobile keeps hierarchy but avoids oversized headers */
-@media (max-width: 760px) {
-  .inspection-chapter > h2,
-  .output-chapter > h2 {
-    max-width: 13ch;
-  }
-
-  .inspection-chapter .draft-note-heading h3 {
-    max-width: 100%;
-  }
-
-  .output-chapter textarea {
-    min-height: 18rem;
-  }
-}
-/* =========================================================
-   PHASE 4 — LEFT ANCHOR + EDITORIAL LEDGE
-   ========================================================= */
-
-/* Kill accidental centering inside the workflow */
-.page-shell.workflow-grid,
-.workflow-chapter,
-.hero,
-.tool-shell,
-.inspection-chapter,
-.output-chapter,
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  text-align: left;
-}
-
-/* Make support sections less panel-heavy */
-.workflow-chapter.trust-panel,
-.workflow-chapter.landing-info-card,
-.workflow-chapter.next-step-panel {
-  padding-inline: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-/* Keep only functional panels visually panel-like */
-.inspection-chapter .editorial-summary,
-.inspection-chapter .insight-panel {
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  padding-inline: 0;
-}
-
-/* Editorial ledge for 01 / 02 / 03 sections */
-.inspection-chapter .draft-note-heading {
-  display: grid;
-  grid-template-columns: minmax(9rem, 1.5fr) minmax(0, 4.5fr);
-  column-gap: clamp(1rem, 4vw, 3rem);
-  align-items: end;
-
-  margin-top: clamp(2rem, 5vw, 3.5rem);
-  padding-top: 0;
-  border-top: 0;
-}
-
-.inspection-chapter .draft-note-kicker {
-  grid-column: 1;
-  margin: 0;
-}
-
-.inspection-chapter .draft-note-heading h3 {
-  grid-column: 2;
-  max-width: 22ch;
-  margin: 0;
-}
-
-/* Line begins under/after the heavy number, leading into the content */
-.inspection-chapter .review-notes-section,
-.inspection-chapter .insight-panel {
-  display: grid;
-  grid-template-columns: minmax(9rem, 1.5fr) minmax(0, 4.5fr);
-  column-gap: clamp(1rem, 4vw, 3rem);
-  align-items: start;
-}
-
-.inspection-chapter .found-category,
-.inspection-chapter .fixed-category,
-.inspection-chapter .proof-category {
-  grid-column: 2;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  margin: 0 0 0.9rem;
-  color: var(--success);
-  font-size: 0.78rem;
-  font-weight: 900;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.inspection-chapter .found-category::before,
-.inspection-chapter .fixed-category::before,
-.inspection-chapter .proof-category::before {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: color-mix(in srgb, var(--success) 42%, transparent);
-}
-
-.inspection-chapter #foundList,
-.inspection-chapter #editMap,
-.inspection-chapter #visualPreview {
-  grid-column: 2;
-}
-
-/* Let the details breathe */
-.inspection-chapter #foundList li {
-  padding-block: 0.85rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
-}
-
-.inspection-chapter #foundList li:last-child {
-  border-bottom: 0;
-}
-
-/* Mobile: return to clean vertical flow */
-@media (max-width: 760px) {
-  .inspection-chapter .draft-note-heading,
-  .inspection-chapter .review-notes-section,
-  .inspection-chapter .insight-panel {
-    grid-template-columns: 1fr;
-  }
-
-  .inspection-chapter .draft-note-kicker,
-  .inspection-chapter .draft-note-heading h3,
-  .inspection-chapter .found-category,
-  .inspection-chapter .fixed-category,
-  .inspection-chapter .proof-category,
-  .inspection-chapter #foundList,
-  .inspection-chapter #editMap,
-  .inspection-chapter #visualPreview {
-    grid-column: 1;
-  }
-}
-
-}
-/* =========================================================
-   PHASE 4D — STACKED EDITORIAL RAIL
-   ========================================================= */
-
-/* Undo the split ledge experiment */
-.inspection-chapter .draft-note-heading,
-.inspection-chapter .review-notes-section,
-.inspection-chapter .tool-panel.insight-panel {
-  display: block !important;
-  grid-template-columns: none !important;
-  column-gap: 0 !important;
-}
-
-/* Chapter marker + title stay fixed left */
-.inspection-chapter .draft-note-heading {
-  margin-top: clamp(3rem, 7vw, 5rem) !important;
-  margin-bottom: clamp(1.1rem, 2vw, 1.6rem) !important;
-}
-
-.inspection-chapter .draft-note-kicker {
-  display: block !important;
-  margin: 0 0 0.35rem !important;
-}
-
-.inspection-chapter .draft-note-heading h3 {
-  display: block !important;
-  max-width: 22ch !important;
-  margin: 0 !important;
-  font-size: clamp(1.65rem, 4vw, 2.75rem) !important;
-  line-height: 0.98 !important;
-}
-
-/* Rail + category label */
-.inspection-chapter .found-category,
-.inspection-chapter .fixed-category,
-.inspection-chapter .proof-category {
-  display: grid !important;
-  grid-template-columns: auto 1fr !important;
-  align-items: center !important;
-  gap: 1rem !important;
-
-  margin: 0 0 clamp(1.2rem, 2vw, 1.6rem) !important;
-
-  color: var(--success) !important;
-  font-size: 0.78rem !important;
-  font-weight: 900 !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase !important;
-}
-
-/* line extends from category to the right */
-.inspection-chapter .found-category::after,
-.inspection-chapter .fixed-category::after,
-.inspection-chapter .proof-category::after {
-  content: "" !important;
-  height: 1px !important;
-  background: color-mix(in srgb, var(--success) 42%, transparent) !important;
-}
-
-/* remove old before-line if still present */
-.inspection-chapter .found-category::before,
-.inspection-chapter .fixed-category::before,
-.inspection-chapter .proof-category::before {
-  content: none !important;
-}
-
-/* details sit below, fixed left */
-.inspection-chapter #foundList,
-.inspection-chapter #editMap,
-.inspection-chapter #visualPreview {
-  display: grid !important;
-  max-width: 42rem !important;
-  margin: 0 !important;
-}
-
-/* keep text airy */
-.inspection-chapter #foundList li {
-  padding: 0 0 clamp(1.2rem, 2vw, 1.65rem) !important;
-  margin: 0 0 clamp(1.2rem, 2vw, 1.65rem) !important;
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 58%, transparent) !important;
-}
-
-.inspection-chapter #foundList li:last-child {
-  margin-bottom: 0 !important;
-  border-bottom: 0 !important;
-}
-/* =========================================================
-   PHASE 5 — UNIFIED INSPECTION GRID
-   | ccc | ccccc | cccc |
-   ========================================================= */
-
-.inspection-chapter {
-  display: grid !important;
-  grid-template-columns: 1.15fr 2fr 2.25fr !important;
-  column-gap: clamp(1.25rem, 4vw, 3rem) !important;
-}
-
-/* Top intro spans the full inspection area */
-.inspection-chapter > .review-kicker,
-.inspection-chapter > h2,
-.inspection-chapter > p,
-.inspection-chapter > .editorial-summary {
-  grid-column: 1 / -1 !important;
-}
-
-/* 01 / 02 / 03 chapter heading */
-.inspection-chapter .draft-note-heading {
-  grid-column: 1 / -1 !important;
-
-  display: grid !important;
-  grid-template-columns: 1.15fr 2fr 2.25fr !important;
-  column-gap: clamp(1.25rem, 4vw, 3rem) !important;
-
-  margin-top: clamp(3rem, 7vw, 5rem) !important;
-  margin-bottom: 0 !important;
-  padding-bottom: 1rem !important;
-  border-bottom: 1px solid color-mix(in srgb, var(--success) 55%, transparent) !important;
-}
-
-/* Stack 01. over FOUND */
-.inspection-chapter .draft-note-kicker {
-  grid-column: 1 !important;
-
-  width: min-content !important;
-  margin: 0 !important;
-
-  color: var(--success) !important;
-  font-size: clamp(1.8rem, 4vw, 3rem) !important;
-  font-weight: 900 !important;
-  line-height: 0.95 !important;
-  letter-spacing: -0.045em !important;
-}
-
-/* Big white chapter title in middle column */
-.inspection-chapter .draft-note-heading h3 {
-  grid-column: 2 !important;
-
-  max-width: 12ch !important;
-  margin: 0 !important;
-
-  color: var(--text) !important;
-  font-size: clamp(1.8rem, 4vw, 3rem) !important;
-  font-weight: 900 !important;
-  line-height: 0.95 !important;
-  letter-spacing: -0.045em !important;
-}
-
-/* Detail rows share same 3-column structure */
-.inspection-chapter .review-notes-section,
-.inspection-chapter .tool-panel.insight-panel {
-  grid-column: 1 / -1 !important;
-
-  display: grid !important;
-  grid-template-columns: 1.15fr 2fr 2.25fr !important;
-  column-gap: clamp(1.25rem, 4vw, 3rem) !important;
-
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 1rem 0 0 !important;
-
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* FORMATTING / CLEANUP LOG / BEFORE AND AFTER in middle column */
-.inspection-chapter .found-category,
-.inspection-chapter .fixed-category,
-.inspection-chapter .proof-category {
-  grid-column: 2 !important;
-
-  margin: 0 !important;
-
-  color: var(--success) !important;
-  font-size: 0.82rem !important;
-  font-weight: 900 !important;
-  letter-spacing: 0.18em !important;
-  text-transform: uppercase !important;
-}
-
-/* Remove old pseudo rails */
-.inspection-chapter .found-category::before,
-.inspection-chapter .found-category::after,
-.inspection-chapter .fixed-category::before,
-.inspection-chapter .fixed-category::after,
-.inspection-chapter .proof-category::before,
-.inspection-chapter .proof-category::after {
-  content: none !important;
-}
-
-/* Details fixed to right column */
-.inspection-chapter #foundList,
-.inspection-chapter #editMap,
-.inspection-chapter #visualPreview {
-  grid-column: 3 !important;
-
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-}
-
-/* Keep found details readable */
-.inspection-chapter #foundList {
-  display: grid !important;
-  gap: 0 !important;
-  padding: 0 !important;
-  list-style: none !important;
-}
-
-.inspection-chapter #foundList li {
-  padding: 0 0 1.25rem !important;
-  margin: 0 0 1.25rem !important;
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 58%, transparent) !important;
-}
-
-.inspection-chapter #foundList li:last-child {
-  margin-bottom: 0 !important;
-  border-bottom: 0 !important;
-}
-
-/* Text Brief uses the same right-detail rail */
-.inspection-chapter .editorial-summary {
-  display: grid !important;
-  grid-template-columns: 1.15fr 2fr 2.25fr !important;
-  column-gap: clamp(1.25rem, 4vw, 3rem) !important;
-
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-.inspection-chapter .summary-label {
-  grid-column: 2 !important;
-}
-
-.inspection-chapter #textBrief {
-  grid-column: 3 !important;
-  max-width: none !important;
-}
-
-.inspection-chapter,
-.inspection-chapter .draft-note-heading,
-.inspection-chapter .review-notes-section,
-.inspection-chapter .tool-panel.insight-panel,
-.inspection-chapter .editorial-summary {
-
-  grid-template-columns:
-    minmax(8rem, 1.2fr)
-    minmax(14rem, 2fr)
-    minmax(18rem, 2.4fr) !important;
-}
-
-/* Mobile returns to simple stacked reading */
-@media (max-width: 760px) {
-  .inspection-chapter,
-  .inspection-chapter .draft-note-heading,
-  .inspection-chapter .review-notes-section,
-  .inspection-chapter .tool-panel.insight-panel,
-  .inspection-chapter .editorial-summary {
-    grid-template-columns: 1fr !important;
-  }
-
-  .inspection-chapter > .review-kicker,
-  .inspection-chapter > h2,
-  .inspection-chapter > p,
-  .inspection-chapter > .editorial-summary,
-  .inspection-chapter .draft-note-kicker,
-  .inspection-chapter .draft-note-heading h3,
-  .inspection-chapter .found-category,
-  .inspection-chapter .fixed-category,
-  .inspection-chapter .proof-category,
-  .inspection-chapter #foundList,
-  .inspection-chapter #editMap,
-  .inspection-chapter #visualPreview,
-  .inspection-chapter .summary-label,
-  .inspection-chapter #textBrief {
-    grid-column: 1 !important;
-  }
-}
-/* =========================================================
-   PHASE 5B — WIDEN INSPECTION GRID
-   ========================================================= */
-
-.inspection-chapter {
-  grid-column: 1 / -1 !important;
-}
-
-.inspection-chapter,
-.inspection-chapter .draft-note-heading,
-.inspection-chapter .review-notes-section,
-.inspection-chapter .tool-panel.insight-panel,
-.inspection-chapter .editorial-summary {
-  grid-template-columns:
-    minmax(7rem, 1fr)
-    minmax(22rem, 2.6fr)
-    minmax(20rem, 2.4fr) !important;
-}
-
-.inspection-chapter .draft-note-heading h3 {
-  max-width: 18ch !important;
-}
-
-.inspection-chapter .summary-label,
-.inspection-chapter .found-category,
-.inspection-chapter .fixed-category,
-.inspection-chapter .proof-category {
-  grid-column: 2 !important;
-}
-
-.inspection-chapter #textBrief,
-.inspection-chapter #foundList,
-.inspection-chapter #editMap,
-.inspection-chapter #visualPreview {
-  grid-column: 3 !important;
-}
-/* =========================================================
-   PHASE 5C — INSPECTION WIDTH + COLUMN BALANCE
-   ========================================================= */
-
-.inspection-chapter {
-  width: min(100%, 1180px) !important;
-  justify-self: center !important;
-}
-
-.inspection-chapter,
-.inspection-chapter .draft-note-heading,
-.inspection-chapter .review-notes-section,
-.inspection-chapter .tool-panel.insight-panel,
-.inspection-chapter .editorial-summary {
-  grid-template-columns:
-    minmax(7rem, 0.9fr)
-    minmax(24rem, 2.8fr)
-    minmax(22rem, 2.6fr) !important;
-
-  column-gap: clamp(1.5rem, 4vw, 4rem) !important;
-}
-
-.inspection-chapter .draft-note-heading h3 {
-  max-width: 20ch !important;
-}
-
-.inspection-chapter #textBrief,
-.inspection-chapter #foundList,
-.inspection-chapter #editMap,
-.inspection-chapter #visualPreview {
-  font-size: 0.92rem;
-  line-height: 1.65;
-}
-/* =========================================================
-   PHASE 5D — PAGE WIDTH FOR EDITORIAL GRID
-   ========================================================= */
-
-:root,
-html[data-theme="light"] {
-  --page-width: 1180px;
-}
-
-/* Keep input/output from becoming too wide */
-.hero-chapter,
-.input-chapter,
-.output-chapter,
-.workflow-chapter.trust-panel,
-.workflow-chapter.landing-info-card,
-.workflow-chapter.next-step-panel {
-  max-width: 980px !important;
-  justify-self: center !important;
-}
-
-/* Let inspection use the expanded editorial width */
-.inspection-chapter {
-  max-width: 1180px !important;
-}
-/* =========================================================
-   PHASE 5E — COLUMN REBALANCE
-   ========================================================= */
-
-.inspection-chapter,
-.inspection-chapter .draft-note-heading,
-.inspection-chapter .review-notes-section,
-.inspection-chapter .tool-panel.insight-panel,
-.inspection-chapter .editorial-summary {
-  grid-template-columns:
-    minmax(7rem, 0.85fr)
-    minmax(28rem, 3.4fr)
-    minmax(18rem, 2fr) !important;
-
-  column-gap: clamp(1.25rem, 3vw, 3rem) !important;
-}
-
-.inspection-chapter .draft-note-heading h3 {
-  max-width: 22ch !important;
-}
-
-.inspection-chapter #textBrief,
-.inspection-chapter #foundList,
-.inspection-chapter #editMap,
-.inspection-chapter #visualPreview {
-  font-size: 0.98rem !important;
-  line-height: 1.65 !important;
-}
-/* =========================================================
-   PHASE 5F — INSPECTION POLISH
-   ========================================================= */
-
-/* Pull category labels and details closer together */
-.inspection-chapter .review-notes-section,
-.inspection-chapter .tool-panel.insight-panel {
-  padding-top: 0.75rem !important;
-}
-
-/* Make details more legible */
-.inspection-chapter #textBrief,
-.inspection-chapter #foundList,
-.inspection-chapter #editMap,
-.inspection-chapter #visualPreview {
-  font-size: 1rem !important;
-  line-height: 1.7 !important;
-}
-
-/* Calm excessive spacing inside detail rows */
-.inspection-chapter #foundList li {
-  padding-bottom: 0.95rem !important;
-  margin-bottom: 0.95rem !important;
-}
-
-/* Bring Text Brief closer to same rhythm as 01–03 */
-.inspection-chapter .editorial-summary {
-  margin-top: 1.25rem !important;
-  margin-bottom: clamp(3rem, 6vw, 4.5rem) !important;
-}
-
-.inspection-chapter .summary-label {
-  align-self: start !important;
-  margin-top: 0.15rem !important;
-}
-
-/* Give the chapter rails a little more presence */
-.inspection-chapter .draft-note-heading {
-  border-bottom-color: color-mix(in srgb, var(--success) 72%, transparent) !important;
-}
-
-/* Slightly soften tiny uppercase labels */
-.inspection-chapter .summary-label,
-.inspection-chapter .found-category,
-.inspection-chapter .fixed-category,
-.inspection-chapter .proof-category {
-  opacity: 0.95 !important;
-}
-/* =========================================================
-   PHASE 6 — PAGE-WIDE EDITORIAL ALIGNMENT
-   ========================================================= */
-
-.page-shell {
-  width: min(100% - 2rem, 1180px) !important;
-  margin-inline: auto !important;
-
-  display: grid !important;
-  grid-template-columns:
-    minmax(7rem, 0.85fr)
-    minmax(28rem, 3.4fr)
-    minmax(18rem, 2fr) !important;
-
-  column-gap: clamp(1.25rem, 3vw, 3rem) !important;
-}
-
-/* Main intro aligns to the middle + right field */
-.hero,
-.hero-chapter {
-  grid-column: 2 / -1 !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin-inline: 0 !important;
-}
-
-/* Tool area uses the same grid */
-.tool-shell {
-  grid-column: 1 / -1 !important;
-
-  display: grid !important;
-  grid-template-columns:
-    minmax(7rem, 0.85fr)
-    minmax(28rem, 3.4fr)
-    minmax(18rem, 2fr) !important;
-
-  column-gap: clamp(1.25rem, 3vw, 3rem) !important;
-}
-
-/* Functional tool controls span the working field */
-.mode-row,
-.input-panel,
-.action-panel {
-  grid-column: 2 / -1 !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin-inline: 0 !important;
-}
-
-/* Inspection owns the full editorial grid */
-.inspection-chapter {
-  grid-column: 1 / -1 !important;
-}
-
-/* Clean output aligns with the same middle + right field */
-.output-chapter,
-.output-panel {
-  grid-column: 2 / -1 !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin-inline: 0 !important;
-}
-
-/* Bottom support sections align with Clean Output */
-.workflow-chapter,
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  grid-column: 2 / -1 !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin-inline: 0 !important;
-}
-
-/* Footer follows same readable field */
-.site-footer {
-  width: min(100% - 2rem, 1180px) !important;
-}
-
-/* Mobile collapse */
-@media (max-width: 760px) {
-  .page-shell,
-  .tool-shell {
-    grid-template-columns: 1fr !important;
-  }
-
-  .hero,
-  .hero-chapter,
-  .mode-row,
-  .input-panel,
-  .action-panel,
-  .inspection-chapter,
-  .output-chapter,
-  .output-panel,
-  .workflow-chapter,
-  .trust-panel,
-  .landing-info-card,
-  .next-step-panel {
-    grid-column: 1 !important;
-  }
-}
-/* =========================================================
-   PHASE 6B — INSPECTION HEADER + TEXT BRIEF ALIGNMENT
-   ========================================================= */
-
-/* Move Inspection intro into the same headline column */
-.inspection-chapter > .review-kicker,
-.inspection-chapter > h2,
-.inspection-chapter > p {
-  grid-column: 2 / -1 !important;
-}
-
-/* Text Brief uses same label/details relationship as 01–03 */
-.inspection-chapter .editorial-summary {
-  grid-column: 1 / -1 !important;
-
-  display: grid !important;
-  grid-template-columns:
-    minmax(7rem, 0.85fr)
-    minmax(28rem, 3.4fr)
-    minmax(18rem, 2fr) !important;
-
-  column-gap: clamp(1.25rem, 3vw, 3rem) !important;
-
-  margin-top: 1.4rem !important;
-  margin-bottom: clamp(4rem, 8vw, 6rem) !important;
-}
-
-.inspection-chapter .summary-label {
-  grid-column: 2 !important;
-  align-self: start !important;
-}
-
-.inspection-chapter #textBrief {
-  grid-column: 3 !important;
-  align-self: start !important;
-}
-
-/* Tighten the transition into 01 */
-.inspection-chapter .draft-note-heading:first-of-type {
-  margin-top: 0 !important;
-}
-/* =========================================================
-   PHASE 6C — INSPECTION INTRO MIRRORS CHAPTER GRID
-   ========================================================= */
-
-/* Header/title/subtitle align with 01–03 middle column */
-.inspection-chapter > .review-kicker,
-.inspection-chapter > h2,
-.inspection-chapter > p {
-  grid-column: 2 / -1 !important;
-  margin-inline: 0 !important;
-}
-
-/* TEXT BRIEF moves up into the intro rhythm */
-.inspection-chapter .editorial-summary {
-  margin-top: 1.25rem !important;
-  margin-bottom: clamp(4.5rem, 8vw, 6.5rem) !important;
-  padding-top: 1rem !important;
-
-  border-top: 1px solid color-mix(in srgb, var(--success) 72%, transparent) !important;
-}
-
-/* TEXT BRIEF sits under the report intro */
-.inspection-chapter .summary-label {
-  grid-column: 2 !important;
-  margin: 0 !important;
-  align-self: start !important;
-}
-
-/* Text brief details stay on the shared right rail */
-.inspection-chapter #textBrief {
-  grid-column: 3 !important;
-  align-self: start !important;
-}
-
-/* Make the intro subtitle feel like the same family as chapter headlines */
-.inspection-chapter > p {
-  max-width: 42ch !important;
-}
-
-/* Reduce awkward dead space before 01 */
-.inspection-chapter .draft-note-heading:first-of-type {
-  margin-top: clamp(2.5rem, 5vw, 4rem) !important;
-}
-/* =========================================================
-   PHASE 6D — TEXT BRIEF AS CHAPTER ZERO
-   ========================================================= */
-
-/* Pull Text Brief into the intro block rhythm */
-.inspection-chapter .editorial-summary {
-  padding-top: 0 !important;
-  border-top: 0 !important;
-  margin-top: 1rem !important;
-}
-
-/* TEXT BRIEF becomes the section label before the rule */
-.inspection-chapter .summary-label {
-  grid-column: 2 / -1 !important;
-  margin: 0 0 0.85rem !important;
-
-  color: var(--success) !important;
-  font-size: 0.82rem !important;
-  font-weight: 900 !important;
-  letter-spacing: 0.18em !important;
-  text-transform: uppercase !important;
-}
-
-/* Add the rule below TEXT BRIEF */
-.inspection-chapter .summary-label::after {
-  content: "" !important;
-  display: block !important;
-  width: 100% !important;
-  height: 1px !important;
-  margin-top: 0.85rem !important;
-  background: color-mix(in srgb, var(--success) 72%, transparent) !important;
-}
-
-/* Details start under the rule, fixed to the right rail */
-.inspection-chapter #textBrief {
-  grid-column: 3 !important;
-  margin-top: 0.85rem !important;
-}
-
-/* Keep the intro visually tied to Text Brief */
-.inspection-chapter > p {
-  margin-bottom: 0.25rem !important;
-}
-/* =========================================================
-   PHASE 6E — MASTER LEFT SPINE
-   Align page with 01 / 02 / 03
-   ========================================================= */
-
-/* Hero aligns to same left edge as 01–03 */
-.hero,
-.hero-chapter {
-  grid-column: 1 / -1 !important;
-}
-
-/* Tool controls/input/buttons align to same left edge */
-.mode-row,
-.input-panel,
-.action-panel {
-  grid-column: 1 / -1 !important;
-}
-
-/* Inspection intro also starts on the master left edge */
-.inspection-chapter > .review-kicker,
-.inspection-chapter > h2,
-.inspection-chapter > p {
-  grid-column: 1 / -1 !important;
-}
-
-/* Text Brief starts from master left edge */
-.inspection-chapter .summary-label {
-  grid-column: 1 / 3 !important;
-}
-
-.inspection-chapter #textBrief {
-  grid-column: 3 !important;
-}
-
-/* Clean Output starts from master left edge */
-.output-chapter,
-.output-panel {
-  grid-column: 1 / -1 !important;
-}
-
-/* Bottom sections start from master left edge */
-.workflow-chapter,
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  grid-column: 1 / -1 !important;
-}
-
-/* Keep content readable inside wide rows */
-.hero,
-.mode-row,
-.input-panel,
-.action-panel,
-.output-chapter,
-.output-panel,
-.workflow-chapter,
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  max-width: 980px !important;
-}
-/* =========================================================
-   PHASE 6F — LOCK TOOL + OUTPUT TO MASTER SPINE
-   ========================================================= */
-
-.hero,
-.hero-chapter,
-.mode-row,
-.input-panel,
-.action-panel,
-.output-chapter,
-.output-panel,
-.workflow-chapter,
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  transform: translateX(-7rem) !important;
-}
-
-@media (max-width: 760px) {
-  .hero,
-  .hero-chapter,
-  .mode-row,
-  .input-panel,
-  .action-panel,
-  .output-chapter,
-  .output-panel,
-  .workflow-chapter,
-  .trust-panel,
-  .landing-info-card,
-  .next-step-panel {
-    transform: none !important;
-  }
-}
-/* =========================================================
-   PHASE 6G — TRUE PAGE FRAME / MASTER LEFT EDGE
-   ========================================================= */
-
-/* Kill the temporary shift */
-.hero,
-.hero-chapter,
-.mode-row,
-.input-panel,
-.action-panel,
-.output-chapter,
-.output-panel,
-.workflow-chapter,
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  transform: none !important;
-}
-
-/* One shared page frame */
-.page-shell {
-  width: min(100% - 2rem, 1180px) !important;
-  margin-inline: auto !important;
-}
-
-/* Hero, tool, report, output all begin on same left edge */
-.hero,
-.hero-chapter,
-.tool-shell,
-.mode-row,
-.input-panel,
-.action-panel,
-.inspection-chapter,
-.output-chapter,
-.output-panel,
-.workflow-chapter,
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  width: 100% !important;
-  max-width: none !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  justify-self: stretch !important;
-}
-
-/* Tool area spans the same right boundary as the inspection rails */
-.mode-row,
-.input-panel,
-.action-panel,
-.output-panel {
-  grid-column: 1 / -1 !important;
-}
-
-/* Hero and Clean Draft title start at same master left edge */
-.hero,
-.hero-chapter,
-.output-chapter {
-  grid-column: 1 / -1 !important;
-}
-
-/* Keep inspection on the same frame */
-.inspection-chapter {
-  grid-column: 1 / -1 !important;
-  width: 100% !important;
-}
-
-/* Mobile remains simple */
-@media (max-width: 760px) {
-  .page-shell {
-    width: min(100% - 1rem, 100%) !important;
-  }
-}
-/* =========================================================
-   PHASE 6H — FINAL FRAME LOCK
-   One left edge + one right edge
-   ========================================================= */
-
-/* Set one usable frame */
-.page-shell {
-  width: min(100% - 2rem, 1080px) !important;
-  margin-inline: auto !important;
-}
-
-/* Lock major sections to same frame */
-.hero,
-.tool-shell,
-.inspection-chapter,
-.output-chapter,
-.output-panel,
-.workflow-chapter,
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  width: 100% !important;
-  max-width: none !important;
-  margin-inline: 0 !important;
-  justify-self: stretch !important;
-}
-
-/* Tool fields share same right edge as report rails */
-.mode-row,
-.input-panel,
-.action-panel {
-  width: 100% !important;
-  max-width: none !important;
-  margin-inline: 0 !important;
-  grid-column: 1 / -1 !important;
-}
-
-/* Clean Draft shares same frame as input */
-.output-chapter,
-.output-panel {
-  grid-column: 1 / -1 !important;
-}
-
-/* Inspection grid keeps three-column system inside same frame */
-.inspection-chapter,
-.inspection-chapter .draft-note-heading,
-.inspection-chapter .review-notes-section,
-.inspection-chapter .tool-panel.insight-panel,
-.inspection-chapter .editorial-summary {
-  grid-template-columns:
-    minmax(7rem, 0.9fr)
-    minmax(24rem, 2.8fr)
-    minmax(20rem, 2.3fr) !important;
-
-  column-gap: clamp(1.5rem, 3vw, 3rem) !important;
-}
-
-/* Let headline column breathe slightly */
-.inspection-chapter .draft-note-heading h3 {
-  max-width: 24ch !important;
-}
-
-/* Support sections align to the same left frame but remain readable */
-.workflow-chapter,
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  max-width: 760px !important;
-}
-
-/* Footer aligns with same page frame */
-.site-footer {
-  width: min(100% - 2rem, 1080px) !important;
-}
-/* =========================================================
-   PHASE 6I — FRAME + RAIL BREATHING ROOM
-   ========================================================= */
-
-.page-shell {
-  width: min(100% - 2rem, 1160px) !important;
-  margin-inline: auto !important;
-}
-
-.site-footer {
-  width: min(100% - 2rem, 1160px) !important;
-}
-
-/* Wider left rail + calmer middle/detail balance */
-.inspection-chapter,
-.inspection-chapter .draft-note-heading,
-.inspection-chapter .review-notes-section,
-.inspection-chapter .tool-panel.insight-panel,
-.inspection-chapter .editorial-summary {
-  grid-template-columns:
-    minmax(9rem, 1fr)
-    minmax(24rem, 2.4fr)
-    minmax(18rem, 1.8fr) !important;
-
-  column-gap: clamp(1.5rem, 3vw, 3rem) !important;
-}
-
-/* Keep the working fields locked to the wider frame */
-.mode-row,
-.input-panel,
-.action-panel,
-.output-panel {
-  width: 100% !important;
-  max-width: none !important;
-  grid-column: 1 / -1 !important;
-}
-
-/* Keep lower support sections readable */
-.workflow-chapter,
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  max-width: 780px !important;
-}
-/* =========================================================
-   PHASE 6J — WIDER EDITORIAL FRAME TEST
-   ========================================================= */
-
-.page-shell {
-  width: min(100% - 2rem, 1320px) !important;
-  margin-inline: auto !important;
-}
-
-.site-footer {
-  width: min(100% - 2rem, 1320px) !important;
-}
-
-/* Keep readable working frame inside wider page */
-.hero,
-.tool-shell,
-.inspection-chapter,
-.output-chapter,
-.output-panel {
-  max-width: 1040px !important;
-}
-
-/* Let main work areas use the same width */
-.mode-row,
-.input-panel,
-.action-panel,
-.output-panel {
-  width: 100% !important;
-  max-width: 1040px !important;
-}
-
-/* Give inspection columns more breathing room */
-.inspection-chapter,
-.inspection-chapter .draft-note-heading,
-.inspection-chapter .review-notes-section,
-.inspection-chapter .tool-panel.insight-panel,
-.inspection-chapter .editorial-summary {
-  grid-template-columns:
-    minmax(10rem, 1fr)
-    minmax(28rem, 2.6fr)
-    minmax(22rem, 2fr) !important;
-
-  column-gap: clamp(1.75rem, 3.5vw, 4rem) !important;
-}
-/* =========================================================
-   PHASE 6K — TIGHTEN INSPECTION SEQUENCE
-   ========================================================= */
-
-.inspection-chapter .editorial-summary {
-  margin-bottom: clamp(2.75rem, 5vw, 4rem) !important;
-}
-
-.inspection-chapter .draft-note-heading:first-of-type {
-  margin-top: 0 !important;
-}
-/* =========================================================
-   PHASE 6L — CHAPTER AUTHORITY
-   Demote "What PasteLint Found"
-   ========================================================= */
-
-.inspection-chapter h2,
-.inspection-heading,
-.editorial-summary h2 {
-  font-size: clamp(2rem, 3vw, 2.5rem) !important;
-  line-height: 0.95 !important;
-  max-width: 12ch;
-}
-
-.inspection-chapter .section-kicker,
-.inspection-chapter .eyebrow,
-.inspection-chapter .draft-notes-kicker {
-  margin-bottom: 0.5rem !important;
-}
-
-.inspection-chapter .editorial-summary p {
-  margin-top: 0.75rem !important;
-}
-/* =========================================================
-   PHASE 6N — SKIP TO CLEANED DRAFT
-   ========================================================= */
-
-.skip-cleaned-link {
-  margin-left: auto;
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-weight: 750;
-  text-decoration: none;
-}
-
-.skip-cleaned-link:hover,
-.skip-cleaned-link:focus-visible {
-  color: var(--accent);
-  text-decoration: underline;
-}
-
-@media (max-width: 760px) {
-  .skip-cleaned-link {
-    width: 100%;
-    margin-left: 0;
-    margin-top: 0.35rem;
-  }
-}
-/* =========================================================
-   PHASE 6M — CLEANED AS 04 OUTPUT CHAPTER
-   ========================================================= */
-
-.cleaned-heading {
-  grid-column: 1 / -1 !important;
-  display: grid !important;
-  grid-template-columns:
-    minmax(10rem, 1fr)
-    minmax(28rem, 2.6fr)
-    minmax(22rem, 2fr) !important;
-  column-gap: clamp(1.75rem, 3.5vw, 4rem) !important;
-  margin-top: clamp(3rem, 6vw, 5rem) !important;
-  margin-bottom: 0 !important;
-  padding-bottom: 1rem !important;
-  border-bottom: 1px solid color-mix(in srgb, var(--success) 72%, transparent) !important;
-}
-
-.cleaned-heading .draft-note-kicker {
-  grid-column: 1 !important;
-}
-
-.cleaned-heading h3 {
-  grid-column: 2 / -1 !important;
-  max-width: 24ch !important;
-}
-
-.output-panel {
-  grid-column: 1 / -1 !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin-top: 1.25rem !important;
-}
-/* =========================================================
-   PHASE 6O — 04 CLEANED ATTACHES TO CONTENT COLUMN
-   ========================================================= */
-
-/* 04 should not use a full rail like 01–03 */
-.cleaned-heading {
-  border-bottom: 0 !important;
-  padding-bottom: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-/* Clean text belongs under the heading/content columns, not the number rail */
-.output-panel {
-  grid-column: 2 / -1 !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin-top: 1rem !important;
-}
-
-/* Keep output text area feeling attached to 04 */
-.output-panel textarea {
-  min-height: 260px !important;
-}
-/* =========================================================
-   PHASE 6P — 04 SCALE MATCH + OUTPUT ALIGN
-   ========================================================= */
-
-.cleaned-heading .draft-note-kicker {
-  font-size: clamp(1.8rem, 4vw, 3rem) !important;
-  font-weight: 900 !important;
-  line-height: 0.95 !important;
-  letter-spacing: -0.045em !important;
-}
-
-.cleaned-heading h3 {
-  font-size: clamp(1.8rem, 4vw, 3rem) !important;
-  font-weight: 900 !important;
-  line-height: 0.95 !important;
-  letter-spacing: -0.045em !important;
-  max-width: 24ch !important;
-}
-
-/* Output starts under the same headline column */
-.output-panel {
-  grid-column: 2 / 4 !important;
-  margin-top: 0.75rem !important;
-}
-/* =========================================================
-   PHASE 6R — RESTORE ACTION BUTTON ROW
-   ========================================================= */
-
-.action-panel {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.6rem !important;
-  min-height: 2.75rem !important;
-}
-
-.action-panel button {
-  display: inline-flex !important;
-}
-
-.post-clean-actions[hidden] {
-  display: none !important;
-}
-
-.post-clean-actions:not([hidden]) {
-  display: inline-flex !important;
-}
-/* Force post-clean choices to show after JS removes hidden */
-.post-clean-actions[hidden] {
-  display: none !important;
-}
-
-.post-clean-actions:not([hidden]) {
-  display: inline-flex !important;
-  gap: 0.6rem !important;
-  margin-left: auto !important;
-  align-items: center !important;
-}
-/* =========================================================
-   PHASE 6R — POST-CLEAN BUTTON VISIBILITY FIX
-   ========================================================= */
-
-.action-panel {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.6rem !important;
-  flex-wrap: wrap !important;
-}
-
-.post-clean-actions[hidden] {
-  display: none !important;
-}
-
-.post-clean-actions:not([hidden]) {
-  display: inline-flex !important;
-  gap: 0.6rem !important;
-  margin-left: auto !important;
-  align-items: center !important;
-}
-
-.post-clean-actions a {
-  display: inline-flex !important;
-  align-items: center !important;
-  padding: 0.45rem 0.7rem !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius-sm) !important;
-  color: var(--muted) !important;
-  font-size: 0.82rem !important;
-  font-weight: 750 !important;
-  text-decoration: none !important;
-}
-
-.post-clean-actions a:hover,
-.post-clean-actions a:focus-visible {
-  color: var(--accent) !important;
-  border-color: var(--accent) !important;
-}
-/* =========================================================
-   PHASE 6S — POST-CLEAN BUTTONS + LOWER SECTION ALIGNMENT
-   ========================================================= */
-
-/* Make the after-clean choices feel intentional */
-.post-clean-actions:not([hidden]) {
-  display: inline-flex !important;
-  gap: 0.7rem !important;
-  margin-left: auto !important;
-  align-items: center !important;
-}
-
-.post-clean-actions a {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  min-height: 2rem !important;
-  padding: 0.55rem 0.85rem !important;
-
-  border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--border)) !important;
-  border-radius: 999px !important;
-
-  background: color-mix(in srgb, var(--accent) 12%, transparent) !important;
-  color: var(--accent) !important;
-
-  font-size: 0.82rem !important;
-  font-weight: 850 !important;
-  text-decoration: none !important;
-}
-
-.post-clean-actions a:hover,
-.post-clean-actions a:focus-visible {
-  background: color-mix(in srgb, var(--accent) 22%, transparent) !important;
-  border-color: var(--accent) !important;
-}
-
-/* After 04, support content should live under the content column */
-.workflow-chapter:not(.output-chapter),
-.trust-panel,
-.landing-info-card,
-.next-step-panel {
-  grid-column: 2 / 4 !important;
-  max-width: 46rem !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-
-/* Bring lower support rhythm closer to 04 */
-.workflow-chapter:not(.output-chapter) {
-  margin-top: clamp(2.5rem, 5vw, 4rem) !important;
 }
