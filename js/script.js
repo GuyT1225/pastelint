@@ -41,8 +41,8 @@ function getElements() {
     changeSummary: $("improvementList"),
     changePreview: $("changePreview"),
     editMap: $("editMap"),
-    visualPreview: $("visualPreview")
-    postCleanActions: $("postCleanActions"),
+    visualPreview: $("visualPreview"),
+    postCleanActions: $("postCleanActions")
   
   };
 }
