@@ -3147,3 +3147,58 @@ html[data-theme="light"] {
 .next-step-panel {
   max-width: 780px !important;
 }
+/* =========================================================
+   PHASE 6J — WIDER EDITORIAL FRAME TEST
+   ========================================================= */
+
+.page-shell {
+  width: min(100% - 2rem, 1320px) !important;
+  margin-inline: auto !important;
+}
+
+.site-footer {
+  width: min(100% - 2rem, 1320px) !important;
+}
+
+/* Keep readable working frame inside wider page */
+.hero,
+.tool-shell,
+.inspection-chapter,
+.output-chapter,
+.output-panel {
+  max-width: 1040px !important;
+}
+
+/* Let main work areas use the same width */
+.mode-row,
+.input-panel,
+.action-panel,
+.output-panel {
+  width: 100% !important;
+  max-width: 1040px !important;
+}
+
+/* Give inspection columns more breathing room */
+.inspection-chapter,
+.inspection-chapter .draft-note-heading,
+.inspection-chapter .review-notes-section,
+.inspection-chapter .tool-panel.insight-panel,
+.inspection-chapter .editorial-summary {
+  grid-template-columns:
+    minmax(10rem, 1fr)
+    minmax(28rem, 2.6fr)
+    minmax(22rem, 2fr) !important;
+
+  column-gap: clamp(1.75rem, 3.5vw, 4rem) !important;
+}
+/* =========================================================
+   PHASE 6K — TIGHTEN INSPECTION SEQUENCE
+   ========================================================= */
+
+.inspection-chapter .editorial-summary {
+  margin-bottom: clamp(2.75rem, 5vw, 4rem) !important;
+}
+
+.inspection-chapter .draft-note-heading:first-of-type {
+  margin-top: 0 !important;
+}
