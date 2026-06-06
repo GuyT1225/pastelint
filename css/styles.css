@@ -3202,3 +3202,25 @@ html[data-theme="light"] {
 .inspection-chapter .draft-note-heading:first-of-type {
   margin-top: 0 !important;
 }
+/* =========================================================
+   PHASE 6L — CHAPTER AUTHORITY
+   Demote "What PasteLint Found"
+   ========================================================= */
+
+.inspection-chapter h2,
+.inspection-heading,
+.editorial-summary h2 {
+  font-size: clamp(2rem, 3vw, 2.5rem) !important;
+  line-height: 0.95 !important;
+  max-width: 12ch;
+}
+
+.inspection-chapter .section-kicker,
+.inspection-chapter .eyebrow,
+.inspection-chapter .draft-notes-kicker {
+  margin-bottom: 0.5rem !important;
+}
+
+.inspection-chapter .editorial-summary p {
+  margin-top: 0.75rem !important;
+}
