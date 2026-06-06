@@ -13,12 +13,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="css/themes.css" />
-  <link rel="stylesheet" href="css/shell.css" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
@@ -40,7 +38,6 @@
   </header>
 
   <main class="page-shell workflow-grid">
-
     <section class="hero workflow-chapter hero-chapter">
       <p class="eyebrow">PasteLint Clean</p>
       <h1>Fix what copy and<br>paste broke.</h1>
@@ -81,28 +78,26 @@
           <span id="inputWordCount">0 words</span>
         </div>
       </div>
-<div class="tool-panel action-panel">
-  <button id="cleanBtn" type="button">Clean text</button>
-  <button id="copyBtn" type="button">Copy clean text</button>
-  <button id="clearBtn" type="button">Clear</button>
 
-  <div class="post-clean-actions" id="postCleanActions" hidden>
-    <a href="#inspection-report">View inspection report</a>
-    <a href="#cleaned-draft">Skip to cleaned draft ↓</a>
-  </div>
-</div>
+      <div class="tool-panel action-panel">
+        <button id="cleanBtn" type="button">Clean text</button>
+        <button id="copyBtn" type="button">Copy clean text</button>
+        <button id="clearBtn" type="button">Clear</button>
 
-    </div>
+        <div class="post-clean-actions" id="postCleanActions" hidden>
+          <a href="#inspection-report">View inspection report</a>
+          <a href="#cleaned-draft">Skip to cleaned draft ↓</a>
+        </div>
+      </div>
     </section>
-<section class="inspection-chapter" id="inspection-report">
-      <div class="review-kicker">INSPECTION REPORT</div>
+
+    <section class="inspection-chapter" id="inspection-report">
+      <div class="review-kicker">Inspection Report</div>
       <h2>What PasteLint found</h2>
-      <p>
-        Issues detected, fixes applied, and proof you can review.
-      </p>
+      <p>Issues detected, fixes applied, and proof you can review.</p>
 
       <div class="editorial-summary">
-        <div class="summary-label">TEXT BRIEF</div>
+        <div class="summary-label">Text Brief</div>
 
         <div id="textBrief">
           <strong>Formatting quality</strong><br>
@@ -120,7 +115,7 @@
       </div>
 
       <div class="draft-note-heading">
-        <div class="draft-note-kicker">01. FOUND</div>
+        <div class="draft-note-kicker">01.<br>FOUND</div>
         <h3>Issues detected before or during cleanup.</h3>
       </div>
 
@@ -133,7 +128,7 @@
       </section>
 
       <div class="draft-note-heading">
-        <div class="draft-note-kicker">02. FIXED</div>
+        <div class="draft-note-kicker">02.<br>FIXED</div>
         <h3>Changes PasteLint applied to clean the draft.</h3>
       </div>
 
@@ -146,7 +141,7 @@
       </div>
 
       <div class="draft-note-heading">
-        <div class="draft-note-kicker">03. PROOF</div>
+        <div class="draft-note-kicker">03.<br>PROOF</div>
         <h3>Before and after evidence you can review.</h3>
       </div>
 
@@ -159,23 +154,19 @@
       </div>
     </section>
 
-     <section class="workflow-chapter output-chapter draft-note-heading cleaned-heading" id="cleaned-draft">
- <div class="draft-note-kicker">04.<br>CLEANED</div>
+    <section class="workflow-chapter output-chapter draft-note-heading cleaned-heading" id="cleaned-draft">
+      <div class="draft-note-kicker">04.<br>CLEANED</div>
+      <h3>Your repaired text,<br>ready to copy.</h3>
+    </section>
 
-  <h3>
-    Your repaired text,<br>
-    ready to copy.
-  </h3>
-</section>
+    <div class="tool-panel output-panel">
+      <textarea id="output" readonly placeholder="Clean text will appear here..."></textarea>
 
-      <div class="tool-panel output-panel">
-        <textarea id="output" readonly placeholder="Clean text will appear here..."></textarea>
-
-        <div class="meta">
-          <span id="outputCharCount">0 chars</span>
-          <span id="outputWordCount">0 words</span>
-        </div>
+      <div class="meta">
+        <span id="outputCharCount">0 chars</span>
+        <span id="outputWordCount">0 words</span>
       </div>
+    </div>
 
     <section class="workflow-chapter trust-panel">
       <p class="eyebrow">Privacy-first text cleanup</p>
@@ -204,14 +195,12 @@
       <a href="second-draft.html">Open SecondDraft</a>
     </section>
 
-    <section class="workflow-chapter next-step-panel">
+    <section class="workflow-chapter next-step-panel popular-uses">
       <div class="panel-header">
         <h2>Popular Uses</h2>
       </div>
 
-      <p>
-        Explore additional ways to use PasteLint.
-      </p>
+      <p>Explore additional ways to use PasteLint.</p>
 
       <ul>
         <li>
@@ -221,18 +210,12 @@
         </li>
       </ul>
     </section>
-
   </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <p class="footer-brand">
-        PasteLint — browser-based text cleanup tools.
-      </p>
-
-      <p class="footer-note">
-        No login. No upload. Everything runs in your browser.
-      </p>
+      <p class="footer-brand">PasteLint — browser-based text cleanup tools.</p>
+      <p class="footer-note">No login. No upload. Everything runs in your browser.</p>
 
       <div class="footer-columns">
         <div>
