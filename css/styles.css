@@ -3401,3 +3401,55 @@ html[data-theme="light"] {
   color: var(--accent) !important;
   border-color: var(--accent) !important;
 }
+/* =========================================================
+   PHASE 6S — POST-CLEAN BUTTONS + LOWER SECTION ALIGNMENT
+   ========================================================= */
+
+/* Make the after-clean choices feel intentional */
+.post-clean-actions:not([hidden]) {
+  display: inline-flex !important;
+  gap: 0.7rem !important;
+  margin-left: auto !important;
+  align-items: center !important;
+}
+
+.post-clean-actions a {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  min-height: 2rem !important;
+  padding: 0.55rem 0.85rem !important;
+
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--border)) !important;
+  border-radius: 999px !important;
+
+  background: color-mix(in srgb, var(--accent) 12%, transparent) !important;
+  color: var(--accent) !important;
+
+  font-size: 0.82rem !important;
+  font-weight: 850 !important;
+  text-decoration: none !important;
+}
+
+.post-clean-actions a:hover,
+.post-clean-actions a:focus-visible {
+  background: color-mix(in srgb, var(--accent) 22%, transparent) !important;
+  border-color: var(--accent) !important;
+}
+
+/* After 04, support content should live under the content column */
+.workflow-chapter:not(.output-chapter),
+.trust-panel,
+.landing-info-card,
+.next-step-panel {
+  grid-column: 2 / 4 !important;
+  max-width: 46rem !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Bring lower support rhythm closer to 04 */
+.workflow-chapter:not(.output-chapter) {
+  margin-top: clamp(2.5rem, 5vw, 4rem) !important;
+}
