@@ -741,9 +741,18 @@ textarea:focus-visible {
 
 .cleaned-heading {
   grid-column: 1 / -1;
+  grid-template-columns:
+    minmax(12rem, 1.25fr)
+    minmax(24rem, 2.8fr)
+    minmax(18rem, 2.2fr);
   margin-top: clamp(1rem, 3vw, 2rem);
   padding-bottom: 1rem;
   border-bottom: 1px solid color-mix(in srgb, var(--success) 70%, transparent);
+}
+
+.cleaned-heading h3 {
+  grid-column: 2 / -1;
+  padding-left: 0.75rem;
 }
 
 .output-panel {
