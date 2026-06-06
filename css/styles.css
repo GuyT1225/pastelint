@@ -3351,3 +3351,14 @@ html[data-theme="light"] {
 .post-clean-actions:not([hidden]) {
   display: inline-flex !important;
 }
+/* Force post-clean choices to show after JS removes hidden */
+.post-clean-actions[hidden] {
+  display: none !important;
+}
+
+.post-clean-actions:not([hidden]) {
+  display: inline-flex !important;
+  gap: 0.6rem !important;
+  margin-left: auto !important;
+  align-items: center !important;
+}
