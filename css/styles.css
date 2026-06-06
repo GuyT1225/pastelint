@@ -3305,3 +3305,27 @@ html[data-theme="light"] {
 .output-panel textarea {
   min-height: 260px !important;
 }
+/* =========================================================
+   PHASE 6P — 04 SCALE MATCH + OUTPUT ALIGN
+   ========================================================= */
+
+.cleaned-heading .draft-note-kicker {
+  font-size: clamp(1.8rem, 4vw, 3rem) !important;
+  font-weight: 900 !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.045em !important;
+}
+
+.cleaned-heading h3 {
+  font-size: clamp(1.8rem, 4vw, 3rem) !important;
+  font-weight: 900 !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.045em !important;
+  max-width: 24ch !important;
+}
+
+/* Output starts under the same headline column */
+.output-panel {
+  grid-column: 2 / 4 !important;
+  margin-top: 0.75rem !important;
+}
