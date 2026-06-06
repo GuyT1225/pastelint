@@ -3249,3 +3249,36 @@ html[data-theme="light"] {
     margin-top: 0.35rem;
   }
 }
+/* =========================================================
+   PHASE 6M — CLEANED AS 04 OUTPUT CHAPTER
+   ========================================================= */
+
+.cleaned-heading {
+  grid-column: 1 / -1 !important;
+  display: grid !important;
+  grid-template-columns:
+    minmax(10rem, 1fr)
+    minmax(28rem, 2.6fr)
+    minmax(22rem, 2fr) !important;
+  column-gap: clamp(1.75rem, 3.5vw, 4rem) !important;
+  margin-top: clamp(3rem, 6vw, 5rem) !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 1rem !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--success) 72%, transparent) !important;
+}
+
+.cleaned-heading .draft-note-kicker {
+  grid-column: 1 !important;
+}
+
+.cleaned-heading h3 {
+  grid-column: 2 / -1 !important;
+  max-width: 24ch !important;
+}
+
+.output-panel {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-top: 1.25rem !important;
+}
