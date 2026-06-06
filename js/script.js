@@ -42,6 +42,8 @@ function getElements() {
     changePreview: $("changePreview"),
     editMap: $("editMap"),
     visualPreview: $("visualPreview")
+    postCleanActions: $("postCleanActions"),
+  
   };
 }
 
@@ -650,6 +652,10 @@ function handleClean(els) {
   const result = getCleanResult(raw, mode);
 
   setOutput(els, result.text);
+  
+  if (els.postCleanActions) {
+    els.postCleanActions.hidden = false;
+  }
   runPreAnalysis(els);
 
   renderTextBrief(
@@ -1159,6 +1165,10 @@ function clearAll(els) {
   if (els.visualPreview) {
     els.visualPreview.textContent =
       "PasteLint will show a simple before and after view once text is cleaned.";
+  }
+  
+  if (els.postCleanActions) {
+  els.postCleanActions.hidden = true;
   }
 }
 
