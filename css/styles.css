@@ -3362,3 +3362,42 @@ html[data-theme="light"] {
   margin-left: auto !important;
   align-items: center !important;
 }
+/* =========================================================
+   PHASE 6R — POST-CLEAN BUTTON VISIBILITY FIX
+   ========================================================= */
+
+.action-panel {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  flex-wrap: wrap !important;
+}
+
+.post-clean-actions[hidden] {
+  display: none !important;
+}
+
+.post-clean-actions:not([hidden]) {
+  display: inline-flex !important;
+  gap: 0.6rem !important;
+  margin-left: auto !important;
+  align-items: center !important;
+}
+
+.post-clean-actions a {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 0.45rem 0.7rem !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--muted) !important;
+  font-size: 0.82rem !important;
+  font-weight: 750 !important;
+  text-decoration: none !important;
+}
+
+.post-clean-actions a:hover,
+.post-clean-actions a:focus-visible {
+  color: var(--accent) !important;
+  border-color: var(--accent) !important;
+}
