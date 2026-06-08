@@ -362,7 +362,7 @@ select {
    EDITORIAL PROOF
 ----------------------------- */
 
-.preview-panel {
+.proof-panel {
   grid-column: 1 / -1;
 
   display: grid;
