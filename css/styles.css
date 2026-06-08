@@ -362,6 +362,12 @@ select {
    EDITORIAL PROOF
 ----------------------------- */
 
+.proof-header {
+  width: 100%;
+  max-width: 640px;
+  margin: 0;
+}
+
 .editorial-proof {
   grid-column: 2 / -1;
 
@@ -399,10 +405,6 @@ select {
   line-height: 1.6;
 
   max-width: 38ch;
-}
-
-.editorial-proof {
-  grid-column: 2 / -1;
 }
 
 .proof-divider {
