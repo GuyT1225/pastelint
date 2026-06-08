@@ -362,39 +362,20 @@ select {
    EDITORIAL PROOF
 ----------------------------- */
 
-.proof-panel {
-  grid-column: 1 / -1;
-
-  display: grid;
-  grid-template-columns:
-    minmax(8rem, 0.95fr)
-    minmax(24rem, 2.8fr)
-    minmax(18rem, 2.2fr);
-  column-gap: clamp(1.5rem, 3vw, 3rem);
-}
-
 .preview-panel {
   grid-column: 1 / -1;
+}
 
-  display: grid;
-  grid-template-columns:
-    minmax(8rem, 0.95fr)
-    minmax(24rem, 2.8fr)
-    minmax(18rem, 2.2fr);
-  column-gap: clamp(1.5rem, 3vw, 3rem);
-}}
+.proof-header {
+  width: min(100%, 760px);
+  margin: 0;
+}
 
 .editorial-proof {
-  grid-column: 2 / -1;
-
-  width: 100%;
-  max-width: 640px;
-
+  width: min(100%, 760px);
   margin: 1.75rem 0 0;
-
   display: grid;
   gap: 1.5rem;
-
   text-align: left;
 }
 
