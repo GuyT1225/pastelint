@@ -7,7 +7,7 @@
   <title>Clean ChatGPT Output Without Uploading Your Text | PasteLint</title>
   <meta
     name="description"
-    content="Clean ChatGPT output for clarity, formatting, readability, and reuse. PasteLint runs locally in your browser with no login, upload, or server."
+    content="Clean ChatGPT output for formatting, readability, filler phrases, and reuse. PasteLint runs locally in your browser with no login, upload, or server."
   />
 
   <link rel="canonical" href="https://guyt1225.github.io/pastelint/clean-chatgpt-output.html" />
@@ -36,32 +36,25 @@
 
   <section class="hero">
     <p class="hero-kicker">AI text cleanup</p>
-    <h1>Clean ChatGPT output without uploading your text.</h1>
+
+    <h1>Clean ChatGPT output before you send it.</h1>
+
     <p>
-      PasteLint helps turn AI-generated drafts into cleaner, more readable text you can review, edit, publish, email, or reuse.
-      It runs locally in your browser with no login, no upload, and no server-side processing.
+      Remove awkward spacing, filler phrases, repeated wording, and pasted formatting artifacts.
+      PasteLint runs locally in your browser with no login, no upload, and no server-side processing.
     </p>
+
+    <div class="tool-actions">
+      <a class="primary-btn" href="#tool">Clean ChatGPT output</a>
+      <a class="secondary-btn" href="second-draft.html">Rewrite with SecondDraft</a>
+    </div>
   </section>
 
   <main>
-    <section class="tool-panel input-panel">
-      <div class="tool-header">
-        <h2>Fix the part after generation</h2>
-        <p>
-          ChatGPT can produce useful drafts, but the output often needs a cleanup pass:
-          spacing, filler, overly polished wording, repeated phrasing, and formatting artifacts.
-        </p>
-      </div>
-
-      <div class="tool-actions">
-        <a class="primary-btn" href="#tool">Clean ChatGPT output</a>
-        <a class="secondary-btn" href="second-draft.html">Open SecondDraft</a>
-      </div>
-    </section>
-
     <section class="preview-panel" aria-label="Before and after example">
       <div class="panel-header">
-        <h2>Before and after</h2>
+        <p class="hero-kicker">Before / After</p>
+        <h2>See the cleanup pass.</h2>
       </div>
 
       <div class="edit-item compact-preview">
@@ -125,6 +118,7 @@
 
     <section class="insight-panel" id="summaryPanel">
       <div class="panel-header">
+        <p class="hero-kicker">Review</p>
         <h2>PasteLint Summary</h2>
       </div>
 
@@ -132,85 +126,50 @@
         Paste text above and click Clean.
       </div>
     </section>
-    
-    <section class="insight-panel" id="issuesPanel">
-    <div class="panel-header">
-      <h2>What PasteLint Found</h2>
-     </div>
 
-  <div id="diagnosticList" class="diagnostic-list">
-    <div class="diagnostic-row">
-      Paste text above and click Clean.
-    </div>
-  </div>
-</section>
-    
-    <section class="insight-panel">
+    <section class="insight-panel" id="issuesPanel">
       <div class="panel-header">
-        <h2>Good for reviewing AI drafts before reuse</h2>
+        <p class="hero-kicker">Editor’s marks</p>
+        <h2>What PasteLint Found</h2>
       </div>
 
-      <ul>
-        <li>Remove filler phrases and over-polished wording.</li>
-        <li>Clean spacing, line breaks, punctuation, and pasted formatting.</li>
-        <li>Make AI-generated text easier to read before publishing or sending.</li>
-        <li>Review the cleaned result before copying it anywhere else.</li>
-      </ul>
+      <div id="diagnosticList" class="diagnostic-list">
+        <div class="diagnostic-row">
+          Paste text above and click Clean.
+        </div>
+      </div>
     </section>
 
     <section class="preview-panel">
       <div class="panel-header">
-        <h2>Common ChatGPT cleanup patterns</h2>
+        <p class="hero-kicker">Common fixes</p>
+        <h2>ChatGPT cleanup patterns</h2>
       </div>
 
       <div class="diagnostic-list">
         <div class="diagnostic-row">
-          <strong>Overly formal phrasing</strong>
-          <span><strong>Before:</strong> This can be utilized in order to facilitate improved readability.</span>
-          <span><strong>After:</strong> This can make the text easier to read.</span>
-        </div>
-
-        <div class="diagnostic-row">
-          <strong>Generic AI filler</strong>
+          <strong>01 — AI filler</strong>
           <span><strong>Before:</strong> It is important to note that clear communication plays a crucial role.</span>
           <span><strong>After:</strong> Clear communication matters.</span>
         </div>
 
         <div class="diagnostic-row">
-          <strong>Messy copy and paste formatting</strong>
-          <span><strong>Before:</strong> Extra spacing, odd line breaks, or hidden characters.</span>
-          <span><strong>After:</strong> Cleaner text that is easier to review and reuse.</span>
+          <strong>02 — Overly formal phrasing</strong>
+          <span><strong>Before:</strong> This can be utilized in order to facilitate improved readability.</span>
+          <span><strong>After:</strong> This can make the text easier to read.</span>
+        </div>
+
+        <div class="diagnostic-row">
+          <strong>03 — Pasted formatting artifacts</strong>
+          <span><strong>Before:</strong> Extra spacing, odd line breaks, hidden characters, or copied formatting noise.</span>
+          <span><strong>After:</strong> Cleaner text that is easier to review, edit, and reuse.</span>
         </div>
       </div>
     </section>
 
-    <section class="insight-panel">
-      <div class="panel-header">
-        <h2>How PasteLint differs from AI humanizers</h2>
-      </div>
-
-      <p>
-        PasteLint is not an AI detector bypass tool, and it does not try to disguise how text was written.
-      </p>
-
-      <p>
-        Instead, PasteLint focuses on practical cleanup: readability, formatting, spacing, structure, and clarity.
-      </p>
-
-      <p>
-        The goal is simple: help people review and improve text before they publish, share, narrate, or reuse it.
-      </p>
-
-      <ul>
-        <li>Preserves meaning instead of rewriting everything.</li>
-        <li>Highlights issues instead of hiding them.</li>
-        <li>Runs locally in your browser.</li>
-        <li>No login. No upload. No server processing.</li>
-      </ul>
-    </section>
-
     <section class="trust-panel">
       <div class="panel-header">
+        <p class="hero-kicker">Privacy</p>
         <h2>Private by design</h2>
       </div>
 
@@ -221,18 +180,42 @@
 
     <section class="next-step-panel">
       <div class="panel-header">
-        <h2>Need a stronger rewrite?</h2>
+        <p class="hero-kicker">Choose the right tool</p>
+        <h2>PasteLint Clean or SecondDraft?</h2>
+      </div>
+
+      <div class="diagnostic-list">
+        <div class="diagnostic-row">
+          <strong>Use PasteLint Clean when</strong>
+          <span>You want formatting, spacing, readability, and paste cleanup without changing the meaning.</span>
+        </div>
+
+        <div class="diagnostic-row">
+          <strong>Use SecondDraft when</strong>
+          <span>You want stronger help with tone, flow, wording, structure, or a more natural rewrite.</span>
+        </div>
+      </div>
+
+      <div class="tool-actions">
+        <a class="primary-btn" href="index.html">Open PasteLint Clean</a>
+        <a class="secondary-btn" href="second-draft.html">Open SecondDraft</a>
+      </div>
+    </section>
+
+    <section class="insight-panel">
+      <div class="panel-header">
+        <p class="hero-kicker">Trust note</p>
+        <h2>Not an AI humanizer</h2>
       </div>
 
       <p>
-        Use SecondDraft when you want tone, flow, or wording help beyond cleanup.
-        Use PasteLint Clean when you mainly need formatting, spacing, and readability cleanup.
+        PasteLint is not an AI detector bypass tool, and it does not try to disguise how text was written.
+        It focuses on practical cleanup: readability, formatting, spacing, structure, and clarity.
       </p>
 
-      <div class="tool-actions">
-        <a class="secondary-btn" href="second-draft.html">Open SecondDraft</a>
-        <a class="secondary-btn" href="index.html">Open PasteLint Clean</a>
-      </div>
+      <p>
+        The goal is to help people review and improve text before they publish, share, narrate, or reuse it.
+      </p>
     </section>
   </main>
 
@@ -295,26 +278,26 @@
   </footer>
 
   <script src="js/themes.js"></script>
-<script src="js/text-clean-engine.js"></script>
-<script src="js/text-analyzer.js"></script>
-<script src="js/script.js"></script>
-<script src="js/ai-cleanup.js"></script>
-<script>
-document.addEventListener("click", event => {
-  const button = event.target.closest("#cleanBtn, #rewriteBtn");
-  if (!button) return;
+  <script src="js/text-clean-engine.js"></script>
+  <script src="js/text-analyzer.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/ai-cleanup.js"></script>
 
-  const input = document.getElementById("input");
-  const output = document.getElementById("output");
+  <script>
+    document.addEventListener("click", event => {
+      const button = event.target.closest("#cleanBtn, #rewriteBtn");
+      if (!button) return;
 
-  if (!input || !output || !window.PasteLintAI) return;
+      const input = document.getElementById("input");
+      const output = document.getElementById("output");
 
-  window.setTimeout(() => {
-    output.value = window.PasteLintAI.clean(output.value || input.value);
-    output.dispatchEvent(new Event("input", { bubbles: true }));
-  }, 20);
-});
-</script>
-  
+      if (!input || !output || !window.PasteLintAI) return;
+
+      window.setTimeout(() => {
+        output.value = window.PasteLintAI.clean(output.value || input.value);
+        output.dispatchEvent(new Event("input", { bubbles: true }));
+      }, 20);
+    });
+  </script>
 </body>
 </html>
