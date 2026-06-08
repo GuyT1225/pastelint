@@ -308,6 +308,7 @@ select {
 
 .hero {
   padding: 0;
+  margin: 0; 
 }
 
 .hero-content {
@@ -356,6 +357,20 @@ select {
   color: var(--muted);
   font-size: clamp(1rem, 2vw, 1.1rem);
   line-height: 1.65;
+}
+.hero-proof-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+
+  align-items: start;
+
+  margin-bottom: 3rem;
+}
+
+
+.proof-panel {
+  margin: 0;
 }
 
 /* -----------------------------
