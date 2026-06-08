@@ -363,6 +363,8 @@ select {
 ----------------------------- */
 
 .editorial-proof {
+  grid-column: 2 / -1;
+   
   width: min(100% - 2rem, 760px);
 
   margin: 1.75rem auto 0;
