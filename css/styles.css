@@ -310,6 +310,11 @@ select {
   padding: 0;
 }
 
+.hero-content {
+  width: min(100% - 2rem, 760px);
+  margin: 0 auto;
+}
+
 .eyebrow,
 .review-kicker,
 .summary-label,
@@ -323,8 +328,16 @@ select {
   text-transform: uppercase;
 }
 
-.hero .eyebrow {
+.hero-kicker {
+  color: var(--success);
+
   margin: 0 0 0.45rem;
+
+  font-size: 0.78rem;
+  font-weight: 900;
+
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .hero h1 {
@@ -343,6 +356,54 @@ select {
   color: var(--muted);
   font-size: clamp(1rem, 2vw, 1.1rem);
   line-height: 1.65;
+}
+
+/* -----------------------------
+   EDITORIAL PROOF
+----------------------------- */
+
+.editorial-proof {
+  width: min(100% - 2rem, 760px);
+
+  margin: 1.75rem auto 0;
+
+  display: grid;
+  gap: 1.5rem;
+
+  text-align: left;
+}
+
+.proof-side {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.proof-label {
+  color: var(--success);
+
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.proof-side p {
+  margin: 0;
+
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+
+  line-height: 1.6;
+
+  max-width: 60ch;
+}
+
+.proof-divider {
+  font-size: 1.6rem;
+
+  opacity: 0.45;
+
+  text-align: center;
 }
 
 /* -----------------------------
