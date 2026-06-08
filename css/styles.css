@@ -364,10 +364,11 @@ select {
 
 .editorial-proof {
   grid-column: 2 / -1;
-   
-  width: min(100% - 2rem, 760px);
 
-  margin: 1.75rem auto 0;
+  width: 100%;
+  max-width: 640px;
+
+  margin: 1.75rem 0 0;
 
   display: grid;
   gap: 1.5rem;
