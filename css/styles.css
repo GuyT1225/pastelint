@@ -341,7 +341,7 @@ select {
 }
 
 .hero h1 {
-  max-width: 12ch;
+  max-width: 15ch;
   margin: 0 0 0.75rem;
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 3.7rem);
