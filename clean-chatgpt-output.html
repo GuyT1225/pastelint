@@ -34,7 +34,7 @@
     </div>
   </header>
 
- <main class="page-shell workflow-grid">
+<main class="page-shell workflow-grid">
 
   <div class="hero-proof-layout">
 
@@ -65,7 +65,6 @@
       </div>
 
       <div class="editorial-proof">
-
         <div class="proof-side">
           <span class="proof-label">Before</span>
           <p>
@@ -82,186 +81,162 @@
             This helps make the text easier to read.
           </p>
         </div>
-
       </div>
     </section>
 
   </div>
 
   <section id="tool" class="tool-shell" aria-label="Clean ChatGPT output tool">
-      <section class="tool-panel input-panel">
-        <div class="tool-header">
-          <h2>Paste ChatGPT output</h2>
-          <p>
-            Clean awkward formatting, reduce filler, and prepare the draft for review.
-          </p>
+    <section class="tool-panel input-panel">
+      <div class="tool-header">
+        <h2>Paste ChatGPT output</h2>
+        <p>
+          Clean awkward formatting, reduce filler, and prepare the draft for review.
+        </p>
+      </div>
+
+      <div class="field">
+        <label for="input">Original AI-generated text</label>
+        <textarea id="input" placeholder="Paste ChatGPT output here..."></textarea>
+
+        <div class="meta">
+          <span id="inputCharCount">0 chars</span>
+          <span id="inputWordCount">0 words</span>
         </div>
-
-        <div class="field">
-          <label for="input">Original AI-generated text</label>
-          <textarea id="input" placeholder="Paste ChatGPT output here..."></textarea>
-
-          <div class="meta">
-            <span id="inputCharCount">0 chars</span>
-            <span id="inputWordCount">0 words</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="tool-panel output-panel">
-        <div class="tool-header">
-          <h2>Cleaned output</h2>
-          <p>
-            Review the result before copying. PasteLint aims to preserve meaning while improving readability.
-          </p>
-        </div>
-
-        <div class="field">
-          <label for="output">PasteLint output</label>
-          <textarea id="output" placeholder="Your cleaned text will appear here..." readonly></textarea>
-
-          <div class="meta">
-            <span id="outputCharCount">0 chars</span>
-            <span id="outputWordCount">0 words</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="tool-panel">
-        <div class="tool-actions">
-          <button id="cleanBtn" class="primary-btn" type="button">Clean this text</button>
-          <button id="copyBtn" class="secondary-btn" type="button">Copy</button>
-          <button id="clearBtn" class="clear-btn" type="button">Clear</button>
-        </div>
-      </section>
+      </div>
     </section>
-    
- <section class="proof-panel" aria-label="Before and after example">
-      <div class="panel-header proof-header">
-        <p class="hero-kicker">Before / After</p>
-        <h2>One cleanup pass.</h2>
+
+    <section class="tool-panel output-panel">
+      <div class="tool-header">
+        <h2>Cleaned output</h2>
+        <p>
+          Review the result before copying. PasteLint aims to preserve meaning while improving readability.
+        </p>
       </div>
 
-     <div class="editorial-proof">
-  <div class="proof-side">
-    <span class="proof-label">Before</span>
-    <p>
-      It is important to note that this comprehensive solution can be utilized
-      in order to facilitate improved readability.
-    </p>
-  </div>
+      <div class="field">
+        <label for="output">PasteLint output</label>
+        <textarea id="output" placeholder="Your cleaned text will appear here..." readonly></textarea>
 
-  <div class="proof-divider">↓</div>
-
-  <div class="proof-side">
-    <span class="proof-label">After</span>
-    <p>
-      This helps make the text easier to read.
-    </p>
-  </div>
-</div>
-    <section class="insight-panel" id="summaryPanel">
-      <div class="panel-header">
-        <p class="hero-kicker">Review</p>
-        <h2>PasteLint Summary</h2>
+        <div class="meta">
+          <span id="outputCharCount">0 chars</span>
+          <span id="outputWordCount">0 words</span>
+        </div>
       </div>
+    </section>
 
-      <div id="summaryContent">
+    <section class="tool-panel">
+      <div class="tool-actions">
+        <button id="cleanBtn" class="primary-btn" type="button">Clean this text</button>
+        <button id="copyBtn" class="secondary-btn" type="button">Copy</button>
+        <button id="clearBtn" class="clear-btn" type="button">Clear</button>
+      </div>
+    </section>
+  </section>
+
+  <section class="insight-panel" id="summaryPanel">
+    <div class="panel-header">
+      <p class="hero-kicker">Review</p>
+      <h2>PasteLint Summary</h2>
+    </div>
+
+    <div id="summaryContent">
+      Paste text above and click Clean.
+    </div>
+  </section>
+
+  <section class="insight-panel" id="issuesPanel">
+    <div class="panel-header">
+      <p class="hero-kicker">Editor’s marks</p>
+      <h2>What PasteLint Found</h2>
+    </div>
+
+    <div id="diagnosticList" class="diagnostic-list">
+      <div class="diagnostic-row">
         Paste text above and click Clean.
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="insight-panel" id="issuesPanel">
-      <div class="panel-header">
-        <p class="hero-kicker">Editor’s marks</p>
-        <h2>What PasteLint Found</h2>
+  <section class="preview-panel">
+    <div class="panel-header">
+      <p class="hero-kicker">Common fixes</p>
+      <h2>What gets cleaned</h2>
+    </div>
+
+    <div class="diagnostic-list">
+      <div class="diagnostic-row">
+        <strong>01 — AI filler</strong>
+        <span><strong>Before:</strong> It is important to note that clear communication plays a crucial role.</span>
+        <span><strong>After:</strong> Clear communication matters.</span>
       </div>
 
-      <div id="diagnosticList" class="diagnostic-list">
-        <div class="diagnostic-row">
-          Paste text above and click Clean.
-        </div>
-      </div>
-    </section>
-
-    <section class="preview-panel">
-      <div class="panel-header">
-        <p class="hero-kicker">Common fixes</p>
-        <h2>What gets cleaned</h2>
+      <div class="diagnostic-row">
+        <strong>02 — Overly formal phrasing</strong>
+        <span><strong>Before:</strong> This can be utilized in order to facilitate improved readability.</span>
+        <span><strong>After:</strong> This can make the text easier to read.</span>
       </div>
 
-      <div class="diagnostic-list">
-        <div class="diagnostic-row">
-          <strong>01 — AI filler</strong>
-          <span><strong>Before:</strong> It is important to note that clear communication plays a crucial role.</span>
-          <span><strong>After:</strong> Clear communication matters.</span>
-        </div>
-
-        <div class="diagnostic-row">
-          <strong>02 — Overly formal phrasing</strong>
-          <span><strong>Before:</strong> This can be utilized in order to facilitate improved readability.</span>
-          <span><strong>After:</strong> This can make the text easier to read.</span>
-        </div>
-
-        <div class="diagnostic-row">
-          <strong>03 — Pasted formatting artifacts</strong>
-          <span><strong>Before:</strong> Extra spacing, odd line breaks, hidden characters, or copied formatting noise.</span>
-          <span><strong>After:</strong> Cleaner text that is easier to review, edit, and reuse.</span>
-        </div>
+      <div class="diagnostic-row">
+        <strong>03 — Pasted formatting artifacts</strong>
+        <span><strong>Before:</strong> Extra spacing, odd line breaks, hidden characters, or copied formatting noise.</span>
+        <span><strong>After:</strong> Cleaner text that is easier to review, edit, and reuse.</span>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="trust-panel">
-      <div class="panel-header">
-        <p class="hero-kicker">Privacy</p>
-        <h2>Private by design</h2>
-      </div>
+  <section class="trust-panel">
+    <div class="panel-header">
+      <p class="hero-kicker">Privacy</p>
+      <h2>Private by design</h2>
+    </div>
 
-      <p>
-        PasteLint runs in your browser. Your text is not uploaded to a server, stored in an account, or sent to an API.
-      </p>
-    </section>
+    <p>
+      PasteLint runs in your browser. Your text is not uploaded to a server, stored in an account, or sent to an API.
+    </p>
+  </section>
 
-    <section class="next-step-panel">
-      <div class="panel-header">
-        <p class="hero-kicker">Choose the right tool</p>
-        <h2>PasteLint Clean or SecondDraft?</h2>
+  <section class="next-step-panel">
+    <div class="panel-header">
+      <p class="hero-kicker">Choose the right tool</p>
+      <h2>PasteLint Clean or SecondDraft?</h2>
+    </div>
+
+    <div class="diagnostic-list">
+      <div class="diagnostic-row">
+        <strong>Use PasteLint Clean when</strong>
+        <span>You want formatting, spacing, readability, and paste cleanup without changing the meaning.</span>
       </div>
 
-      <div class="diagnostic-list">
-        <div class="diagnostic-row">
-          <strong>Use PasteLint Clean when</strong>
-          <span>You want formatting, spacing, readability, and paste cleanup without changing the meaning.</span>
-        </div>
-
-        <div class="diagnostic-row">
-          <strong>Use SecondDraft when</strong>
-          <span>You want stronger help with tone, flow, wording, structure, or a more natural rewrite.</span>
-        </div>
+      <div class="diagnostic-row">
+        <strong>Use SecondDraft when</strong>
+        <span>You want stronger help with tone, flow, wording, structure, or a more natural rewrite.</span>
       </div>
+    </div>
 
-      <div class="tool-actions">
-        <a class="primary-btn" href="index.html">Open PasteLint Clean</a>
-        <a class="secondary-btn" href="second-draft.html">Open SecondDraft</a>
-      </div>
-    </section>
+    <div class="tool-actions">
+      <a class="primary-btn" href="index.html">Open PasteLint Clean</a>
+      <a class="secondary-btn" href="second-draft.html">Open SecondDraft</a>
+    </div>
+  </section>
 
-    <section class="insight-panel">
-      <div class="panel-header">
-        <p class="hero-kicker">Trust note</p>
-        <h2>Not an AI humanizer</h2>
-      </div>
+  <section class="insight-panel">
+    <div class="panel-header">
+      <p class="hero-kicker">Trust note</p>
+      <h2>Not an AI humanizer</h2>
+    </div>
 
-      <p>
-        PasteLint is not an AI detector bypass tool, and it does not try to disguise how text was written.
-        It focuses on practical cleanup: readability, formatting, spacing, structure, and clarity.
-      </p>
+    <p>
+      PasteLint is not an AI detector bypass tool, and it does not try to disguise how text was written.
+      It focuses on practical cleanup: readability, formatting, spacing, structure, and clarity.
+    </p>
 
-      <p>
-        The goal is to help people review and improve text before they publish, share, narrate, or reuse it.
-      </p>
-    </section>
-  </main>
+    <p>
+      The goal is to help people review and improve text before they publish, share, narrate, or reuse it.
+    </p>
+  </section>
+
+</main>
 
   <footer class="site-footer">
     <div class="footer-inner">
