@@ -362,7 +362,7 @@ select {
   grid-column: 1 / -1;
 
   display: grid;
-  grid-template-columns: minmax(14rem, 0.8fr) minmax(0, 2.2fr);
+  grid-template-columns: minmax(18rem, 1fr) minmax(0, 2.2fr);
   gap: clamp(2rem, 5vw, 5rem);
 
   align-items: start;
@@ -370,6 +370,8 @@ select {
   margin-bottom: 3rem;
 }
 .proof-panel {
+  grid-column: 1 / -1;
+  width: min(100%, 760px); 
   margin: 0;
 }
 
@@ -945,6 +947,14 @@ html[data-theme="terminal"] select {
     grid-template-columns: 1fr;
   }
 
+.hero-proof-layout {
+  grid-template-columns: 1fr;
+}
+
+.proof-panel {
+  width: 100%;
+}
+   
   .hero,
   .input-chapter,
   .inspection-chapter,
