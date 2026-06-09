@@ -630,9 +630,15 @@ textarea:focus-visible {
   justify-self: start;
 }
 
+.preview-panel {
   grid-column: 2 / -1;
   max-width: 46rem;
   justify-self: start;
+}
+
+.preview-panel .diagnostic-list {
+  max-width: 46rem;
+}
 
 #summaryContent,
 #diagnosticList {
@@ -654,7 +660,11 @@ textarea:focus-visible {
   gap: 0.45rem;
   padding: 0 0 1rem;
   margin: 0 0 1rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 58%, transparent);
+  border-bottom: 1px solid color-mix(
+    in srgb,
+    var(--border) 58%,
+    transparent
+  );
 }
 
 .diagnostic-title {
