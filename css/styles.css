@@ -650,14 +650,27 @@ textarea:focus-visible {
 .editorial-summary,
 .draft-note-heading,
 .review-notes-section,
-.insight-panel,
 .cleaned-heading {
+   grid-template-columns:
+    minmax(10rem, 14rem)
+    minmax(0, 1fr);
+  column-gap: clamp(1.5rem, 3vw, 3rem);
+   align-items: start;
+}
+
+.insight-panel .panel-header {
+  grid-column: 1;
+}
+.insight-panel {
   display: grid;
   grid-template-columns:
-    minmax(8rem, 0.95fr)
-    minmax(24rem, 2.8fr)
-    minmax(18rem, 2.2fr);
+    minmax(10rem, 14rem)
+    minmax(0, 1fr);
   column-gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+.insight-panel > :not(.panel-header) {
+  grid-column: 2;
 }
 
 .editorial-summary {
