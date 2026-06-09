@@ -669,8 +669,29 @@ textarea:focus-visible {
   column-gap: clamp(1.5rem, 3vw, 3rem);
   align-items: start;
 }
+#summaryPanel,
+#issuesPanel {
+  grid-column: 1 / 3;
+}
+
+.preview-panel {
+  grid-column: 3;
+}
+#summaryPanel,
+#issuesPanel,
+.preview-panel {
+  margin-top: 0;
+}
+
+#summaryPanel,
+#issuesPanel,
+.preview-panel {
+  align-self: start;
+}
+
 .insight-panel > :not(.panel-header) {
   grid-column: 2;
+  min-width: 0;
 }
 
 .editorial-summary {
