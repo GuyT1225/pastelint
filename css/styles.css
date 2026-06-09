@@ -348,7 +348,7 @@ select {
 }
 
 .hero h1 {
-  max-width: 8ch;
+  max-width: 9.5ch;
   margin: 0 0 0.75rem;
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 3.7rem);
@@ -373,7 +373,7 @@ select {
 
   align-items: start;
 
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 /* -----------------------------
@@ -384,6 +384,7 @@ select {
   grid-column: 1 / -1;
   width: min(100%, 760px);
   margin: -1rem 0 0;
+  margin-bottom: 2rem; 
 }
 
 .proof-header {
