@@ -342,7 +342,7 @@ select {
 }
 
 .hero h1 {
-  max-width: 20ch;
+  max-width: 8ch;
   margin: 0 0 0.75rem;
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 3.7rem);
@@ -352,7 +352,7 @@ select {
 }
 
 .hero p {
-  max-width: 58ch;
+  max-width: 30ch;
   margin: 0;
   color: var(--muted);
   font-size: clamp(1rem, 2vw, 1.1rem);
@@ -377,7 +377,7 @@ select {
 .proof-panel {
   grid-column: 1 / -1;
   width: min(100%, 760px);
-  margin: 0; 
+  margin: -1rem 0 0;
 }
 
 .proof-header {
