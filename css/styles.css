@@ -369,11 +369,6 @@ select {
 
   margin-bottom: 3rem;
 }
-.proof-panel {
-  grid-column: 1 / -1;
-  width: min(100%, 760px); 
-  margin: 0;
-}
 
 /* -----------------------------
    EDITORIAL PROOF
@@ -382,6 +377,7 @@ select {
 .proof-panel {
   grid-column: 1 / -1;
   width: min(100%, 760px);
+  margin: 0; 
 }
 
 .proof-header {
