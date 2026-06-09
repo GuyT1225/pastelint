@@ -664,10 +664,6 @@ textarea:focus-visible {
    align-items: start;
 }
 
-.insight-panel .panel-header {
-  grid-column: 1;
-}
-
 #summaryPanel,
 #issuesPanel,
 .preview-panel {
