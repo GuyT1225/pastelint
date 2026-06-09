@@ -294,20 +294,21 @@ select {
   justify-self: start;
 }
 
+.support-rail {
+  grid-column: 2 / -1;
+
+  display: grid;
+  gap: 3rem;
+
+  width: 100%;
+  max-width: 46rem;
+}
+
 .trust-panel,
-.landing-info-card,
-.next-step-panel {
-  grid-column: 2 / -1;
-  max-width: 46rem;
-  justify-self: start;
-}
-
+.next-step-panel,
 .insight-panel {
-  grid-column: 2 / -1;
-  max-width: 46rem;
-  justify-self: start;
+  max-width: none;
 }
-
 /* -----------------------------
    HERO
 ----------------------------- */
