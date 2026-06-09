@@ -302,6 +302,12 @@ select {
   justify-self: start;
 }
 
+.insight-panel {
+  grid-column: 2 / -1;
+  max-width: 46rem;
+  justify-self: start;
+}
+
 /* -----------------------------
    HERO
 ----------------------------- */
@@ -661,14 +667,6 @@ textarea:focus-visible {
 .insight-panel .panel-header {
   grid-column: 1;
 }
-.insight-panel {
-  display: grid;
-  grid-template-columns:
-    minmax(10rem, 14rem)
-    minmax(0, 1fr);
-  column-gap: clamp(1.5rem, 3vw, 3rem);
-  align-items: start;
-}
 
 #summaryPanel,
 #issuesPanel,
@@ -680,11 +678,6 @@ textarea:focus-visible {
 #issuesPanel,
 .preview-panel {
   align-self: start;
-}
-
-.insight-panel > :not(.panel-header) {
-  grid-column: 2;
-  min-width: 0;
 }
 
 .editorial-summary {
