@@ -287,16 +287,56 @@ select {
 
 .hero,
 .input-chapter,
-.inspection-chapter,
-.cleaned-heading,
-.output-panel {
+.inspection-chapter {
   max-width: var(--content-width);
   justify-self: start;
 }
-.inspection-chapter {
+
+.cleaned-heading,
+.output-panel {
   grid-column: 2 / -1;
+  width: 100%;
+  max-width: none;
 }
 
+.inspection-chapter {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.9fr) minmax(0, 1.8fr);
+  column-gap: clamp(1.5rem, 3vw, 3rem);
+  row-gap: 1.1rem;
+  align-items: start;
+}
+
+.inspection-chapter > .review-kicker,
+.inspection-chapter > h2,
+.inspection-chapter > p {
+  grid-column: 1 / -1;
+}
+
+.editorial-summary,
+.draft-note-heading,
+.review-notes-section {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+}
+
+.summary-label,
+.draft-note-kicker,
+.found-category,
+.fixed-category,
+.proof-category {
+  grid-column: 1;
+}
+
+#textBrief,
+.draft-note-heading h3,
+#foundList,
+#editMap,
+#visualPreview {
+  grid-column: 2;
+}
 .support-rail {
   grid-column: 2 / -1;
 
@@ -352,7 +392,7 @@ select {
 }
 
 .hero h1 {
-  max-width: 9.5ch;
+  max-width: 10.5ch;
   margin: 0 0 0.75rem;
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 3.7rem);
@@ -362,7 +402,7 @@ select {
 }
 
 .hero p {
-  max-width: 30ch;
+  max-width: 28ch;
   margin: 0;
   color: var(--muted);
   font-size: clamp(1rem, 2vw, 1.1rem);
@@ -378,7 +418,16 @@ select {
   align-items: start;
   margin-bottom: 0.5rem;
 }
+/* PasteLint top alignment */
+.page-shell.workflow-grid > .hero {
+  grid-column: 1;
+  align-self: start;
+}
 
+.page-shell.workflow-grid > .tool-shell {
+  grid-column: 2 / -1;
+  align-self: start;
+}
 /* -----------------------------
    EDITORIAL PROOF
 ----------------------------- */
