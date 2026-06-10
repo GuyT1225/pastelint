@@ -6,9 +6,9 @@
 
   <title>Clean ChatGPT Output Without Uploading Your Text | PasteLint</title>
   <meta
-name="description"
-content="Paste ChatGPT output and instantly remove filler phrases, formatting noise, and readability issues. No login. No upload. Runs entirely in your browser."
->
+    name="description"
+    content="Paste ChatGPT output and instantly remove filler phrases, formatting noise, and readability issues. No login. No upload. Runs entirely in your browser."
+  />
 
   <link rel="canonical" href="https://guyt1225.github.io/pastelint/clean-chatgpt-output.html" />
   <link rel="stylesheet" href="css/styles.css" />
@@ -34,148 +34,140 @@ content="Paste ChatGPT output and instantly remove filler phrases, formatting no
     </div>
   </header>
 
-<main class="page-shell workflow-grid">
+  <main class="page-shell workflow-grid">
 
-  <div class="hero-proof-layout">
+    <div class="hero-proof-layout">
 
-    <section class="hero">
-      <div class="hero-content">
+      <section class="hero">
+        <div class="hero-content">
+          <p class="hero-kicker">AI text cleanup</p>
 
-        <p class="hero-kicker">AI text cleanup</p>
+          <h1>Clean ChatGPT output before you send it.</h1>
 
-        <h1>Clean ChatGPT output before you send it.</h1>
+          <p>
+            Remove awkward spacing, filler phrases, repeated wording, and pasted formatting artifacts.
+            PasteLint runs locally in your browser with no login, no upload, and no server-side processing.
+          </p>
+
+          <div class="tool-actions">
+            <a class="primary-btn" href="#tool">Clean ChatGPT output</a>
+            <a class="secondary-btn" href="second-draft.html">Rewrite with SecondDraft</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="tool" class="tool-shell" aria-label="Clean ChatGPT output tool">
+        <section class="tool-panel input-panel">
+          <div class="tool-header">
+            <h2>Paste ChatGPT output</h2>
+            <p>
+              Clean awkward formatting, reduce filler, and prepare the draft for review.
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="input">Original AI-generated text</label>
+            <textarea id="input" placeholder="Paste ChatGPT output here..."></textarea>
+
+            <div class="meta">
+              <span id="inputCharCount">0 chars</span>
+              <span id="inputWordCount">0 words</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="tool-panel output-panel">
+          <div class="tool-header">
+            <h2>Cleaned output</h2>
+            <p>
+              Review the result before copying. PasteLint aims to preserve meaning while improving readability.
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="output">PasteLint output</label>
+            <textarea id="output" placeholder="Your cleaned text will appear here..." readonly></textarea>
+
+            <div class="meta">
+              <span id="outputCharCount">0 chars</span>
+              <span id="outputWordCount">0 words</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="tool-panel">
+          <div class="tool-actions">
+            <button id="cleanBtn" class="primary-btn" type="button">Clean this text</button>
+            <button id="copyBtn" class="secondary-btn" type="button">Copy</button>
+            <button id="clearBtn" class="clear-btn" type="button">Clear</button>
+          </div>
+        </section>
+      </section>
+
+    </div>
+
+    <div class="support-rail">
+
+      <section class="next-step-panel">
+        <div class="panel-header">
+          <p class="hero-kicker">Continue working</p>
+          <h2>Open this text in another tool</h2>
+        </div>
+
+        <div class="diagnostic-list">
+          <div class="diagnostic-row">
+            <strong>PasteLint Clean</strong>
+
+            <span>
+              Inspect formatting, readability, speech risks, and cleanup details
+              using the text you already pasted.
+            </span>
+
+            <a id="openPasteLint" href="index.html">Open PasteLint Clean →</a>
+          </div>
+
+          <div class="diagnostic-row">
+            <strong>SecondDraft</strong>
+
+            <span>
+              Rewrite for tone, structure, clarity, and flow.
+            </span>
+
+            <a id="openSecondDraft" href="second-draft.html">Open SecondDraft →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-panel">
+        <div class="panel-header">
+          <p class="hero-kicker">Privacy</p>
+          <h2>Private by design</h2>
+        </div>
 
         <p>
-          Remove awkward spacing, filler phrases, repeated wording, and pasted formatting artifacts.
-          PasteLint runs locally in your browser with no login, no upload, and no server-side processing.
+          PasteLint runs in your browser. Your text is not uploaded to a server, stored in an account, or sent to an API.
+        </p>
+      </section>
+
+      <section class="insight-panel">
+        <div class="panel-header">
+          <p class="hero-kicker">Trust note</p>
+          <h2>Not an AI humanizer</h2>
+        </div>
+
+        <p>
+          PasteLint is not an AI detector bypass tool, and it does not try to disguise how text was written.
+          It focuses on practical cleanup: readability, formatting, spacing, structure, and clarity.
         </p>
 
-        <div class="tool-actions">
-          <a class="primary-btn" href="#tool">Clean ChatGPT output</a>
-          <a class="secondary-btn" href="second-draft.html">Rewrite with SecondDraft</a>
-        </div>
-
-      </div>
-    </section>
-
-    <section id="tool" class="tool-shell" aria-label="Clean ChatGPT output tool">
-      <section class="tool-panel input-panel">
-        <div class="tool-header">
-          <h2>Paste ChatGPT output</h2>
-          <p>
-            Clean awkward formatting, reduce filler, and prepare the draft for review.
-          </p>
-        </div>
-
-        <div class="field">
-          <label for="input">Original AI-generated text</label>
-          <textarea id="input" placeholder="Paste ChatGPT output here..."></textarea>
-
-          <div class="meta">
-            <span id="inputCharCount">0 chars</span>
-            <span id="inputWordCount">0 words</span>
-          </div>
-        </div>
+        <p>
+          The goal is to help people review and improve text before they publish, share, narrate, or reuse it.
+        </p>
       </section>
 
-      <section class="tool-panel output-panel">
-        <div class="tool-header">
-          <h2>Cleaned output</h2>
-          <p>
-            Review the result before copying. PasteLint aims to preserve meaning while improving readability.
-          </p>
-        </div>
+    </div>
 
-        <div class="field">
-          <label for="output">PasteLint output</label>
-          <textarea id="output" placeholder="Your cleaned text will appear here..." readonly></textarea>
-
-          <div class="meta">
-            <span id="outputCharCount">0 chars</span>
-            <span id="outputWordCount">0 words</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="tool-panel">
-        <div class="tool-actions">
-          <button id="cleanBtn" class="primary-btn" type="button">Clean this text</button>
-          <button id="copyBtn" class="secondary-btn" type="button">Copy</button>
-          <button id="clearBtn" class="clear-btn" type="button">Clear</button>
-        </div>
-      </section>
-    </section>
-
-
-  </div>
-
-  <div class="support-rail">
-
-    <section class="next-step-panel">
-      <div class="panel-header">
-       <p class="hero-kicker">Continue working</p>
-<h2>Open this text in another tool</h2>
-      </div>
-
-      <div class="diagnostic-list">
-        <div class="diagnostic-row">
-         <strong>PasteLint Clean</strong>
-
-        <span>
-        Inspect formatting, readability,
-        speech risks, and cleanup details
-        using the text you already pasted.
-        </span>
-
-          <a id="openPasteLint" href="index.html">
-          Open PasteLint Clean →
-          </a>
-        </div>
-
-        <div class="diagnostic-row">
-          <strong>SecondDraft</strong>
-
-          <span>
-            Rewrite for tone, structure, clarity, and flow.
-          </span>
-
-         <a id="openSecondDraft" href="second-draft.html">
-  Open SecondDraft →
-</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="trust-panel">
-      <div class="panel-header">
-        <p class="hero-kicker">Privacy</p>
-        <h2>Private by design</h2>
-      </div>
-
-      <p>
-        PasteLint runs in your browser. Your text is not uploaded to a server, stored in an account, or sent to an API.
-      </p>
-    </section>
-
-    <section class="insight-panel">
-      <div class="panel-header">
-        <p class="hero-kicker">Trust note</p>
-        <h2>Not an AI humanizer</h2>
-      </div>
-
-      <p>
-        PasteLint is not an AI detector bypass tool, and it does not try to disguise how text was written.
-        It focuses on practical cleanup: readability, formatting, spacing, structure, and clarity.
-      </p>
-
-      <p>
-        The goal is to help people review and improve text before they publish, share, narrate, or reuse it.
-      </p>
-    </section>
-
-  </div>
-
-</main>
+  </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
@@ -241,51 +233,52 @@ content="Paste ChatGPT output and instantly remove filler phrases, formatting no
   <script src="js/script.js"></script>
   <script src="js/ai-cleanup.js"></script>
 
-<script>
-document.addEventListener("click", event => {
-  const button = event.target.closest("#cleanBtn, #rewriteBtn");
-  if (!button) return;
-
-  const input = document.getElementById("input");
-  const output = document.getElementById("output");
-
-  if (!input || !output || !window.PasteLintAI) return;
-
-  window.setTimeout(() => {
-    output.value = window.PasteLintAI.clean(output.value || input.value);
-    output.dispatchEvent(new Event("input", { bubbles: true }));
-  }, 20);
-});
-</script>
   <script>
-function getCurrentText() {
-  const output = document.getElementById("output");
-  const input = document.getElementById("input");
+    document.addEventListener("click", event => {
+      const button = event.target.closest("#cleanBtn, #rewriteBtn");
+      if (!button) return;
 
-  return (
-    output?.value?.trim() ||
-    input?.value?.trim() ||
-    ""
-  );
-}
+      const input = document.getElementById("input");
+      const output = document.getElementById("output");
 
-document
-  .getElementById("openPasteLint")
-  ?.addEventListener("click", () => {
-    localStorage.setItem(
-      "pastelint-transfer-text",
-      getCurrentText()
-    );
-  });
+      if (!input || !output || !window.PasteLintAI) return;
 
-document
-  .getElementById("openSecondDraft")
-  ?.addEventListener("click", () => {
-    localStorage.setItem(
-      "pastelint-transfer-text",
-      getCurrentText()
-    );
-  });
-</script>
+      window.setTimeout(() => {
+        output.value = window.PasteLintAI.clean(output.value || input.value);
+        output.dispatchEvent(new Event("input", { bubbles: true }));
+      }, 20);
+    });
+  </script>
+
+  <script>
+    function getCurrentText() {
+      const output = document.getElementById("output");
+      const input = document.getElementById("input");
+
+      return (
+        output?.value?.trim() ||
+        input?.value?.trim() ||
+        ""
+      );
+    }
+
+    document
+      .getElementById("openPasteLint")
+      ?.addEventListener("click", () => {
+        localStorage.setItem(
+          "pastelint-transfer-text",
+          getCurrentText()
+        );
+      });
+
+    document
+      .getElementById("openSecondDraft")
+      ?.addEventListener("click", () => {
+        localStorage.setItem(
+          "pastelint-transfer-text",
+          getCurrentText()
+        );
+      });
+  </script>
 </body>
 </html>
