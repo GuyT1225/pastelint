@@ -97,10 +97,13 @@
 
         <section class="tool-panel">
           <div class="tool-actions">
-            <button id="cleanBtn" class="primary-btn" type="button">Clean this text</button>
-            <button id="copyBtn" class="secondary-btn" type="button">Copy</button>
-            <button id="clearBtn" class="clear-btn" type="button">Clear</button>
-          </div>
+  <button id="cleanBtn" class="primary-btn" type="button">Clean this text</button>
+  <button id="copyBtn" class="secondary-btn" type="button">Copy</button>
+  <button id="clearBtn" class="clear-btn" type="button">Clear</button>
+
+  <a id="openPasteLint" class="secondary-btn" href="index.html">Inspect in PasteLint</a>
+  <a id="openSecondDraft" class="secondary-btn" href="second-draft.html">Rewrite in SecondDraft</a>
+</div>
         </section>
       </section>
 
@@ -108,34 +111,6 @@
 
     <div class="support-rail">
 
-      <section class="next-step-panel">
-        <div class="panel-header">
-          <p class="hero-kicker">Continue working</p>
-          <h2>Open this text in another tool</h2>
-        </div>
-
-        <div class="diagnostic-list">
-          <div class="diagnostic-row">
-            <strong>PasteLint Clean</strong>
-
-            <span>
-              Inspect formatting, readability, speech risks, and cleanup details
-              using the text you already pasted.
-            </span>
-
-            <a id="openPasteLint" href="index.html">Open PasteLint Clean →</a>
-          </div>
-
-          <div class="diagnostic-row">
-            <strong>SecondDraft</strong>
-
-            <span>
-              Rewrite for tone, structure, clarity, and flow.
-            </span>
-
-            <a id="openSecondDraft" href="second-draft.html">Open SecondDraft →</a>
-          </div>
-        </div>
       </section>
 
       <section class="trust-panel">
@@ -250,35 +225,42 @@
     });
   </script>
 
-  <script>
-    function getCurrentText() {
-      const output = document.getElementById("output");
-      const input = document.getElementById("input");
+ <script>
+  function getCurrentText() {
+    const output = document.getElementById("output");
+    const input = document.getElementById("input");
 
-      return (
-        output?.value?.trim() ||
-        input?.value?.trim() ||
-        ""
-      );
+    const outputText = output?.value?.trim() || "";
+    const inputText = input?.value?.trim() || "";
+
+    if (outputText && outputText !== inputText) {
+      return outputText;
     }
 
-    document
-      .getElementById("openPasteLint")
-      ?.addEventListener("click", () => {
-        localStorage.setItem(
-          "pastelint-transfer-text",
-          getCurrentText()
-        );
-      });
+    if (window.PasteLintAI && inputText) {
+      return window.PasteLintAI.clean(inputText).trim();
+    }
 
-    document
-      .getElementById("openSecondDraft")
-      ?.addEventListener("click", () => {
-        localStorage.setItem(
-          "pastelint-transfer-text",
-          getCurrentText()
-        );
-      });
+    return outputText || inputText;
+  }
+
+  document
+    .getElementById("openPasteLint")
+    ?.addEventListener("click", () => {
+      localStorage.setItem(
+        "pastelint-transfer-text",
+        getCurrentText()
+      );
+    });
+
+  document
+    .getElementById("openSecondDraft")
+    ?.addEventListener("click", () => {
+      localStorage.setItem(
+        "pastelint-transfer-text",
+        getCurrentText()
+      );
+    });
   </script>
 </body>
 </html>
