@@ -194,5 +194,18 @@
 <script src="js/text-analyzer.js"></script>
 <script src="js/text-clean-engine.js"></script>
 <script src="js/second-draft.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const transferText = localStorage.getItem("pastelint-transfer-text");
+  const input = document.getElementById("draftInput");
+
+  if (!transferText || !input || input.value.trim()) return;
+
+  input.value = transferText;
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+
+  localStorage.removeItem("pastelint-transfer-text");
+});
+</script>  
 </body>
 </html>
