@@ -38,58 +38,63 @@
   </header>
 
   <main class="page-shell workflow-grid">
-    <section class="hero workflow-chapter hero-chapter">
-      <p class="eyebrow">PasteLint Clean</p>
-      <h1>Fix what copy and<br>paste broke.</h1>
-      <p>
-        Fix ChatGPT output, PDF text, hidden characters, spacing problems,
-        and broken copy-paste formatting.
-      </p>
-    </section>
 
-    <section class="tool-shell workflow-chapter input-chapter" aria-labelledby="tool-title">
-      <div class="mode-row" aria-label="Cleaning controls">
-        <div class="control-group">
-          <label for="cleanMode">Cleanup mode</label>
-          <select id="cleanMode">
-            <option value="standard" selected>Standard cleanup</option>
-            <option value="ai">AI text cleanup</option>
-            <option value="pdf">PDF or document paste</option>
-            <option value="web">Website or email paste</option>
-            <option value="ivr">IVR and TTS prep</option>
-          </select>
+    <div class="hero-proof-layout">
+      <section class="hero workflow-chapter hero-chapter">
+        <div class="hero-content">
+          <p class="eyebrow">PasteLint Clean</p>
+          <h1>Fix what copy and paste broke.</h1>
+          <p>
+            Fix ChatGPT output, PDF text, hidden characters, spacing problems,
+            and broken copy-paste formatting.
+          </p>
+        </div>
+      </section>
+
+      <section class="tool-shell workflow-chapter input-chapter" aria-labelledby="tool-title">
+        <div class="mode-row" aria-label="Cleaning controls">
+          <div class="control-group">
+            <label for="cleanMode">Cleanup mode</label>
+            <select id="cleanMode">
+              <option value="standard" selected>Standard cleanup</option>
+              <option value="ai">AI text cleanup</option>
+              <option value="pdf">PDF or document paste</option>
+              <option value="web">Website or email paste</option>
+              <option value="ivr">IVR and TTS prep</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="viewMode">Review mode</label>
+            <select id="viewMode">
+              <option value="paragraph" selected>Paragraph</option>
+              <option value="line">Line by line</option>
+            </select>
+          </div>
         </div>
 
-        <div class="control-group">
-          <label for="viewMode">Review mode</label>
-          <select id="viewMode">
-            <option value="paragraph" selected>Paragraph</option>
-            <option value="line">Line by line</option>
-          </select>
+        <div class="tool-panel input-panel">
+          <label for="input">Paste your messy text</label>
+          <textarea id="input" placeholder="Paste text from AI tools, PDFs, websites, emails, or documents..."></textarea>
+
+          <div class="meta">
+            <span id="inputCharCount">0 chars</span>
+            <span id="inputWordCount">0 words</span>
+          </div>
         </div>
-      </div>
 
-      <div class="tool-panel input-panel">
-        <label for="input">Paste your messy text</label>
-        <textarea id="input" placeholder="Paste text from AI tools, PDFs, websites, emails, or documents..."></textarea>
+        <div class="tool-panel action-panel">
+          <button id="cleanBtn" type="button">Clean text</button>
+          <button id="copyBtn" type="button">Copy clean text</button>
+          <button id="clearBtn" type="button">Clear</button>
 
-        <div class="meta">
-          <span id="inputCharCount">0 chars</span>
-          <span id="inputWordCount">0 words</span>
+          <div class="post-clean-actions" id="postCleanActions" hidden>
+            <a href="#inspection-report">View inspection report</a>
+            <a href="#cleaned-draft">Skip to cleaned draft ↓</a>
+          </div>
         </div>
-      </div>
-
-      <div class="tool-panel action-panel">
-        <button id="cleanBtn" type="button">Clean text</button>
-        <button id="copyBtn" type="button">Copy clean text</button>
-        <button id="clearBtn" type="button">Clear</button>
-
-        <div class="post-clean-actions" id="postCleanActions" hidden>
-          <a href="#inspection-report">View inspection report</a>
-          <a href="#cleaned-draft">Skip to cleaned draft ↓</a>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <section class="inspection-chapter" id="inspection-report">
       <div class="review-kicker">Inspection Report</div>
@@ -169,26 +174,26 @@
     </div>
 
     <section class="workflow-chapter next-steps-panel">
-  <p class="eyebrow">Next steps</p>
-  <h2>Keep working from clean text.</h2>
+      <p class="eyebrow">Next steps</p>
+      <h2>Keep working from clean text.</h2>
 
-  <div class="next-steps-list">
-    <a href="fix-pdf-paste.html">
-      <strong>Fix text copied from PDF</strong>
-      <span>Clean broken spacing, line breaks, and PDF paste issues.</span>
-    </a>
+      <div class="next-steps-list">
+        <a href="fix-pdf-paste.html">
+          <strong>Fix text copied from PDF</strong>
+          <span>Clean broken spacing, line breaks, and PDF paste issues.</span>
+        </a>
 
-    <a href="second-draft.html">
-      <strong>Move from Clean to SecondDraft</strong>
-      <span>Improve tone, rhythm, and flow without changing meaning.</span>
-    </a>
+        <a href="second-draft.html">
+          <strong>Move from Clean to SecondDraft</strong>
+          <span>Improve tone, rhythm, and flow without changing meaning.</span>
+        </a>
 
-    <a href="clean-text-message.html">
-      <strong>Clean a text message before you send it</strong>
-      <span>Quick cleanup for short messages, replies, and posts.</span>
-    </a>
-  </div>
-</section>
+        <a href="clean-text-message.html">
+          <strong>Clean a text message before you send it</strong>
+          <span>Quick cleanup for short messages, replies, and posts.</span>
+        </a>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -247,27 +252,27 @@
   <script src="js/text-analyzer.js"></script>
   <script src="js/text-clean-engine.js"></script>
   <script src="js/script.js"></script>
+
   <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const transferText = localStorage.getItem("pastelint-transfer-text");
-  const input = document.getElementById("input");
+    document.addEventListener("DOMContentLoaded", () => {
+      const transferText = localStorage.getItem("pastelint-transfer-text");
+      const input = document.getElementById("input");
 
-  if (!transferText || !input || input.value.trim()) return;
+      if (!transferText || !input || input.value.trim()) return;
 
-  input.value = transferText;
-  input.dispatchEvent(new Event("input", { bubbles: true }));
-  
-  const cleanBtn = document.getElementById("cleanBtn");
+      input.value = transferText;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
 
-if (cleanBtn) {
-  window.setTimeout(() => {
-    cleanBtn.click();
-  }, 75);
-}
- 
+      const cleanBtn = document.getElementById("cleanBtn");
 
-  localStorage.removeItem("pastelint-transfer-text");
-});
-</script>
+      if (cleanBtn) {
+        window.setTimeout(() => {
+          cleanBtn.click();
+        }, 75);
+      }
+
+      localStorage.removeItem("pastelint-transfer-text");
+    });
+  </script>
 </body>
 </html>
