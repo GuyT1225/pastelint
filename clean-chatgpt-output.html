@@ -257,5 +257,35 @@ document.addEventListener("click", event => {
   }, 20);
 });
 </script>
+  <script>
+function getCurrentText() {
+  const output = document.getElementById("output");
+  const input = document.getElementById("input");
+
+  return (
+    output?.value?.trim() ||
+    input?.value?.trim() ||
+    ""
+  );
+}
+
+document
+  .getElementById("openPasteLint")
+  ?.addEventListener("click", () => {
+    localStorage.setItem(
+      "pastelint-transfer-text",
+      getCurrentText()
+    );
+  });
+
+document
+  .getElementById("openSecondDraft")
+  ?.addEventListener("click", () => {
+    localStorage.setItem(
+      "pastelint-transfer-text",
+      getCurrentText()
+    );
+  });
+</script>
 </body>
 </html>
