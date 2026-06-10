@@ -255,6 +255,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!transferText || !input || input.value.trim()) return;
 
   input.value = transferText;
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+  
   const cleanBtn = document.getElementById("cleanBtn");
 
 if (cleanBtn) {
@@ -262,7 +264,7 @@ if (cleanBtn) {
     cleanBtn.click();
   }, 75);
 }
-  input.dispatchEvent(new Event("input", { bubbles: true }));
+ 
 
   localStorage.removeItem("pastelint-transfer-text");
 });
