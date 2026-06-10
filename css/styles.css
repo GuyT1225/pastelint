@@ -268,10 +268,10 @@ select {
   padding: clamp(2rem, 5vw, 4rem) 0 clamp(4rem, 8vw, 6rem);
 
   display: grid;
-  grid-template-columns:
-    minmax(8rem, 0.95fr)
-    minmax(24rem, 2.8fr)
-    minmax(18rem, 2.2fr);
+grid-template-columns:
+  minmax(18rem, 1.4fr)
+  minmax(24rem, 2.7fr)
+  minmax(16rem, 1.8fr);
   column-gap: clamp(1.5rem, 3vw, 3rem);
   row-gap: clamp(2rem, 4vw, 3rem);
 }
@@ -283,6 +283,14 @@ select {
   grid-column: 1 / -1;
   width: 100%;
   margin: 0;
+}
+
+.hero-chapter {
+  grid-column: 1;
+}
+
+.input-chapter {
+  grid-column: 2 / -1;
 }
 
 .hero,
@@ -301,11 +309,6 @@ select {
 
 .inspection-chapter {
   grid-column: 2 / -1;
-  display: grid;
-  grid-template-columns: minmax(9rem, 0.9fr) minmax(0, 1.8fr);
-  column-gap: clamp(1.5rem, 3vw, 3rem);
-  row-gap: 1.1rem;
-  align-items: start;
 }
 
 .inspection-chapter > .review-kicker,
@@ -314,29 +317,6 @@ select {
   grid-column: 1 / -1;
 }
 
-.editorial-summary,
-.draft-note-heading,
-.review-notes-section {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-column: 1 / -1;
-}
-
-.summary-label,
-.draft-note-kicker,
-.found-category,
-.fixed-category,
-.proof-category {
-  grid-column: 1;
-}
-
-#textBrief,
-.draft-note-heading h3,
-#foundList,
-#editMap,
-#visualPreview {
-  grid-column: 2;
-}
 .support-rail {
   grid-column: 2 / -1;
 
@@ -362,8 +342,19 @@ select {
 }
 
 .hero-content {
-  width: min(100% - 2rem, 760px);
-  margin: 0 auto;
+  width: 100%;
+  max-width: 22rem;
+  margin: 0;
+}
+
+.hero-chapter .hero-content {
+  width: 100%;
+  max-width: 18rem;
+  margin: 0;
+}
+
+.hero-chapter h1 {
+  max-width: 11ch;
 }
 
 .eyebrow,
@@ -392,7 +383,7 @@ select {
 }
 
 .hero h1 {
-  max-width: 10.5ch;
+  max-width: none;
   margin: 0 0 0.75rem;
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 3.7rem);
@@ -418,16 +409,7 @@ select {
   align-items: start;
   margin-bottom: 0.5rem;
 }
-/* PasteLint top alignment */
-.page-shell.workflow-grid > .hero {
-  grid-column: 1;
-  align-self: start;
-}
 
-.page-shell.workflow-grid > .tool-shell {
-  grid-column: 2 / -1;
-  align-self: start;
-}
 /* -----------------------------
    EDITORIAL PROOF
 ----------------------------- */
