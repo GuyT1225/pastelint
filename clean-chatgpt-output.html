@@ -241,35 +241,21 @@ content="Paste ChatGPT output and instantly remove filler phrases, formatting no
   <script src="js/script.js"></script>
   <script src="js/ai-cleanup.js"></script>
 
- <script>
-function getCurrentText() {
-  const output = document.getElementById("output");
+<script>
+document.addEventListener("click", event => {
+  const button = event.target.closest("#cleanBtn, #rewriteBtn");
+  if (!button) return;
+
   const input = document.getElementById("input");
+  const output = document.getElementById("output");
 
-  return (
-    output?.value?.trim() ||
-    input?.value?.trim() ||
-    ""
-  );
-}
+  if (!input || !output || !window.PasteLintAI) return;
 
-document
-  .getElementById("openPasteLint")
-  ?.addEventListener("click", () => {
-    localStorage.setItem(
-      "pastelint-transfer-text",
-      getCurrentText()
-    );
-  });
-
-document
-  .getElementById("openSecondDraft")
-  ?.addEventListener("click", () => {
-    localStorage.setItem(
-      "pastelint-transfer-text",
-      getCurrentText()
-    );
-  });
+  window.setTimeout(() => {
+    output.value = window.PasteLintAI.clean(output.value || input.value);
+    output.dispatchEvent(new Event("input", { bubbles: true }));
+  }, 20);
+});
 </script>
 </body>
 </html>
