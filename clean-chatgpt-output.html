@@ -106,31 +106,6 @@ content="Paste ChatGPT output and instantly remove filler phrases, formatting no
       </section>
     </section>
 
-    <section class="proof-panel" aria-label="Before and after example">
-      <div class="panel-header proof-header">
-        <p class="hero-kicker">Before / After</p>
-        <h2>One cleanup pass.</h2>
-      </div>
-
-      <div class="editorial-proof">
-        <div class="proof-side">
-          <span class="proof-label">Before</span>
-          <p>
-            It is important to note that this comprehensive solution can be utilized
-            in order to facilitate improved readability.
-          </p>
-        </div>
-
-        <div class="proof-divider">↓</div>
-
-        <div class="proof-side">
-          <span class="proof-label">After</span>
-          <p>
-            This helps make the text easier to read.
-          </p>
-        </div>
-      </div>
-    </section>
 
   </div>
 
@@ -138,20 +113,23 @@ content="Paste ChatGPT output and instantly remove filler phrases, formatting no
 
     <section class="next-step-panel">
       <div class="panel-header">
-        <p class="hero-kicker">Next step</p>
-        <h2>Need more help?</h2>
+       <p class="hero-kicker">Continue working</p>
+<h2>Open this text in another tool</h2>
       </div>
 
       <div class="diagnostic-list">
         <div class="diagnostic-row">
-          <strong>PasteLint Clean</strong>
+         <strong>PasteLint Clean</strong>
 
-          <span>
-            See diagnostics, readability checks, formatting cleanup details,
-            and what changed.
-          </span>
+        <span>
+        Inspect formatting, readability,
+        speech risks, and cleanup details
+        using the text you already pasted.
+        </span>
 
-          <a href="index.html">Open PasteLint Clean →</a>
+          <a id="openPasteLint" href="index.html">
+          Open PasteLint Clean →
+          </a>
         </div>
 
         <div class="diagnostic-row">
@@ -161,7 +139,9 @@ content="Paste ChatGPT output and instantly remove filler phrases, formatting no
             Rewrite for tone, structure, clarity, and flow.
           </span>
 
-          <a href="second-draft.html">Open SecondDraft →</a>
+         <a id="openSecondDraft" href="second-draft.html">
+  Open SecondDraft →
+</a>
         </div>
       </div>
     </section>
@@ -261,21 +241,36 @@ content="Paste ChatGPT output and instantly remove filler phrases, formatting no
   <script src="js/script.js"></script>
   <script src="js/ai-cleanup.js"></script>
 
-  <script>
-    document.addEventListener("click", event => {
-      const button = event.target.closest("#cleanBtn, #rewriteBtn");
-      if (!button) return;
+ <script>
+function getCurrentText() {
+  const output = document.getElementById("output");
+  const input = document.getElementById("input");
 
-      const input = document.getElementById("input");
-      const output = document.getElementById("output");
+  return (
+    output?.value?.trim() ||
+    input?.value?.trim() ||
+    ""
+  );
+}
 
-      if (!input || !output || !window.PasteLintAI) return;
+document
+  .getElementById("openPasteLint")
+  ?.addEventListener("click", () => {
+    localStorage.setItem(
+      "pastelint-transfer-text",
+      getCurrentText()
+    );
+  });
 
-      window.setTimeout(() => {
-        output.value = window.PasteLintAI.clean(output.value || input.value);
-        output.dispatchEvent(new Event("input", { bubbles: true }));
-      }, 20);
-    });
-  </script>
+document
+  .getElementById("openSecondDraft")
+  ?.addEventListener("click", () => {
+    localStorage.setItem(
+      "pastelint-transfer-text",
+      getCurrentText()
+    );
+  });
+</script>
+</script>
 </body>
 </html>
