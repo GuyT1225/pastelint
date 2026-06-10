@@ -258,7 +258,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const cleanBtn = document.getElementById("cleanBtn");
 
 if (cleanBtn) {
-  cleanBtn.click();
+  window.setTimeout(() => {
+    cleanBtn.click();
+  }, 75);
 }
   input.dispatchEvent(new Event("input", { bubbles: true }));
 
