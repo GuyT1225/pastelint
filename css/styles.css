@@ -651,12 +651,6 @@ textarea:focus-visible {
    INSPECTION GRID
 ----------------------------- */
 
-.inspection-chapter {
-  grid-column: 2 / -1;
-  width: 100%;
-  max-width: none;
-}
-
 .inspection-chapter > .review-kicker,
 .inspection-chapter > h2,
 .inspection-chapter > p {
