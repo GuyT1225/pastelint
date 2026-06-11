@@ -732,29 +732,34 @@ textarea:focus-visible {
 ----------------------------- */
 
 .cleaned-heading {
-  grid-column: 1 / -1;
-  grid-template-columns:
-    minmax(12rem, 1.25fr)
-    minmax(24rem, 2.8fr)
-    minmax(18rem, 2.2fr);
-  margin-top: clamp(1rem, 3vw, 2rem);
+  grid-column: 2 / -1;
+  width: 100%;
+  max-width: none;
+
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
   padding-bottom: 1rem;
+
   border-bottom: 1px solid color-mix(in srgb, var(--success) 70%, transparent);
 }
 
-.cleaned-heading h3 {
-  grid-column: 2 / -1;
-  padding-left: 0.75rem;
+.cleaned-heading h2 {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 
 .output-panel {
   grid-column: 2 / -1;
+  width: 100%;
   max-width: none;
-  margin-top: -4.5rem;
+  margin-top: 0;
 }
 
 .output-panel textarea {
- min-height: clamp(10rem, 18vw, 14rem);
+  min-height: clamp(10rem, 18vw, 14rem);
 }
 
 /* -----------------------------
