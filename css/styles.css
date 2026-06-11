@@ -506,6 +506,11 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+#input,
+#output {
+  min-height: clamp(16rem, 28vw, 24rem);
+}
+
 input,
 select {
   min-height: 2.6rem;
