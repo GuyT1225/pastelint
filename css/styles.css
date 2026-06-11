@@ -314,11 +314,6 @@ grid-template-columns:
   max-width: none;
 }
 
-.inspection-chapter {
-  grid-column: 2 / -1;
-  width: 100%;
-  max-width: none;
-}
 
 .inspection-chapter > .review-kicker,
 .inspection-chapter > h2,
