@@ -269,9 +269,9 @@ select {
 
   display: grid;
 grid-template-columns:
-  minmax(16rem, 1.2fr)
-  minmax(30rem, 3.8fr)
-  minmax(10rem, 0.8fr);
+  minmax(16rem, 1fr)
+  minmax(34rem, 3.4fr)
+  minmax(10rem, 0.4fr);
   column-gap: clamp(1.5rem, 3vw, 3rem);
   row-gap: clamp(2rem, 4vw, 3rem);
 }
