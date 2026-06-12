@@ -533,14 +533,13 @@ select:focus {
 #input:focus,
 #output:focus {
   background-color: var(--editor-focus-bg);
-  background-image:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 30px,
-      color-mix(in srgb, var(--success) 35%, transparent) 31px,
-      transparent 32px
-    );
+ background-image:
+  repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 35px,
+    rgba(82,255,168,.14) 36px
+  );
   background-size: 100% 32px;
 }
 
