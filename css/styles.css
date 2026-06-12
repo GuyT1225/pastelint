@@ -881,7 +881,43 @@ html[data-theme="terminal"] input,
 html[data-theme="terminal"] select {
   caret-color: var(--accent);
 }
+/* -----------------------------
+   TERMINAL INSPECTION MARKS
+----------------------------- */
 
+html[data-theme="terminal"] .input-panel,
+html[data-theme="terminal"] .output-panel {
+  position: relative;
+  overflow: visible;
+}
+
+html[data-theme="terminal"] .input-panel::before {
+  content: "INPUT DRAFT";
+}
+
+html[data-theme="terminal"] .output-panel::before {
+  content: "REVIEW COPY";
+}
+
+html[data-theme="terminal"] .input-panel::before,
+html[data-theme="terminal"] .output-panel::before {
+  position: absolute;
+  top: -0.75rem;
+  right: 1rem;
+  z-index: 5;
+
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  color: var(--accent);
+  background: var(--bg);
+}
 /* -----------------------------
    RESPONSIVE
 ----------------------------- */
