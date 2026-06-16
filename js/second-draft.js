@@ -83,8 +83,6 @@ function getSecondDraftOptions(els) {
 }
 
 function reviseSecondDraft(text, options) {
-  console.log("PATTERN RULE RUNNING");
-  console.log(options);
   let revised = normalizeSecondDraftText(text);
   const edits = [];
   const changes = [];
@@ -123,8 +121,6 @@ function reviseSecondDraft(text, options) {
 }
 
 function applySecondDraftPatternRules(text, options) {
-  console.log("PATTERN FUNCTION HIT");
-  console.log(text);
   const edits = [];
   const changes = [];
   let revised = text;
