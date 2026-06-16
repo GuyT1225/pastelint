@@ -83,10 +83,17 @@ function getSecondDraftOptions(els) {
 }
 
 function reviseSecondDraft(text, options) {
+  console.log("PATTERN RULE RUNNING");
+  console.log(options);
   let revised = normalizeSecondDraftText(text);
   const edits = [];
   const changes = [];
 
+  const patternResult = applySecondDraftPatternRules(revised, options);
+  revised = patternResult.text;
+  edits.push(...patternResult.edits);
+  changes.push(...patternResult.changes);
+  
   const phraseResult = applySecondDraftPhraseRules(revised, options.tone);
   revised = phraseResult.text;
   edits.push(...phraseResult.edits);
@@ -97,22 +104,62 @@ function reviseSecondDraft(text, options) {
   edits.push(...lengthResult.edits);
   changes.push(...lengthResult.changes);
 
-  if (options.reflow) {
+   if (options.reflow) {
     revised = reflowSecondDraftParagraphs(revised);
     changes.push("Reflowed text into cleaner paragraphs");
   }
 
+  revised = cleanupSecondDraftSentenceFlow(revised);
   revised = normalizeSecondDraftText(revised);
 
- if (!edits.length && revised === normalizeSecondDraftText(text)) {
-  changes.push("No major revision needed. The text already reads cleanly.");
-}
-
+  if (!edits.length && revised === normalizeSecondDraftText(text)) {
+    changes.push("No major revision needed. The text already reads cleanly.");
+  }
   return {
     text: revised,
     changes: uniqueSecondDraftItems(changes),
     edits
   };
+}
+
+function applySecondDraftPatternRules(text, options) {
+  console.log("PATTERN FUNCTION HIT");
+  console.log(text);
+  const edits = [];
+  const changes = [];
+  let revised = text;
+
+  const outreachPattern =
+    /\bI just wanted to reach out and let you know that I think it would probably be helpful to ([^.?!]+)([.?!]?)/i;
+
+  const match = revised.match(outreachPattern);
+
+  if (!match) {
+    return { text: revised, edits, changes };
+  }
+
+  const action = match[1].trim();
+  let replacement = "";
+
+  if (options.length === "shorter") {
+    replacement = `Let's ${action}.`;
+    changes.push("Condensed the sentence into a shorter action statement");
+  } else if (options.tone === "direct") {
+    replacement = `I think we need to ${action}.`;
+    changes.push("Made the message more direct while preserving intent");
+  } else {
+    replacement = `I wanted to reach out because it would be helpful to ${action}.`;
+    changes.push("Smoothed the sentence while preserving a natural tone");
+  }
+
+  revised = revised.replace(outreachPattern, replacement);
+
+  edits.push({
+    before: match[0],
+    after: replacement
+  });
+
+  return { text: revised, edits, changes };
 }
 
 function applySecondDraftPhraseRules(text, tone) {
@@ -130,10 +177,10 @@ function applySecondDraftPhraseRules(text, tone) {
     ["currently in the process of", "currently", "Simplified process wording"],
     ["in the process of", "", "Removed wordy process phrasing"],
     ["just wanted to quickly reach out and", "", "Removed filler opening"],
-    ["just wanted to", "wanted to", "Removed filler wording"],
+    ["just wanted to", "", "Removed filler wording"],
     ["quickly reach out", "reach out", "Simplified wording"],
     ["let you know that", "", "Removed unnecessary setup phrase"],
-    ["I think it would probably be helpful to", "It would be helpful to", "Reduced hesitant phrasing"],
+    ["I think it would probably be helpful to", "", "Removed hesitant phrasing"],
     ["probably be helpful to", "be helpful to", "Reduced hesitant phrasing"],
     ["basically", "", "Removed filler wording"],
     ["actually", "", "Removed filler wording"],
@@ -153,11 +200,34 @@ function applySecondDraftPhraseRules(text, tone) {
   }
 
   if (tone === "professional") {
-    rules.push(
-      ["a lot of", "many", "Made wording more professional"],
-      ["get", "receive", "Adjusted casual wording"]
-    );
-  }
+  rules.push(
+    ["a lot of", "many", "Made wording more professional"],
+    ["get", "receive", "Adjusted casual wording"],
+    ["help", "assist", "Used more professional wording"],
+    ["need", "require", "Used more professional wording"],
+    ["show", "demonstrate", "Used more professional wording"]
+  );
+}
+
+if (tone === "friendly") {
+  rules.push(
+    ["receive", "get", "Made wording more conversational"],
+    ["assist", "help", "Made wording warmer"],
+    ["require", "need", "Made wording more conversational"],
+    ["demonstrate", "show", "Made wording more conversational"]
+  );
+}
+
+if (tone === "direct") {
+  rules.push(
+    ["I would like to", "", "Made wording more direct"],
+    ["It seems that", "", "Removed hesitant phrasing"],
+    ["Please be advised that", "", "Removed overly formal phrasing"],
+    ["I think", "", "Removed hesitation"],
+    ["probably", "", "Removed uncertainty"],
+    ["may", "can", "Made wording more direct"]
+  );
+}
 
   if (tone === "friendly") {
     rules.push(
@@ -269,6 +339,16 @@ function reflowSecondDraftParagraphs(text) {
     .map((line) => line.trim())
     .filter(Boolean)
     .join("\n\n");
+}
+
+function cleanupSecondDraftSentenceFlow(text) {
+  return String(text)
+    .replace(/\band It\b/g, ". It")
+    .replace(/\band it\b/g, ". It")
+    .replace(/\s+\./g, ".")
+    .replace(/\.\./g, ".")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }
 
 function normalizeSecondDraftText(text) {
