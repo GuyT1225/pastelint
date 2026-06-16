@@ -961,12 +961,16 @@ html[data-theme="terminal"] .output-panel::before {
 
 .second-draft-page .revision-review-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
   gap: 1rem;
 }
 
 .second-draft-page .revision-review-grid .tool-panel {
   padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.second-draft-page #draftOutput {
+  min-height: 180px;
 }
 
 /* -----------------------------
