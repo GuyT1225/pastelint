@@ -918,6 +918,52 @@ html[data-theme="terminal"] .output-panel::before {
   color: var(--accent);
   background: var(--bg);
 }
+
+/* -----------------------------
+   SECONDDRAFT
+----------------------------- */
+
+.second-draft-page .control-panel {
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.second-draft-page .control-panel h2 {
+  margin-bottom: 0.9rem;
+}
+
+.second-draft-page .revision-toolbar {
+  margin-top: 1rem;
+}
+
+.second-draft-page .control-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(12rem, 0.75fr);
+  gap: 1rem;
+  align-items: end;
+}
+
+.second-draft-page .control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.second-draft-page .toggle-row {
+  min-height: 2.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--radius-md);
+  background: var(--editor-bg);
+}
+
+.second-draft-page .toggle-row input {
+  width: auto;
+  margin: 0;
+}
+
 /* -----------------------------
    RESPONSIVE
 ----------------------------- */
@@ -1024,7 +1070,13 @@ html[data-theme="terminal"] .output-panel::before {
   .cleaned-heading h3 {
     max-width: 100%;
   }
+
+   .second-draft-page .control-grid {
+    grid-template-columns: 1fr;
+  }
+   
 }
+
 
 /* -----------------------------
    REDUCED MOTION
