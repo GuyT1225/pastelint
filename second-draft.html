@@ -99,9 +99,10 @@
     </section>
 
     <section class="tool-panel output-panel" aria-labelledby="output-title">
-     <p class="eyebrow">Second draft</p>
-     <h2 id="output-title">Your revised draft</h2>
-     <label for="draftOutput">Stronger version</label>
+    <p class="eyebrow">Second draft</p>
+    <h2 id="output-title">Revised draft</h2>
+
+    <label for="draftOutput">Output</label>
       <textarea id="draftOutput" placeholder="Your revised text will appear here..." readonly></textarea>
 
       <div class="meta-row">
@@ -109,27 +110,31 @@
         <span id="outputWordCount">0 words</span>
       </div>
     </section>
+<section class="revision-review-grid" aria-label="SecondDraft review details">
 
-  <section class="revision-review-grid" aria-label="SecondDraft review details">
+  <section class="tool-panel insight-panel" id="changeInsightPanel" aria-labelledby="insight-title">
+    <p class="eyebrow">Editorial notes</p>
+    <h2 id="insight-title">Why it works</h2>
 
-    <section class="tool-panel insight-panel" id="changeInsightPanel" aria-labelledby="insight-title">
-      <p class="eyebrow">Editorial notes</p>
-      <h2>Why the draft is stronger</h2>
-      <p id="changeInsightEmpty">
-        Notes will appear here after SecondDraft updates your text. If no meaningful change is needed, SecondDraft will say so.
-      </p>
-      <ul id="changeInsightList"></ul>
-    </section>
+    <p id="changeInsightEmpty">
+      Notes will appear here after SecondDraft updates your text.
+    </p>
+
+    <ul id="changeInsightList"></ul>
+  </section>
 
   <section class="tool-panel edit-map-panel" id="editMapPanel" aria-labelledby="edit-map-title">
-  <p class="eyebrow">Revision map</p>
-  <h2 id="edit-map-title">What SecondDraft changed</h2>
-      <p id="editMapEmpty">
-        Phrase-level changes will appear here after revision.
-      </p>
-      <div id="editMapList"></div>
-    </section>
+    <p class="eyebrow">Revision map</p>
+    <h2 id="edit-map-title">What changed</h2>
+
+    <p id="editMapEmpty">
+      Phrase-level edits will appear here after revision.
+    </p>
+
+    <div id="editMapList"></div>
   </section>
+
+</section>
 
   <section class="trust-panel" aria-labelledby="trust-title">
     <p class="eyebrow">Private, practical revision</p>
