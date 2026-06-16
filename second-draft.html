@@ -31,19 +31,34 @@
     </nav>
   </header>
 
-  <main class="page-shell">
-    <section class="hero" aria-labelledby="second-draft-title">
-      <p class="eyebrow">SecondDraft Revise</p>
-      <h1 id="second-draft-title">Make clean text read better</h1>
-      <p>
-        Improve clarity, tone, rhythm, and flow while preserving your original meaning.
-      </p>
+  <main class="page-shell second-draft-page">
+  <section class="hero" aria-labelledby="second-draft-title">
+    <p class="eyebrow">SecondDraft Revise</p>
+    <h1 id="second-draft-title">Turn clean text into a stronger second draft</h1>
+    <p>
+      Paste cleaned text, choose a revision style, and review what changed before copying.
+    </p>
+  </section>
+
+  <section class="tool-shell second-draft-flow" aria-labelledby="second-draft-tool-title">
+    <section class="tool-panel input-panel" aria-labelledby="input-title">
+      <p class="eyebrow">Draft</p>
+      <h2 id="input-title">Paste your cleaned text</h2>
+      <label for="draftInput">Text to revise</label>
+      <textarea id="draftInput" placeholder="Paste cleaned text here before revising..."></textarea>
+
+      <div class="meta-row">
+        <span id="inputCharCount">0 characters</span>
+        <span id="inputWordCount">0 words</span>
+        <span id="qualityHint">Best results under 750 words per pass.</span>
+      </div>
     </section>
 
-    <section class="tool-shell" aria-labelledby="controls-title">
-      <section class="tool-panel control-panel" aria-labelledby="controls-title">
-        <h2 id="controls-title">Revision controls</h2>
+    <section class="tool-panel control-panel" aria-labelledby="controls-title">
+      <p class="eyebrow">Revision style</p>
+      <h2 id="controls-title">Choose how SecondDraft should revise</h2>
 
+      <div class="control-grid">
         <div class="control-group">
           <label for="toneSelect">Tone</label>
           <select id="toneSelect">
@@ -71,62 +86,54 @@
             Reflow into paragraphs
           </label>
         </div>
-      </section>
-
-      <section class="tool-panel input-panel" aria-labelledby="input-title">
-        <h2 id="input-title">Cleaned text</h2>
-        <label for="draftInput">Paste cleaned text from PasteLint</label>
-        <textarea id="draftInput" placeholder="Paste cleaned text here before revising..."></textarea>
-
-        <div class="meta-row">
-          <span id="inputCharCount">0 characters</span>
-          <span id="inputWordCount">0 words</span>
-          <span id="qualityHint">Best results under 750 words per pass.</span>
-        </div>
-      </section>
-
-      <section class="tool-panel action-panel" aria-label="SecondDraft actions">
-        <button id="reviseBtn" type="button">Revise text</button>
-        <button id="copyBtn" type="button">Copy output</button>
-        <button id="clearBtn" type="button">Clear</button>
-      </section>
-
-      <section class="tool-panel output-panel" aria-labelledby="output-title">
-        <h2 id="output-title">SecondDraft output</h2>
-        <label for="draftOutput">Revised text</label>
-        <textarea id="draftOutput" placeholder="Your revised text will appear here..." readonly></textarea>
-
-        <div class="meta-row">
-          <span id="outputCharCount">0 characters</span>
-          <span id="outputWordCount">0 words</span>
-        </div>
-      </section>
-
-      <section class="tool-panel insight-panel" id="changeInsightPanel" aria-labelledby="insight-title">
-        <h2 id="insight-title">Why this revision works</h2>
-        <p id="changeInsightEmpty">
-          Revision notes will appear here after SecondDraft updates your text.
-        </p>
-        <ul id="changeInsightList"></ul>
-      </section>
-
-      <section class="tool-panel edit-map-panel" id="editMapPanel" aria-labelledby="edit-map-title">
-        <h2 id="edit-map-title">Visual Edit Map</h2>
-        <p id="editMapEmpty">
-          Phrase-level changes will appear here after revision.
-        </p>
-        <div id="editMapList"></div>
-      </section>
+      </div>
     </section>
 
-    <section class="trust-panel" aria-labelledby="trust-title">
-      <p class="eyebrow">Private, practical revision</p>
-      <h2 id="trust-title">Clearer writing without changing meaning</h2>
-      <p>
-        SecondDraft runs entirely in your browser. No login, no upload, no backend, and no API.
+    <section class="tool-panel action-panel" aria-label="SecondDraft actions">
+      <button id="reviseBtn" type="button">Revise text</button>
+      <button id="copyBtn" type="button">Copy output</button>
+      <button id="clearBtn" type="button">Clear</button>
+    </section>
+
+    <section class="tool-panel output-panel" aria-labelledby="output-title">
+      <p class="eyebrow">Second draft</p>
+      <h2 id="output-title">Review the revised version</h2>
+      <label for="draftOutput">Revised text</label>
+      <textarea id="draftOutput" placeholder="Your revised text will appear here..." readonly></textarea>
+
+      <div class="meta-row">
+        <span id="outputCharCount">0 characters</span>
+        <span id="outputWordCount">0 words</span>
+      </div>
+    </section>
+
+    <section class="tool-panel insight-panel" id="changeInsightPanel" aria-labelledby="insight-title">
+      <p class="eyebrow">Revision notes</p>
+      <h2 id="insight-title">Why this revision works</h2>
+      <p id="changeInsightEmpty">
+        Notes will appear here after SecondDraft updates your text. If no meaningful change is needed, SecondDraft will say so.
       </p>
+      <ul id="changeInsightList"></ul>
     </section>
-  </main>
+
+    <section class="tool-panel edit-map-panel" id="editMapPanel" aria-labelledby="edit-map-title">
+      <p class="eyebrow">Edit map</p>
+      <h2 id="edit-map-title">What changed</h2>
+      <p id="editMapEmpty">
+        Phrase-level changes will appear here after revision.
+      </p>
+      <div id="editMapList"></div>
+    </section>
+  </section>
+
+  <section class="trust-panel" aria-labelledby="trust-title">
+    <p class="eyebrow">Private, practical revision</p>
+    <h2 id="trust-title">Clearer writing without changing meaning</h2>
+    <p>
+      SecondDraft runs entirely in your browser. No login, no upload, no backend, and no API.
+    </p>
+  </section>
+</main>
 
  <footer class="site-footer">
 
