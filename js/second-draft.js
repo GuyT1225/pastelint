@@ -104,9 +104,9 @@ function reviseSecondDraft(text, options) {
 
   revised = normalizeSecondDraftText(revised);
 
-  if (!changes.length) {
-    changes.push("Light clarity pass applied");
-  }
+ if (!edits.length && revised === normalizeSecondDraftText(text)) {
+  changes.push("No major revision needed. The text already reads cleanly.");
+}
 
   return {
     text: revised,
@@ -185,29 +185,62 @@ function applySecondDraftLengthRules(text, length) {
   let revised = text;
 
   if (length === "shorter") {
-    const rules = [
-      ["very", "", "Removed filler to make the text shorter"],
-      ["really", "", "Removed filler to make the text shorter"],
-      ["basically", "", "Removed filler to make the text shorter"],
-      ["actually", "", "Removed filler to make the text shorter"]
-    ];
+    const beforeText = revised;
 
-    rules.forEach(([before, after, change]) => {
-      const result = replaceSecondDraftPhraseWithEdit(revised, before, after);
-      revised = result.text;
+    revised = revised
+      .replace(/\bvery\b/gi, "")
+      .replace(/\breally\b/gi, "")
+      .replace(/\bbasically\b/gi, "")
+      .replace(/\bactually\b/gi, "")
+      .replace(/\bin my opinion\b/gi, "")
+      .replace(/\bi think that\b/gi, "I think")
+      .replace(/\s{2,}/g, " ")
+      .trim();
 
-      if (result.count > 0) {
-        changes.push(change);
-        edits.push(...result.edits);
-      }
-    });
+    if (revised !== beforeText) {
+      changes.push("Tightened wording to make the draft shorter");
+      edits.push({
+        before: "Wordier phrasing",
+        after: "Shorter phrasing"
+      });
+    }
   }
 
   if (length === "expand") {
-    changes.push("Kept meaning intact while allowing a slightly fuller revision");
+    const beforeText = revised;
+
+    revised = expandSecondDraftText(revised);
+
+    if (revised !== beforeText) {
+      changes.push("Expanded the draft slightly for smoother context and flow");
+      edits.push({
+        before: "Shorter draft",
+        after: "Slightly fuller draft"
+      });
+    }
   }
 
   return { text: revised, edits, changes };
+}
+
+function expandSecondDraftText(text) {
+  const sentences = text.match(/[^.!?]+[.!?]+|\S[^.!?]*$/g) || [text];
+
+  if (sentences.length <= 1) {
+    return text + " This gives the reader a little more context while preserving the original meaning.";
+  }
+
+  return sentences
+    .map((sentence, index) => {
+      const clean = sentence.trim();
+
+      if (index === 0 && clean.split(/\s+/).length < 14) {
+        return clean + " This helps frame the main point more clearly.";
+      }
+
+      return clean;
+    })
+    .join(" ");
 }
 
 function replaceSecondDraftPhraseWithEdit(text, before, after) {
