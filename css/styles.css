@@ -972,6 +972,15 @@ html[data-theme="terminal"] .output-panel::before {
 .second-draft-page #draftOutput {
   min-height: 180px;
 }
+.second-draft-page .hero {
+  max-width: 42rem;
+}
+
+.second-draft-page .hero h1 {
+  max-width: 10ch;
+  margin-bottom: 0.5rem;
+}
+
 
 /* -----------------------------
    RESPONSIVE
