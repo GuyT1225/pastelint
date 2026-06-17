@@ -923,6 +923,25 @@ html[data-theme="terminal"] .output-panel::before {
    SECONDDRAFT
 ----------------------------- */
 
+.second-draft-page .hero {
+  max-width: 42rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.second-draft-page .hero h1 {
+  max-width: 12ch;
+  margin-bottom: 0.5rem;
+}
+
+.second-draft-page #draftInput {
+  min-height: 120px;
+}
+
+.second-draft-page #draftOutput {
+  min-height: 180px;
+}
+
 .second-draft-page .control-panel {
   padding: clamp(1rem, 2vw, 1.35rem);
 }
@@ -959,6 +978,16 @@ html[data-theme="terminal"] .output-panel::before {
   background: var(--editor-bg);
 }
 
+.second-draft-page .toggle-row input {
+  width: auto;
+  margin: 0;
+}
+
+.second-draft-page .action-panel {
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
 .second-draft-page .revision-review-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
@@ -968,20 +997,6 @@ html[data-theme="terminal"] .output-panel::before {
 .second-draft-page .revision-review-grid .tool-panel {
   padding: clamp(1rem, 2vw, 1.35rem);
 }
-
-.second-draft-page #draftOutput {
-  min-height: 180px;
-}
-.second-draft-page .hero {
-  max-width: 42rem;
-}
-
-.second-draft-page .hero h1 {
-  max-width: 10ch;
-  margin-bottom: 0.5rem;
-}
-
-
 /* -----------------------------
    RESPONSIVE
 ----------------------------- */
@@ -1057,6 +1072,10 @@ html[data-theme="terminal"] .output-panel::before {
   .post-clean-actions a {
     flex: 1;
   }
+.second-draft-page .control-grid,
+.second-draft-page .revision-review-grid {
+  grid-template-columns: 1fr;
+}
 }
 
 @media (max-width: 640px) {
