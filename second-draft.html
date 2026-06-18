@@ -1,16 +1,23 @@
 <!DOCTYPE html>
+
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>SecondDraft | PasteLint</title>
-  <meta name="description" content="SecondDraft helps clean text read more naturally by improving readability, tone, rhythm, and flow while preserving meaning. Browser-only, no login, no upload, no backend, no API." />
+  <meta
+    name="description"
+    content="SecondDraft helps clean text read more naturally by improving readability, tone, rhythm, and flow while preserving meaning. Browser-only, no login, no upload, no backend, no API."
+  />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/themes.css" />
-  <link rel="stylesheet" href="css/shell.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
@@ -18,49 +25,53 @@
   <header class="site-header">
     <a class="brand-link" href="index.html">PasteLint</a>
 
-    <nav class="tool-nav" aria-label="Tool navigation">
-      <a href="index.html">Clean</a>
-      <a href="second-draft.html">SecondDraft</a>
-      <a href="SSML_builder.html">SSML Builder</a>
-    </nav>
+```
+<nav class="tool-nav" aria-label="Tool navigation">
+  <a href="index.html">Clean</a>
+  <a href="second-draft.html">SecondDraft</a>
+  <a href="SSML_builder.html">SSML Builder</a>
+</nav>
 
-    <nav class="theme-switcher" aria-label="Theme selector">
-      <button class="theme-btn active" type="button" data-theme-choice="light">Light</button>
-      <button class="theme-btn" type="button" data-theme-choice="dark">Dark</button>
-      <button class="theme-btn" type="button" data-theme-choice="terminal">Terminal</button>
-    </nav>
+<nav class="theme-switcher" aria-label="Theme selector">
+  <button class="theme-btn active" type="button" data-theme-choice="light">Light</button>
+  <button class="theme-btn" type="button" data-theme-choice="dark">Dark</button>
+  <button class="theme-btn" type="button" data-theme-choice="terminal">Terminal</button>
+</nav>
+```
+
   </header>
 
   <main class="page-shell second-draft-page">
-  <section class="hero" aria-labelledby="second-draft-title">
-    <p class="eyebrow">SecondDraft Revise</p>
-    <h1>Strengthen cleaned text before sending it.</h1>
+    <section class="hero" aria-labelledby="second-draft-title">
+      <p class="eyebrow">SecondDraft Revise</p>
+      <h1 id="second-draft-title">Strengthen cleaned text before sending it.</h1>
 
-<p>
-  Revise a draft or turn messy notes into an analysis-ready brief.
-</p>
+```
+  <p>
+    Revise a draft or turn messy notes into an analysis-ready brief.
+  </p>
+</section>
+
+<section class="tool-shell second-draft-flow" aria-label="SecondDraft editor">
+  <section class="tool-panel input-panel" aria-labelledby="input-title">
+    <p class="eyebrow">Draft</p>
+    <h2 id="input-title">Paste text</h2>
+
+    <label for="draftInput">Text</label>
+    <textarea id="draftInput" placeholder="Paste cleaned text here before revising..."></textarea>
+
+    <div class="meta-row">
+      <span id="inputCharCount">0 characters</span>
+      <span id="inputWordCount">0 words</span>
+      <span id="qualityHint">Best results under 750 words per pass.</span>
+    </div>
   </section>
 
-  <section class="tool-shell second-draft-flow" aria-labelledby="second-draft-tool-title">
-    <section class="tool-panel input-panel" aria-labelledby="input-title">
-      <p class="eyebrow">Draft</p>
-      <h2>Paste text</h2>
-      <label for="draftInput">Text</label>
-      <textarea id="draftInput" placeholder="Paste cleaned text here before revising..."></textarea>
+  <section class="tool-panel control-panel" aria-labelledby="controls-title">
+    <p class="eyebrow">Revision style</p>
+    <h2 id="controls-title">Revision settings</h2>
 
-      <div class="meta-row">
-        <span id="inputCharCount">0 characters</span>
-        <span id="inputWordCount">0 words</span>
-        <span id="qualityHint">Best results under 750 words per pass.</span>
-      </div>
-    </section>
-
-    <section class="tool-panel control-panel" aria-labelledby="controls-title">
-       <h2>Revision settings</h2>    
-       <p class="eyebrow">Revision style</p>
-    
-  <div class="revision-toolbar">
-  
+    <div class="revision-toolbar">
       <div class="control-grid">
         <div class="control-group">
           <label for="toneSelect">Tone</label>
@@ -89,146 +100,151 @@
             Reflow into paragraphs
           </label>
         </div>
-       </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-   <section class="tool-panel action-panel" aria-label="SecondDraft actions">
-  <button id="reviseBtn" type="button">Revise draft</button>
+  <section class="tool-panel action-panel" aria-label="SecondDraft actions">
+    <button id="reviseBtn" type="button">Revise draft</button>
 
-  <button id="buildBriefBtn" class="secondary-button" type="button">
-    Build analysis brief
-  </button>
+    <button id="buildBriefBtn" class="secondary-button" type="button">
+      Build analysis brief
+    </button>
 
-  <button id="copyBtn" type="button">Copy output</button>
-  <button id="clearBtn" type="button">Clear</button>
-</section>
+    <button id="copyBtn" type="button">Copy output</button>
+    <button id="clearBtn" type="button">Clear</button>
+  </section>
 
-    <section class="tool-panel output-panel" aria-labelledby="output-title">
+  <section class="tool-panel output-panel" aria-labelledby="output-title">
     <p class="eyebrow">Result</p>
-    h2 id="output-title">Revised or prepared text</h2>
+    <h2 id="output-title">Revised or prepared text</h2>
 
     <label for="draftOutput">Result</label>
-      <textarea id="draftOutput" placeholder="Your revised text will appear here..." readonly></textarea>
+    <textarea id="draftOutput" placeholder="Your revised text will appear here..." readonly></textarea>
 
-      <div class="meta-row">
-        <span id="outputCharCount">0 characters</span>
-        <span id="outputWordCount">0 words</span>
-      </div>
+    <div class="meta-row">
+      <span id="outputCharCount">0 characters</span>
+      <span id="outputWordCount">0 words</span>
+    </div>
+  </section>
+
+  <section class="revision-review-grid" aria-label="SecondDraft review details">
+    <section class="tool-panel insight-panel" id="changeInsightPanel" aria-labelledby="insight-title">
+      <p class="eyebrow">Editorial notes</p>
+      <h2 id="insight-title">Why it works</h2>
+
+      <p id="changeInsightEmpty">
+        Notes will appear here after SecondDraft updates your text.
+      </p>
+
+      <ul id="changeInsightList"></ul>
     </section>
-<section class="revision-review-grid" aria-label="SecondDraft review details">
 
-  <section class="tool-panel insight-panel" id="changeInsightPanel" aria-labelledby="insight-title">
-    <p class="eyebrow">Editorial notes</p>
-    <h2 id="insight-title">Why it works</h2>
+    <section class="tool-panel edit-map-panel" id="editMapPanel" aria-labelledby="edit-map-title">
+      <p class="eyebrow">Revision map</p>
+      <h2 id="edit-map-title">What changed</h2>
 
-    <p id="changeInsightEmpty">
-      Notes will appear here after SecondDraft updates your text.
-    </p>
+      <p id="editMapEmpty">
+        Phrase-level edits will appear here after revision.
+      </p>
 
-    <ul id="changeInsightList"></ul>
+      <div id="editMapList"></div>
+    </section>
   </section>
-
-  <section class="tool-panel edit-map-panel" id="editMapPanel" aria-labelledby="edit-map-title">
-    <p class="eyebrow">Revision map</p>
-    <h2 id="edit-map-title">What changed</h2>
-
-    <p id="editMapEmpty">
-      Phrase-level edits will appear here after revision.
-    </p>
-
-    <div id="editMapList"></div>
-  </section>
-
 </section>
+```
 
-</main>
+  </main>
 
- <footer class="site-footer">
+  <footer class="site-footer">
+    <div class="footer-inner">
 
-  <div class="footer-inner">
-
-    <p class="footer-brand">
-      PasteLint — browser-based text cleanup tools.
-    </p>
-
-    <p class="footer-note">
-      No login. No upload. Everything runs in your browser.
-    </p>
-
-    <div class="footer-columns">
-
-      <div>
-        <h4>Popular cleanup tasks</h4>
-
-        <p>
-          <a href="fix-pdf-paste.html">Fix Text Copied from PDF</a>
-          <span>|</span>
-          <a href="clean-chatgpt-output.html">Clean ChatGPT Output</a>
-          <span>|</span>
-          <a href="remove-hidden-characters.html">Remove Hidden Characters</a>
-        </p>
-
-        <p>
-          <a href="tts-text-cleanup.html">Prepare Text for TTS</a>
-          <span>|</span>
-          <a href="ivr-text-prep.html">IVR Text Prep</a>
-          <span>|</span>
-          <a href="SSML_builder.html">SSML Builder</a>
-        </p>
-        
-         <p>
-    <a href="text-readiness-framework.html">
-      Text Readiness Framework
-    </a>
+```
+  <p class="footer-brand">
+    PasteLint — browser-based text cleanup tools.
   </p>
-</div>
-      </div>
 
-      <div>
-        <h4>Core tools</h4>
+  <p class="footer-note">
+    No login. No upload. Everything runs in your browser.
+  </p>
 
-        <p>
-          <a href="index.html">PasteLint Clean</a>
-          <span>|</span>
-          <a href="second-draft.html">SecondDraft</a>
-        </p>
-      </div>
+  <div class="footer-columns">
 
-      <div>
-        <h4>Legal</h4>
+    <div>
+      <h4>Popular cleanup tasks</h4>
 
-        <p>
-          <a href="privacy.html">Privacy Policy</a>
-          <span>|</span>
-          <a href="terms.html">Terms</a>
-          <span>|</span>
-          <a href="contact.html">Contact</a>
-        </p>
-      </div>
+      <p>
+        <a href="fix-pdf-paste.html">Fix Text Copied from PDF</a>
+        <span>|</span>
+        <a href="clean-chatgpt-output.html">Clean ChatGPT Output</a>
+        <span>|</span>
+        <a href="remove-hidden-characters.html">Remove Hidden Characters</a>
+      </p>
 
+      <p>
+        <a href="tts-text-cleanup.html">Prepare Text for TTS</a>
+        <span>|</span>
+        <a href="ivr-text-prep.html">IVR Text Prep</a>
+        <span>|</span>
+        <a href="SSML_builder.html">SSML Builder</a>
+      </p>
+    </div>
+
+    <div>
+      <h4>Core tools</h4>
+
+      <p>
+        <a href="index.html">PasteLint Clean</a>
+        <span>|</span>
+        <a href="second-draft.html">SecondDraft</a>
+      </p>
+
+      <p>
+        <a href="text-readiness-framework.html">Text Readiness Framework</a>
+      </p>
+    </div>
+
+    <div>
+      <h4>Legal</h4>
+
+      <p>
+        <a href="privacy.html">Privacy Policy</a>
+        <span>|</span>
+        <a href="terms.html">Terms</a>
+        <span>|</span>
+        <a href="contact.html">Contact</a>
+      </p>
     </div>
 
   </div>
+</div>
+```
 
-</footer>
-<script src="js/utils.js"></script>
-<script src="js/themes.js"></script>
-<script src="js/text-analyzer.js"></script>
-<script src="js/text-clean-engine.js"></script>
-<script src="js/second-draft.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const transferText = localStorage.getItem("pastelint-transfer-text");
-  const input = document.getElementById("draftInput");
+  </footer>
 
-  if (!transferText || !input || input.value.trim()) return;
+  <script src="js/utils.js"></script>
 
-  input.value = transferText;
-  input.dispatchEvent(new Event("input", { bubbles: true }));
+  <script src="js/themes.js"></script>
 
-  localStorage.removeItem("pastelint-transfer-text");
-});
-</script>  
+  <script src="js/text-analyzer.js"></script>
+
+  <script src="js/text-clean-engine.js"></script>
+
+  <script src="js/second-draft.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const transferText = localStorage.getItem("pastelint-transfer-text");
+      const input = document.getElementById("draftInput");
+
+      if (!transferText || !input || input.value.trim()) return;
+
+      input.value = transferText;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+
+      localStorage.removeItem("pastelint-transfer-text");
+    });
+  </script>
+
 </body>
 </html>
