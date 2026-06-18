@@ -1102,6 +1102,7 @@ html[data-theme="terminal"] .output-panel::before {
   isolation: isolate;
 }
 
+/* Subtle editor grid behind hero only */
 .clean-chatgpt-page::before {
   content: "";
   position: absolute;
@@ -1143,6 +1144,13 @@ html[data-theme="terminal"] .output-panel::before {
   z-index: 1;
 }
 
+/* Override old two-column landing layout */
+.clean-chatgpt-page .hero-proof-layout {
+  display: block;
+  max-width: none;
+}
+
+/* Hero should match SecondDraft rhythm */
 .clean-chatgpt-page .hero {
   max-width: 42rem;
   padding-bottom: 0.75rem;
@@ -1169,6 +1177,12 @@ html[data-theme="terminal"] .output-panel::before {
   text-wrap: balance;
 }
 
+/* Let tool flow vertically like SecondDraft */
+.clean-chatgpt-page .tool-shell {
+  display: block;
+  max-width: none;
+}
+
 /* Remove outer card framing from working areas */
 .clean-chatgpt-page .input-panel,
 .clean-chatgpt-page .output-panel,
@@ -1179,13 +1193,19 @@ html[data-theme="terminal"] .output-panel::before {
   padding: 0;
 }
 
-/* Let the textareas become the main surfaces */
+/* Remove inherited terminal-style floating labels */
+.clean-chatgpt-page .input-panel::before,
+.clean-chatgpt-page .output-panel::before {
+  content: none;
+}
+
+/* Let textareas become the main surfaces */
 .clean-chatgpt-page #input {
-  min-height: 210px;
+  min-height: 150px;
 }
 
 .clean-chatgpt-page #output {
-  min-height: 210px;
+  min-height: 180px;
 }
 
 .clean-chatgpt-page .output-panel {
