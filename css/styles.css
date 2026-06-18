@@ -1092,6 +1092,135 @@ html[data-theme="terminal"] .output-panel::before {
 .second-draft-page .revision-review-grid .tool-panel {
   padding: clamp(1rem, 2vw, 1.35rem);
 }
+
+/* -----------------------------
+   CLEAN CHATGPT OUTPUT PAGE
+----------------------------- */
+
+.clean-chatgpt-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.clean-chatgpt-page::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: min(100vw, 96rem);
+  height: clamp(11rem, 20vw, 16rem);
+
+  pointer-events: none;
+  opacity: 0.2;
+
+  background:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--editor-border) 28%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--editor-border) 18%, transparent) 1px,
+      transparent 1px
+    );
+
+  background-size: 5.5rem 100%, 100% 2.75rem;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 52%,
+    transparent 100%
+  );
+}
+
+.clean-chatgpt-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.clean-chatgpt-page .hero {
+  max-width: 42rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.clean-chatgpt-page .hero-script-label {
+  margin: 0 0 0.35rem;
+
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1;
+
+  color: var(--muted);
+  letter-spacing: -0.025em;
+  text-transform: none;
+}
+
+.clean-chatgpt-page .hero h1 {
+  max-width: 12ch;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+/* Remove outer card framing from working areas */
+.clean-chatgpt-page .input-panel,
+.clean-chatgpt-page .output-panel,
+.clean-chatgpt-page .action-panel {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Let the textareas become the main surfaces */
+.clean-chatgpt-page #input {
+  min-height: 210px;
+}
+
+.clean-chatgpt-page #output {
+  min-height: 210px;
+}
+
+.clean-chatgpt-page .output-panel {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Actions */
+.clean-chatgpt-page .action-panel {
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.clean-chatgpt-page .tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+/* Keep the SecondDraft link button-like */
+.clean-chatgpt-page .secondary-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--radius-md);
+  background: var(--editor-bg);
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+
 /* -----------------------------
    RESPONSIVE
 ----------------------------- */
@@ -1202,7 +1331,11 @@ html[data-theme="terminal"] .output-panel::before {
   .cleaned-heading h3 {
     max-width: 100%;
   }
-
+   
+  .clean-chatgpt-page .hero-proof-layout {
+    grid-template-columns: 1fr;
+  }
+   
 }
 
 
