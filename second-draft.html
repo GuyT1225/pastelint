@@ -111,18 +111,19 @@
     <button id="clearBtn" type="button">Clear</button>
   </section>
 
-  <section class="tool-panel output-panel" aria-labelledby="output-title">
-    <p class="eyebrow">Result</p>
-    <h2 id="output-title">Revised or prepared text</h2>
+ <section class="tool-panel output-panel" aria-label="SecondDraft result">
+  <textarea
+    id="draftOutput"
+    aria-label="Revised draft or prepared analysis brief"
+    placeholder="Your revised draft or analysis brief will appear here..."
+    readonly
+  ></textarea>
 
-    <label for="draftOutput">Result</label>
-    <textarea id="draftOutput" placeholder="Your revised text will appear here..." readonly></textarea>
-
-    <div class="meta-row">
-      <span id="outputCharCount">0 characters</span>
-      <span id="outputWordCount">0 words</span>
-    </div>
-  </section>
+  <div class="meta-row">
+    <span id="outputCharCount">0 characters</span>
+    <span id="outputWordCount">0 words</span>
+  </div>
+</section>
 
   <section class="revision-review-grid" aria-label="SecondDraft review details">
     <section class="tool-panel insight-panel" id="changeInsightPanel" aria-labelledby="insight-title">
