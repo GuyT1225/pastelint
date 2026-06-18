@@ -25,7 +25,7 @@
   <header class="site-header">
     <a class="brand-link" href="index.html">PasteLint</a>
 
-```
+
 <nav class="tool-nav" aria-label="Tool navigation">
   <a href="index.html">Clean</a>
   <a href="second-draft.html">SecondDraft</a>
@@ -37,7 +37,7 @@
   <button class="theme-btn" type="button" data-theme-choice="dark">Dark</button>
   <button class="theme-btn" type="button" data-theme-choice="terminal">Terminal</button>
 </nav>
-```
+
 
   </header>
 
@@ -46,63 +46,59 @@
       <p class="eyebrow">SecondDraft Revise</p>
       <h1 id="second-draft-title">Strengthen cleaned text before sending it.</h1>
 
-```
+
   <p>
     Revise a draft or turn messy notes into an analysis-ready brief.
   </p>
 </section>
 
-<section class="tool-shell second-draft-flow" aria-label="SecondDraft editor">
-  <section class="tool-panel input-panel" aria-labelledby="input-title">
-    <p class="eyebrow">Draft</p>
-    <h2 id="input-title">Paste text</h2>
+<section class="tool-panel input-panel" aria-label="SecondDraft input">
+  <textarea
+    id="draftInput"
+    aria-label="Text to revise or prepare"
+    placeholder="Paste text here..."
+  ></textarea>
 
-    <label for="draftInput">Text</label>
-    <textarea id="draftInput" placeholder="Paste cleaned text here before revising..."></textarea>
+  <div class="meta-row">
+    <span id="inputCharCount">0 characters</span>
+    <span id="inputWordCount">0 words</span>
+    <span id="qualityHint">Best results under 750 words per pass.</span>
+  </div>
+</section>
 
-    <div class="meta-row">
-      <span id="inputCharCount">0 characters</span>
-      <span id="inputWordCount">0 words</span>
-      <span id="qualityHint">Best results under 750 words per pass.</span>
-    </div>
-  </section>
+<section class="tool-panel control-panel" aria-label="SecondDraft revision controls">
+  <div class="revision-toolbar">
+    <div class="control-grid">
+      <div class="control-group">
+        <label for="toneSelect">Tone</label>
+        <select id="toneSelect">
+          <option value="natural" selected>Natural</option>
+          <option value="concise">Concise</option>
+          <option value="professional">Professional</option>
+          <option value="friendly">Friendly</option>
+          <option value="direct">Direct</option>
+        </select>
+      </div>
 
-  <section class="tool-panel control-panel" aria-labelledby="controls-title">
-    <p class="eyebrow">Revision style</p>
-    <h2 id="controls-title">Revision settings</h2>
+      <div class="control-group">
+        <label for="lengthSelect">Length</label>
+        <select id="lengthSelect">
+          <option value="same" selected>Keep similar</option>
+          <option value="shorter">Shorter</option>
+          <option value="expand">Expand slightly</option>
+        </select>
+      </div>
 
-    <div class="revision-toolbar">
-      <div class="control-grid">
-        <div class="control-group">
-          <label for="toneSelect">Tone</label>
-          <select id="toneSelect">
-            <option value="natural" selected>Natural</option>
-            <option value="concise">Concise</option>
-            <option value="professional">Professional</option>
-            <option value="friendly">Friendly</option>
-            <option value="direct">Direct</option>
-          </select>
-        </div>
-
-        <div class="control-group">
-          <label for="lengthSelect">Length</label>
-          <select id="lengthSelect">
-            <option value="same" selected>Keep similar</option>
-            <option value="shorter">Shorter</option>
-            <option value="expand">Expand slightly</option>
-          </select>
-        </div>
-
-        <div class="control-group">
-          <label for="reflowToggle">Structure</label>
-          <label class="toggle-row">
-            <input id="reflowToggle" type="checkbox" />
-            Reflow into paragraphs
-          </label>
-        </div>
+      <div class="control-group">
+        <label for="reflowToggle">Structure</label>
+        <label class="toggle-row">
+          <input id="reflowToggle" type="checkbox" />
+          Reflow into paragraphs
+        </label>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <section class="tool-panel action-panel" aria-label="SecondDraft actions">
     <button id="reviseBtn" type="button">Revise draft</button>
