@@ -39,137 +39,160 @@
 
   <main class="page-shell workflow-grid pastelint-clean-page">
 
-    <div class="hero-proof-layout">
-      <section class="hero workflow-chapter hero-chapter">
-        <div class="hero-content">
-          <p class="eyebrow">PasteLint Clean</p>
-          <h1>Fix what copy and paste broke.</h1>
-          <p>
-            Fix ChatGPT output, PDF text, hidden characters, spacing problems,
-            and broken copy-paste formatting.
-          </p>
-        </div>
-      </section>
+  <section class="hero workflow-chapter hero-chapter">
+    <div class="hero-content">
+      <p class="eyebrow">PasteLint Clean</p>
+      <h1>Fix what copy and paste broke.</h1>
+      <p>
+        Paste messy text, clean the obvious formatting problems, and review what changed before you copy it.
+      </p>
+    </div>
+  </section>
 
-      <section class="tool-shell workflow-chapter input-chapter" aria-labelledby="tool-title">
-        <div class="mode-row" aria-label="Cleaning controls">
-          <div class="control-group">
-            <label for="cleanMode">Cleanup mode</label>
-            <select id="cleanMode">
-              <option value="standard" selected>Standard cleanup</option>
-              <option value="ai">AI text cleanup</option>
-              <option value="pdf">PDF or document paste</option>
-              <option value="web">Website or email paste</option>
-              <option value="ivr">IVR and TTS prep</option>
-            </select>
-          </div>
+  <section class="tool-shell workflow-chapter input-chapter" aria-labelledby="tool-title">
 
-          <div class="control-group">
-            <label for="viewMode">Review mode</label>
-            <select id="viewMode">
-              <option value="paragraph" selected>Paragraph</option>
-              <option value="line">Line by line</option>
-            </select>
-          </div>
-        </div>
 
-        <div class="tool-panel input-panel">
-          <label for="input">Paste your messy text</label>
-          <textarea id="input" placeholder="Paste text from AI tools, PDFs, websites, emails, or documents..."></textarea>
+<div class="mode-row" aria-label="Cleaning controls">
+  <div class="control-group">
+    <label for="cleanMode">Cleanup mode</label>
+    <select id="cleanMode">
+      <option value="standard" selected>Standard cleanup</option>
+      <option value="ai">AI text cleanup</option>
+      <option value="pdf">PDF or document paste</option>
+      <option value="web">Website or email paste</option>
+      <option value="ivr">IVR and TTS prep</option>
+    </select>
+  </div>
 
-          <div class="meta">
-            <span id="inputCharCount">0 chars</span>
-            <span id="inputWordCount">0 words</span>
-          </div>
-        </div>
+  <div class="control-group">
+    <label for="viewMode">Review mode</label>
+    <select id="viewMode">
+      <option value="paragraph" selected>Paragraph</option>
+      <option value="line">Line by line</option>
+    </select>
+  </div>
+</div>
 
-        <div class="tool-panel action-panel">
-          <button id="cleanBtn" type="button">Clean text</button>
-          <button id="copyBtn" type="button">Copy clean text</button>
-          <button id="clearBtn" type="button">Clear</button>
+<section class="tool-panel input-panel" aria-label="PasteLint input">
+  <textarea
+    id="input"
+    aria-label="Paste messy text"
+    placeholder="Paste text from AI tools, PDFs, websites, emails, or documents..."
+  ></textarea>
 
-          <div class="post-clean-actions" id="postCleanActions" hidden>
-            <a href="#inspection-report">View inspection report</a>
-            <a href="#cleaned-draft">Skip to cleaned draft ↓</a>
-          </div>
-        </div>
-      </section>
+  <div class="meta">
+    <span id="inputCharCount">0 chars</span>
+    <span id="inputWordCount">0 words</span>
+  </div>
+</section>
+
+<section class="tool-panel action-panel" aria-label="PasteLint actions">
+  <button id="cleanBtn" type="button">Clean text</button>
+  <button id="copyBtn" type="button">Copy clean text</button>
+  <button id="clearBtn" type="button">Clear</button>
+
+  <div class="post-clean-actions" id="postCleanActions" hidden>
+    <a href="#inspection-report">View inspection report</a>
+    <a href="#cleaned-draft">Skip to cleaned draft ↓</a>
+  </div>
+</section>
+
+<section class="tool-panel output-panel" id="cleaned-draft" aria-label="Cleaned PasteLint output">
+  <textarea
+    id="output"
+    aria-label="Cleaned text output"
+    readonly
+    placeholder="Clean text will appear here..."
+  ></textarea>
+
+  <div class="meta">
+    <span id="outputCharCount">0 chars</span>
+    <span id="outputWordCount">0 words</span>
+  </div>
+</section>
+
+
+  </section>
+
+  <section class="inspection-chapter pastelint-review-grid" id="inspection-report" aria-label="PasteLint review details">
+
+
+<section class="tool-panel insight-panel pastelint-review-panel" aria-labelledby="text-brief-title">
+  <p class="eyebrow">Inspection report</p>
+  <h2 id="text-brief-title">What PasteLint found</h2>
+
+  <div id="textBrief">
+    <strong>Formatting quality</strong><br>
+    — Waiting for analysis.<br><br>
+
+    <strong>Readability score</strong><br>
+    — Waiting for analysis.<br><br>
+
+    <strong>Speech risks</strong><br>
+    — Waiting for analysis.<br><br>
+
+    <strong>Structure review</strong><br>
+    — Waiting for analysis.
+  </div>
+</section>
+
+<section class="tool-panel edit-map-panel pastelint-review-panel" aria-labelledby="fixes-title">
+  <p class="eyebrow">Cleanup map</p>
+  <h2 id="fixes-title">Fixes and proof</h2>
+
+  <div class="pastelint-proof-stack">
+    <div>
+      <strong>Formatting</strong>
+      <ul id="foundList">
+        <li>No cleanup issues detected yet.</li>
+      </ul>
     </div>
 
-    <section class="inspection-chapter" id="inspection-report">
-  <div class="review-kicker">Inspection Report</div>
-  <h2>What PasteLint found</h2>
-  <p>Issues detected, fixes applied, and proof you can review.</p>
-
-  <div class="inspection-grid">
-    <div class="summary-label">Text Brief</div>
-    <div id="textBrief">
-      <strong>Formatting quality</strong><br>
-      — Waiting for analysis.<br><br>
-
-      <strong>Readability score</strong><br>
-      — Waiting for analysis.<br><br>
-
-      <strong>Speech risks</strong><br>
-      — Waiting for analysis.<br><br>
-
-      <strong>Structure review</strong><br>
-      — Waiting for analysis.
+    <div>
+      <strong>Fixes applied</strong>
+      <div id="editMap">
+        Changes will appear here after cleanup.
+      </div>
     </div>
 
-    <div class="found-category">Formatting</div>
-    <ul id="foundList">
-      <li>No cleanup issues detected yet.</li>
-    </ul>
-
-    <div class="fixed-category">Fixes Applied</div>
-    <div id="editMap">
-      Changes will appear here after cleanup.
-    </div>
-
-    <div class="proof-category">Before &amp; After</div>
-    <div id="visualPreview">
-      PasteLint will show a simple before and after view once text is cleaned.
+    <div>
+      <strong>Before &amp; after</strong>
+      <div id="visualPreview">
+        PasteLint will show a simple before and after view once text is cleaned.
+      </div>
     </div>
   </div>
 </section>
-    
-<section class="workflow-chapter cleaned-heading" id="cleaned-draft">
-  <div class="review-kicker">04 Cleaned</div>
-  <h2>Your repaired text, ready to copy.</h2>
-</section>
 
-    <div class="tool-panel output-panel">
-      <textarea id="output" readonly placeholder="Clean text will appear here..."></textarea>
 
-      <div class="meta">
-        <span id="outputCharCount">0 chars</span>
-        <span id="outputWordCount">0 words</span>
-      </div>
-    </div>
+  </section>
 
-    <section class="workflow-chapter next-steps-panel">
-      <p class="eyebrow">Next steps</p>
-      <h2>Keep working from clean text.</h2>
+  <section class="workflow-chapter next-steps-panel">
+    <p class="eyebrow">Next steps</p>
+    <h2>Keep working from clean text.</h2>
 
-      <div class="next-steps-list">
-        <a href="fix-pdf-paste.html">
-          <strong>Fix text copied from PDF</strong>
-          <span>Clean broken spacing, line breaks, and PDF paste issues.</span>
-        </a>
 
-        <a href="second-draft.html">
-          <strong>Move from Clean to SecondDraft</strong>
-          <span>Improve tone, rhythm, and flow without changing meaning.</span>
-        </a>
+<div class="next-steps-list">
+  <a href="fix-pdf-paste.html">
+    <strong>Fix text copied from PDF</strong>
+    <span>Clean broken spacing, line breaks, and PDF paste issues.</span>
+  </a>
 
-        <a href="clean-text-message.html">
-          <strong>Clean a text message before you send it</strong>
-          <span>Quick cleanup for short messages, replies, and posts.</span>
-        </a>
-      </div>
-    </section>
-  </main>
+  <a href="second-draft.html">
+    <strong>Move from Clean to SecondDraft</strong>
+    <span>Improve tone, rhythm, and flow without changing meaning.</span>
+  </a>
+
+  <a href="clean-text-message.html">
+    <strong>Clean a text message before you send it</strong>
+    <span>Quick cleanup for short messages, replies, and posts.</span>
+  </a>
+</div>
+
+
+  </section>
+
+</main>
 
   <footer class="site-footer">
     <div class="footer-inner">
