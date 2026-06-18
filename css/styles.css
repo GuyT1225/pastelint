@@ -1254,6 +1254,72 @@ html[data-theme="terminal"] .clean-chatgpt-page #output {
   text-decoration: none;
 }
 
+/* -----------------------------
+   PASTELINT CLEAN PAGE DETAILS
+----------------------------- */
+
+.pastelint-clean-page {
+  --paper-accent: #d6a94a;
+  --paper-soft: color-mix(in srgb, #f6d98a 18%, transparent);
+  --paper-border: color-mix(in srgb, #d6a94a 58%, var(--editor-border));
+}
+
+/* Warm editorial pad accent for the original PasteLint tool */
+.pastelint-clean-page .input-chapter,
+.pastelint-clean-page .output-panel {
+  position: relative;
+}
+
+.pastelint-clean-page .input-chapter::before {
+  content: "editor pad";
+  position: absolute;
+  top: -0.72rem;
+  right: 1.2rem;
+  z-index: 2;
+
+  padding: 0.22rem 0.55rem;
+  border: 1px solid var(--paper-border);
+  border-radius: 999px;
+
+  background: var(--bg);
+  color: var(--paper-accent);
+
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Subtle yellow paper note feeling, only on the homepage */
+.pastelint-clean-page .input-chapter textarea,
+.pastelint-clean-page #input {
+  border-color: var(--paper-border);
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent calc(2.15rem - 1px),
+      color-mix(in srgb, var(--paper-accent) 18%, transparent) 2.15rem
+    ),
+    var(--editor-bg);
+  background-size: 100% 2.15rem, auto;
+}
+
+/* Keep dark and terminal restrained */
+html[data-theme="dark"] .pastelint-clean-page .input-chapter textarea,
+html[data-theme="dark"] .pastelint-clean-page #input,
+html[data-theme="terminal"] .pastelint-clean-page .input-chapter textarea,
+html[data-theme="terminal"] .pastelint-clean-page #input {
+  background-image: none;
+}
+
+/* Small warm proof/detail accent */
+.pastelint-clean-page .diagnostic-row,
+.pastelint-clean-page .editorial-summary,
+.pastelint-clean-page .inspection-chapter {
+  border-color: color-mix(in srgb, var(--paper-accent) 22%, var(--editor-border));
+}
+
 
 /* -----------------------------
    RESPONSIVE
