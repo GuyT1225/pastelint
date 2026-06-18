@@ -1260,16 +1260,16 @@ html[data-theme="terminal"] .clean-chatgpt-page #output {
 
 .pastelint-clean-page {
   --paper-accent: #d6a94a;
-  --paper-soft: color-mix(in srgb, #f6d98a 18%, transparent);
-  --paper-border: color-mix(in srgb, #d6a94a 58%, var(--editor-border));
+  --paper-soft: color-mix(in srgb, #f6d98a 12%, transparent);
+  --paper-border: color-mix(in srgb, #d6a94a 48%, var(--editor-border));
 }
 
-/* Warm editorial pad accent for the original PasteLint tool */
-.pastelint-clean-page .input-chapter,
-.pastelint-clean-page .output-panel {
+/* Keep the homepage as the warmer editor-pad surface */
+.pastelint-clean-page .input-chapter {
   position: relative;
 }
 
+/* Small human detail */
 .pastelint-clean-page .input-chapter::before {
   content: "editor pad";
   position: absolute;
@@ -1290,36 +1290,132 @@ html[data-theme="terminal"] .clean-chatgpt-page #output {
   text-transform: uppercase;
 }
 
-/* Subtle yellow paper note feeling, only on the homepage */
-.pastelint-clean-page .input-chapter textarea,
+/* Remove the big chapter/card feeling from the active tool */
+.pastelint-clean-page .input-chapter,
+.pastelint-clean-page .input-panel,
+.pastelint-clean-page .output-panel,
+.pastelint-clean-page .action-panel {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Controls should behave like SecondDraft controls */
+.pastelint-clean-page .mode-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+
+.pastelint-clean-page .control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.pastelint-clean-page .control-group select {
+  min-height: 3rem;
+  height: 3rem;
+  box-sizing: border-box;
+}
+
+/* Input surface: warm paper accent, restrained */
 .pastelint-clean-page #input {
+  min-height: 210px;
   border-color: var(--paper-border);
   background:
     linear-gradient(
       to bottom,
       transparent 0,
       transparent calc(2.15rem - 1px),
-      color-mix(in srgb, var(--paper-accent) 18%, transparent) 2.15rem
+      color-mix(in srgb, var(--paper-accent) 14%, transparent) 2.15rem
     ),
     var(--editor-bg);
   background-size: 100% 2.15rem, auto;
 }
 
+/* Output surface: cleaner than input, less legal-pad */
+.pastelint-clean-page #output {
+  min-height: 210px;
+  background: var(--editor-bg);
+  background-image: none;
+}
+
 /* Keep dark and terminal restrained */
-html[data-theme="dark"] .pastelint-clean-page .input-chapter textarea,
 html[data-theme="dark"] .pastelint-clean-page #input,
-html[data-theme="terminal"] .pastelint-clean-page .input-chapter textarea,
 html[data-theme="terminal"] .pastelint-clean-page #input {
   background-image: none;
 }
 
-/* Small warm proof/detail accent */
-.pastelint-clean-page .diagnostic-row,
-.pastelint-clean-page .editorial-summary,
-.pastelint-clean-page .inspection-chapter {
-  border-color: color-mix(in srgb, var(--paper-accent) 22%, var(--editor-border));
+/* Counts */
+.pastelint-clean-page .meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.45rem;
 }
 
+/* Actions */
+.pastelint-clean-page .action-panel {
+  margin-top: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.pastelint-clean-page .action-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.pastelint-clean-page .post-clean-actions:not([hidden]) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-left: 0.5rem;
+}
+
+/* Review area: same idea as SecondDraft review cards */
+.pastelint-clean-page .pastelint-review-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.pastelint-clean-page .pastelint-review-panel {
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.pastelint-clean-page .pastelint-proof-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.pastelint-clean-page .pastelint-proof-stack ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.pastelint-clean-page .pastelint-proof-stack strong,
+.pastelint-clean-page #textBrief strong {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+
+/* Warm accent only where it supports the homepage identity */
+.pastelint-clean-page .pastelint-review-panel,
+.pastelint-clean-page .next-steps-panel {
+  border-color: color-mix(in srgb, var(--paper-accent) 18%, var(--editor-border));
+}
+
+/* Next steps should stay, but feel less like another chapter */
+.pastelint-clean-page .next-steps-panel {
+  margin-top: 2.25rem;
+}
 
 /* -----------------------------
    RESPONSIVE
@@ -1433,6 +1529,11 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
   }
    
   .clean-chatgpt-page .hero-proof-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pastelint-clean-page .mode-row,
+  .pastelint-clean-page .pastelint-review-grid {
     grid-template-columns: 1fr;
   }
    
