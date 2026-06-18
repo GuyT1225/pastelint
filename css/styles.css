@@ -997,6 +997,32 @@ html[data-theme="terminal"] .output-panel::before {
 .second-draft-page .revision-review-grid .tool-panel {
   padding: clamp(1rem, 2vw, 1.35rem);
 }
+
+/* Make the top SecondDraft sections feel less boxed-in */
+.second-draft-page .input-panel,
+.second-draft-page .control-panel {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Keep the textarea and controls as the actual surfaces */
+.second-draft-page .input-panel textarea,
+.second-draft-page .control-panel select,
+.second-draft-page .toggle-row {
+  background: var(--editor-bg);
+}
+
+/* Give the unboxed sections enough breathing room */
+.second-draft-page .input-panel {
+  margin-bottom: 1.5rem;
+}
+
+.second-draft-page .control-panel {
+  margin-bottom: 0.75rem;
+}
+
 /* -----------------------------
    RESPONSIVE
 ----------------------------- */
