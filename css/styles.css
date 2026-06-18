@@ -918,15 +918,74 @@ html[data-theme="terminal"] .output-panel::before {
   color: var(--accent);
   background: var(--bg);
 }
-
 /* -----------------------------
    SECONDDRAFT
 ----------------------------- */
+
+.second-draft-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.second-draft-page::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: min(100vw, 96rem);
+  height: clamp(13rem, 24vw, 19rem);
+
+  pointer-events: none;
+  opacity: 0.34;
+
+  background:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--editor-border) 34%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--editor-border) 22%, transparent) 1px,
+      transparent 1px
+    );
+
+  background-size: 5.5rem 100%, 100% 2.75rem;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 58%,
+    transparent 100%
+  );
+}
+
+.second-draft-page > * {
+  position: relative;
+  z-index: 1;
+}
 
 .second-draft-page .hero {
   max-width: 42rem;
   padding-bottom: 0.75rem;
   margin-bottom: 0.5rem;
+}
+
+.second-draft-page .hero-script-label {
+  margin: 0 0 0.45rem;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1;
+
+  color: var(--muted);
+  letter-spacing: -0.035em;
+  text-transform: none;
 }
 
 .second-draft-page .hero h1 {
