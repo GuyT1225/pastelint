@@ -1170,7 +1170,7 @@ html[data-theme="terminal"] .output-panel::before {
 }
 
 .clean-chatgpt-page .hero h1 {
-  max-width: 12ch;
+  max-width: 14ch;
   margin-bottom: 0.5rem;
   letter-spacing: -0.055em;
   line-height: 0.92;
