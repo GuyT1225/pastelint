@@ -204,32 +204,57 @@ function applySecondDraftPatternRules(text, options) {
   const outreachPattern =
     /\bI just wanted to reach out and let you know that I think it would probably be helpful to ([^.?!]+)([.?!]?)/i;
 
-  const match = revised.match(outreachPattern);
+  const outreachMatch = revised.match(outreachPattern);
 
-  if (!match) {
-    return { text: revised, edits, changes };
+  if (outreachMatch) {
+    const action = outreachMatch[1].trim();
+    let replacement = "";
+
+    if (options.length === "shorter") {
+      replacement = `Let's ${action}.`;
+      changes.push("Condensed the sentence into a shorter action statement");
+    } else if (options.tone === "direct") {
+      replacement = `I think we need to ${action}.`;
+      changes.push("Made the message more direct while preserving intent");
+    } else {
+      replacement = `I wanted to reach out because it would be helpful to ${action}.`;
+      changes.push("Smoothed the sentence while preserving a natural tone");
+    }
+
+    revised = revised.replace(outreachPattern, replacement);
+
+    edits.push({
+      before: outreachMatch[0],
+      after: replacement
+    });
   }
 
-  const action = match[1].trim();
-  let replacement = "";
+  const alignmentPattern =
+    /\bI know everyone has been busy lately,\s*but I wanted to make sure we were all aligned and on the same page regarding the final version\.?/i;
 
-  if (options.length === "shorter") {
-    replacement = `Let's ${action}.`;
-    changes.push("Condensed the sentence into a shorter action statement");
-  } else if (options.tone === "direct") {
-    replacement = `I think we need to ${action}.`;
-    changes.push("Made the message more direct while preserving intent");
-  } else {
-    replacement = `I wanted to reach out because it would be helpful to ${action}.`;
-    changes.push("Smoothed the sentence while preserving a natural tone");
+  const alignmentMatch = revised.match(alignmentPattern);
+
+  if (alignmentMatch) {
+    let replacement = "";
+
+    if (options.length === "shorter") {
+      replacement = "Let's confirm the final version.";
+      changes.push("Condensed alignment wording into a shorter action statement");
+    } else if (options.tone === "direct") {
+      replacement = "Let's confirm the final version before sending it.";
+      changes.push("Replaced alignment filler with a clearer next step");
+    } else {
+      replacement = "I want to make sure we agree on the final version.";
+      changes.push("Simplified business clutter into clearer wording");
+    }
+
+    revised = revised.replace(alignmentPattern, replacement);
+
+    edits.push({
+      before: alignmentMatch[0],
+      after: replacement
+    });
   }
-
-  revised = revised.replace(outreachPattern, replacement);
-
-  edits.push({
-    before: match[0],
-    after: replacement
-  });
 
   return { text: revised, edits, changes };
 }
