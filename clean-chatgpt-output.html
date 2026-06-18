@@ -34,13 +34,14 @@
     </div>
   </header>
 
-  <main class="page-shell workflow-grid">
+<main class="page-shell workflow-grid clean-chatgpt-page">
 
-    <div class="hero-proof-layout">
+  <div class="hero-proof-layout">
 
-      <section class="hero">
+```
+<section class="hero">
   <div class="hero-content">
-    <p class="hero-kicker">AI text cleanup</p>
+    <p class="hero-script-label">AI text cleanup</p>
 
     <h1>Clean ChatGPT output before you send it.</h1>
 
@@ -48,64 +49,57 @@
       Remove filler phrases, awkward formatting, repeated wording, and paste artifacts.
       Browser-only. No upload. No account.
     </p>
-
   </div>
 </section>
 
-      <section id="tool" class="tool-shell" aria-label="Clean ChatGPT output tool">
-        <section class="tool-panel input-panel">
-          <div class="tool-header">
-            <h2>Paste ChatGPT output</h2>
-            <p>
-               Paste the draft. Review the result. Copy when ready.
-            </p>
-          </div>
+<section id="tool" class="tool-shell" aria-label="Clean ChatGPT output tool">
 
-          <div class="field">
-            <label for="input">Original AI-generated text</label>
-            <textarea id="input" placeholder="Paste ChatGPT output here..."></textarea>
+  <section class="tool-panel input-panel" aria-label="Original ChatGPT output">
+    <textarea
+      id="input"
+      aria-label="Original AI-generated text"
+      placeholder="Paste ChatGPT output here..."
+    ></textarea>
 
-            <div class="meta">
-              <span id="inputCharCount">0 chars</span>
-              <span id="inputWordCount">0 words</span>
-            </div>
-          </div>
-        </section>
-
-        <section class="tool-panel output-panel">
-          <div class="tool-header">
-            <h2>Cleaned output</h2>
-            <p>
-              Review the cleaned version before copying.
-            </p>
-          </div>
-
-          <div class="field">
-            <label for="output">PasteLint output</label>
-            <textarea id="output" placeholder="Your cleaned text will appear here..." readonly></textarea>
-
-            <div class="meta">
-              <span id="outputCharCount">0 chars</span>
-              <span id="outputWordCount">0 words</span>
-            </div>
-          </div>
-        </section>
-
-        <section class="tool-panel">
-          <div class="tool-actions">
-             <button id="cleanBtn" class="primary-btn" type="button">Clean this text</button>
-             <button id="copyBtn" class="secondary-btn" type="button">Copy</button>
-             <button id="clearBtn" class="clear-btn" type="button">Clear</button>
-
-             <a id="openSecondDraft" class="secondary-link" href="second-draft.html">
-                Rewrite in SecondDraft →
-            </a>
-          </div>
-           
-        </section>
-      </section>
+    <div class="meta">
+      <span id="inputCharCount">0 chars</span>
+      <span id="inputWordCount">0 words</span>
     </div>
-  </main>
+  </section>
+
+  <section class="tool-panel action-panel" aria-label="Clean ChatGPT output actions">
+    <div class="tool-actions">
+      <button id="cleanBtn" class="primary-btn" type="button">Clean text</button>
+      <button id="copyBtn" class="secondary-btn" type="button">Copy output</button>
+      <button id="clearBtn" class="clear-btn" type="button">Clear</button>
+
+      <a id="openSecondDraft" class="secondary-link" href="second-draft.html">
+        Rewrite in SecondDraft →
+      </a>
+    </div>
+  </section>
+
+  <section class="tool-panel output-panel" aria-label="Cleaned ChatGPT output">
+    <textarea
+      id="output"
+      aria-label="PasteLint cleaned output"
+      placeholder="Your cleaned text will appear here..."
+      readonly
+    ></textarea>
+
+    <div class="meta">
+      <span id="outputCharCount">0 chars</span>
+      <span id="outputWordCount">0 words</span>
+    </div>
+  </section>
+
+</section>
+```
+
+  </div>
+
+</main>
+
 
   <footer class="site-footer">
     <div class="footer-inner">
