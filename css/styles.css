@@ -932,26 +932,32 @@ html[data-theme="terminal"] .output-panel::before {
 .second-draft-page .hero h1 {
   max-width: 12ch;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+  text-wrap: balance;
 }
 
+/* Remove outer card framing from input and controls */
+.second-draft-page .input-panel,
+.second-draft-page .control-panel {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Let the working surfaces carry the interface */
 .second-draft-page #draftInput {
-  min-height: 120px;
+  min-height: 150px;
 }
 
 .second-draft-page #draftOutput {
   min-height: 180px;
 }
 
-.second-draft-page .control-panel {
-  padding: clamp(1rem, 2vw, 1.35rem);
-}
-
-.second-draft-page .control-panel h2 {
-  margin-bottom: 0.9rem;
-}
-
+/* Control row */
 .second-draft-page .revision-toolbar {
-  margin-top: 1rem;
+  margin-top: 0;
 }
 
 .second-draft-page .control-grid {
@@ -967,12 +973,20 @@ html[data-theme="terminal"] .output-panel::before {
   gap: 0.45rem;
 }
 
+/* Align Structure with Tone and Length */
+.second-draft-page .control-group select,
 .second-draft-page .toggle-row {
-  min-height: 2.6rem;
+  min-height: 3rem;
+  height: 3rem;
+  box-sizing: border-box;
+}
+
+.second-draft-page .toggle-row {
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.65rem 0.85rem;
+  gap: 0.65rem;
+  padding: 0 1rem;
   border: 1px solid var(--editor-border);
   border-radius: var(--radius-md);
   background: var(--editor-bg);
@@ -983,11 +997,27 @@ html[data-theme="terminal"] .output-panel::before {
   margin: 0;
 }
 
+/* Actions */
 .second-draft-page .action-panel {
-  margin-top: 0.5rem;
-  margin-bottom: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
 }
 
+.second-draft-page #buildBriefBtn {
+  background: var(--editor-bg);
+  color: var(--text);
+  border: 1px solid var(--editor-border);
+}
+
+/* Review area */
 .second-draft-page .revision-review-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
@@ -996,31 +1026,6 @@ html[data-theme="terminal"] .output-panel::before {
 
 .second-draft-page .revision-review-grid .tool-panel {
   padding: clamp(1rem, 2vw, 1.35rem);
-}
-
-/* Make the top SecondDraft sections feel less boxed-in */
-.second-draft-page .input-panel,
-.second-draft-page .control-panel {
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  padding: 0;
-}
-
-/* Keep the textarea and controls as the actual surfaces */
-.second-draft-page .input-panel textarea,
-.second-draft-page .control-panel select,
-.second-draft-page .toggle-row {
-  background: var(--editor-bg);
-}
-
-/* Give the unboxed sections enough breathing room */
-.second-draft-page .input-panel {
-  margin-bottom: 1.5rem;
-}
-
-.second-draft-page .control-panel {
-  margin-bottom: 0.75rem;
 }
 
 /* -----------------------------
@@ -1134,10 +1139,6 @@ html[data-theme="terminal"] .output-panel::before {
     max-width: 100%;
   }
 
-   .second-draft-page .control-grid {
-    grid-template-columns: 1fr;
-  }
-   
 }
 
 
