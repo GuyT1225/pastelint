@@ -1193,13 +1193,19 @@ html[data-theme="terminal"] .output-panel::before {
   padding: 0;
 }
 
-/* Remove inherited terminal-style floating labels */
-.clean-chatgpt-page .input-panel::before,
-.clean-chatgpt-page .output-panel::before {
-  content: none;
+/* Keep terminal badges, but remove lined textarea texture */
+.clean-chatgpt-page #input,
+.clean-chatgpt-page #output {
+  width: 100%;
+  background: var(--editor-bg);
+  background-image: none !important;
 }
 
-/* Let textareas become the main surfaces */
+html[data-theme="terminal"] .clean-chatgpt-page #input,
+html[data-theme="terminal"] .clean-chatgpt-page #output {
+  background-image: none !important;
+}
+
 .clean-chatgpt-page #input {
   min-height: 150px;
 }
@@ -1211,6 +1217,14 @@ html[data-theme="terminal"] .output-panel::before {
 .clean-chatgpt-page .output-panel {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
+}
+
+/* Counts */
+.clean-chatgpt-page .meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.45rem;
 }
 
 /* Actions */
