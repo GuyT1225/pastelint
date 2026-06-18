@@ -937,9 +937,10 @@ html[data-theme="terminal"] .output-panel::before {
   text-wrap: balance;
 }
 
-/* Remove outer card framing from input and controls */
+/* Remove outer card framing from input, controls, and output */
 .second-draft-page .input-panel,
-.second-draft-page .control-panel {
+.second-draft-page .control-panel,
+.second-draft-page .output-panel {
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -953,6 +954,11 @@ html[data-theme="terminal"] .output-panel::before {
 
 .second-draft-page #draftOutput {
   min-height: 180px;
+}
+
+.second-draft-page .output-panel {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 /* Control row */
