@@ -3,73 +3,82 @@
 
   <url>
     <loc>https://guyt1225.github.io/pastelint/</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://guyt1225.github.io/pastelint/second-draft.html</loc>
-    <lastmod>2026-05-26</lastmod>
+    <loc>https://guyt1225.github.io/pastelint/clean-chatgpt-output.html</loc>
+    <lastmod>2026-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://guyt1225.github.io/pastelint/second-draft.html</loc>
+    <lastmod>2026-06-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://guyt1225.github.io/pastelint/text-readiness-framework.html</loc>
+    <lastmod>2026-06-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
 
   <url>
     <loc>https://guyt1225.github.io/pastelint/SSML_builder.html</loc>
     <lastmod>2026-05-26</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.88</priority>
   </url>
-  <url>
-  <loc>https://guyt1225.github.io/pastelint/tts-text-cleanup.html</loc>
-  <lastmod>2026-05-26</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.9</priority>
-  </url>
+
   <url>
     <loc>https://guyt1225.github.io/pastelint/fix-pdf-paste.html</loc>
     <lastmod>2026-05-26</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.92</priority>
+    <priority>0.86</priority>
   </url>
 
   <url>
-    <loc>https://guyt1225.github.io/pastelint/make-ai-text-sound-human.html</loc>
+    <loc>https://guyt1225.github.io/pastelint/tts-text-cleanup.html</loc>
     <lastmod>2026-05-26</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
+    <priority>0.84</priority>
   </url>
 
   <url>
-    <loc>https://guyt1225.github.io/pastelint/clean-chatgpt-output.html</loc>
+    <loc>https://guyt1225.github.io/pastelint/ivr-text-prep.html</loc>
     <lastmod>2026-05-26</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
+    <priority>0.84</priority>
   </url>
-  
+
   <url>
-  <loc>https://guyt1225.github.io/pastelint/ivr-text-prep.html</loc>
-  <lastmod>2026-05-26</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.9</priority>
+    <loc>https://guyt1225.github.io/pastelint/remove-hidden-characters.html</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.82</priority>
   </url>
-  
+
   <url>
-  <loc>https://guyt1225.github.io/pastelint/remove-hidden-characters.html</loc>
-  <lastmod>2026-05-26</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.9</priority>
+    <loc>https://guyt1225.github.io/pastelint/clean-text-message.html</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.78</priority>
   </url>
-  
-   <url>
+
+  <url>
     <loc>https://guyt1225.github.io/pastelint/privacy.html</loc>
     <lastmod>2026-05-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
-   </url>
+  </url>
 
-   <url>
+  <url>
     <loc>https://guyt1225.github.io/pastelint/terms.html</loc>
     <lastmod>2026-05-26</lastmod>
     <changefreq>monthly</changefreq>
@@ -80,14 +89,7 @@
     <loc>https://guyt1225.github.io/pastelint/contact.html</loc>
     <lastmod>2026-05-26</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.45</priority>
+    <priority>0.35</priority>
   </url>
-  
-  <url>
-    <loc>https://guyt1225.github.io/pastelint/clean-text-message.html</loc>
-    <lastmod>2026-05-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
+
 </urlset>
