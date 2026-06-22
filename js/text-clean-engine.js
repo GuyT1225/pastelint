@@ -161,27 +161,43 @@ function fixRepeatedWords(text, changes) {
     return after;
   }
 
-  function normalizePunctuationSpacing(text, changes) {
-    const before = text;
-    let after = text;
+ function normalizePunctuationSpacing(text, changes) {
+  const before = text;
+  let after = text;
 
-    after = after.replace(/[ \t]+([,.!?;:])/g, "$1");
-    after = after.replace(/([,.!?;:])([A-Za-z0-9])/g, "$1 $2");
+  after = after.replace(/[ \t]+([,.!?;:])/g, "$1");
 
-    // Important: only collapse spaces and tabs, not line breaks.
-    after = after.replace(/[ \t]{2,}/g, " ");
+  after = after.replace(/([,.!?;:])([A-Za-z0-9])/g, function (
+    match,
+    mark,
+    next,
+    offset,
+    fullText
+  ) {
+    const previous = fullText.charAt(offset - 1);
 
-    addChange(
-      changes,
-      "punctuation-spacing",
-      before,
-      after,
-      "Repaired spacing around punctuation."
-    );
+    // Preserve time-like and number-like patterns:
+    // 10:00, 3.14, 1:2, etc.
+    if ((mark === ":" || mark === ".") && /\d/.test(previous) && /\d/.test(next)) {
+      return match;
+    }
 
-    return after;
-  }
+    return mark + " " + next;
+  });
 
+  // Important: only collapse spaces and tabs, not line breaks.
+  after = after.replace(/[ \t]{2,}/g, " ");
+
+  addChange(
+    changes,
+    "punctuation-spacing",
+    before,
+    after,
+    "Repaired spacing around punctuation."
+  );
+
+  return after;
+}
   function normalizeSpacing(text, changes) {
     const before = text;
     let after = text;
