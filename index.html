@@ -7,8 +7,10 @@
   <title>PasteLint — Fix ChatGPT Output, PDF Text & Copy-Paste Formatting</title>
   <meta
     name="description"
-    content="Fix ChatGPT output, PDF text, hidden characters, spacing issues, and broken copy-paste formatting. Browser-based text cleanup with no login, upload, or API."
+    content="Fix ChatGPT output, PDF text, hidden characters, spacing issues, and broken copy-paste formatting. Browser-based text cleanup with no login, no upload, and no API."
   />
+
+  <link rel="canonical" href="https://guyt1225.github.io/pastelint/" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,162 +40,156 @@
   </header>
 
   <main class="page-shell workflow-grid pastelint-clean-page">
+    <section class="hero workflow-chapter hero-chapter">
+      <div class="hero-content">
+        <p class="eyebrow">PasteLint Clean</p>
 
-  <section class="hero workflow-chapter hero-chapter">
-    <div class="hero-content">
-      <p class="eyebrow">PasteLint Clean</p>
-      <h1>Fix what copy and paste broke.</h1>
-      <p>
-        Paste messy text, clean the obvious formatting problems, and review what changed before you copy it.
-      </p>
-    </div>
-  </section>
+        <h1>Fix what copy and paste broke.</h1>
 
-  <section class="tool-shell workflow-chapter input-chapter" aria-labelledby="tool-title">
-
-
-<div class="mode-row" aria-label="Cleaning controls">
-  <div class="control-group">
-    <label for="cleanMode">Cleanup mode</label>
-    <select id="cleanMode">
-      <option value="standard" selected>Standard cleanup</option>
-      <option value="ai">AI text cleanup</option>
-      <option value="pdf">PDF or document paste</option>
-      <option value="web">Website or email paste</option>
-      <option value="ivr">IVR and TTS prep</option>
-    </select>
-  </div>
-
-  <div class="control-group">
-    <label for="viewMode">Review mode</label>
-    <select id="viewMode">
-      <option value="paragraph" selected>Paragraph</option>
-      <option value="line">Line by line</option>
-    </select>
-  </div>
-</div>
-
-<section class="tool-panel input-panel" aria-label="PasteLint input">
-  <textarea
-    id="input"
-    aria-label="Paste messy text"
-    placeholder="Paste text from AI tools, PDFs, websites, emails, or documents..."
-  ></textarea>
-
-  <div class="meta">
-    <span id="inputCharCount">0 chars</span>
-    <span id="inputWordCount">0 words</span>
-  </div>
-</section>
-    
-<div class="post-clean-actions" id="postCleanActions" hidden>
-  <button id="copyBtn" class="primary-btn result-primary-btn" type="button">
-    Copy clean text
-  </button>
-
-  <button id="sendToSecondDraftBtn" class="secondary-btn next-step-btn" type="button">
-    Revise in SecondDraft →
-  </button>
-
-  <a class="inspection-link" href="#inspection-report">View inspection report</a>
-</div>
-
-<section class="tool-panel output-panel" id="cleaned-draft" aria-label="Cleaned PasteLint output">
-  <textarea
-    id="output"
-    aria-label="Cleaned text output"
-    readonly
-    placeholder="Clean text will appear here..."
-  ></textarea>
-
-  <div class="meta">
-    <span id="outputCharCount">0 chars</span>
-    <span id="outputWordCount">0 words</span>
-  </div>
-</section>
-
-
-  </section>
-
-  <section class="inspection-chapter pastelint-review-grid" id="inspection-report" aria-label="PasteLint review details">
-
-
-<section class="tool-panel insight-panel pastelint-review-panel" aria-labelledby="text-brief-title">
-  <p class="eyebrow">Inspection report</p>
-  <h2 id="text-brief-title">What PasteLint found</h2>
-
-  <div id="textBrief">
-    <strong>Formatting quality</strong><br>
-    — Waiting for analysis.<br><br>
-
-    <strong>Readability score</strong><br>
-    — Waiting for analysis.<br><br>
-
-    <strong>Speech risks</strong><br>
-    — Waiting for analysis.<br><br>
-
-    <strong>Structure review</strong><br>
-    — Waiting for analysis.
-  </div>
-</section>
-
-<section class="tool-panel edit-map-panel pastelint-review-panel" aria-labelledby="fixes-title">
-  <p class="eyebrow">Cleanup map</p>
-  <h2 id="fixes-title">Fixes and proof</h2>
-
-  <div class="pastelint-proof-stack">
-    <div>
-      <strong>Formatting</strong>
-      <ul id="foundList">
-        <li>No cleanup issues detected yet.</li>
-      </ul>
-    </div>
-
-    <div>
-      <strong>Fixes applied</strong>
-      <div id="editMap">
-        Changes will appear here after cleanup.
+        <p>
+          Paste messy text, clean the obvious formatting problems, and review what changed before you copy it.
+        </p>
       </div>
-    </div>
+    </section>
 
-    <div>
-      <strong>Before &amp; after</strong>
-      <div id="visualPreview">
-        PasteLint will show a simple before and after view once text is cleaned.
+    <section class="tool-shell workflow-chapter input-chapter" aria-label="PasteLint cleanup tool">
+      <div class="mode-row" aria-label="Cleaning controls">
+        <div class="control-group">
+          <label for="cleanMode">Cleanup mode</label>
+          <select id="cleanMode">
+            <option value="standard" selected>Standard cleanup</option>
+            <option value="ai">AI text cleanup</option>
+            <option value="pdf">PDF or document paste</option>
+            <option value="web">Website or email paste</option>
+            <option value="ivr">IVR and TTS prep</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="viewMode">Review mode</label>
+          <select id="viewMode">
+            <option value="paragraph" selected>Paragraph</option>
+            <option value="line">Line by line</option>
+          </select>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
 
+      <section class="tool-panel input-panel" aria-label="PasteLint input">
+        <textarea
+          id="input"
+          aria-label="Paste messy text"
+          placeholder="Paste text from AI tools, PDFs, websites, emails, or documents..."
+        ></textarea>
 
-  </section>
+        <div class="meta">
+          <span id="inputCharCount">0 chars</span>
+          <span id="inputWordCount">0 words</span>
+        </div>
+      </section>
 
-  <section class="workflow-chapter next-steps-panel">
-    <p class="eyebrow">Next steps</p>
-    <h2>Keep working from clean text.</h2>
+      <section class="tool-panel action-panel" aria-label="PasteLint actions">
+        <button id="cleanBtn" class="primary-btn" type="button">Clean text</button>
+        <button id="clearBtn" class="clear-btn" type="button">Clear</button>
 
+        <div class="post-clean-actions" id="postCleanActions" hidden>
+          <button id="copyBtn" class="primary-btn result-primary-btn" type="button">
+            Copy clean text
+          </button>
 
-<div class="next-steps-list">
-  <a href="fix-pdf-paste.html">
-    <strong>Fix text copied from PDF</strong>
-    <span>Clean broken spacing, line breaks, and PDF paste issues.</span>
-  </a>
+          <button id="sendToSecondDraftBtn" class="secondary-btn next-step-btn" type="button">
+            Revise in SecondDraft →
+          </button>
 
-  <a href="second-draft.html">
-    <strong>Move from Clean to SecondDraft</strong>
-    <span>Improve tone, rhythm, and flow without changing meaning.</span>
-  </a>
+          <a class="inspection-link" href="#inspection-report">View inspection report</a>
+        </div>
+      </section>
 
-  <a href="clean-text-message.html">
-    <strong>Clean a text message before you send it</strong>
-    <span>Quick cleanup for short messages, replies, and posts.</span>
-  </a>
-</div>
+      <section class="tool-panel output-panel" id="cleaned-draft" aria-label="Cleaned PasteLint output">
+        <textarea
+          id="output"
+          aria-label="Cleaned text output"
+          readonly
+          placeholder="Clean text will appear here..."
+        ></textarea>
 
+        <div class="meta">
+          <span id="outputCharCount">0 chars</span>
+          <span id="outputWordCount">0 words</span>
+        </div>
+      </section>
+    </section>
 
-  </section>
+    <section class="inspection-chapter pastelint-review-grid" id="inspection-report" aria-label="PasteLint review details">
+      <section class="tool-panel insight-panel pastelint-review-panel" aria-labelledby="text-brief-title">
+        <p class="eyebrow">Inspection report</p>
+        <h2 id="text-brief-title">What PasteLint found</h2>
 
-</main>
+        <div id="textBrief">
+          <strong>Formatting quality</strong><br>
+          — Waiting for analysis.<br><br>
+
+          <strong>Readability score</strong><br>
+          — Waiting for analysis.<br><br>
+
+          <strong>Speech risks</strong><br>
+          — Waiting for analysis.<br><br>
+
+          <strong>Structure review</strong><br>
+          — Waiting for analysis.
+        </div>
+      </section>
+
+      <section class="tool-panel edit-map-panel pastelint-review-panel" aria-labelledby="fixes-title">
+        <p class="eyebrow">Cleanup map</p>
+        <h2 id="fixes-title">Fixes and proof</h2>
+
+        <div class="pastelint-proof-stack">
+          <div>
+            <strong>Formatting</strong>
+            <ul id="foundList">
+              <li>No cleanup issues detected yet.</li>
+            </ul>
+          </div>
+
+          <div>
+            <strong>Fixes applied</strong>
+            <div id="editMap">
+              Changes will appear here after cleanup.
+            </div>
+          </div>
+
+          <div>
+            <strong>Before &amp; after</strong>
+            <div id="visualPreview">
+              PasteLint will show a simple before and after view once text is cleaned.
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="workflow-chapter next-steps-panel">
+      <p class="eyebrow">Next steps</p>
+      <h2>Keep working from clean text.</h2>
+
+      <div class="next-steps-list">
+        <a href="fix-pdf-paste.html">
+          <strong>Fix text copied from PDF</strong>
+          <span>Clean broken spacing, line breaks, and PDF paste issues.</span>
+        </a>
+
+        <a href="second-draft.html">
+          <strong>Move from Clean to SecondDraft</strong>
+          <span>Improve tone, rhythm, and flow without changing meaning.</span>
+        </a>
+
+        <a href="clean-text-message.html">
+          <strong>Clean a text message before you send it</strong>
+          <span>Quick cleanup for short messages, replies, and posts.</span>
+        </a>
+      </div>
+    </section>
+  </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
@@ -221,21 +217,19 @@
           </p>
         </div>
 
-       <div>
-  <h4>Core tools</h4>
+        <div>
+          <h4>Core tools</h4>
 
-  <p>
-    <a href="index.html">PasteLint Clean</a>
-    <span>|</span>
-    <a href="second-draft.html">SecondDraft</a>
-  </p>
+          <p>
+            <a href="index.html">PasteLint Clean</a>
+            <span>|</span>
+            <a href="second-draft.html">SecondDraft</a>
+          </p>
 
-  <p>
-    <a href="text-readiness-framework.html">
-      Text Readiness Framework
-    </a>
-  </p>
-</div>
+          <p>
+            <a href="text-readiness-framework.html">Text Readiness Framework</a>
+          </p>
+        </div>
 
         <div>
           <h4>Legal</h4>
@@ -258,69 +252,69 @@
   <script src="js/text-clean-engine.js"></script>
   <script src="js/script.js"></script>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const input = document.getElementById("input");
-    const output = document.getElementById("output");
-    const cleanBtn = document.getElementById("cleanBtn");
-    const clearBtn = document.getElementById("clearBtn");
-    const sendToSecondDraftBtn = document.getElementById("sendToSecondDraftBtn");
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const input = document.getElementById("input");
+      const output = document.getElementById("output");
+      const cleanBtn = document.getElementById("cleanBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const sendToSecondDraftBtn = document.getElementById("sendToSecondDraftBtn");
 
-    const outputPanel = output?.closest(".output-panel");
+      const outputPanel = output?.closest(".output-panel");
 
-    function emphasizeOutput() {
-      if (!output || !output.value.trim()) return;
+      function emphasizeOutput() {
+        if (!output || !output.value.trim()) return;
 
-      outputPanel?.classList.add("is-active-result");
+        outputPanel?.classList.add("is-active-result");
 
-      outputPanel?.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-    }
+        outputPanel?.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }
 
-    function sendToSecondDraft() {
-      const cleanedText = output?.value?.trim() || "";
-      const originalText = input?.value?.trim() || "";
-      const textToTransfer = cleanedText || originalText;
+      function sendToSecondDraft() {
+        const cleanedText = output?.value?.trim() || "";
+        const originalText = input?.value?.trim() || "";
+        const textToTransfer = cleanedText || originalText;
 
-      if (!textToTransfer) return;
+        if (!textToTransfer) return;
 
-      localStorage.setItem("pastelint-transfer-text", textToTransfer);
-      window.location.href = "./second-draft.html";
-    }
+        localStorage.setItem("pastelint-transfer-text", textToTransfer);
+        window.location.href = "./second-draft.html";
+      }
 
-    if (cleanBtn) {
-      cleanBtn.addEventListener("click", () => {
-        window.setTimeout(emphasizeOutput, 125);
-      });
-    }
+      if (cleanBtn) {
+        cleanBtn.addEventListener("click", () => {
+          window.setTimeout(emphasizeOutput, 125);
+        });
+      }
 
-    if (clearBtn) {
-      clearBtn.addEventListener("click", () => {
-        outputPanel?.classList.remove("is-active-result");
-      });
-    }
+      if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+          outputPanel?.classList.remove("is-active-result");
+        });
+      }
 
-    if (sendToSecondDraftBtn) {
-      sendToSecondDraftBtn.addEventListener("click", sendToSecondDraft);
-    }
+      if (sendToSecondDraftBtn) {
+        sendToSecondDraftBtn.addEventListener("click", sendToSecondDraft);
+      }
 
-    const transferText = localStorage.getItem("pastelint-transfer-text");
+      const transferText = localStorage.getItem("pastelint-transfer-text");
 
-    if (!transferText || !input || input.value.trim()) return;
+      if (!transferText || !input || input.value.trim()) return;
 
-    input.value = transferText;
-    input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.value = transferText;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
 
-    if (cleanBtn) {
-      window.setTimeout(() => {
-        cleanBtn.click();
-      }, 75);
-    }
+      if (cleanBtn) {
+        window.setTimeout(() => {
+          cleanBtn.click();
+        }, 75);
+      }
 
-    localStorage.removeItem("pastelint-transfer-text");
-  });
-</script>
+      localStorage.removeItem("pastelint-transfer-text");
+    });
+  </script>
 </body>
 </html>
