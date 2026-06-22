@@ -1093,6 +1093,27 @@ html[data-theme="terminal"] .output-panel::before {
   padding: clamp(1rem, 2vw, 1.35rem);
 }
 
+@media (min-width: 901px) {
+  .second-draft-page {
+    width: min(100% - 2rem, 1120px);
+    margin-inline: auto;
+  }
+
+  .second-draft-page #draftInput,
+  .second-draft-page #draftOutput,
+  .second-draft-page .control-grid,
+  .second-draft-page .action-panel,
+  .second-draft-page .revision-review-grid {
+    width: 100%;
+    max-width: 980px;
+    margin-inline: auto;
+  }
+
+  .second-draft-page .hero {
+    max-width: 34rem;
+  }
+}
+
 /* -----------------------------
    CLEAN CHATGPT OUTPUT PAGE
 ----------------------------- */
@@ -1406,7 +1427,21 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
 
 .pastelint-clean-page .result-primary-btn {
   font-weight: 850;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--editor-border));
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
 }
+
+.pastelint-clean-page .inspection-link {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.pastelint-clean-page .inspection-link:hover {
+  color: var(--text);
+  text-decoration: underline;
+} 
 
 /* -----------------------------
    RESPONSIVE
