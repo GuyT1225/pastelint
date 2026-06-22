@@ -268,25 +268,6 @@
     const input = document.getElementById("input");
     const output = document.getElementById("output");
     const cleanBtn = document.getElementById("cleanBtn");
-    const sendToSecondDraftBtn = document.getElementById("sendToSecondDraftBtn");
-
-    /* Send cleaned PasteLint output to SecondDraft */
-    if (sendToSecondDraftBtn) {
-      sendToSecondDraftBtn.addEventListener("click", () => {
-        const textToTransfer = output?.value.trim() || input?.value.trim() || "";
-
-        if (!textToTransfer) return;
-
-        localStorage.setItem("pastelint-transfer-text", textToTransfer);
-        window.location.href = "second-draft.html";
-      });
-    }
-
-   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const input = document.getElementById("input");
-    const output = document.getElementById("output");
-    const cleanBtn = document.getElementById("cleanBtn");
     const clearBtn = document.getElementById("clearBtn");
     const sendToSecondDraftBtn = document.getElementById("sendToSecondDraftBtn");
 
@@ -303,33 +284,33 @@
       });
     }
 
-    /* After cleaning, move attention to the cleaned output */
+    function sendToSecondDraft() {
+      const cleanedText = output?.value?.trim() || "";
+      const originalText = input?.value?.trim() || "";
+      const textToTransfer = cleanedText || originalText;
+
+      if (!textToTransfer) return;
+
+      localStorage.setItem("pastelint-transfer-text", textToTransfer);
+      window.location.href = "./second-draft.html";
+    }
+
     if (cleanBtn) {
       cleanBtn.addEventListener("click", () => {
         window.setTimeout(emphasizeOutput, 125);
       });
     }
 
-    /* Clear result emphasis when the page is cleared */
     if (clearBtn) {
       clearBtn.addEventListener("click", () => {
         outputPanel?.classList.remove("is-active-result");
       });
     }
 
-    /* Send cleaned PasteLint output to SecondDraft */
     if (sendToSecondDraftBtn) {
-      sendToSecondDraftBtn.addEventListener("click", () => {
-        const textToTransfer = output?.value.trim() || input?.value.trim() || "";
-
-        if (!textToTransfer) return;
-
-        localStorage.setItem("pastelint-transfer-text", textToTransfer);
-        window.location.href = "second-draft.html";
-      });
+      sendToSecondDraftBtn.addEventListener("click", sendToSecondDraft);
     }
 
-    /* Receive transferred text into PasteLint, if another page sends it here */
     const transferText = localStorage.getItem("pastelint-transfer-text");
 
     if (!transferText || !input || input.value.trim()) return;
