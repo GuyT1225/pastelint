@@ -85,18 +85,21 @@
     <span id="inputWordCount">0 words</span>
   </div>
 </section>
+    
 <section class="tool-panel action-panel" aria-label="PasteLint actions">
-  <button id="cleanBtn" type="button">Clean text</button>
-  <button id="copyBtn" type="button">Copy clean text</button>
-  <button id="clearBtn" type="button">Clear</button>
+  <button id="cleanBtn" class="primary-btn" type="button">Clean text</button>
+  <button id="clearBtn" class="clear-btn" type="button">Clear</button>
 
   <div class="post-clean-actions" id="postCleanActions" hidden>
-    <a href="#inspection-report">View inspection report</a>
-    <a href="#cleaned-draft">Skip to cleaned draft ↓</a>
+    <button id="copyBtn" class="primary-btn result-primary-btn" type="button">
+      Copy clean text
+    </button>
 
     <button id="sendToSecondDraftBtn" class="secondary-btn" type="button">
-      Open in SecondDraft →
+      Revise in SecondDraft →
     </button>
+
+    <a href="#inspection-report">View inspection report</a>
   </div>
 </section>
 
@@ -266,6 +269,53 @@
     const output = document.getElementById("output");
     const cleanBtn = document.getElementById("cleanBtn");
     const sendToSecondDraftBtn = document.getElementById("sendToSecondDraftBtn");
+
+    /* Send cleaned PasteLint output to SecondDraft */
+    if (sendToSecondDraftBtn) {
+      sendToSecondDraftBtn.addEventListener("click", () => {
+        const textToTransfer = output?.value.trim() || input?.value.trim() || "";
+
+        if (!textToTransfer) return;
+
+        localStorage.setItem("pastelint-transfer-text", textToTransfer);
+        window.location.href = "second-draft.html";
+      });
+    }
+
+   <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("input");
+    const output = document.getElementById("output");
+    const cleanBtn = document.getElementById("cleanBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const sendToSecondDraftBtn = document.getElementById("sendToSecondDraftBtn");
+
+    const outputPanel = output?.closest(".output-panel");
+
+    function emphasizeOutput() {
+      if (!output || !output.value.trim()) return;
+
+      outputPanel?.classList.add("is-active-result");
+
+      outputPanel?.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    }
+
+    /* After cleaning, move attention to the cleaned output */
+    if (cleanBtn) {
+      cleanBtn.addEventListener("click", () => {
+        window.setTimeout(emphasizeOutput, 125);
+      });
+    }
+
+    /* Clear result emphasis when the page is cleared */
+    if (clearBtn) {
+      clearBtn.addEventListener("click", () => {
+        outputPanel?.classList.remove("is-active-result");
+      });
+    }
 
     /* Send cleaned PasteLint output to SecondDraft */
     if (sendToSecondDraftBtn) {
