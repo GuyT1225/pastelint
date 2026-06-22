@@ -686,11 +686,33 @@ function getCleanResult(raw, mode) {
 
   if (
     window.PasteLintCleanEngine &&
+    typeof window.PasteLintCleanEngine.runPasteLintCleanup === "function"
+  ) {
+    const engineOptions = getEngineOptionsForMode(mode);
+
+    const engineResult =
+      window.PasteLintCleanEngine.runPasteLintCleanup(raw, engineOptions);
+
+    result = normalizeCleanResult({
+      text: engineResult.cleanedText || engineResult.cleaned || "",
+      changes: engineResult.changes || [],
+      edits: [],
+      impact: {
+        spaces: 0,
+        lines: 0,
+        punctuation: 0,
+        typos: 0,
+        repeatedWords: 0
+      }
+    });
+  } else if (
+    window.PasteLintCleanEngine &&
     typeof window.PasteLintCleanEngine.cleanText === "function"
   ) {
-   const engineOptions = getEngineOptionsForMode(mode);
+    const engineOptions = getEngineOptionsForMode(mode);
 
-   const engineResult = window.PasteLintCleanEngine.cleanText(raw, engineOptions);
+    const engineResult =
+      window.PasteLintCleanEngine.cleanText(raw, engineOptions);
 
     result = normalizeCleanResult({
       text: engineResult.cleaned || "",
