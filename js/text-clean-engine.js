@@ -290,8 +290,36 @@ function fixRepeatedWords(text, changes) {
     };
   }
 
+  function runPasteLintCleanup(input, options = {}) {
+    const result = cleanText(input, options);
+
+    const sourceText = result.original;
+    const cleanedText = result.cleaned;
+
+    return {
+      sourceText,
+      cleanedText,
+      changed: cleanedText !== sourceText,
+
+      changes: Array.isArray(result.changes) ? result.changes : [],
+      warnings: [],
+
+      analysis: result.analysis || null,
+
+      meta: {
+        engine: "pastelint-clean",
+        mode: options.mode || "standard"
+      },
+
+      // Backward-compatible aliases.
+      original: sourceText,
+      cleaned: cleanedText
+    };
+  }
+   
   window.PasteLintCleanEngine = {
     cleanText,
+    runPasteLintCleanup,
     normalizeDbNumbers,
     normalizeSymbolsForSpeech
   };
