@@ -1428,10 +1428,21 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
   background: color-mix(in srgb, var(--accent) 8%, transparent);
 }
 
-.pastelint-clean-page .next-step-btn {
-  font-weight: 850;
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--editor-border));
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
+.pastelint-clean-page .inspection-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.15rem;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.pastelint-clean-page .inspection-link:hover {
+  color: var(--text);
+  text-decoration: underline;
 }
 
 .pastelint-clean-page .second-draft-script {
