@@ -86,22 +86,17 @@
   </div>
 </section>
     
-<section class="tool-panel action-panel" aria-label="PasteLint actions">
-  <button id="cleanBtn" class="primary-btn" type="button">Clean text</button>
-  <button id="clearBtn" class="clear-btn" type="button">Clear</button>
+<div class="post-clean-actions" id="postCleanActions" hidden>
+  <button id="copyBtn" class="primary-btn result-primary-btn" type="button">
+    Copy clean text
+  </button>
 
-  <div class="post-clean-actions" id="postCleanActions" hidden>
-    <button id="copyBtn" class="primary-btn result-primary-btn" type="button">
-      Copy clean text
-    </button>
+  <button id="sendToSecondDraftBtn" class="secondary-btn next-step-btn" type="button">
+    Revise in SecondDraft →
+  </button>
 
-    <button id="sendToSecondDraftBtn" class="secondary-btn" type="button">
-      Revise in SecondDraft →
-    </button>
-
-    <a href="#inspection-report">View inspection report</a>
-  </div>
-</section>
+  <a class="inspection-link" href="#inspection-report">View inspection report</a>
+</div>
 
 <section class="tool-panel output-panel" id="cleaned-draft" aria-label="Cleaned PasteLint output">
   <textarea
