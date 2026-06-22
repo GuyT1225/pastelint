@@ -1268,28 +1268,6 @@ html[data-theme="terminal"] .clean-chatgpt-page #output {
 .pastelint-clean-page .input-chapter {
   position: relative;
 }
-
-/* Small human detail */
-.pastelint-clean-page .input-chapter::before {
-  content: "editor pad";
-  position: absolute;
-  top: -0.72rem;
-  right: 1.2rem;
-  z-index: 2;
-
-  padding: 0.22rem 0.55rem;
-  border: 1px solid var(--paper-border);
-  border-radius: 999px;
-
-  background: var(--bg);
-  color: var(--paper-accent);
-
-  font-size: 0.62rem;
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
 /* Remove the big chapter/card feeling from the active tool */
 .pastelint-clean-page .input-chapter,
 .pastelint-clean-page .input-panel,
@@ -1415,6 +1393,19 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
 /* Next steps should stay, but feel less like another chapter */
 .pastelint-clean-page .next-steps-panel {
   margin-top: 2.25rem;
+}
+
+.pastelint-clean-page .output-panel {
+  scroll-margin-top: 2rem;
+}
+
+.pastelint-clean-page .output-panel.is-active-result #output {
+  border-color: color-mix(in srgb, var(--success) 55%, var(--editor-border));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--success) 10%, transparent);
+}
+
+.pastelint-clean-page .result-primary-btn {
+  font-weight: 850;
 }
 
 /* -----------------------------
