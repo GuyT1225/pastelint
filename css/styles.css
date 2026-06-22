@@ -1359,15 +1359,12 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
 
 /* Actions */
 .pastelint-clean-page .action-panel {
-  margin-top: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.pastelint-clean-page .action-panel {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
   align-items: center;
+  margin-top: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .pastelint-clean-page .post-clean-actions:not([hidden]) {
@@ -1429,6 +1426,20 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
   font-weight: 850;
   border-color: color-mix(in srgb, var(--accent) 45%, var(--editor-border));
   background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.pastelint-clean-page .next-step-btn {
+  font-weight: 850;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--editor-border));
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.pastelint-clean-page .second-draft-script {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  font-size: 1.08em;
 }
 
 .pastelint-clean-page .inspection-link {
