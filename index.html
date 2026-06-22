@@ -85,7 +85,6 @@
     <span id="inputWordCount">0 words</span>
   </div>
 </section>
-
 <section class="tool-panel action-panel" aria-label="PasteLint actions">
   <button id="cleanBtn" type="button">Clean text</button>
   <button id="copyBtn" type="button">Copy clean text</button>
@@ -94,6 +93,10 @@
   <div class="post-clean-actions" id="postCleanActions" hidden>
     <a href="#inspection-report">View inspection report</a>
     <a href="#cleaned-draft">Skip to cleaned draft ↓</a>
+
+    <button id="sendToSecondDraftBtn" class="secondary-btn" type="button">
+      Open in SecondDraft →
+    </button>
   </div>
 </section>
 
@@ -257,26 +260,41 @@
   <script src="js/text-clean-engine.js"></script>
   <script src="js/script.js"></script>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const transferText = localStorage.getItem("pastelint-transfer-text");
-      const input = document.getElementById("input");
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("input");
+    const output = document.getElementById("output");
+    const cleanBtn = document.getElementById("cleanBtn");
+    const sendToSecondDraftBtn = document.getElementById("sendToSecondDraftBtn");
 
-      if (!transferText || !input || input.value.trim()) return;
+    /* Send cleaned PasteLint output to SecondDraft */
+    if (sendToSecondDraftBtn) {
+      sendToSecondDraftBtn.addEventListener("click", () => {
+        const textToTransfer = output?.value.trim() || input?.value.trim() || "";
 
-      input.value = transferText;
-      input.dispatchEvent(new Event("input", { bubbles: true }));
+        if (!textToTransfer) return;
 
-      const cleanBtn = document.getElementById("cleanBtn");
+        localStorage.setItem("pastelint-transfer-text", textToTransfer);
+        window.location.href = "second-draft.html";
+      });
+    }
 
-      if (cleanBtn) {
-        window.setTimeout(() => {
-          cleanBtn.click();
-        }, 75);
-      }
+    /* Receive transferred text into PasteLint, if another page sends it here */
+    const transferText = localStorage.getItem("pastelint-transfer-text");
 
-      localStorage.removeItem("pastelint-transfer-text");
-    });
-  </script>
+    if (!transferText || !input || input.value.trim()) return;
+
+    input.value = transferText;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+
+    if (cleanBtn) {
+      window.setTimeout(() => {
+        cleanBtn.click();
+      }, 75);
+    }
+
+    localStorage.removeItem("pastelint-transfer-text");
+  });
+</script>
 </body>
 </html>
