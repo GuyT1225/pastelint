@@ -306,33 +306,94 @@ function fixRepeatedWords(text, changes) {
     };
   }
 
-  function runPasteLintCleanup(input, options = {}) {
-    const result = cleanText(input, options);
+function detectCleanupWarnings(input, options = {}) {
+  const source = toText(input);
+  const warnings = [];
 
-    const sourceText = result.original;
-    const cleanedText = result.cleaned;
+  const speechMode =
+    options.normalizeSpeechSymbols === true ||
+    options.normalizeDbNumbers === true;
 
-    return {
-      sourceText,
-      cleanedText,
-      changed: cleanedText !== sourceText,
-
-      changes: Array.isArray(result.changes) ? result.changes : [],
-      warnings: [],
-
-      analysis: result.analysis || null,
-
-      meta: {
-        engine: "pastelint-clean",
-        mode: options.mode || "standard"
-      },
-
-      // Backward-compatible aliases.
-      original: sourceText,
-      cleaned: cleanedText
-    };
+  if (!speechMode && source.includes("&")) {
+    warnings.push({
+      type: "speech-risk",
+      severity: "low",
+      text: "&",
+      message:
+        "Contains an ampersand. For narration, IVR, or screen-reader use, consider replacing it with the word and."
+    });
   }
-   
+
+  if (!speechMode && source.includes("@")) {
+    warnings.push({
+      type: "speech-risk",
+      severity: "low",
+      text: "@",
+      message:
+        "Contains an @ symbol. For spoken output, consider replacing it with the word at."
+    });
+  }
+
+  if (!options.normalizeDbNumbers && /\bDB\s*[-:]?\s*\d{4,}\b/i.test(source)) {
+    warnings.push({
+      type: "speech-risk",
+      severity: "medium",
+      text: "DB number",
+      message:
+        "Contains a compact DB number. For SSML or IVR output, consider spacing the digits for clearer speech."
+    });
+  }
+
+  if (/[“”‘’]/.test(source)) {
+    warnings.push({
+      type: "formatting-note",
+      severity: "low",
+      text: "smart quotes",
+      message:
+        "Smart quotes were detected. PasteLint can normalize these for cleaner reuse."
+    });
+  }
+
+  if (/[\u200B-\u200D\uFEFF]/.test(source)) {
+    warnings.push({
+      type: "formatting-risk",
+      severity: "medium",
+      text: "hidden characters",
+      message:
+        "Hidden characters were detected. These can cause strange spacing, copying, or publishing behavior."
+    });
+  }
+
+  return warnings;
+}
+function runPasteLintCleanup(input, options = {}) {
+  const result = cleanText(input, options);
+
+  const sourceText = result.original;
+  const cleanedText = result.cleaned;
+
+  const warnings = detectCleanupWarnings(sourceText, options);
+
+  return {
+    sourceText,
+    cleanedText,
+    changed: cleanedText !== sourceText,
+
+    changes: Array.isArray(result.changes) ? result.changes : [],
+    warnings,
+
+    analysis: result.analysis || null,
+
+    meta: {
+      engine: "pastelint-clean",
+      mode: options.mode || "standard"
+    },
+
+    // Backward-compatible aliases.
+    original: sourceText,
+    cleaned: cleanedText
+  };
+}
   window.PasteLintCleanEngine = {
     cleanText,
     runPasteLintCleanup,
