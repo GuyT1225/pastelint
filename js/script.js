@@ -651,6 +651,7 @@ function handleClean(els) {
   const mode = getCleanMode(els);
   const result = getCleanResult(raw, mode);
 
+  console.log("PasteLint UI clean result:", result);
   setOutput(els, result.text);
   
   if (els.postCleanActions) {
@@ -693,18 +694,19 @@ function getCleanResult(raw, mode) {
     const engineResult =
       window.PasteLintCleanEngine.runPasteLintCleanup(raw, engineOptions);
 
-    result = normalizeCleanResult({
-      text: engineResult.cleanedText || engineResult.cleaned || "",
-      changes: engineResult.changes || [],
-      edits: [],
-      impact: {
-        spaces: 0,
-        lines: 0,
-        punctuation: 0,
-        typos: 0,
-        repeatedWords: 0
-      }
-    });
+ result = normalizeCleanResult({
+  text: engineResult.cleanedText || engineResult.cleaned || "",
+  changes: engineResult.changes || [],
+  warnings: engineResult.warnings || [],
+  edits: [],
+  impact: {
+    spaces: 0,
+    lines: 0,
+    punctuation: 0,
+    typos: 0,
+    repeatedWords: 0
+  }
+});
   } else if (
     window.PasteLintCleanEngine &&
     typeof window.PasteLintCleanEngine.cleanText === "function"
@@ -732,11 +734,11 @@ function getCleanResult(raw, mode) {
 
   return postProcessCleanResult(raw, result, mode);
 }
-
 function normalizeCleanResult(result) {
   return {
     text: result?.text || "",
     changes: Array.isArray(result?.changes) ? result.changes : [],
+    warnings: Array.isArray(result?.warnings) ? result.warnings : [],
     edits: Array.isArray(result?.edits) ? result.edits : [],
     impact: result?.impact || {
       spaces: 0,
@@ -922,7 +924,20 @@ function normalizeSpacing(text, mode = "paragraph") {
     .join("\n\n")
     .replace(/[ ]{2,}/g, " ")
     .trim();
-
+  
+result = normalizeCleanResult({
+  text: engineResult.cleaned || "",
+  changes: engineResult.changes || [],
+  warnings: engineResult.warnings || [],
+  edits: [],
+  impact: {
+    spaces: 0,
+    lines: 0,
+    punctuation: 0,
+    typos: 0,
+    repeatedWords: 0
+  }
+});
 }
 /* -----------------------------
    PASTELINT RENDERING
