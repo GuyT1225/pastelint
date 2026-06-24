@@ -43,7 +43,6 @@ function getElements() {
     editMap: $("editMap"),
     visualPreview: $("visualPreview"),
     postCleanActions: $("postCleanActions")
-  
   };
 }
 
@@ -183,54 +182,43 @@ function runPreAnalysis(els, extraIssues = []) {
         sourceText: text
       }));
 
-  const localIssues = detectIssues(text).map(message => ({
-  type: "local-observation",
-  severity: "low",
-  message,
-  text: "",
-  sourceText: text
-}));
-
-const engineIssues = normalizeEngineWarningsForIssues(
-  extraIssues,
-  text
-);
-
-issues = dedupeStructuredIssues([
-  ...analyzerIssues,
-  ...localIssues,
-  ...engineIssues
-]);
- } else {
-  issues = dedupeStructuredIssues([
-    ...detectIssues(text).map(message => ({
+    const localIssues = detectIssues(text).map(message => ({
       type: "local-observation",
       severity: "low",
       message,
       text: "",
       sourceText: text
-    })),
-    ...normalizeEngineWarningsForIssues(extraIssues, text)
-  ]);
-}} else {
-  issues = dedupeStructuredIssues([
-    ...detectIssues(text).map(message => ({
-      type: "local-observation",
-      severity: "low",
-      message,
-      text: "",
-      sourceText: text
-    })),
-    ...normalizeEngineWarningsForIssues(extraIssues, text)
-  ]);
+    }));
+
+    const engineIssues = normalizeEngineWarningsForIssues(
+      extraIssues,
+      text
+    );
+
+    issues = dedupeStructuredIssues([
+      ...analyzerIssues,
+      ...localIssues,
+      ...engineIssues
+    ]);
+  } else {
+    issues = dedupeStructuredIssues([
+      ...detectIssues(text).map(message => ({
+        type: "local-observation",
+        severity: "low",
+        message,
+        text: "",
+        sourceText: text
+      })),
+      ...normalizeEngineWarningsForIssues(extraIssues, text)
+    ]);
+  }
+
+  renderGroupedIssues(els, issues);
+  renderDiagnosticsForPage(issues);
+  renderSummary(issues);
 }
 
- renderGroupedIssues(els, issues);
- renderDiagnosticsForPage(issues);
- renderSummary(issues);
-}
-
-  function detectIssues(text) {
+function detectIssues(text) {
   const source = String(text || "");
   const issues = [];
   const sentences = source.split(/[.!?]/).filter(Boolean);
@@ -252,7 +240,7 @@ issues = dedupeStructuredIssues([
   }
 
   return issues;
-  }
+}
 
 function normalizeEngineWarningsForIssues(warnings = [], sourceText = "") {
   if (!Array.isArray(warnings)) return [];
@@ -354,7 +342,11 @@ function groupIssuesForDisplay(issues = []) {
       type.includes("ampersand") ||
       type.includes("speech") ||
       message.includes("dash") ||
-      message.includes("ampersand")
+      message.includes("ampersand") ||
+      message.includes("@ symbol") ||
+      message.includes("at symbol") ||
+      message.includes("db number") ||
+      message.includes("compact db")
     ) {
       groups.speech.items.push(issue);
       return;
@@ -429,6 +421,9 @@ function renderSummary(issues = []) {
     issues.filter(i =>
       String(i.type || "").match(
         /dash|ampersand|speech/i
+      ) ||
+      String(i.message || "").match(
+        /@ symbol|at symbol|db number|compact db/i
       )
     ).length;
 
@@ -468,23 +463,23 @@ function renderSummary(issues = []) {
 function renderDiagnosticItem(issue) {
   const item = normalizeIssueForDisplay(issue);
 
- return `
-  <div class="diagnostic-row">
+  return `
+    <div class="diagnostic-row">
 
-    <div class="diagnostic-title">
-      ${escapeHTML(item.label)}
+      <div class="diagnostic-title">
+        ${escapeHTML(item.label)}
+      </div>
+
+      <div class="diagnostic-summary">
+        ${escapeHTML(item.fix || "Review this section.")}
+      </div>
+
+      <div class="diagnostic-impact">
+        ${escapeHTML(item.impact)}
+      </div>
+
     </div>
-
-    <div class="diagnostic-summary">
-      ${escapeHTML(item.fix || "Review this section.")}
-    </div>
-
-    <div class="diagnostic-impact">
-      ${escapeHTML(item.impact)}
-    </div>
-
-  </div>
-`;
+  `;
 }
 
 function renderDiagnosticsForPage(issues = []) {
@@ -533,13 +528,13 @@ function normalizeIssueForDisplay(issue) {
       ? ""
       : issue?.text || "";
 
- const snippet =
-  getIssueSnippet(sourceText, issueText);
+  const snippet =
+    getIssueSnippet(sourceText, issueText);
 
-const proofSnippet =
-  snippet
-    ? `"${snippet}"`
-    : "";
+  const proofSnippet =
+    snippet
+      ? `"${snippet}"`
+      : "";
 
   if (type === "extra-spacing" || lower.includes("spacing")) {
     return {
@@ -578,17 +573,17 @@ const proofSnippet =
   }
 
   if (type === "long-sentence" || lower.includes("long sentence")) {
-  return {
-    label: "Long sentence detected",
-    fix: "Consider splitting this into shorter sentences.",
-    proof: proofSnippet,
-    where: snippet
-      ? `Near: "${snippet}"`
-      : "A sentence significantly longer than surrounding text.",
-    why: "Long sentences can be harder to read or hear aloud.",
-    impact: "May reduce readability and increase listening fatigue."
-  };
-}
+    return {
+      label: "Long sentence detected",
+      fix: "Consider splitting this into shorter sentences.",
+      proof: proofSnippet,
+      where: snippet
+        ? `Near: "${snippet}"`
+        : "A sentence significantly longer than surrounding text.",
+      why: "Long sentences can be harder to read or hear aloud.",
+      impact: "May reduce readability and increase listening fatigue."
+    };
+  }
 
   if (type === "dash-character" || lower.includes("dash")) {
     const dashSnippet =
@@ -618,6 +613,43 @@ const proofSnippet =
         : "Ampersand characters in the text.",
       why: "This is often clearer for TTS and accessibility tools.",
       impact: "May be read awkwardly by speech tools or confuse some listeners."
+    };
+  }
+
+  if (
+    lower.includes("@ symbol") ||
+    lower.includes("at symbol") ||
+    issueText === "@"
+  ) {
+    const atSnippet =
+      getIssueSnippet(sourceText, "@");
+
+    return {
+      label: "At symbol detected",
+      fix: "Preserved in clean text. For spoken output, consider changing @ to the word at.",
+      where: atSnippet
+        ? `Near: "${atSnippet}"`
+        : "At symbols in the text.",
+      why: "This is often clearer for narration, IVR, and screen-reader output.",
+      impact: "May need spoken-text normalization depending on where the text will be used."
+    };
+  }
+
+  if (
+    lower.includes("db number") ||
+    lower.includes("compact db")
+  ) {
+    const dbMatch =
+      String(sourceText).match(/\bDB\s*[-:]?\s*\d{4,}\b/i);
+
+    return {
+      label: "Compact DB number detected",
+      fix: "Preserved in clean text. For SSML or IVR output, consider spacing the digits.",
+      where: dbMatch
+        ? `Near: "${dbMatch[0]}"`
+        : "Compact DB-style number in the text.",
+      why: "Speech systems may read compact numbers too quickly or unclearly.",
+      impact: "May affect IVR, TTS, narration, or accessibility playback."
     };
   }
 
@@ -657,18 +689,18 @@ const proofSnippet =
     };
   }
 
- if (lower.includes("formal wording")) {
-  return {
-    label: "Overly formal wording detected",
-    fix: "Consider replacing formal or AI-style phrasing with simpler wording.",
-    proof: proofSnippet,
-    where: snippet
-      ? `Near: "${snippet}"`
-      : "Formal or AI-style wording in the pasted text.",
-    why: "Overly formal wording can make text feel robotic or harder to read.",
-    impact: "May make the message feel less natural or less direct."
-  };
-}
+  if (lower.includes("formal wording")) {
+    return {
+      label: "Overly formal wording detected",
+      fix: "Consider replacing formal or AI-style phrasing with simpler wording.",
+      proof: proofSnippet,
+      where: snippet
+        ? `Near: "${snippet}"`
+        : "Formal or AI-style wording in the pasted text.",
+      why: "Overly formal wording can make text feel robotic or harder to read.",
+      impact: "May make the message feel less natural or less direct."
+    };
+  }
 
   return {
     label: message || "Observation",
@@ -680,6 +712,7 @@ const proofSnippet =
     impact: "May affect clarity, readability, or reuse depending on context."
   };
 }
+
 /* -----------------------------
    PASTELINT CLEAN
 ----------------------------- */
@@ -691,21 +724,21 @@ function handleClean(els) {
   const mode = getCleanMode(els);
   const result = getCleanResult(raw, mode);
 
-  console.log("PasteLint UI clean result:", result);
   setOutput(els, result.text);
-  
+
   if (els.postCleanActions) {
     els.postCleanActions.hidden = false;
   }
+
   runPreAnalysis(els, result.warnings);
-  
-renderTextBrief(
-  els,
-  raw,
-  result.text,
-  result.changes,
-  result.warnings
-);
+
+  renderTextBrief(
+    els,
+    raw,
+    result.text,
+    result.changes,
+    result.warnings
+  );
 
   renderEditPreview(
     els,
@@ -735,19 +768,19 @@ function getCleanResult(raw, mode) {
     const engineResult =
       window.PasteLintCleanEngine.runPasteLintCleanup(raw, engineOptions);
 
- result = normalizeCleanResult({
-  text: engineResult.cleanedText || engineResult.cleaned || "",
-  changes: engineResult.changes || [],
-  warnings: engineResult.warnings || [],
-  edits: [],
-  impact: {
-    spaces: 0,
-    lines: 0,
-    punctuation: 0,
-    typos: 0,
-    repeatedWords: 0
-  }
-});
+    result = normalizeCleanResult({
+      text: engineResult.cleanedText || engineResult.cleaned || "",
+      changes: engineResult.changes || [],
+      warnings: engineResult.warnings || [],
+      edits: [],
+      impact: {
+        spaces: 0,
+        lines: 0,
+        punctuation: 0,
+        typos: 0,
+        repeatedWords: 0
+      }
+    });
   } else if (
     window.PasteLintCleanEngine &&
     typeof window.PasteLintCleanEngine.cleanText === "function"
@@ -760,6 +793,7 @@ function getCleanResult(raw, mode) {
     result = normalizeCleanResult({
       text: engineResult.cleaned || "",
       changes: engineResult.changes || [],
+      warnings: engineResult.warnings || [],
       edits: [],
       impact: {
         spaces: 0,
@@ -775,6 +809,7 @@ function getCleanResult(raw, mode) {
 
   return postProcessCleanResult(raw, result, mode);
 }
+
 function normalizeCleanResult(result) {
   return {
     text: result?.text || "",
@@ -896,7 +931,6 @@ function cleanText(text, mode = "paragraph") {
 }
 
 function normalizeSpacing(text, mode = "paragraph") {
-
   const source = String(text)
     .replace(/\u00A0/g, " ")
     .replace(/\r/g, "")
@@ -920,15 +954,13 @@ function normalizeSpacing(text, mode = "paragraph") {
   let current = [];
 
   lines.forEach(line => {
-
     if (!line) {
       return;
     }
 
     current.push(line);
 
-    const paragraphText =
-      current.join(" ");
+    const paragraphText = current.join(" ");
 
     const wordCount =
       paragraphText
@@ -954,7 +986,6 @@ function normalizeSpacing(text, mode = "paragraph") {
       rebuilt.push(paragraphText);
       current = [];
     }
-
   });
 
   if (current.length) {
@@ -965,21 +996,8 @@ function normalizeSpacing(text, mode = "paragraph") {
     .join("\n\n")
     .replace(/[ ]{2,}/g, " ")
     .trim();
-  
-result = normalizeCleanResult({
-  text: engineResult.cleaned || "",
-  changes: engineResult.changes || [],
-  warnings: engineResult.warnings || [],
-  edits: [],
-  impact: {
-    spaces: 0,
-    lines: 0,
-    punctuation: 0,
-    typos: 0,
-    repeatedWords: 0
-  }
-});
 }
+
 /* -----------------------------
    PASTELINT RENDERING
 ----------------------------- */
@@ -1002,16 +1020,16 @@ function renderEditPreview(els, edits, changes = []) {
     }
 
     return `
-  <div class="edit-item">
+      <div class="edit-item">
 
-    <strong>${escapeHTML(formatChangeLabel(change.type || "Change"))}</strong>
+        <strong>${escapeHTML(formatChangeLabel(change.type || "Change"))}</strong>
 
-    <div class="edit-proof">
-      ${escapeHTML(change.message || "Cleanup applied")}
-    </div>
+        <div class="edit-proof">
+          ${escapeHTML(change.message || "Cleanup applied")}
+        </div>
 
-  </div>
-`;
+      </div>
+    `;
   });
 
   const editItems = safeEdits.map(edit => {
@@ -1110,7 +1128,7 @@ function buildPreviewRows(before, after, changes = []) {
   return previewRows;
 }
 
-function renderTextBrief(els, before, after, changes = []) {
+function renderTextBrief(els, before, after, changes = [], warnings = []) {
   if (!els.textBrief) return;
 
   if (!after) {
@@ -1128,6 +1146,12 @@ function renderTextBrief(els, before, after, changes = []) {
   const changeTypes = Array.isArray(changes)
     ? changes.map(change => change.type).filter(Boolean)
     : [];
+
+  const speechWarningCount = Array.isArray(warnings)
+    ? warnings.filter(warning =>
+        String(warning.type || "").includes("speech")
+      ).length
+    : 0;
 
   const cleanedNotes = [];
 
@@ -1156,7 +1180,9 @@ function renderTextBrief(els, before, after, changes = []) {
 
   const speechStatus = changeTypes.includes("dashes")
     ? "Dash cleanup may improve speech flow"
-    : "No major speech risks detected";
+    : speechWarningCount
+      ? `${speechWarningCount} speech-readiness item${speechWarningCount === 1 ? "" : "s"} preserved for review`
+      : "No major speech risks detected";
 
   const structureStatus = changeTypes.includes("spacing")
     ? "Spacing and paragraph structure reviewed"
@@ -1244,9 +1270,9 @@ function clearAll(els) {
     els.visualPreview.textContent =
       "PasteLint will show a simple before and after view once text is cleaned.";
   }
-  
+
   if (els.postCleanActions) {
-  els.postCleanActions.hidden = true;
+    els.postCleanActions.hidden = true;
   }
 }
 
@@ -1268,7 +1294,7 @@ function getCleanMode(els) {
   return els.modeToggle.value === "line" ? "line" : "paragraph";
 }
 
- function getEngineOptionsForMode(mode) {
+function getEngineOptionsForMode(mode) {
   const options = {
     normalizeSpeechSymbols: false,
     normalizeDbNumbers: false
@@ -1281,6 +1307,7 @@ function getCleanMode(els) {
 
   return options;
 }
+
 function setOutput(els, text) {
   if (els.output) {
     els.output.value = text;
@@ -1327,6 +1354,8 @@ function getIssueKey(issue) {
   if (lower.includes("spacing")) return "spacing";
   if (lower.includes("blank")) return "blank-lines";
   if (lower.includes("dash")) return "dash";
+  if (lower.includes("db number") || lower.includes("compact db")) return "db-number";
+  if (lower.includes("@ symbol") || lower.includes("at symbol")) return "at-symbol";
   if (lower.includes("symbol")) return "symbol";
   if (lower.includes("ampersand")) return "ampersand";
   if (lower.includes("spoken")) return "spoken";
