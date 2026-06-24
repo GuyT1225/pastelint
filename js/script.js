@@ -154,7 +154,7 @@ function capitalize(text) {
    PRE-ANALYSIS
 ----------------------------- */
 
-function runPreAnalysis(els) {
+function runPreAnalysis(els, extraIssues = []) {
   const text = getInputText(els);
 
   if (!text) {
@@ -183,21 +183,47 @@ function runPreAnalysis(els) {
         sourceText: text
       }));
 
-    const localIssues = detectIssues(text).map(message => ({
+  const localIssues = detectIssues(text).map(message => ({
+  type: "local-observation",
+  severity: "low",
+  message,
+  text: "",
+  sourceText: text
+}));
+
+const engineIssues = normalizeEngineWarningsForIssues(
+  extraIssues,
+  text
+);
+
+issues = dedupeStructuredIssues([
+  ...analyzerIssues,
+  ...localIssues,
+  ...engineIssues
+]);
+ } else {
+  issues = dedupeStructuredIssues([
+    ...detectIssues(text).map(message => ({
       type: "local-observation",
       severity: "low",
       message,
       text: "",
       sourceText: text
-    }));
-
-    issues = dedupeStructuredIssues([
-      ...analyzerIssues,
-      ...localIssues
-    ]);
-  } else {
-    issues = dedupeIssues(detectIssues(text));
-  }
+    })),
+    ...normalizeEngineWarningsForIssues(extraIssues, text)
+  ]);
+}} else {
+  issues = dedupeStructuredIssues([
+    ...detectIssues(text).map(message => ({
+      type: "local-observation",
+      severity: "low",
+      message,
+      text: "",
+      sourceText: text
+    })),
+    ...normalizeEngineWarningsForIssues(extraIssues, text)
+  ]);
+}
 
  renderGroupedIssues(els, issues);
  renderDiagnosticsForPage(issues);
@@ -227,6 +253,20 @@ function runPreAnalysis(els) {
 
   return issues;
   }
+
+function normalizeEngineWarningsForIssues(warnings = [], sourceText = "") {
+  if (!Array.isArray(warnings)) return [];
+
+  return warnings
+    .filter(warning => warning && warning.message)
+    .map(warning => ({
+      type: warning.type || "engine-warning",
+      severity: warning.severity || "low",
+      message: warning.message,
+      text: warning.text || "",
+      sourceText
+    }));
+}
 
 function dedupeStructuredIssues(items) {
   const seen = new Set();
@@ -657,14 +697,15 @@ function handleClean(els) {
   if (els.postCleanActions) {
     els.postCleanActions.hidden = false;
   }
-  runPreAnalysis(els);
-
-  renderTextBrief(
-    els,
-    raw,
-    result.text,
-    result.changes
-  );
+  runPreAnalysis(els, result.warnings);
+  
+renderTextBrief(
+  els,
+  raw,
+  result.text,
+  result.changes,
+  result.warnings
+);
 
   renderEditPreview(
     els,
