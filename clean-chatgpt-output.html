@@ -167,59 +167,126 @@
   <script src="js/script.js"></script>
   <script src="js/ai-cleanup.js"></script>
 
-  <script>
+<script>
+  (() => {
+    function getTextValue(id) {
+      return document.getElementById(id)?.value || "";
+    }
+
+    function setTextValue(id, value) {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      el.value = value;
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    function countWords(text) {
+      return (String(text).trim().match(/\b\w+\b/g) || []).length;
+    }
+
+    function updateLocalCounters() {
+      const input = getTextValue("input");
+      const output = getTextValue("output");
+
+      const inputCharCount = document.getElementById("inputCharCount");
+      const inputWordCount = document.getElementById("inputWordCount");
+      const outputCharCount = document.getElementById("outputCharCount");
+      const outputWordCount = document.getElementById("outputWordCount");
+
+      if (inputCharCount) inputCharCount.textContent = `${input.length} chars`;
+      if (inputWordCount) inputWordCount.textContent = `${countWords(input)} words`;
+      if (outputCharCount) outputCharCount.textContent = `${output.length} chars`;
+      if (outputWordCount) outputWordCount.textContent = `${countWords(output)} words`;
+    }
+
+    function runSharedCleanup(text) {
+      const source = String(text || "");
+
+      if (
+        window.PasteLintCleanEngine &&
+        typeof window.PasteLintCleanEngine.runPasteLintCleanup === "function"
+      ) {
+        const result =
+          window.PasteLintCleanEngine.runPasteLintCleanup(source);
+
+        return result.cleanedText || result.cleaned || source;
+      }
+
+      if (
+        window.PasteLintCleanEngine &&
+        typeof window.PasteLintCleanEngine.cleanText === "function"
+      ) {
+        const result =
+          window.PasteLintCleanEngine.cleanText(source);
+
+        return result.cleaned || source;
+      }
+
+      return source;
+    }
+
+    function runChatGPTCleanup(text) {
+      let cleaned = runSharedCleanup(text);
+
+      if (
+        window.PasteLintAI &&
+        typeof window.PasteLintAI.clean === "function"
+      ) {
+        cleaned = window.PasteLintAI.clean(cleaned);
+      }
+
+      return String(cleaned || "").trim();
+    }
+
+    function getCurrentText() {
+      const outputText = getTextValue("output").trim();
+      const inputText = getTextValue("input").trim();
+
+      if (outputText && outputText !== inputText) {
+        return outputText;
+      }
+
+      if (inputText) {
+        return runChatGPTCleanup(inputText);
+      }
+
+      return outputText || inputText;
+    }
+
     document.addEventListener("click", event => {
       const button = event.target.closest("#cleanBtn, #rewriteBtn");
       if (!button) return;
 
-      const input = document.getElementById("input");
-      const output = document.getElementById("output");
-
-      if (!input || !output || !window.PasteLintAI) return;
+      const inputText = getTextValue("input").trim();
+      if (!inputText) return;
 
       window.setTimeout(() => {
-        output.value = window.PasteLintAI.clean(output.value || input.value);
-        output.dispatchEvent(new Event("input", { bubbles: true }));
+        const cleaned = runChatGPTCleanup(inputText);
+
+        setTextValue("output", cleaned);
+        updateLocalCounters();
       }, 20);
     });
-  </script>
 
- <script>
-  function getCurrentText() {
-    const output = document.getElementById("output");
-    const input = document.getElementById("input");
+    document
+      .getElementById("openPasteLint")
+      ?.addEventListener("click", () => {
+        localStorage.setItem(
+          "pastelint-transfer-text",
+          getCurrentText()
+        );
+      });
 
-    const outputText = output?.value?.trim() || "";
-    const inputText = input?.value?.trim() || "";
-
-    if (outputText && outputText !== inputText) {
-      return outputText;
-    }
-
-    if (window.PasteLintAI && inputText) {
-      return window.PasteLintAI.clean(inputText).trim();
-    }
-
-    return outputText || inputText;
-  }
-
-  document
-    .getElementById("openPasteLint")
-    ?.addEventListener("click", () => {
-      localStorage.setItem(
-        "pastelint-transfer-text",
-        getCurrentText()
-      );
-    });
-
-  document
-    .getElementById("openSecondDraft")
-    ?.addEventListener("click", () => {
-      localStorage.setItem(
-        "pastelint-transfer-text",
-        getCurrentText()
-      );
-    });
-  </script>
+    document
+      .getElementById("openSecondDraft")
+      ?.addEventListener("click", () => {
+        localStorage.setItem(
+          "pastelint-transfer-text",
+          getCurrentText()
+        );
+      });
+  })();
+</script>
 </body>
 </html>
