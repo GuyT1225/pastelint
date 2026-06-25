@@ -816,7 +816,6 @@ function getCleanResult(raw, cleanMode, reviewMode = "paragraph") {
 
   return postProcessCleanResult(raw, result, reviewMode);
 }
-
 function postProcessCleanResult(raw, result, reviewMode = "paragraph") {
   const before = result.text;
   const after = normalizeSpacing(before, reviewMode);
