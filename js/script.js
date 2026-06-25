@@ -816,6 +816,23 @@ function getCleanResult(raw, cleanMode, reviewMode = "paragraph") {
 
   return postProcessCleanResult(raw, result, reviewMode);
 }
+
+function normalizeCleanResult(result) {
+  return {
+    text: result?.text || "",
+    changes: Array.isArray(result?.changes) ? result.changes : [],
+    warnings: Array.isArray(result?.warnings) ? result.warnings : [],
+    edits: Array.isArray(result?.edits) ? result.edits : [],
+    impact: result?.impact || {
+      spaces: 0,
+      lines: 0,
+      punctuation: 0,
+      typos: 0,
+      repeatedWords: 0
+    }
+  };
+}
+
 function postProcessCleanResult(raw, result, reviewMode = "paragraph") {
   const before = result.text;
   const after = normalizeSpacing(before, reviewMode);
