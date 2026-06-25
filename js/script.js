@@ -317,6 +317,24 @@ function groupIssuesForDisplay(issues = []) {
         : (issue.message || "").toLowerCase();
 
     if (
+      type.includes("speech") ||
+      type.includes("dash") ||
+      type.includes("ampersand") ||
+      message.includes("dash") ||
+      message.includes("ampersand") ||
+      message.includes("@ symbol") ||
+      message.includes("at symbol") ||
+      message.includes("db number") ||
+      message.includes("compact db") ||
+      message.includes("spoken output") ||
+      message.includes("ssml") ||
+      message.includes("ivr")
+    ) {
+      groups.speech.items.push(issue);
+      return;
+    }
+
+    if (
       type.includes("spacing") ||
       type.includes("blank") ||
       message.includes("spacing") ||
@@ -337,27 +355,11 @@ function groupIssuesForDisplay(issues = []) {
       return;
     }
 
-    if (
-      type.includes("dash") ||
-      type.includes("ampersand") ||
-      type.includes("speech") ||
-      message.includes("dash") ||
-      message.includes("ampersand") ||
-      message.includes("@ symbol") ||
-      message.includes("at symbol") ||
-      message.includes("db number") ||
-      message.includes("compact db")
-    ) {
-      groups.speech.items.push(issue);
-      return;
-    }
-
     groups.other.items.push(issue);
   });
 
   return groups;
 }
-
 function renderGroupedIssues(els, issues) {
   if (!els.issuePanel) return;
 
@@ -536,6 +538,59 @@ function normalizeIssueForDisplay(issue) {
       ? `"${snippet}"`
       : "";
 
+  if (type === "ampersand" || lower.includes("ampersand") || issueText === "&") {
+  const ampSnippet =
+    getIssueSnippet(sourceText, "&");
+
+  return {
+    label: "Ampersand detected",
+    fix: "Preserved in clean text. For spoken output, consider changing & to the word and.",
+    where: ampSnippet
+      ? `Near: "${ampSnippet}"`
+      : "Ampersand characters in the text.",
+    why: "This is often clearer for TTS, IVR, narration, and accessibility tools.",
+    impact: "May be read awkwardly by speech tools or confuse some listeners."
+  };
+}
+
+if (
+  lower.includes("@ symbol") ||
+  lower.includes("at symbol") ||
+  issueText === "@"
+) {
+  const atSnippet =
+    getIssueSnippet(sourceText, "@");
+
+  return {
+    label: "At symbol detected",
+    fix: "Preserved in clean text. For spoken output, consider changing @ to the word at.",
+    where: atSnippet
+      ? `Near: "${atSnippet}"`
+      : "At symbols in the text.",
+    why: "This is often clearer for narration, IVR, and screen-reader output.",
+    impact: "May need spoken-text normalization depending on where the text will be used."
+  };
+}
+
+if (
+  lower.includes("db number") ||
+  lower.includes("compact db") ||
+  issueText === "DB number"
+) {
+  const dbMatch =
+    String(sourceText).match(/\bDB\s*[-:]?\s*\d{4,}\b/i);
+
+  return {
+    label: "Compact DB number detected",
+    fix: "Preserved in clean text. For SSML or IVR output, consider spacing the digits.",
+    where: dbMatch
+      ? `Near: "${dbMatch[0]}"`
+      : "Compact DB-style number in the text.",
+    why: "Speech systems may read compact numbers too quickly or unclearly.",
+    impact: "May affect IVR, TTS, narration, or accessibility playback."
+  };
+}
+  
   if (type === "extra-spacing" || lower.includes("spacing")) {
     return {
       label: "Extra spacing detected",
@@ -601,57 +656,7 @@ function normalizeIssueForDisplay(issue) {
     };
   }
 
-  if (type === "ampersand" || lower.includes("ampersand")) {
-    const ampSnippet =
-      getIssueSnippet(sourceText, "&");
-
-    return {
-      label: "Ampersand detected",
-      fix: "Suggested replacing with the word and.",
-      where: ampSnippet
-        ? `Near: "${ampSnippet}"`
-        : "Ampersand characters in the text.",
-      why: "This is often clearer for TTS and accessibility tools.",
-      impact: "May be read awkwardly by speech tools or confuse some listeners."
-    };
-  }
-
-  if (
-    lower.includes("@ symbol") ||
-    lower.includes("at symbol") ||
-    issueText === "@"
-  ) {
-    const atSnippet =
-      getIssueSnippet(sourceText, "@");
-
-    return {
-      label: "At symbol detected",
-      fix: "Preserved in clean text. For spoken output, consider changing @ to the word at.",
-      where: atSnippet
-        ? `Near: "${atSnippet}"`
-        : "At symbols in the text.",
-      why: "This is often clearer for narration, IVR, and screen-reader output.",
-      impact: "May need spoken-text normalization depending on where the text will be used."
-    };
-  }
-
-  if (
-    lower.includes("db number") ||
-    lower.includes("compact db")
-  ) {
-    const dbMatch =
-      String(sourceText).match(/\bDB\s*[-:]?\s*\d{4,}\b/i);
-
-    return {
-      label: "Compact DB number detected",
-      fix: "Preserved in clean text. For SSML or IVR output, consider spacing the digits.",
-      where: dbMatch
-        ? `Near: "${dbMatch[0]}"`
-        : "Compact DB-style number in the text.",
-      why: "Speech systems may read compact numbers too quickly or unclearly.",
-      impact: "May affect IVR, TTS, narration, or accessibility playback."
-    };
-  }
+ 
 
   if (lower.includes("filler")) {
     return {
@@ -1347,6 +1352,10 @@ function dedupeIssues(items) {
 function getIssueKey(issue) {
   const lower = String(issue).toLowerCase();
 
+  if (lower.includes("db number") || lower.includes("compact db")) return "db-number";
+  if (lower.includes("@ symbol") || lower.includes("at symbol")) return "at-symbol";
+  if (lower.includes("ampersand")) return "ampersand";
+
   if (lower.includes("sentence")) return "long-sentence";
   if (lower.includes("filler")) return "filler";
   if (lower.includes("repeated")) return "repeated";
@@ -1354,10 +1363,7 @@ function getIssueKey(issue) {
   if (lower.includes("spacing")) return "spacing";
   if (lower.includes("blank")) return "blank-lines";
   if (lower.includes("dash")) return "dash";
-  if (lower.includes("db number") || lower.includes("compact db")) return "db-number";
-  if (lower.includes("@ symbol") || lower.includes("at symbol")) return "at-symbol";
   if (lower.includes("symbol")) return "symbol";
-  if (lower.includes("ampersand")) return "ampersand";
   if (lower.includes("spoken")) return "spoken";
   if (lower.includes("typo")) return "typo";
 
