@@ -33,7 +33,8 @@ function getElements() {
     outputCharCount: $("outputCharCount"),
     outputWordCount: $("outputWordCount"),
 
-    modeToggle: $("modeToggle", "viewMode"),
+    cleanMode: $("cleanMode", "modeToggle"),
+    viewMode: $("viewMode"),
 
     issuePanel: $("analysisList", "foundList"),
     textBrief: $("textBrief"),
@@ -726,8 +727,9 @@ function handleClean(els) {
   const raw = getInputText(els);
   if (!raw) return;
 
-  const mode = getCleanMode(els);
-  const result = getCleanResult(raw, mode);
+  const cleanMode = getCleanMode(els);
+  const reviewMode = getReviewMode(els);
+  const result = getCleanResult(raw, cleanMode, reviewMode);
 
   setOutput(els, result.text);
 
@@ -761,14 +763,14 @@ function handleClean(els) {
   updateCounters(els);
 }
 
-function getCleanResult(raw, mode) {
+function getCleanResult(raw, cleanMode, reviewMode = "paragraph") {
   let result;
 
   if (
     window.PasteLintCleanEngine &&
     typeof window.PasteLintCleanEngine.runPasteLintCleanup === "function"
   ) {
-    const engineOptions = getEngineOptionsForMode(mode);
+    const engineOptions = getEngineOptionsForMode(cleanMode);
 
     const engineResult =
       window.PasteLintCleanEngine.runPasteLintCleanup(raw, engineOptions);
@@ -790,7 +792,7 @@ function getCleanResult(raw, mode) {
     window.PasteLintCleanEngine &&
     typeof window.PasteLintCleanEngine.cleanText === "function"
   ) {
-    const engineOptions = getEngineOptionsForMode(mode);
+    const engineOptions = getEngineOptionsForMode(cleanMode);
 
     const engineResult =
       window.PasteLintCleanEngine.cleanText(raw, engineOptions);
@@ -809,31 +811,15 @@ function getCleanResult(raw, mode) {
       }
     });
   } else {
-    result = normalizeCleanResult(cleanText(raw, mode));
+    result = normalizeCleanResult(cleanText(raw, reviewMode));
   }
 
-  return postProcessCleanResult(raw, result, mode);
+  return postProcessCleanResult(raw, result, reviewMode);
 }
 
-function normalizeCleanResult(result) {
-  return {
-    text: result?.text || "",
-    changes: Array.isArray(result?.changes) ? result.changes : [],
-    warnings: Array.isArray(result?.warnings) ? result.warnings : [],
-    edits: Array.isArray(result?.edits) ? result.edits : [],
-    impact: result?.impact || {
-      spaces: 0,
-      lines: 0,
-      punctuation: 0,
-      typos: 0,
-      repeatedWords: 0
-    }
-  };
-}
-
-function postProcessCleanResult(raw, result, mode) {
+function postProcessCleanResult(raw, result, reviewMode = "paragraph") {
   const before = result.text;
-  const after = normalizeSpacing(before, mode);
+  const after = normalizeSpacing(before, reviewMode);
 
   if (after !== before) {
     result.text = after;
@@ -1290,13 +1276,15 @@ function getInputText(els) {
 }
 
 function getCleanMode(els) {
-  if (!els.modeToggle) return "paragraph";
+  if (!els.cleanMode) return "standard";
 
-  if (els.modeToggle.type === "checkbox") {
-    return els.modeToggle.checked ? "line" : "paragraph";
-  }
+  return els.cleanMode.value || "standard";
+}
 
-  return els.modeToggle.value === "line" ? "line" : "paragraph";
+function getReviewMode(els) {
+  if (!els.viewMode) return "paragraph";
+
+  return els.viewMode.value === "line" ? "line" : "paragraph";
 }
 
 function getEngineOptionsForMode(mode) {
