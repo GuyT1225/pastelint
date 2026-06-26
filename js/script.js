@@ -1329,6 +1329,12 @@ function setText(el, text) {
   if (el) el.textContent = text;
 }
 
+function formatChangeLabel(type) {
+  return String(type || "Change")
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, letter => letter.toUpperCase());
+}
+
 function dedupeList(items) {
   return [...new Set((items || []).filter(Boolean))];
 }
