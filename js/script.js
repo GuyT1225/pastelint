@@ -154,7 +154,7 @@ function capitalize(text) {
    PRE-ANALYSIS
 ----------------------------- */
 
-function runPreAnalysis(els, extraIssues = []) {
+function runPreAnalysis(els, extraIssues = [], cleanedText = "") {
   const text = getInputText(els);
 
   if (!text) {
@@ -214,6 +214,10 @@ function runPreAnalysis(els, extraIssues = []) {
     ]);
   }
 
+  if (cleanedText) {
+    issues = filterResolvedWarnings(issues, cleanedText);
+  }
+
   renderGroupedIssues(els, issues);
   renderDiagnosticsForPage(issues);
   renderSummary(issues);
@@ -255,6 +259,51 @@ function normalizeEngineWarningsForIssues(warnings = [], sourceText = "") {
       text: warning.text || "",
       sourceText
     }));
+}
+
+function filterResolvedWarnings(warnings = [], cleanedText = "") {
+  if (!Array.isArray(warnings)) return [];
+
+  const text = String(cleanedText || "");
+
+  return warnings.filter(warning => {
+    if (!warning) return false;
+
+    const type = String(warning.type || "").toLowerCase();
+    const message = String(warning.message || "").toLowerCase();
+    const warningText = String(warning.text || "").toLowerCase();
+
+    const isAmpersand =
+      type.includes("ampersand") ||
+      message.includes("ampersand") ||
+      warningText === "&";
+
+    if (isAmpersand && !text.includes("&")) {
+      return false;
+    }
+
+    const isAtSymbol =
+      type.includes("at-symbol") ||
+      message.includes("@ symbol") ||
+      message.includes("at symbol") ||
+      warningText === "@";
+
+    if (isAtSymbol && !text.includes("@")) {
+      return false;
+    }
+
+    const isDbNumber =
+      type.includes("db") ||
+      message.includes("db number") ||
+      message.includes("compact db") ||
+      warningText.includes("db number");
+
+    if (isDbNumber && !/\bDB\s*[-:]?\s*\d{4,}\b/i.test(text)) {
+      return false;
+    }
+
+    return true;
+  });
 }
 
 function dedupeStructuredIssues(items) {
@@ -731,20 +780,25 @@ function handleClean(els) {
   const reviewMode = getReviewMode(els);
   const result = getCleanResult(raw, cleanMode, reviewMode);
 
+  const postCleanWarnings = filterResolvedWarnings(
+    result.warnings,
+    result.text
+  );
+
   setOutput(els, result.text);
 
   if (els.postCleanActions) {
     els.postCleanActions.hidden = false;
   }
 
-  runPreAnalysis(els, result.warnings);
+  runPreAnalysis(els, postCleanWarnings, result.text);
 
   renderTextBrief(
     els,
     raw,
     result.text,
     result.changes,
-    result.warnings
+    postCleanWarnings
   );
 
   renderEditPreview(
