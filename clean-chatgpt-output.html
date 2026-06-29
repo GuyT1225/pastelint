@@ -34,69 +34,66 @@
     </div>
   </header>
 
-<main class="page-shell workflow-grid clean-chatgpt-page">
+  <main class="page-shell workflow-grid clean-chatgpt-page">
+    <div class="hero-proof-layout">
 
-  <div class="hero-proof-layout">
-    
-<section class="hero">
-  <div class="hero-content">
-    <p class="hero-script-label">AI text cleanup</p>
+      <section class="hero">
+        <div class="hero-content">
+          <p class="hero-script-label">AI text cleanup</p>
 
-    <h1>Clean ChatGPT output before you send it.</h1>
+          <h1>Clean ChatGPT output before you send it.</h1>
 
-    <p>
-       Paste AI-generated text, remove the obvious cleanup issues, and copy a cleaner version before sending, publishing, or revising.
-    </p>
-  </div>
-</section>
+          <p>
+            Paste AI-generated text, remove the obvious cleanup issues, and copy a cleaner version before sending, publishing, or revising.
+          </p>
+        </div>
+      </section>
 
-<section id="tool" class="tool-shell" aria-label="Clean ChatGPT output tool">
+      <section id="tool" class="tool-shell" aria-label="Clean ChatGPT output tool">
 
-  <section class="tool-panel input-panel" aria-label="Original ChatGPT output">
-    <textarea
-      id="input"
-      aria-label="Original AI-generated text"
-      placeholder="Paste ChatGPT output here..."
-    ></textarea>
+        <section class="tool-panel input-panel" aria-label="Original ChatGPT output">
+          <textarea
+            id="input"
+            aria-label="Original AI-generated text"
+            placeholder="Paste ChatGPT output here..."
+          ></textarea>
 
-    <div class="meta">
-      <span id="inputCharCount">0 chars</span>
-      <span id="inputWordCount">0 words</span>
+          <div class="meta">
+            <span id="inputCharCount">0 chars</span>
+            <span id="inputWordCount">0 words</span>
+          </div>
+        </section>
+
+        <section class="tool-panel action-panel" aria-label="Clean ChatGPT output actions">
+          <div class="tool-actions">
+            <button id="cleanBtn" class="primary-btn" type="button">Clean text</button>
+            <button id="copyBtn" class="secondary-btn" type="button">Copy output</button>
+            <button id="clearBtn" class="clear-btn" type="button">Clear</button>
+
+            <a id="openSecondDraft" class="secondary-link" href="second-draft.html">
+              Rewrite in SecondDraft →
+            </a>
+          </div>
+        </section>
+
+        <section class="tool-panel output-panel" aria-label="Cleaned ChatGPT output">
+          <textarea
+            id="output"
+            aria-label="PasteLint cleaned output"
+            placeholder="Your cleaned text will appear here..."
+            readonly
+          ></textarea>
+
+          <div class="meta">
+            <span id="outputCharCount">0 chars</span>
+            <span id="outputWordCount">0 words</span>
+          </div>
+        </section>
+
+      </section>
+
     </div>
-  </section>
-
-  <section class="tool-panel action-panel" aria-label="Clean ChatGPT output actions">
-    <div class="tool-actions">
-      <button id="cleanBtn" class="primary-btn" type="button">Clean text</button>
-      <button id="copyBtn" class="secondary-btn" type="button">Copy output</button>
-      <button id="clearBtn" class="clear-btn" type="button">Clear</button>
-
-      <a id="openSecondDraft" class="secondary-link" href="second-draft.html">
-        Rewrite in SecondDraft →
-      </a>
-    </div>
-  </section>
-
-  <section class="tool-panel output-panel" aria-label="Cleaned ChatGPT output">
-    <textarea
-      id="output"
-      aria-label="PasteLint cleaned output"
-      placeholder="Your cleaned text will appear here..."
-      readonly
-    ></textarea>
-
-    <div class="meta">
-      <span id="outputCharCount">0 chars</span>
-      <span id="outputWordCount">0 words</span>
-    </div>
-  </section>
-
-</section>
-
-  </div>
-
-</main>
-
+  </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
@@ -130,21 +127,22 @@
             <a href="SSML_builder.html">SSML Builder</a>
           </p>
         </div>
-<div>
-  <h4>Core tools</h4>
 
-  <p>
-    <a href="index.html">PasteLint Clean</a>
-    <span>|</span>
-    <a href="second-draft.html">SecondDraft</a>
-  </p>
+        <div>
+          <h4>Core tools</h4>
 
-  <p>
-    <a href="text-readiness-framework.html">
-      Text Readiness Framework
-    </a>
-  </p>
-</div>
+          <p>
+            <a href="index.html">PasteLint Clean</a>
+            <span>|</span>
+            <a href="second-draft.html">SecondDraft</a>
+          </p>
+
+          <p>
+            <a href="text-readiness-framework.html">
+              Text Readiness Framework
+            </a>
+          </p>
+        </div>
 
         <div>
           <h4>Legal</h4>
@@ -167,126 +165,127 @@
   <script src="js/script.js"></script>
   <script src="js/ai-cleanup.js"></script>
 
-<script>
-  (() => {
-    function getTextValue(id) {
-      return document.getElementById(id)?.value || "";
-    }
-
-    function setTextValue(id, value) {
-      const el = document.getElementById(id);
-      if (!el) return;
-
-      el.value = value;
-      el.dispatchEvent(new Event("input", { bubbles: true }));
-    }
-
-    function countWords(text) {
-      return (String(text).trim().match(/\b\w+\b/g) || []).length;
-    }
-
-    function updateLocalCounters() {
-      const input = getTextValue("input");
-      const output = getTextValue("output");
-
-      const inputCharCount = document.getElementById("inputCharCount");
-      const inputWordCount = document.getElementById("inputWordCount");
-      const outputCharCount = document.getElementById("outputCharCount");
-      const outputWordCount = document.getElementById("outputWordCount");
-
-      if (inputCharCount) inputCharCount.textContent = `${input.length} chars`;
-      if (inputWordCount) inputWordCount.textContent = `${countWords(input)} words`;
-      if (outputCharCount) outputCharCount.textContent = `${output.length} chars`;
-      if (outputWordCount) outputWordCount.textContent = `${countWords(output)} words`;
-    }
-
-    function runSharedCleanup(text) {
-      const source = String(text || "");
-
-      if (
-        window.PasteLintCleanEngine &&
-        typeof window.PasteLintCleanEngine.runPasteLintCleanup === "function"
-      ) {
-        const result =
-          window.PasteLintCleanEngine.runPasteLintCleanup(source);
-
-        return result.cleanedText || result.cleaned || source;
+  <script>
+    (() => {
+      function getTextValue(id) {
+        return document.getElementById(id)?.value || "";
       }
 
-      if (
-        window.PasteLintCleanEngine &&
-        typeof window.PasteLintCleanEngine.cleanText === "function"
-      ) {
-        const result =
-          window.PasteLintCleanEngine.cleanText(source);
+      function setTextValue(id, value) {
+        const el = document.getElementById(id);
+        if (!el) return;
 
-        return result.cleaned || source;
+        el.value = value;
+        el.dispatchEvent(new Event("input", { bubbles: true }));
       }
 
-      return source;
-    }
-
-    function runChatGPTCleanup(text) {
-      let cleaned = runSharedCleanup(text);
-
-      if (
-        window.PasteLintAI &&
-        typeof window.PasteLintAI.clean === "function"
-      ) {
-        cleaned = window.PasteLintAI.clean(cleaned);
+      function countWords(text) {
+        return (String(text).trim().match(/\b\w+\b/g) || []).length;
       }
 
-      return String(cleaned || "").trim();
-    }
+      function updateLocalCounters() {
+        const input = getTextValue("input");
+        const output = getTextValue("output");
 
-    function getCurrentText() {
-      const outputText = getTextValue("output").trim();
-      const inputText = getTextValue("input").trim();
+        const inputCharCount = document.getElementById("inputCharCount");
+        const inputWordCount = document.getElementById("inputWordCount");
+        const outputCharCount = document.getElementById("outputCharCount");
+        const outputWordCount = document.getElementById("outputWordCount");
 
-      if (outputText && outputText !== inputText) {
-        return outputText;
+        if (inputCharCount) inputCharCount.textContent = `${input.length} chars`;
+        if (inputWordCount) inputWordCount.textContent = `${countWords(input)} words`;
+        if (outputCharCount) outputCharCount.textContent = `${output.length} chars`;
+        if (outputWordCount) outputWordCount.textContent = `${countWords(output)} words`;
       }
 
-      if (inputText) {
-        return runChatGPTCleanup(inputText);
+      function runSharedCleanup(text) {
+        const source = String(text || "");
+
+        if (
+          window.PasteLintCleanEngine &&
+          typeof window.PasteLintCleanEngine.runPasteLintCleanup === "function"
+        ) {
+          const result =
+            window.PasteLintCleanEngine.runPasteLintCleanup(source);
+
+          return result.cleanedText || result.cleaned || source;
+        }
+
+        if (
+          window.PasteLintCleanEngine &&
+          typeof window.PasteLintCleanEngine.cleanText === "function"
+        ) {
+          const result =
+            window.PasteLintCleanEngine.cleanText(source);
+
+          return result.cleaned || source;
+        }
+
+        return source;
       }
 
-      return outputText || inputText;
-    }
+      function runChatGPTCleanup(text) {
+        let cleaned = runSharedCleanup(text);
 
-    document.addEventListener("click", event => {
-      const button = event.target.closest("#cleanBtn, #rewriteBtn");
-      if (!button) return;
+        if (
+          window.PasteLintAI &&
+          typeof window.PasteLintAI.clean === "function"
+        ) {
+          cleaned = window.PasteLintAI.clean(cleaned);
+        }
 
-      const inputText = getTextValue("input").trim();
-      if (!inputText) return;
+        return String(cleaned || "").trim();
+      }
 
-      window.setTimeout(() => {
+      function getCurrentText() {
+        const outputText = getTextValue("output").trim();
+        const inputText = getTextValue("input").trim();
+
+        if (outputText && outputText !== inputText) {
+          return outputText;
+        }
+
+        if (inputText) {
+          return runChatGPTCleanup(inputText);
+        }
+
+        return outputText || inputText;
+      }
+
+      document.addEventListener("click", event => {
+        const button = event.target.closest("#cleanBtn");
+        if (!button) return;
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const inputText = getTextValue("input").trim();
+        if (!inputText) return;
+
         const cleaned = runChatGPTCleanup(inputText);
 
         setTextValue("output", cleaned);
         updateLocalCounters();
-      }, 20);
-    });
+      }, true);
 
-    document
-      .getElementById("openPasteLint")
-      ?.addEventListener("click", () => {
-        localStorage.setItem(
-          "pastelint-transfer-text",
-          getCurrentText()
-        );
-      });
+      document
+        .getElementById("openPasteLint")
+        ?.addEventListener("click", () => {
+          localStorage.setItem(
+            "pastelint-transfer-text",
+            getCurrentText()
+          );
+        });
 
-    document
-      .getElementById("openSecondDraft")
-      ?.addEventListener("click", () => {
-        localStorage.setItem(
-          "pastelint-transfer-text",
-          getCurrentText()
-        );
-      });
-  })();
-</script>
+      document
+        .getElementById("openSecondDraft")
+        ?.addEventListener("click", () => {
+          localStorage.setItem(
+            "pastelint-transfer-text",
+            getCurrentText()
+          );
+        });
+    })();
+  </script>
 </body>
 </html>
