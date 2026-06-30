@@ -1600,6 +1600,70 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
    
 }
 
+/* -----------------------------
+   SSML BUILDER WORKBENCH
+----------------------------- */
+
+.ssml-builder-page {
+  width: min(100% - 2rem, 1120px);
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 4rem) 0 clamp(4rem, 8vw, 6rem);
+}
+
+.ssml-builder-page .tool-hero {
+  max-width: 42rem;
+  margin-bottom: 1.5rem;
+}
+
+.ssml-builder-page .tool-shell {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.ssml-builder-page .section {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.ssml-builder-page .ssml-config-section {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+  align-items: end;
+}
+
+.ssml-builder-page textarea {
+  min-height: 180px;
+  background-image: none;
+}
+
+.ssml-builder-page .controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
+
+.ssml-builder-page .counter {
+  margin-top: 0.45rem;
+  color: var(--faint);
+  font-size: 0.78rem;
+}
+
+.ssml-builder-page .warning-box {
+  margin-top: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--warning) 35%, var(--border));
+  background: var(--warning-soft);
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .ssml-builder-page .ssml-config-section {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* -----------------------------
    REDUCED MOTION
