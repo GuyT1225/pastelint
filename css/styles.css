@@ -1275,6 +1275,19 @@ html[data-theme="terminal"] .clean-chatgpt-page #output {
   text-decoration: none;
 }
 
+@media (min-width: 901px) {
+  .clean-chatgpt-page .hero-proof-layout {
+    display: grid;
+    grid-template-columns: minmax(20rem, 0.85fr) minmax(0, 1.75fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+
+  .clean-chatgpt-page .hero h1 {
+    max-width: 16ch;
+  }
+}
+
 /* -----------------------------
    PASTELINT CLEAN PAGE DETAILS
 ----------------------------- */
