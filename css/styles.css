@@ -1634,6 +1634,11 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
   align-items: end;
 }
 
+.ssml-builder-page .ssml-field-group {
+  display: grid;
+  gap: 0.35rem;
+}
+
 .ssml-builder-page textarea {
   min-height: 180px;
   background-image: none;
