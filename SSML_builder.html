@@ -74,7 +74,7 @@
         <textarea id="input" placeholder="Paste raw book list, calendar section, or IVR text here..."></textarea>
 
         <div id="inputCounter" class="counter">0 / 3000 characters</div>
-        <div id="inputWarning" class="warning-box">
+        <div id="inputWarning" class="warning-box" hidden>
           Large input detected. This will be automatically split into IVR-friendly sections using Auto Chunk.
         </div>
 
@@ -91,7 +91,7 @@
         <textarea id="cleanOutput" readonly placeholder="Cleaned text will appear here..."></textarea>
 
         <div id="cleanCounter" class="counter">0 / 3000 characters</div>
-        <div id="cleanWarning" class="warning-box">
+        <div id="cleanWarning" class="warning-box" hidden>
           This cleaned text is over 3000 characters. Use the chunked outputs for final Polly generation.
         </div>
 
@@ -108,7 +108,7 @@
         <textarea id="ssmlOutput" readonly placeholder="SSML will appear here..."></textarea>
 
         <div id="ssmlCounter" class="counter">0 / 3000 characters</div>
-        <div id="ssmlWarning" class="warning-box">
+        <div id="ssmlWarning" class="warning-box" hidden>
           This SSML output is over 3000 characters. Use the chunked SSML boxes for final Polly generation.
         </div>
 
