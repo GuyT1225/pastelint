@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("cleanOutput")?.addEventListener("input", handleCleanEdit);
   document.getElementById("ssmlOutput")?.addEventListener("input", updateCounters);
 
-  document.getElementById("cleanGenerateBtn")?.addEventListener("click", generateAll);
+  document.getElementById("cleanTextBtn")?.addEventListener("click", cleanOnly);
+  document.getElementById("generateSsmlBtn")?.addEventListener("click", generateSsmlOnly);
+  document.getElementById("cleanGenerateBtn")?.addEventListener("click", cleanAndGenerate);
 
   document.getElementById("autoChunkBtn")?.addEventListener("click", function () {
     generateChunks(false);
@@ -287,16 +289,51 @@ function buildFullCleanText() {
 
 function escapeForSSML(text) {
   return text
-    .replace(/&/g, "and")
-    .replace(/</g, "")
-    .replace(/>/g, "");
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function wrapSSML(text) {
-  return '<speak>\n  <prosody rate="94%">\n    ' + escapeForSSML(text) + '\n  </prosody>\n</speak>';
+  return `<speak>
+  <prosody rate="94%">
+${escapeForSSML(text)}
+  </prosody>
+</speak>`;
 }
 
-function generateAll() {
+function cleanOnly() {
+  const cleaned = buildFullCleanText();
+
+  document.getElementById("cleanOutput").value = cleaned;
+
+  updateCounters();
+
+  return cleaned;
+}
+
+function getSsmlSourceText() {
+  const cleaned = document.getElementById("cleanOutput").value || "";
+  const raw = document.getElementById("input").value || "";
+
+  return cleaned.trim() ? cleaned : raw;
+}
+
+function generateSsmlFromText(text) {
+  if (!text.trim()) return;
+
+  document.getElementById("ssmlOutput").value = wrapSSML(text);
+
+  updateCounters();
+}
+
+function generateSsmlOnly() {
+  const sourceText = getSsmlSourceText();
+
+  generateSsmlFromText(sourceText);
+}
+
+function cleanAndGenerate() {
   const raw = document.getElementById("input").value || "";
 
   if (raw.length > CHARACTER_LIMIT) {
@@ -304,17 +341,14 @@ function generateAll() {
     return;
   }
 
-  const cleaned = buildFullCleanText();
+  const cleaned = cleanOnly();
 
-  document.getElementById("cleanOutput").value = cleaned;
-  document.getElementById("ssmlOutput").value = wrapSSML(cleaned);
+  if (!cleaned.trim()) return;
 
-  updateCounters();
+  generateSsmlFromText(cleaned);
 }
 
 function handleCleanEdit() {
-  const cleaned = document.getElementById("cleanOutput").value;
-  document.getElementById("ssmlOutput").value = wrapSSML(cleaned);
   updateCounters();
 }
 
@@ -572,15 +606,15 @@ function updateCounter(textareaId, counterId, warningId) {
 
 function updateLargeInputButtons() {
   const raw = document.getElementById("input").value || "";
-  const cleanBtn = document.getElementById("cleanGenerateBtn");
+  const cleanGenerateBtn = document.getElementById("cleanGenerateBtn");
   const chunkBtn = document.getElementById("autoChunkBtn");
 
   if (raw.length > CHARACTER_LIMIT) {
-    cleanBtn.classList.add("primary-warning");
-    chunkBtn.classList.add("chunk-emphasis");
+    cleanGenerateBtn?.classList.add("primary-warning");
+    chunkBtn?.classList.add("chunk-emphasis");
   } else {
-    cleanBtn.classList.remove("primary-warning");
-    chunkBtn.classList.remove("chunk-emphasis");
+    cleanGenerateBtn?.classList.remove("primary-warning");
+    chunkBtn?.classList.remove("chunk-emphasis");
   }
 }
 
