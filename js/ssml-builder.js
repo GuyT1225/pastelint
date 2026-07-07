@@ -1,4 +1,10 @@
+Yes — I used your current `js/ssml-builder.js` as the base and applied the missing pieces: textarea resizing inside `updateCounter()`, `updateLargeInputButtons()` inside `updateCounters()`, and the indentation cleanup in `generateChunks()`. 
+
+Paste this over the **entire** `js/ssml-builder.js` file:
+
+```js
 const CHARACTER_LIMIT = 3000;
+const MAX_AUTO_TEXTAREA_HEIGHT = 640;
 let latestChunks = [];
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -41,6 +47,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
   updateCounters();
 });
+
+function resizeAllTextareas() {
+  document.querySelectorAll(".ssml-builder-page textarea").forEach(function (textarea) {
+    resizeTextareaToContent(textarea);
+  });
+}
+
+function resizeTextareaToContent(textarea) {
+  if (!textarea) return;
+
+  textarea.style.height = "auto";
+
+  const nextHeight = Math.min(textarea.scrollHeight, MAX_AUTO_TEXTAREA_HEIGHT);
+
+  textarea.style.height = nextHeight + "px";
+  textarea.style.overflowY =
+    textarea.scrollHeight > MAX_AUTO_TEXTAREA_HEIGHT ? "auto" : "hidden";
+}
 
 function getFooterText() {
   const type = document.getElementById("footerType").value;
@@ -561,6 +585,7 @@ function generateChunks(wasRedirected) {
   document.getElementById("ssmlOutput").value = wrapSSML(cleaned);
 
   updateCounters();
+  resizeAllTextareas();
 
   document.getElementById("chunkStart").scrollIntoView({
     behavior: "smooth",
@@ -572,6 +597,7 @@ function updateCounters() {
   updateCounter("input", "inputCounter", "inputWarning");
   updateCounter("cleanOutput", "cleanCounter", "cleanWarning");
   updateCounter("ssmlOutput", "ssmlCounter", "ssmlWarning");
+  updateLargeInputButtons();
 }
 
 function updateCounter(textareaId, counterId, warningId) {
@@ -587,6 +613,8 @@ function updateCounter(textareaId, counterId, warningId) {
   counter.textContent = `${count} / ${CHARACTER_LIMIT} characters`;
   counter.classList.toggle("over-limit", isOverLimit);
 
+  resizeTextareaToContent(textarea);
+
   if (warning) {
     warning.hidden = !isOverLimit;
     warning.classList.toggle("show", isOverLimit);
@@ -594,7 +622,7 @@ function updateCounter(textareaId, counterId, warningId) {
 }
 
 function updateLargeInputButtons() {
-  const raw = document.getElementById("input").value || "";
+  const raw = document.getElementById("input")?.value || "";
   const cleanGenerateBtn = document.getElementById("cleanGenerateBtn");
   const chunkBtn = document.getElementById("autoChunkBtn");
 
@@ -848,3 +876,4 @@ function clearAll() {
 
   updateCounters();
 }
+```
