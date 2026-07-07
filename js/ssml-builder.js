@@ -572,35 +572,24 @@ function updateCounters() {
   updateCounter("input", "inputCounter", "inputWarning");
   updateCounter("cleanOutput", "cleanCounter", "cleanWarning");
   updateCounter("ssmlOutput", "ssmlCounter", "ssmlWarning");
-  updateLargeInputButtons();
 }
 
 function updateCounter(textareaId, counterId, warningId) {
   const textarea = document.getElementById(textareaId);
   const counter = document.getElementById(counterId);
+  const warning = document.getElementById(warningId);
 
   if (!textarea || !counter) return;
 
   const count = textarea.value.length;
+  const isOverLimit = count > CHARACTER_LIMIT;
 
-  counter.textContent = count + " / " + CHARACTER_LIMIT + " characters";
+  counter.textContent = `${count} / ${CHARACTER_LIMIT} characters`;
+  counter.classList.toggle("over-limit", isOverLimit);
 
-  if (count > CHARACTER_LIMIT) {
-    counter.classList.add("warning");
-  } else {
-    counter.classList.remove("warning");
-  }
-
-  if (warningId) {
-    const warning = document.getElementById(warningId);
-
-    if (warning) {
-      if (count > CHARACTER_LIMIT) {
-        warning.classList.add("show");
-      } else {
-        warning.classList.remove("show");
-      }
-    }
+  if (warning) {
+    warning.hidden = !isOverLimit;
+    warning.classList.toggle("show", isOverLimit);
   }
 }
 
