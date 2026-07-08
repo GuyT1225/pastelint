@@ -1,8 +1,3 @@
-Yes — I used your current `js/ssml-builder.js` as the base and applied the missing pieces: textarea resizing inside `updateCounter()`, `updateLargeInputButtons()` inside `updateCounters()`, and the indentation cleanup in `generateChunks()`. 
-
-Paste this over the **entire** `js/ssml-builder.js` file:
-
-```js
 const CHARACTER_LIMIT = 3000;
 const MAX_AUTO_TEXTAREA_HEIGHT = 640;
 let latestChunks = [];
