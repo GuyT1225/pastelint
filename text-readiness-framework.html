@@ -1,85 +1,184 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>The Text Readiness Framework | PasteLint</title>
+  <title>The Text Readiness Framework | PasteLint</title>
+  <meta
+    name="description"
+    content="Understand PasteLint's browser-only workflow for preparing text: clean it, rewrite it, prepare it, then publish, speak, document, or analyze it."
+  />
 
-<meta name="description"
-content="A practical framework for preparing AI-generated and human-written text for publishing, narration, accessibility, and real-world communication." />
-
-<link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
+  <header class="site-header">
+    <a class="brand-link" href="index.html">PasteLint</a>
 
-<header class="site-header">
-  <a class="brand-link" href="index.html">PasteLint</a>
+    <nav class="tool-nav" aria-label="Tool navigation">
+      <a href="index.html">Clean</a>
+      <a href="second-draft.html">SecondDraft</a>
+      <a href="SSML_builder.html">SSML Builder</a>
+    </nav>
 
-  <nav class="tool-nav" aria-label="Tool navigation">
-    <a href="index.html">Clean</a>
-    <a href="second-draft.html">SecondDraft</a>
-    <a href="SSML_builder.html">SSML Builder</a>
-  </nav>
-</header>
-<main class="page-shell">
+    <nav class="theme-switcher" aria-label="Theme selector">
+      <button class="theme-btn active" type="button" data-theme-choice="light">Light</button>
+      <button class="theme-btn" type="button" data-theme-choice="dark">Dark</button>
+      <button class="theme-btn" type="button" data-theme-choice="terminal">Terminal</button>
+    </nav>
+  </header>
 
-<section class="hero">
-  <p class="eyebrow">Framework</p>
+  <main class="tool-page text-readiness-page">
+    <section class="tool-hero">
+      <p class="eyebrow">Framework</p>
+      <h1>The Text Readiness Framework</h1>
+      <p>
+        Prepare text before it leaves your browser. Clean it, rewrite it, prepare it, then publish, speak, document, or analyze it.
+      </p>
+    </section>
 
-  <h1>The Text Readiness Framework</h1>
+    <section class="tool-shell">
+      <div class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Clean / Rewrite / Prepare / Publish</p>
+          <h2>Move from raw text to ready text.</h2>
+        </div>
 
-  <p>
-  Prepare text before it leaves your browser.
-  Clean it, rewrite it, prepare it, then publish, speak, document, or analyze it.
-  </p>
-</section>
+        <ol>
+          <li>
+            <strong>Raw text</strong> — copied, generated, drafted, exported, or pasted text.
+          </li>
+          <li>
+            <strong>Clean</strong> — remove formatting issues, artifacts, hidden characters, and noise.
+          </li>
+          <li>
+            <strong>Rewrite</strong> — improve clarity, tone, rhythm, and flow without changing meaning.
+          </li>
+          <li>
+            <strong>Prepare</strong> — shape text for a destination: publishing, speech, documentation, accessibility, or analysis.
+          </li>
+          <li>
+            <strong>Publish</strong> — deliver text to readers, listeners, teammates, customers, or tools.
+          </li>
+        </ol>
+      </div>
 
-<section class="tool-panel">
+      <div class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Why readiness matters</p>
+          <h2>Generated text is not automatically ready.</h2>
+        </div>
 
-  <h2>Clean -> Rewrite -> Prepare -> Publish</h2>
+        <p>
+          Formatting artifacts, weak phrasing, readability issues, narration problems, and accessibility barriers often remain after text is copied, exported, generated, or drafted.
+        </p>
 
-  <ol>
-  <li><strong>Raw text</strong> — Copied, generated, drafted, exported, or pasted text.</li>
-  <li><strong>Clean</strong> — Remove formatting issues, artifacts, hidden characters, and noise.</li>
-  <li><strong>Rewrite</strong> — Improve clarity, tone, rhythm, and flow without changing meaning.</li>
-  <li><strong>Prepare</strong> — Shape text for a destination: sending, publishing, speech, documentation, accessibility, or analysis.</li>
-  <li><strong>Publish</strong> — Deliver text to readers, listeners, teammates, customers, or tools.</li>
-</ol>
+        <p>
+          Text readiness is the process of preparing content for real-world use before it leaves your browser.
+        </p>
+      </div>
 
-</section>
+      <div class="section">
+        <div class="section-heading">
+          <p class="eyebrow">How PasteLint fits</p>
+          <h2>One browser-only workflow, three core tools.</h2>
+        </div>
 
-<section class="tool-panel">
+        <ul>
+          <li>
+            <a href="index.html"><strong>PasteLint Clean</strong></a> — clean formatting problems, spacing issues, hidden characters, and paste artifacts.
+          </li>
+          <li>
+            <a href="second-draft.html"><strong>SecondDraft</strong></a> — rewrite cleaned text for clearer tone, rhythm, and flow.
+          </li>
+          <li>
+            <a href="SSML_builder.html"><strong>SSML Builder</strong></a> — prepare approved text for speech, TTS, IVR, and Amazon Polly.
+          </li>
+        </ul>
+      </div>
 
-  <h2>Why readiness matters</h2>
+      <div class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Principle</p>
+          <h2>Prepare text before it leaves your browser.</h2>
+        </div>
 
-  <p>
-    Generated text is not automatically ready for publication.
-    Formatting artifacts, weak phrasing, readability issues,
-    narration problems, and accessibility barriers often remain.
-  </p>
+        <p>
+          PasteLint is not an AI detector, humanizer, or bypass tool. It is a local-first preparation workflow for making copied, generated, drafted, or exported text easier to review, revise, and use.
+        </p>
 
-  <p>
-    Text readiness is the process of preparing content for real-world use.
-  </p>
+        <p class="note">
+          No login. No upload. Everything runs in your browser.
+        </p>
+      </div>
+    </section>
+  </main>
 
-</section>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-brand">
+        PasteLint — browser-based text cleanup tools.
+      </p>
 
-<section class="tool-panel">
+      <p class="footer-note">
+        No login. No upload. Everything runs in your browser.
+      </p>
 
-  <h2>How PasteLint fits</h2>
+      <div class="footer-columns">
+        <div>
+          <h4>Popular cleanup tasks</h4>
 
-<ul>
-  <li>PasteLint Clean -> Clean</li>
-  <li>SecondDraft -> Rewrite</li>
-  <li>SSML Builder -> Prepare for speech, TTS, and IVR</li>
-</ul>
+          <p>
+            <a href="fix-pdf-paste.html">Fix Text Copied from PDF</a>
+            <span>|</span>
+            <a href="clean-chatgpt-output.html">Clean ChatGPT Output</a>
+            <span>|</span>
+            <a href="remove-hidden-characters.html">Remove Hidden Characters</a>
+          </p>
 
-</section>
+          <p>
+            <a href="tts-text-cleanup.html">Prepare Text for TTS</a>
+            <span>|</span>
+            <a href="ivr-text-prep.html">IVR Text Prep</a>
+            <span>|</span>
+            <a href="SSML_builder.html">SSML Builder</a>
+          </p>
+        </div>
 
-</main>
+        <div>
+          <h4>Core tools</h4>
 
+          <p>
+            <a href="index.html">PasteLint Clean</a>
+            <span>|</span>
+            <a href="second-draft.html">SecondDraft</a>
+            <span>|</span>
+            <a href="SSML_builder.html">SSML Builder</a>
+            <span>|</span>
+            <a href="text-readiness-framework.html">Text Readiness Framework</a>
+          </p>
+        </div>
+
+        <div>
+          <h4>Legal</h4>
+
+          <p>
+            <a href="privacy.html">Privacy Policy</a>
+            <span>|</span>
+            <a href="terms.html">Terms</a>
+            <span>|</span>
+            <a href="contact.html">Contact</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/themes.js"></script>
 </body>
 </html>
