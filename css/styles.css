@@ -1477,7 +1477,68 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
   color: var(--text);
   text-decoration: underline;
 } 
+/* -----------------------------
+   TASK LANDING PAGES
+----------------------------- */
 
+body.task-landing-page > main,
+body.task-landing-page > .hero {
+  width: min(100% - 2rem, var(--page-width, 1120px));
+  margin-inline: auto;
+}
+
+body.task-landing-page > main {
+  padding: clamp(2rem, 5vw, 4rem) 0 clamp(4rem, 8vw, 6rem);
+  display: grid;
+  gap: 1.25rem;
+}
+
+body.task-landing-page > .hero {
+  padding-top: clamp(2rem, 5vw, 4rem);
+}
+
+body.task-landing-page > .hero + main {
+  padding-top: 1.25rem;
+}
+
+body.task-landing-page .hero {
+  max-width: 42rem;
+}
+
+body.task-landing-page .tool-shell {
+  grid-column: auto;
+  width: 100%;
+  display: grid;
+  gap: 1rem;
+}
+
+body.task-landing-page .landing-section,
+body.task-landing-page .landing-info-grid,
+body.task-landing-page .trust-panel,
+body.task-landing-page .next-step-panel,
+body.task-landing-page .preview-panel,
+body.task-landing-page .insight-panel {
+  width: 100%;
+}
+
+body.task-landing-page .example-grid,
+body.task-landing-page .landing-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 700px) {
+  body.task-landing-page > main,
+  body.task-landing-page > .hero {
+    width: min(100% - 1rem, 100%);
+  }
+
+  body.task-landing-page .example-grid,
+  body.task-landing-page .landing-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
 /* -----------------------------
    RESPONSIVE
 ----------------------------- */
