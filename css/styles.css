@@ -1528,6 +1528,17 @@ body.task-landing-page .landing-info-grid {
   gap: 1rem;
 }
 
+/* Keep standalone task landing heroes aligned with the page shell */
+body.task-landing-page > .hero {
+  width: min(100% - 2rem, var(--page-width, 1120px));
+  max-width: var(--page-width, 1120px);
+  margin-inline: auto;
+}
+
+body.task-landing-page > .hero > * {
+  max-width: 42rem;
+}
+
 @media (max-width: 700px) {
   body.task-landing-page > main,
   body.task-landing-page > .hero {
@@ -1539,6 +1550,7 @@ body.task-landing-page .landing-info-grid {
     grid-template-columns: 1fr;
   }
 }
+
 /* -----------------------------
    RESPONSIVE
 ----------------------------- */
