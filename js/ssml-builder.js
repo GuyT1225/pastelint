@@ -871,4 +871,4 @@ function clearAll() {
 
   updateCounters();
 }
-```
+
