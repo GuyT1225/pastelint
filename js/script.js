@@ -43,7 +43,8 @@ function getElements() {
     changePreview: $("changePreview"),
     editMap: $("editMap"),
     visualPreview: $("visualPreview"),
-    postCleanActions: $("postCleanActions")
+    postCleanActions: $("postCleanActions"),
+    toolStatus: $("toolStatus")
   };
 }
 
@@ -772,6 +773,13 @@ if (
    PASTELINT CLEAN
 ----------------------------- */
 
+function setToolStatus(els, message) {
+  if (!els.toolStatus) return;
+
+  els.toolStatus.textContent = message;
+  els.toolStatus.hidden = !message;
+}
+
 function handleClean(els) {
   const raw = getInputText(els);
   if (!raw) return;
@@ -790,6 +798,8 @@ function handleClean(els) {
   if (els.postCleanActions) {
     els.postCleanActions.hidden = false;
   }
+
+  setToolStatus(els, "Cleaned text ready. Review the changes, then copy or rewrite in SecondDraft.");
 
   runPreAnalysis(els, postCleanWarnings, result.text);
 
@@ -1280,7 +1290,10 @@ function countWords(text) {
 ----------------------------- */
 
 function copyOutput(els) {
-  if (!els.output?.value) return;
+  if (!els.output?.value) {
+    setToolStatus(els, "Nothing to copy yet.");
+    return;
+  }
 
   const confirmCopied = () => {
     if (!els.copyBtn) return;
@@ -1291,15 +1304,23 @@ function copyOutput(els) {
     setTimeout(() => {
       els.copyBtn.textContent = originalText;
     }, 1200);
+
+    setToolStatus(els, "Copied to clipboard.");
   };
 
-  navigator.clipboard.writeText(els.output.value)
-    .then(confirmCopied)
-    .catch(() => {
-      els.output.select();
-      document.execCommand("copy");
-      confirmCopied();
-    });
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(els.output.value)
+      .then(confirmCopied)
+      .catch(() => {
+        els.output.select();
+        document.execCommand("copy");
+        confirmCopied();
+      });
+  } else {
+    els.output.select();
+    document.execCommand("copy");
+    confirmCopied();
+  }
 }
 
 function clearAll(els) {
@@ -1335,6 +1356,8 @@ function clearAll(els) {
   if (els.postCleanActions) {
     els.postCleanActions.hidden = true;
   }
+
+  setToolStatus(els, "");
 }
 
 /* -----------------------------

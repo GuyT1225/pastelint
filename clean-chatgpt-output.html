@@ -65,6 +65,8 @@
         </section>
 
         <section class="tool-panel action-panel" aria-label="Clean ChatGPT output actions">
+          <p id="toolStatus" class="tool-status" role="status" aria-live="polite" hidden></p>
+
           <div class="tool-actions">
             <button id="cleanBtn" class="primary-btn" type="button">Clean text</button>
             <button id="copyBtn" class="secondary-btn" type="button">Copy output</button>
@@ -197,6 +199,14 @@
         if (outputWordCount) outputWordCount.textContent = `${countWords(output)} words`;
       }
 
+      function setToolStatus(message) {
+        const status = document.getElementById("toolStatus");
+        if (!status) return;
+
+        status.textContent = message;
+        status.hidden = !message;
+      }
+
       function runSharedCleanup(text) {
         const source = String(text || "");
 
@@ -265,6 +275,7 @@
 
         setTextValue("output", cleaned);
         updateLocalCounters();
+        setToolStatus("ChatGPT text cleaned. Copy it, or rewrite it in SecondDraft.");
       }, true);
 
       document

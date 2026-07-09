@@ -654,6 +654,19 @@ textarea:focus-visible {
   display: none !important;
 }
 
+.tool-status {
+  width: 100%;
+  margin: 0 0 0.45rem;
+  color: var(--success);
+  font-size: 0.86rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.tool-status[hidden] {
+  display: none !important;
+}
+
 .post-clean-actions:not([hidden]) {
   display: inline-flex;
   gap: 0.7rem;

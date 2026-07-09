@@ -321,12 +321,21 @@ ${escapeForSSML(text)}
 </speak>`;
 }
 
+function setSsmlStatus(message) {
+  const status = document.getElementById("ssmlStatus");
+  if (!status) return;
+
+  status.textContent = message;
+  status.hidden = !message;
+}
+
 function cleanOnly() {
   const cleaned = buildFullCleanText();
 
   document.getElementById("cleanOutput").value = cleaned;
 
   updateCounters();
+  setSsmlStatus("Cleaned text ready. Review it before generating SSML.");
 
   return cleaned;
 }
@@ -339,11 +348,15 @@ function getSsmlSourceText() {
 }
 
 function generateSsmlFromText(text) {
-  if (!text.trim()) return;
+  if (!text.trim()) {
+    setSsmlStatus("Nothing to generate yet.");
+    return;
+  }
 
   document.getElementById("ssmlOutput").value = wrapSSML(text);
 
   updateCounters();
+  setSsmlStatus("SSML generated. Review before final Polly audio.");
 }
 
 function generateSsmlOnly() {
@@ -581,6 +594,11 @@ function generateChunks(wasRedirected) {
 
   updateCounters();
   resizeAllTextareas();
+  if (chunks.length) {
+    setSsmlStatus("Chunks created. Review each part before final Polly audio.");
+  } else {
+    setSsmlStatus("Nothing to chunk yet.");
+  }
 
   document.getElementById("chunkStart").scrollIntoView({
     behavior: "smooth",
@@ -647,12 +665,27 @@ function copyText(id) {
   const box = document.getElementById(id);
   if (!box) return;
 
+  if (!box.value.trim()) {
+    setSsmlStatus("Nothing to copy yet.");
+    return;
+  }
+
   box.select();
   box.setSelectionRange(0, 999999);
 
-  navigator.clipboard.writeText(box.value).catch(function () {
+  const confirmCopied = function () {
+    setSsmlStatus("Copied to clipboard.");
+  };
+
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(box.value).then(confirmCopied).catch(function () {
+      document.execCommand("copy");
+      confirmCopied();
+    });
+  } else {
     document.execCommand("copy");
-  });
+    confirmCopied();
+  }
 }
 
 function speakTextById(id) {
@@ -662,7 +695,7 @@ function speakTextById(id) {
   const text = box.value;
 
   if (!text.trim()) {
-    alert("Generate text first.");
+    setSsmlStatus("Nothing to read yet.");
     return;
   }
 
@@ -825,7 +858,7 @@ function exportChunksZip() {
   }
 
   if (!latestChunks.length) {
-    alert("No chunks available to export.");
+    setSsmlStatus("Nothing to export yet.");
     return;
   }
 
@@ -850,6 +883,7 @@ function exportChunksZip() {
   });
 
   downloadBlob(title + "_chunks.zip", createZip(files));
+  setSsmlStatus("Chunks exported.");
 }
 
 function clearAll() {
@@ -868,6 +902,7 @@ function clearAll() {
   const summary = document.getElementById("chunkSummary");
   summary.textContent = "";
   summary.classList.remove("show");
+  setSsmlStatus("");
 
   updateCounters();
 }
