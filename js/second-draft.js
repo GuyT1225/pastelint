@@ -222,6 +222,11 @@ function applySecondDraftPatternRules(text, options) {
     changes.push(change);
   };
 
+  const focusedMode =
+    options.tone === "direct" ||
+    options.tone === "concise" ||
+    options.length === "shorter";
+
   applyRewrite(
     /\bI just wanted to reach out and say that\s+([^.!?]+)([.?!]?)/i,
     (match) => {
@@ -235,6 +240,44 @@ function applySecondDraftPatternRules(text, options) {
     },
     "Rewrote a filler opening into a clearer sentence"
   );
+
+  if (focusedMode) {
+    applyRewrite(
+      /\bI think there are a few areas where the wording could be improved,\s+and it may be helpful to make it a little clearer and more concise([.?!]?)/i,
+      () => "The wording could be clearer and more concise.",
+      "Condensed weak phrasing into a clearer sentence"
+    );
+
+    applyRewrite(
+      /\bThere are a few areas where the wording could be improved([.?!]?)/i,
+      () => "The wording could be clearer.",
+      "Condensed weak phrasing into a clearer sentence"
+    );
+
+    applyRewrite(
+      /\bAlso,\s+I wanted to mention that the current version feels a bit long and maybe slightly repetitive in certain places([.?!]?)/i,
+      () => "The current version feels long and repetitive in places.",
+      "Removed setup wording and tightened the observation"
+    );
+
+    applyRewrite(
+      /\bThe main point is that we should\s+([^.!?]+)([.?!]?)/i,
+      (match) => makeSecondDraftDirectAction(`we should ${match[1].trim()}`),
+      "Turned the main point into a direct action"
+    );
+
+    applyRewrite(
+      /\bLet me know if you think this is something we should handle today or if it can wait until tomorrow([.?!]?)/i,
+      () => {
+        if (options.tone === "direct") {
+          return "Tell me whether we should handle this today or tomorrow.";
+        }
+
+        return "Let me know whether we should handle this today or tomorrow.";
+      },
+      "Tightened the timing question"
+    );
+  }
 
   applyRewrite(
     /\bI wanted to mention that\s+([^.!?]+)([.?!]?)/i,
@@ -260,7 +303,7 @@ function applySecondDraftPatternRules(text, options) {
 
     applyRewrite(
       /\bIt may be helpful to\s+([^.!?]+)([.?!]?)/i,
-      (match) => capitalizeSecondDraftSentence(match[1].trim()),
+      (match) => makeSecondDraftDirectAction(match[1].trim()),
       "Made a suggested action more direct"
     );
 
@@ -562,6 +605,7 @@ function makeSecondDraftDirectAction(clause) {
 
   return capitalizeSecondDraftSentence(
     clean
+      .replace(/\ba little\s+/i, "")
       .replace(/^we should(?: probably)?\s+/i, "")
       .replace(/^we can\s+/i, "")
   );
