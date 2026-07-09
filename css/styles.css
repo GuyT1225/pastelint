@@ -1002,7 +1002,7 @@ html[data-theme="terminal"] .output-panel::before {
 }
 
 .second-draft-page .hero h1 {
-  max-width: 12ch;
+  max-width: 18ch;
   margin-bottom: 0.5rem;
   letter-spacing: -0.055em;
   line-height: 0.92;
@@ -1089,6 +1089,10 @@ html[data-theme="terminal"] .output-panel::before {
   padding: 0;
 }
 
+.second-draft-page .tool-status {
+  flex-basis: 100%;
+}
+
 .second-draft-page #buildBriefBtn {
   background: var(--editor-bg);
   color: var(--text);
@@ -1123,7 +1127,9 @@ html[data-theme="terminal"] .output-panel::before {
   }
 
   .second-draft-page .hero {
-    max-width: 34rem;
+    width: 100%;
+    max-width: 980px;
+    margin-inline: auto;
   }
 }
 
