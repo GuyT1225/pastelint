@@ -29,6 +29,7 @@ function getSecondDraftElements() {
     outputCharCount: document.getElementById("outputCharCount"),
     outputWordCount: document.getElementById("outputWordCount"),
 
+    toolStatus: document.getElementById("toolStatus"),
     qualityHint: document.getElementById("qualityHint"),
 
     changeInsightEmpty: document.getElementById("changeInsightEmpty"),
@@ -73,6 +74,7 @@ function handleSecondDraftRevise(els) {
   renderSecondDraftInsights(els, result.changes);
   renderSecondDraftEditMap(els, result.edits);
   updateDraftCounters(els);
+  setToolStatus(els, "Draft revised. Review the result, then copy or adjust the settings.");
 }
 
 function handleBuildAnalysisBrief(els) {
@@ -105,6 +107,7 @@ function handleBuildAnalysisBrief(els) {
   ]);
 
   updateDraftCounters(els);
+  setToolStatus(els, "Draft revised. Review the result, then copy or adjust the settings.");
 }
 
 function buildAnalysisBrief(sourceText) {
@@ -534,16 +537,41 @@ function updateDraftCounters(els) {
   setSecondDraftText(els.outputWordCount, `${countSecondDraftWords(output)} words`);
 }
 
-function copySecondDraftOutput(els) {
-  if (!els.output?.value) return;
+function setToolStatus(els, message) {
+  if (!els.toolStatus) return;
 
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(els.output.value);
+  els.toolStatus.textContent = message;
+  els.toolStatus.hidden = !message;
+}
+
+function copySecondDraftOutput(els) {
+  if (!els.output?.value) {
+    setToolStatus(els, "Nothing to copy yet.");
     return;
   }
 
-  els.output.select();
-  document.execCommand("copy");
+  const confirmCopied = () => {
+    setToolStatus(els, "Copied to clipboard.");
+  };
+
+  const fallbackCopy = () => {
+    try {
+      els.output.select();
+      document.execCommand("copy");
+      confirmCopied();
+    } catch (error) {
+      setToolStatus(els, "Copy failed. Select the text and copy manually.");
+    }
+  };
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(els.output.value)
+      .then(confirmCopied)
+      .catch(fallbackCopy);
+    return;
+  }
+
+  fallbackCopy();
 }
 
 function clearSecondDraft(els) {
@@ -571,6 +599,8 @@ function clearSecondDraft(els) {
   if (els.editMapList) {
     els.editMapList.innerHTML = "";
   }
+
+  setToolStatus(els, "");
 }
 
 /* -----------------------------
