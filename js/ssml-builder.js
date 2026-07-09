@@ -83,8 +83,67 @@ function removeLegalSymbols(text) {
   return text.replace(/[®™©℠]/g, "");
 }
 
+function formatSpeechSegment(segment) {
+  const normalized = String(segment || "").toLowerCase();
+  const knownAcronyms = new Set(["otbs", "rhpl", "www"]);
+
+  if (knownAcronyms.has(normalized) || /^[A-Z]{2,5}$/.test(segment)) {
+    return normalized.toUpperCase().split("").join(" ");
+  }
+
+  return normalized;
+}
+
+function formatSpeechDomain(domain) {
+  return String(domain || "")
+    .split(".")
+    .map(formatSpeechSegment)
+    .join(" dot ");
+}
+
+function formatSpeechEmailLocal(localPart) {
+  const normalized = String(localPart || "").toLowerCase();
+
+  if (/^[a-z]{2,5}$/i.test(localPart) && ["otbs", "rhpl"].includes(normalized)) {
+    return normalized.toUpperCase().split("").join(" ");
+  }
+
+  return normalized;
+}
+
+function repairContactBoundaries(text) {
+  return text.replace(
+    /\b(dot\s+(?:org|com|net|edu|gov))\s+(call us|email us|thank you|for more information)\b/gi,
+    function (_, ending, nextPhrase) {
+      return ending.toLowerCase() + ". " +
+        nextPhrase.charAt(0).toUpperCase() +
+        nextPhrase.slice(1).toLowerCase();
+    }
+  );
+}
+
+function normalizeContactInfoForSpeech(text) {
+  let normalized = String(text || "");
+
+  normalized = normalized.replace(
+    /\b([A-Z0-9._%+-]+)@((?:[A-Z0-9-]+\.)+(?:org|com|net|edu|gov))\b/gi,
+    function (_, localPart, domain) {
+      return formatSpeechEmailLocal(localPart) + " at " + formatSpeechDomain(domain);
+    }
+  );
+
+  normalized = normalized.replace(
+    /\b((?:[A-Z0-9-]+\.)+(?:org|com|net|edu|gov))\b/gi,
+    function (_, domain) {
+      return formatSpeechDomain(domain);
+    }
+  );
+
+  return repairContactBoundaries(normalized);
+}
+
 function fixSpecialCharacters(text) {
-  return removeLegalSymbols(text)
+  return normalizeContactInfoForSpeech(removeLegalSymbols(text))
     .replace(/&/g, " and ")
     .replace(/@/g, " at ")
     .replace(/[“”]/g, '"')
@@ -122,7 +181,9 @@ function hasTerminalPunctuation(text) {
 }
 
 function formatHeading(line) {
-  const heading = removeLegalSymbols(line).trim().replace(/,+$/, "");
+  const heading = normalizeContactInfoForSpeech(removeLegalSymbols(line))
+    .trim()
+    .replace(/,+$/, "");
   return hasTerminalPunctuation(heading) ? heading : heading + ".";
 }
 
@@ -262,7 +323,17 @@ function cleanSpacing(text) {
     .replace(/[ \t]+/g, " ")
     .replace(/\n{3,}/g, "\n\n")
     .replace(/\s+([.,!?])/g, "$1")
-    .replace(/([.,!?])(?=\S)/g, "$1 ")
+    .replace(/([,!?])(?=\S)/g, "$1 ")
+    .replace(/\.(?=\S)/g, function (match, offset, source) {
+      const previous = source.charAt(offset - 1);
+      const next = source.charAt(offset + 1);
+      const isDottedToken =
+        (/\d/.test(previous) && /\d/.test(next)) ||
+        (/[a-z]/.test(previous) && /[a-z]/.test(next)) ||
+        (/[A-Z]/.test(previous) && /[A-Z]/.test(next));
+
+      return isDottedToken ? "." : ". ";
+    })
     .replace(/,\s*,/g, ",")
     .replace(/\.\s*\./g, ".")
     .replace(/(\d+)\s+hours?\s*,?\s*(\d+)\s+minutes?/gi, "$1 hours, $2 minutes")
