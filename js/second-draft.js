@@ -14,6 +14,7 @@ function getSecondDraftElements() {
   return {
     input: document.getElementById("draftInput"),
     output: document.getElementById("draftOutput"),
+    outputPanel: document.querySelector(".second-draft-page .output-panel"),
 
     toneSelect: document.getElementById("toneSelect"),
     lengthSelect: document.getElementById("lengthSelect"),
@@ -70,6 +71,7 @@ function handleSecondDraftRevise(els) {
   const result = reviseSecondDraft(raw, options);
 
   if (els.output) els.output.value = result.text;
+  els.outputPanel?.classList.add("is-active-result");
 
   renderSecondDraftInsights(els, result.changes);
   renderSecondDraftEditMap(els, result.edits);
@@ -92,6 +94,7 @@ function handleBuildAnalysisBrief(els) {
   if (els.output) {
     els.output.value = brief;
   }
+  els.outputPanel?.classList.add("is-active-result");
 
   renderSecondDraftInsights(els, [
     "Prepared the source material as an analysis-ready brief",
@@ -742,6 +745,7 @@ function copySecondDraftOutput(els) {
 function clearSecondDraft(els) {
   if (els.input) els.input.value = "";
   if (els.output) els.output.value = "";
+  els.outputPanel?.classList.remove("is-active-result");
 
   updateDraftCounters(els);
 

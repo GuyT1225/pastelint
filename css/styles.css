@@ -1033,6 +1033,12 @@ html[data-theme="terminal"] .output-panel::before {
   margin-bottom: 1rem;
 }
 
+.second-draft-page .output-panel.is-active-result #draftOutput {
+  border-color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 55%, var(--editor-border));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--success) 10%, transparent);
+}
+
 /* Control row */
 .second-draft-page .revision-toolbar {
   margin-top: 0;
