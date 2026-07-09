@@ -1093,6 +1093,17 @@ html[data-theme="terminal"] .output-panel::before {
   flex-basis: 100%;
 }
 
+.second-draft-page #reviseBtn {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+}
+
+.second-draft-page #reviseBtn:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
 .second-draft-page #buildBriefBtn {
   background: var(--editor-bg);
   color: var(--text);
@@ -1116,8 +1127,8 @@ html[data-theme="terminal"] .output-panel::before {
     margin-inline: auto;
   }
 
-  .second-draft-page #draftInput,
-  .second-draft-page #draftOutput,
+  .second-draft-page .input-panel,
+  .second-draft-page .output-panel,
   .second-draft-page .control-grid,
   .second-draft-page .action-panel,
   .second-draft-page .revision-review-grid {
