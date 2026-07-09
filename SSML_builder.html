@@ -107,12 +107,21 @@
           This cleaned text is over 3000 characters. Use the chunked outputs for final Polly generation.
         </div>
 
+        <p class="note">
+          Speech-ready cleanup may expand DB numbers, contact info, and punctuation.
+        </p>
+
         <div class="controls control-panel">
+          <button id="generateFromCleanBtn" class="primary-btn" type="button">Generate SSML</button>
           <button id="editCleanBtn" class="secondary-btn" type="button">Edit Cleaned Text</button>
           <button id="copyCleanBtn" class="secondary-btn" type="button">Copy Cleaned Text</button>
           <button id="readCleanBtn" class="secondary-btn" type="button">Read Cleaned Text</button>
           <button id="stopReadingBtn" class="secondary-btn" type="button">Stop Reading</button>
         </div>
+
+        <p class="note">
+          Review before final audio. Verify punctuation, contact info, dates, and menu options before using generated SSML.
+        </p>
       </div>
 
       <div class="section">

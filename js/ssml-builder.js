@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById("exportChunksBtn")?.addEventListener("click", exportChunksZip);
   document.getElementById("clearSsmlBtn")?.addEventListener("click", clearAll);
+  document.getElementById("generateFromCleanBtn")?.addEventListener("click", generateSsmlFromCleanedText);
 
   document.getElementById("editCleanBtn")?.addEventListener("click", function () {
     toggleEdit("cleanOutput", this);
@@ -443,6 +444,18 @@ function generateSsmlOnly() {
   const sourceText = getSsmlSourceText();
 
   generateSsmlFromText(sourceText);
+}
+
+function generateSsmlFromCleanedText() {
+  const cleaned = document.getElementById("cleanOutput")?.value || "";
+
+  if (!cleaned.trim()) {
+    setSsmlStatus("Nothing to generate yet.");
+    return;
+  }
+
+  generateSsmlFromText(cleaned);
+  setSsmlStatus("SSML generated from cleaned text. Review before final Polly audio.");
 }
 
 function cleanAndGenerate() {
