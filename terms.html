@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,21 +7,21 @@
 <title>Terms | PasteLint</title>
 <meta name="description" content="Terms of use for PasteLint browser-based text cleaning and rewriting tools.">
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body data-theme="light">
+<body>
 
 <header class="site-header">
   <div class="header-brand">
     <a href="index.html">PasteLint</a>
   </div>
 
-  <div class="theme-toggle" aria-label="Theme selector">
-    <button data-theme="light" type="button">Light</button>
-    <button data-theme="dark" type="button">Dark</button>
-    <button data-theme="terminal" type="button">Terminal</button>
-  </div>
+  <nav class="theme-switcher" aria-label="Theme selector">
+    <button class="theme-btn active" type="button" data-theme-choice="light">Light</button>
+    <button class="theme-btn" type="button" data-theme-choice="dark">Dark</button>
+    <button class="theme-btn" type="button" data-theme-choice="terminal">Terminal</button>
+  </nav>
 </header>
 
 <main class="legal-page">
@@ -97,6 +97,6 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
+<script src="js/themes.js"></script>
 </body>
 </html>
