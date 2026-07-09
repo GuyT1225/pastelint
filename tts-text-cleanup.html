@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
-<body class="task-landing-page">
+<body class="task-landing-page tts-cleanup-page">
 
 <header class="site-header">
 
@@ -77,7 +77,7 @@ placeholder="Paste narration, IVR, accessibility, audiobook, or TTS text..."
 
 </div>
 
-<div class="tool-panel action-panel">
+<div class="tool-panel action-panel tool-actions">
 
 <button id="cleanBtn" type="button">
 Clean text
@@ -114,27 +114,51 @@ placeholder="Prepared text will appear here..."
 
 </section>
 
-<section class="tool-panel">
+<section class="landing-info-card tts-check-panel" aria-labelledby="tts-checks-title">
 
-  <h2>
-    Common text to speech problems
+  <p class="eyebrow">Speech cleanup</p>
+
+  <h2 id="tts-checks-title">
+    Speech-readiness checks
   </h2>
 
-  <ul>
+  <p class="tts-check-intro">
+    Small formatting issues can become audible once text is read aloud.
+  </p>
 
-    <li>Broken PDF line breaks interrupt narration</li>
+  <div class="tts-check-list">
 
-    <li>Symbols like @ and & sound awkward</li>
+    <div class="tts-check-item">
+      <strong>Broken line breaks</strong>
+      <span>Rejoins copied PDF or web lines so narration does not pause mid-thought.</span>
+    </div>
 
-    <li>Long sentences reduce listenability</li>
+    <div class="tts-check-item">
+      <strong>Awkward symbols</strong>
+      <span>Flags characters like @, &amp;, stray bullets, and copied symbols that may sound unnatural.</span>
+    </div>
 
-    <li>Copied text includes hidden formatting</li>
+    <div class="tts-check-item">
+      <strong>Long sentences</strong>
+      <span>Surfaces wording that may be harder to follow when heard instead of read.</span>
+    </div>
 
-    <li>IVR scripts need spacing cleanup</li>
+    <div class="tts-check-item">
+      <strong>Hidden formatting</strong>
+      <span>Removes invisible spacing and copy/paste artifacts before narration prep.</span>
+    </div>
 
-    <li>Narration text often needs paragraph rebuilding</li>
+    <div class="tts-check-item">
+      <strong>IVR spacing</strong>
+      <span>Helps pasted menu text keep cleaner pauses, options, and paragraph flow.</span>
+    </div>
 
-  </ul>
+    <div class="tts-check-item">
+      <strong>Next-step SSML</strong>
+      <span>Use the SSML Builder when the script needs pauses, chunks, or speech tags.</span>
+    </div>
+
+  </div>
 
 </section>
 

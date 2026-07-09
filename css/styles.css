@@ -1620,6 +1620,75 @@ body.task-landing-page > .hero > * {
   max-width: 42rem;
 }
 
+.tts-cleanup-page #tool.tool-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.tts-cleanup-page #tool .input-panel {
+  grid-column: 1;
+}
+
+.tts-cleanup-page #tool .tool-actions {
+  grid-column: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.tts-cleanup-page #tool .output-panel {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.tts-cleanup-page #tool textarea {
+  min-height: 18rem;
+}
+
+.tts-cleanup-page .tts-check-panel {
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.tts-cleanup-page .tts-check-intro {
+  max-width: 42rem;
+  margin: 0.35rem 0 1rem;
+  color: var(--muted);
+}
+
+.tts-cleanup-page .tts-check-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--editor-border);
+}
+
+.tts-cleanup-page .tts-check-item {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--editor-border);
+}
+
+.tts-cleanup-page .tts-check-item:nth-child(odd) {
+  padding-right: 1rem;
+}
+
+.tts-cleanup-page .tts-check-item:nth-child(even) {
+  padding-left: 1rem;
+}
+
+.tts-cleanup-page .tts-check-item strong {
+  font-size: 0.95rem;
+}
+
+.tts-cleanup-page .tts-check-item span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 @media (max-width: 700px) {
   body.task-landing-page > main,
   body.task-landing-page > .hero {
@@ -1629,6 +1698,29 @@ body.task-landing-page > .hero > * {
   body.task-landing-page .example-grid,
   body.task-landing-page .landing-info-grid {
     grid-template-columns: 1fr;
+  }
+
+  .tts-cleanup-page .tts-check-list {
+    grid-template-columns: 1fr;
+  }
+
+  .tts-cleanup-page .tts-check-item:nth-child(odd),
+  .tts-cleanup-page .tts-check-item:nth-child(even) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .tts-cleanup-page #tool.tool-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .tts-cleanup-page #tool .input-panel,
+  .tts-cleanup-page #tool .tool-actions,
+  .tts-cleanup-page #tool .output-panel {
+    grid-column: 1;
+    grid-row: auto;
   }
 }
 
