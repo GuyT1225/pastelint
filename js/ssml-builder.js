@@ -79,8 +79,12 @@ function getFooterText() {
   return "";
 }
 
+function removeLegalSymbols(text) {
+  return text.replace(/[®™©℠]/g, "");
+}
+
 function fixSpecialCharacters(text) {
-  return text
+  return removeLegalSymbols(text)
     .replace(/&/g, " and ")
     .replace(/@/g, " at ")
     .replace(/[“”]/g, '"')
@@ -113,8 +117,13 @@ function fixReadBy(text) {
     .replace(/\.\s*\.\s*Read by/gi, ". Read by");
 }
 
+function hasTerminalPunctuation(text) {
+  return /[:;?!.]$/.test(text.trim());
+}
+
 function formatHeading(line) {
-  return line.trim().replace(/[.,]+$/, "") + ".";
+  const heading = removeLegalSymbols(line).trim().replace(/,+$/, "");
+  return hasTerminalPunctuation(heading) ? heading : heading + ".";
 }
 
 function looksLikeHeading(line) {
@@ -298,7 +307,7 @@ function buildFullCleanText() {
   let cleaned = cleanedParts.join("\n\n");
 
   if (sectionTitle) {
-    cleaned = sectionTitle.replace(/[.,]+$/, "") + ".\n\n" + cleaned;
+    cleaned = formatHeading(sectionTitle) + "\n\n" + cleaned;
   }
 
   cleaned += getFooterText();
