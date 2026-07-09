@@ -204,6 +204,73 @@ function applySecondDraftPatternRules(text, options) {
   const changes = [];
   let revised = text;
 
+  const applyRewrite = (pattern, buildReplacement, change) => {
+    const match = revised.match(pattern);
+    if (!match) return;
+
+    const replacement = ensureSecondDraftSentence(
+      buildReplacement(match).trim()
+    );
+
+    revised = revised.replace(pattern, replacement);
+
+    edits.push({
+      before: match[0],
+      after: replacement
+    });
+
+    changes.push(change);
+  };
+
+  applyRewrite(
+    /\bI just wanted to reach out and say that\s+([^.!?]+)([.?!]?)/i,
+    (match) => {
+      const clause = match[1].trim();
+
+      if (options.tone === "direct" || options.length === "shorter") {
+        return makeSecondDraftDirectAction(clause);
+      }
+
+      return capitalizeSecondDraftSentence(clause);
+    },
+    "Rewrote a filler opening into a clearer sentence"
+  );
+
+  applyRewrite(
+    /\bI wanted to mention that\s+([^.!?]+)([.?!]?)/i,
+    (match) => capitalizeSecondDraftSentence(match[1].trim()),
+    "Removed an unnecessary setup phrase"
+  );
+
+  if (options.tone === "direct") {
+    applyRewrite(
+      /\bI think there are a few areas where we can\s+([^.!?]+)([.?!]?)/i,
+      (match) => {
+        const action = match[1].trim();
+        const improveMatch = action.match(/^improve\s+(.+)$/i);
+
+        if (improveMatch) {
+          return `We can improve a few areas of ${improveMatch[1].trim()}`;
+        }
+
+        return `We can ${action}`;
+      },
+      "Made a hesitant sentence more direct"
+    );
+
+    applyRewrite(
+      /\bIt may be helpful to\s+([^.!?]+)([.?!]?)/i,
+      (match) => capitalizeSecondDraftSentence(match[1].trim()),
+      "Made a suggested action more direct"
+    );
+
+    applyRewrite(
+      /\bI think we should probably\s+([^.!?]+)([.?!]?)/i,
+      (match) => capitalizeSecondDraftSentence(match[1].trim()),
+      "Removed hesitation from the recommendation"
+    );
+  }
+
   const outreachPattern =
     /\bI just wanted to reach out and let you know that I think it would probably be helpful to ([^.?!]+)([.?!]?)/i;
 
@@ -276,8 +343,6 @@ function applySecondDraftPhraseRules(text, tone) {
     ["at this point in time", "now", "Simplified time phrasing"],
     ["currently in the process of", "currently", "Simplified process wording"],
     ["in the process of", "", "Removed wordy process phrasing"],
-    ["just wanted to quickly reach out and", "", "Removed filler opening"],
-    ["just wanted to", "", "Removed filler wording"],
     ["quickly reach out", "reach out", "Simplified wording"],
     ["let you know that", "", "Removed unnecessary setup phrase"],
     ["I think it would probably be helpful to", "", "Removed hesitant phrasing"],
@@ -430,6 +495,17 @@ function cleanupSecondDraftSentenceFlow(text) {
   return String(text)
     .replace(/\band It\b/g, ". It")
     .replace(/\band it\b/g, ". It")
+    .replace(/,\s*\./g, ".")
+    .replace(/\.\s*,/g, ".")
+    .replace(/([.!?])\1+/g, "$1")
+    .replace(
+      /,\s+(and|but)\s+(Also|The|This|That|It|There|We|Make|Review|Send)\b/g,
+      (match, connector, word) => `, ${connector} ${word.toLowerCase()}`
+    )
+    .replace(
+      /\b(Also),\s+(The|This|That|It|There|We)\b/g,
+      (match, opener, word) => `${opener}, ${word.toLowerCase()}`
+    )
     .replace(/\s+\./g, ".")
     .replace(/\.\./g, ".")
     .replace(/\s{2,}/g, " ")
@@ -442,6 +518,9 @@ function normalizeSecondDraftText(text) {
     .replace(/\s+([,.;!?])/g, "$1")
     .replace(/\s+\./g, ".")
     .replace(/\s+,/g, ",")
+    .replace(/,\s*\./g, ".")
+    .replace(/\.\s*,/g, ".")
+    .replace(/([.!?])\1+/g, "$1")
     .replace(/,\s*,/g, ",")
     .replace(/\.\s*,/g, ".")
     .replace(/\n{3,}/g, "\n\n")
@@ -449,6 +528,43 @@ function normalizeSecondDraftText(text) {
       return start + letter.toUpperCase();
     })
     .trim();
+}
+
+function ensureSecondDraftSentence(text) {
+  const clean = cleanupSecondDraftSentenceFlow(text);
+
+  if (!clean) return "";
+  if (/[.!?]$/.test(clean)) return clean;
+
+  return `${clean}.`;
+}
+
+function capitalizeSecondDraftSentence(text) {
+  const clean = String(text || "").trim();
+
+  if (!clean) return "";
+
+  return clean.charAt(0).toUpperCase() + clean.slice(1);
+}
+
+function makeSecondDraftDirectAction(clause) {
+  const clean = String(clause || "").trim();
+
+  const reviewMatch = clean.match(/^we should(?: probably)? take a look at\s+(.+)$/i);
+  if (reviewMatch) {
+    return `Review ${reviewMatch[1].trim()}`;
+  }
+
+  const sendMatch = clean.match(/^we should(?: probably)? send\s+(.+)$/i);
+  if (sendMatch) {
+    return `Send ${sendMatch[1].trim()}`;
+  }
+
+  return capitalizeSecondDraftSentence(
+    clean
+      .replace(/^we should(?: probably)?\s+/i, "")
+      .replace(/^we can\s+/i, "")
+  );
 }
 
 /* -----------------------------
