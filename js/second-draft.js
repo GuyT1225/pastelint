@@ -674,9 +674,14 @@ function renderSecondDraftEditMap(els, edits) {
     ? edits.map((edit) => {
         return `
           <div class="edit-item">
-            <span class="edit-before">${escapeSecondDraftHTML(edit.before)}</span>
-            <span class="edit-arrow">→</span>
-            <span class="edit-after">${escapeSecondDraftHTML(edit.after)}</span>
+            <div class="edit-proof-block">
+              <span class="edit-label">Before</span>
+              <p class="edit-before">${escapeSecondDraftHTML(edit.before)}</p>
+            </div>
+            <div class="edit-proof-block">
+              <span class="edit-label">After</span>
+              <p class="edit-after">${escapeSecondDraftHTML(edit.after)}</p>
+            </div>
           </div>
         `;
       }).join("")

@@ -1121,6 +1121,51 @@ html[data-theme="terminal"] .output-panel::before {
   padding: clamp(1rem, 2vw, 1.35rem);
 }
 
+.second-draft-page #editMapList {
+  display: grid;
+  gap: 1rem;
+}
+
+.second-draft-page .edit-item {
+  display: grid;
+  gap: 0.75rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid color-mix(in srgb, var(--editor-border) 70%, transparent);
+}
+
+.second-draft-page .edit-item:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.second-draft-page .edit-proof-block {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.second-draft-page .edit-label {
+  color: var(--success);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.second-draft-page .edit-before,
+.second-draft-page .edit-after {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.second-draft-page .edit-before {
+  color: var(--muted);
+}
+
+.second-draft-page .edit-after {
+  color: var(--text);
+  font-weight: 650;
+}
+
 @media (min-width: 901px) {
   .second-draft-page {
     width: min(100% - 2rem, 1120px);
