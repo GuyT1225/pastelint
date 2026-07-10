@@ -1,8 +1,18 @@
 # PasteLint
 
-**Plain text that works everywhere.**
+**Prepare text before it leaves your browser.**
 
-PasteLint is a privacy-first browser-based text cleanup toolkit designed to help clean, normalize, and prepare messy copied text before reuse.
+PasteLint is a privacy-first browser-based text preparation suite for cleaning, revising, and preparing messy copied text before reuse.
+
+The core workflow is:
+
+```text
+Clean → Rewrite → Prepare
+```
+
+* Clean removes paste artifacts, spacing issues, hidden characters, and formatting noise.
+* Rewrite uses SecondDraft for clearer local revisions while preserving meaning.
+* Prepare uses SSML Builder and task pages for speech, TTS, IVR, publishing, and document workflows.
 
 PasteLint helps repair text copied from:
 
@@ -55,7 +65,7 @@ PasteLint is intentionally designed as:
 * accessibility-aware
 * utility-focused
 
-The goal is not to create an “AI humanizer” or detector bypass tool.
+The goal is not to conceal authorship or evade review.
 
 The goal is to:
 
@@ -113,6 +123,20 @@ The system also includes:
 
 ---
 
+## Clean ChatGPT Output
+
+Cleans ChatGPT text before sending, publishing, revising, or reusing it.
+
+Focus areas include:
+
+* filler phrase cleanup
+* formatting noise removal
+* readability checks
+* browser-only copy and cleanup flow
+* handoff into SecondDraft
+
+---
+
 ## SecondDraft
 
 SecondDraft improves readability, tone, rhythm, and flow while preserving the original meaning.
@@ -133,7 +157,7 @@ Current and planned areas of focus include:
 SecondDraft is intentionally designed to avoid:
 
 * synonym spinning
-* detector bypass behavior
+* authorship evasion
 * meaning distortion
 * over-polished AI tone
 
@@ -161,6 +185,19 @@ Current features include:
 * readable spoken formatting
 
 The builder was originally developed to support real-world public library IVR systems and accessibility-focused narration workflows.
+
+---
+
+## Task Cleanup Pages
+
+PasteLint also includes focused task pages:
+
+* PDF paste cleanup - repair copied PDF text without uploading files.
+* Hidden character cleanup - remove zero-width characters, hard spaces, and invisible formatting noise.
+* TTS text cleanup - prepare text before read-aloud, narration, or speech tools.
+* IVR text prep - clean scripts, contact information, and menu wording before final audio.
+* Clean text message - tidy short messages before sending.
+* Text Readiness Framework - explains the Clean → Rewrite → Prepare model.
 
 ---
 
@@ -221,6 +258,20 @@ browser-native processing
 ```
 
 The overall goal is stable, understandable, reusable text infrastructure shared across all tools.
+
+---
+
+# Regression Checks
+
+PasteLint includes a no-dependency regression harness for recent cleanup, rewrite, and SSML behavior.
+
+Run:
+
+```text
+node tests/regression.js
+```
+
+The checks cover hidden-character spacing, PDF paste reflow, SecondDraft rewrite seams, SSML contact cleanup, and approved-text SSML generation.
 
 ---
 
