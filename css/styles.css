@@ -1696,6 +1696,37 @@ body.task-landing-page > .hero > * {
   line-height: 1.55;
 }
 
+.hidden-characters-page .hidden-check-panel {
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.hidden-characters-page .hidden-check-intro {
+  max-width: 42rem;
+  margin: 0.35rem 0 1rem;
+  color: var(--muted);
+}
+
+.hidden-characters-page .hidden-check-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1.25rem;
+}
+
+.hidden-characters-page .hidden-check-item {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.35rem 0;
+}
+
+.hidden-characters-page .hidden-check-item strong {
+  font-size: 0.95rem;
+}
+
+.hidden-characters-page .hidden-check-item span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .tts-cleanup-page #tool.tool-shell {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -1829,6 +1860,10 @@ body.task-landing-page > .hero > * {
   .pdf-paste-page .pdf-check-item:nth-child(even) {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .hidden-characters-page .hidden-check-list {
+    grid-template-columns: 1fr;
   }
 
   .tts-cleanup-page .tts-check-list {
