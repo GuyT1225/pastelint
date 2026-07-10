@@ -1202,6 +1202,7 @@ html[data-theme="terminal"] .output-panel::before {
 .clean-chatgpt-page {
   position: relative;
   isolation: isolate;
+  overflow-x: hidden;
 }
 
 /* Subtle editor grid behind hero only */
@@ -1250,6 +1251,7 @@ html[data-theme="terminal"] .output-panel::before {
 .clean-chatgpt-page .hero-proof-layout {
   display: block;
   max-width: none;
+  min-width: 0;
 }
 
 /* Hero should match SecondDraft rhythm */
@@ -1283,12 +1285,16 @@ html[data-theme="terminal"] .output-panel::before {
 .clean-chatgpt-page .tool-shell {
   display: block;
   max-width: none;
+  min-width: 0;
 }
 
 /* Remove outer card framing from working areas */
 .clean-chatgpt-page .input-panel,
 .clean-chatgpt-page .output-panel,
 .clean-chatgpt-page .action-panel {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -1298,6 +1304,8 @@ html[data-theme="terminal"] .output-panel::before {
 /* Keep terminal badges, but remove lined textarea texture */
 .clean-chatgpt-page #input,
 .clean-chatgpt-page #output {
+  box-sizing: border-box;
+  max-width: 100%;
   width: 100%;
   background: var(--editor-bg);
   background-image: none !important;
@@ -1335,11 +1343,25 @@ html[data-theme="terminal"] .clean-chatgpt-page #output {
   margin-bottom: 1rem;
 }
 
+.clean-chatgpt-page .tool-note {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
 .clean-chatgpt-page .tool-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
   align-items: center;
+  max-width: 100%;
+}
+
+.clean-chatgpt-page .tool-actions a,
+.clean-chatgpt-page .tool-actions button {
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 /* Keep the SecondDraft link button-like */

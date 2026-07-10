@@ -66,10 +66,13 @@
 
         <section class="tool-panel action-panel" aria-label="Clean ChatGPT output actions">
           <p id="toolStatus" class="tool-status" role="status" aria-live="polite" hidden></p>
+          <p class="tool-note">
+            Cleans common ChatGPT artifacts: inflated wording, rough spacing, formatting noise, and overused phrasing.
+          </p>
 
           <div class="tool-actions">
             <button id="cleanBtn" class="primary-btn" type="button">Clean text</button>
-            <button id="copyBtn" class="secondary-btn" type="button">Copy output</button>
+            <button id="copyBtn" class="secondary-btn" type="button">Copy clean text</button>
             <button id="clearBtn" class="clear-btn" type="button">Clear</button>
 
             <a id="openSecondDraft" class="secondary-link" href="second-draft.html">
