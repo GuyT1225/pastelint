@@ -888,7 +888,7 @@ function getCleanResult(raw, cleanMode, reviewMode = "paragraph") {
     result = normalizeCleanResult(cleanText(raw, reviewMode));
   }
 
-  return postProcessCleanResult(raw, result, reviewMode);
+  return postProcessCleanResult(raw, result, reviewMode, cleanMode);
 }
 
 function normalizeCleanResult(result) {
@@ -907,9 +907,12 @@ function normalizeCleanResult(result) {
   };
 }
 
-function postProcessCleanResult(raw, result, reviewMode = "paragraph") {
+function postProcessCleanResult(raw, result, reviewMode = "paragraph", cleanMode = "standard") {
   const before = result.text;
-  const after = normalizeSpacing(before, reviewMode);
+  const after =
+    cleanMode === "pdf" && reviewMode === "paragraph"
+      ? normalizePdfPasteSpacing(before)
+      : normalizeSpacing(before, reviewMode);
 
   if (after !== before) {
     result.text = after;
@@ -1077,6 +1080,83 @@ function normalizeSpacing(text, mode = "paragraph") {
     .join("\n\n")
     .replace(/[ ]{2,}/g, " ")
     .trim();
+}
+
+function normalizePdfPasteSpacing(text) {
+  const source = String(text)
+    .replace(/\u00A0/g, " ")
+    .replace(/\r/g, "")
+    .replace(/\t/g, " ")
+    .replace(/[ ]{2,}/g, " ")
+    .trim();
+
+  if (!source) return "";
+
+  return source
+    .split(/\n\s*\n+/)
+    .map(block => normalizePdfPasteBlock(block))
+    .filter(Boolean)
+    .join("\n\n")
+    .trim();
+}
+
+function normalizePdfPasteBlock(block) {
+  const lines = String(block)
+    .split("\n")
+    .map(line => line.replace(/[ ]{2,}/g, " ").trim())
+    .filter(Boolean);
+
+  if (!lines.length) return "";
+
+  const output = [];
+  let current = [];
+
+  const flushCurrent = () => {
+    if (!current.length) return;
+    output.push(current.join(" ").replace(/[ ]{2,}/g, " ").trim());
+    current = [];
+  };
+
+  lines.forEach((line, index) => {
+    if (isPdfListLine(line)) {
+      flushCurrent();
+      output.push(line);
+      return;
+    }
+
+    if (
+      index === 0 &&
+      lines.length > 1 &&
+      isPdfHeadingLine(line)
+    ) {
+      flushCurrent();
+      output.push(line);
+      return;
+    }
+
+    current.push(line);
+  });
+
+  flushCurrent();
+
+  return output.join("\n");
+}
+
+function isPdfListLine(line) {
+  return /^(\s*(?:[\u2022\u2023\u25E6\u2043\u2219*]|\-|\u2013|\u2014)\s+|\s*\d+[\.)]\s+)/.test(line);
+}
+
+function isPdfHeadingLine(line) {
+  const text = String(line || "").trim();
+  const words = text.split(/\s+/).filter(Boolean);
+
+  if (!text || words.length > 10 || text.length > 80) return false;
+  if (/[.!?:;]["')\]]?$/.test(text)) return false;
+
+  return (
+    /^(Section|Chapter|Part|Article|Table|Figure|Appendix|Results|Summary|Abstract|Introduction|Conclusion)\b/i.test(text) ||
+    /^\d+(?:\.\d+)*\s+\S+/.test(text)
+  );
 }
 
 /* -----------------------------
