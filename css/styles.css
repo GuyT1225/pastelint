@@ -1970,6 +1970,20 @@ body.task-landing-page > .hero > * {
 ----------------------------- */
 
 @media (max-width: 900px) {
+  body:not(.has-clean-result) .pastelint-clean-page .inspection-chapter {
+    display: none;
+  }
+
+  .pastelint-clean-page {
+    grid-template-columns: 1fr;
+  }
+
+  .pastelint-clean-page > * {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: none;
+  }
+
   .site-header {
     grid-template-columns: 1fr;
     justify-items: start;
@@ -2044,6 +2058,18 @@ body.task-landing-page > .hero > * {
 .second-draft-page .revision-review-grid {
   grid-template-columns: 1fr;
 }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .page-shell.workflow-grid.pastelint-clean-page {
+    grid-template-columns: 1fr;
+  }
+
+  .pastelint-clean-page > * {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: none;
+  }
 }
 
 @media (max-width: 640px) {

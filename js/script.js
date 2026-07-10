@@ -781,7 +781,11 @@ function setToolStatus(els, message) {
 }
 
 function setPageResultState(active) {
-  if (!document.body.classList.contains("pdf-paste-page")) return;
+  const supportsResultState =
+    document.body.classList.contains("pdf-paste-page") ||
+    Boolean(document.querySelector(".pastelint-clean-page"));
+
+  if (!supportsResultState) return;
 
   document.body.classList.toggle("has-clean-result", Boolean(active));
 }
