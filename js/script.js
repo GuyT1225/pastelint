@@ -909,9 +909,13 @@ function normalizeCleanResult(result) {
 
 function postProcessCleanResult(raw, result, reviewMode = "paragraph", cleanMode = "standard") {
   const before = result.text;
+  const shouldPreserveStructure =
+    document.body.classList.contains("hidden-characters-page");
   const after =
     cleanMode === "pdf" && reviewMode === "paragraph"
       ? normalizePdfPasteSpacing(before)
+      : shouldPreserveStructure
+        ? normalizeStructurePreservingSpacing(before)
       : normalizeSpacing(before, reviewMode);
 
   if (after !== before) {
@@ -1079,6 +1083,18 @@ function normalizeSpacing(text, mode = "paragraph") {
   return rebuilt
     .join("\n\n")
     .replace(/[ ]{2,}/g, " ")
+    .trim();
+}
+
+function normalizeStructurePreservingSpacing(text) {
+  return String(text)
+    .replace(/\u00A0/g, " ")
+    .replace(/\r/g, "")
+    .replace(/\t/g, " ")
+    .split("\n")
+    .map(line => line.replace(/[ ]{2,}/g, " ").trim())
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
 

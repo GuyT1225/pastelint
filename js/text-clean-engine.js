@@ -109,11 +109,58 @@ function fixRepeatedWords(text, changes) {
 
   return after;
 }
+  function getTokenFragmentBefore(text, index) {
+    const match = String(text).slice(0, index).match(/[A-Za-z]+$/);
+    return match ? match[0] : "";
+  }
+
+  function getTokenFragmentAfter(text, index) {
+    const match = String(text).slice(index + 1).match(/^[A-Za-z]+/);
+    return match ? match[0] : "";
+  }
+
+  function isUrlOrEmailBoundary(left, right) {
+    return /[@:\/._-]/.test(left) || /[@:\/._-]/.test(right);
+  }
+
+  function isPunctuationBoundary(left, right) {
+    return /[,.!?;:()[\]{}"'`]/.test(left) || /[,.!?;:()[\]{}"'`]/.test(right);
+  }
+
+  function shouldReplaceZeroWidthWithSpace(text, index) {
+    const left = text.charAt(index - 1);
+    const right = text.charAt(index + 1);
+
+    if (!left || !right) return false;
+    if (isUrlOrEmailBoundary(left, right) || isPunctuationBoundary(left, right)) {
+      return false;
+    }
+
+    if (!/[A-Za-z]/.test(left) || !/[A-Za-z]/.test(right)) {
+      return false;
+    }
+
+    const before = getTokenFragmentBefore(text, index);
+    const after = getTokenFragmentAfter(text, index);
+
+    if (!before || !after) return false;
+    if (before.length <= 3 || after.length <= 3) return false;
+
+    return true;
+  }
+
+  function normalizeHiddenCharacterSpacing(text) {
+    return String(text)
+      .replace(/\u00A0/g, " ")
+      .replace(/\uFEFF/g, "")
+      .replace(/[\u200B-\u200D]/g, function (match, offset, source) {
+        return shouldReplaceZeroWidthWithSpace(source, offset) ? " " : "";
+      });
+  }
+
   function removeHiddenCharacters(text, changes) {
     const before = text;
-    const after = text
-      .replace(/[\u200B-\u200D\uFEFF]/g, "")
-      .replace(/\u00A0/g, " ");
+    const after = normalizeHiddenCharacterSpacing(text);
 
     addChange(
       changes,
@@ -161,6 +208,24 @@ function fixRepeatedWords(text, changes) {
     return after;
   }
 
+function isLikelyDomainOrEmailPeriod(text, offset) {
+  const source = String(text || "");
+  const before = source.slice(Math.max(0, offset - 80), offset);
+  const after = source.slice(offset + 1, Math.min(source.length, offset + 80));
+  const leftToken = before.match(/[A-Za-z0-9@:_/-]+$/)?.[0] || "";
+  const rightToken = after.match(/^[A-Za-z0-9_/-]+/)?.[0] || "";
+
+  if (!leftToken || !rightToken) return false;
+
+  const candidate = leftToken + "." + rightToken;
+
+  return (
+    candidate.includes("@") ||
+    /^https?:\/\//i.test(candidate) ||
+    /\b[A-Za-z0-9-]+\.(?:com|org|net|edu|gov|mil|io|co|us|info|biz|dev|app|library)\b/i.test(candidate)
+  );
+}
+
  function normalizePunctuationSpacing(text, changes) {
   const before = text;
   let after = text;
@@ -179,6 +244,15 @@ function fixRepeatedWords(text, changes) {
     // Preserve time-like and number-like patterns:
     // 10:00, 3.14, 1:2, etc.
     if ((mark === ":" || mark === ".") && /\d/.test(previous) && /\d/.test(next)) {
+      return match;
+    }
+
+    if (
+      mark === "." &&
+      /[A-Za-z0-9]/.test(previous) &&
+      /[A-Za-z0-9]/.test(next) &&
+      isLikelyDomainOrEmailPeriod(fullText, offset)
+    ) {
       return match;
     }
 
