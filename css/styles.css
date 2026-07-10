@@ -1863,6 +1863,41 @@ body.task-landing-page > .hero > * {
   line-height: 1.55;
 }
 
+.ivr-prep-page .ivr-check-panel {
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.ivr-prep-page .ivr-check-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--editor-border);
+}
+
+.ivr-prep-page .ivr-check-item {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--editor-border);
+}
+
+.ivr-prep-page .ivr-check-item:nth-child(odd) {
+  padding-right: 1rem;
+}
+
+.ivr-prep-page .ivr-check-item:nth-child(even) {
+  padding-left: 1rem;
+}
+
+.ivr-prep-page .ivr-check-item strong {
+  font-size: 0.95rem;
+}
+
+.ivr-prep-page .ivr-check-item span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 @media (max-width: 700px) {
   body.task-landing-page > main,
   body.task-landing-page > .hero {
@@ -1894,6 +1929,16 @@ body.task-landing-page > .hero > * {
 
   .tts-cleanup-page .tts-check-item:nth-child(odd),
   .tts-cleanup-page .tts-check-item:nth-child(even) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .ivr-prep-page .ivr-check-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ivr-prep-page .ivr-check-item:nth-child(odd),
+  .ivr-prep-page .ivr-check-item:nth-child(even) {
     padding-left: 0;
     padding-right: 0;
   }

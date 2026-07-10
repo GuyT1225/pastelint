@@ -19,7 +19,7 @@ content="Prepare text for IVR systems and phone scripts. Clean formatting, spaci
 
 </head>
 
-<body class="task-landing-page">
+<body class="task-landing-page ivr-prep-page">
 
 <header class="site-header">
 
@@ -78,29 +78,6 @@ and voice menus.
 
 </section>
 
-<section class="tool-panel">
-
-<h2>
-Common IVR cleanup problems
-</h2>
-
-<ul>
-
-<li>Symbols read incorrectly</li>
-
-<li>Broken PDF spacing</li>
-
-<li>Phone prompts copied from documents</li>
-
-<li>Long sentences hurt playback</li>
-
-<li>Menu navigation becomes difficult to hear</li>
-
-<li>TTS pronunciation issues</li>
-
-</ul>
-
-</section>
 <section class="tool-shell" id="tool">
 
 <div class="tool-panel input-panel">
@@ -157,12 +134,57 @@ placeholder="Prepared text will appear here..."
 </div>
 
 </section>
+
+<section class="insight-panel ivr-check-panel" aria-labelledby="ivr-check-heading">
+
+<p class="section-kicker">IVR script prep</p>
+
+<h2 id="ivr-check-heading">
+IVR script prep checks
+</h2>
+
+<div class="ivr-check-grid">
+
+<div class="ivr-check-item">
+<strong>Menu option flow</strong>
+<span>Helps pasted option text keep cleaner spacing and readable structure.</span>
+</div>
+
+<div class="ivr-check-item">
+<strong>Contact information</strong>
+<span>Makes emails, domains, phone-style text, and URLs easier to review before audio.</span>
+</div>
+
+<div class="ivr-check-item">
+<strong>Read-aloud clarity</strong>
+<span>Flags wording or formatting that may sound awkward when spoken.</span>
+</div>
+
+<div class="ivr-check-item">
+<strong>Prompt spacing</strong>
+<span>Cleans copied line breaks and spacing so prompts do not run together.</span>
+</div>
+
+<div class="ivr-check-item">
+<strong>Dates and numbers</strong>
+<span>Helps prepare calendar-style text, DB numbers, and detail-heavy script copy.</span>
+</div>
+
+<div class="ivr-check-item">
+<strong>Next-step SSML</strong>
+<span>Use SSML Builder next when the cleaned script needs pauses, chunks, or speech tags.</span>
+</div>
+
+</div>
+
+</section>
+
 <section class="landing-section">
 
 <div class="section-heading">
 
 <h2>
-Example IVR cleanup
+Example IVR cleanup: prompt spacing
 </h2>
 
 </div>
@@ -179,7 +201,9 @@ Before
 
 <p>
 
-Meet me @ 10:00 — Books & Movies
+Press 1 for hours@library.org     Press 2 for upcoming events<br />
+<br />
+Visit rhpl.org for more information
 
 </p>
 
@@ -193,7 +217,10 @@ After
 
 <p>
 
-Meet me at 10:00 — Books and Movies
+Press 1 for hours@library.org<br />
+Press 2 for upcoming events<br />
+<br />
+Visit rhpl.org for more information
 
 </p>
 
