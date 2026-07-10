@@ -31,6 +31,9 @@ function createElementStub(value = "") {
     addEventListener() {},
     appendChild() {},
     removeChild() {},
+    querySelectorAll() {
+      return [];
+    },
     click() {},
     select() {},
     scrollIntoView() {},
@@ -174,7 +177,13 @@ function loadSsmlContext(elements = {}) {
     cleanWarning: createElementStub(),
     ssmlWarning: createElementStub(),
     cleanGenerateBtn: createElementStub(),
-    autoChunkBtn: createElementStub()
+    autoChunkBtn: createElementStub(),
+    sectionTitle: createElementStub(),
+    footerType: createElementStub("none"),
+    previewMode: createElementStub("plain"),
+    chunksContainer: createElementStub(),
+    chunkSummary: createElementStub(),
+    chunkStart: createElementStub()
   };
 
   const context = createContext({
@@ -317,13 +326,39 @@ function testSsmlCleanup() {
   assert.ok(
     context.cleanText("otbs@rhpl.org").includes("O T B S at R H P L dot org")
   );
+  assert.ok(
+    context.cleanText("OTBS@RHPL.org").includes("O T B S at R H P L dot org.")
+  );
+  assert.ok(
+    context.cleanText("help@example.org").includes("help at example dot org.")
+  );
   assert.ok(context.cleanText("rhpl.org").includes("R H P L dot org"));
   assert.ok(
     context.cleanText("support@library.org").includes("support at library dot org")
   );
+  assert.ok(
+    context.cleanText("otbs.rhpl.org").includes("O T B S dot R H P L dot org.")
+  );
+  assert.ok(
+    context.cleanText("www.example.org").includes("W W W dot example dot org.")
+  );
   assert.notStrictEqual(context.formatHeading("In this issue:"), "In this issue:.");
+  assert.notStrictEqual(context.formatHeading("Need help?"), "Need help?.");
+  assert.notStrictEqual(context.formatHeading("Important update!"), "Important update!.");
+  assert.notStrictEqual(context.formatHeading("Events;"), "Events;.");
   assert.ok(!context.cleanText("Leader Dogs for the Blind\u00AE").includes("\u00AE"));
+  assert.strictEqual(context.cleanText("Program\u2122 update"), "Program update.");
+  assert.strictEqual(context.cleanText("Copyright \u00A9 2026"), "Copyright 2026.");
+  assert.strictEqual(context.cleanText("Service mark\u2120 notice"), "Service mark notice.");
   assert.ok(context.cleanText("DB134728").includes("DB 1-3-4-7-2-8"));
+  assert.ok(context.cleanText("DB123456").includes("DB 1-2-3-4-5-6"));
+  assert.ok(context.cleanText("DB 1-2-3-4-5-6").includes("DB 1-2-3-4-5-6"));
+  assert.ok(!context.cleanText("DB 1-2-3-4-5-6").includes("DB 1---2"));
+  assert.strictEqual(context.cleanText("version 1.2.3"), "version 1.2.3.");
+  assert.strictEqual(
+    context.cleanText("file name report.final.doc"),
+    "file name report.final.doc."
+  );
 }
 
 function testSsmlGenerateFromCleanedText() {
@@ -354,13 +389,124 @@ function testSsmlGenerateFromCleanedText() {
   assert.ok(!output.includes("Raw text that should not be used."));
 }
 
+function testSsmlIvrMenuCleanup() {
+  const context = loadSsmlContext();
+  const input = [
+    "Press 1 for hours@library.org",
+    "Press 2 for upcoming events",
+    "Visit rhpl.org for more information"
+  ].join("\n");
+
+  assert.strictEqual(
+    context.cleanText(input),
+    [
+      "Press 1 for hours at library dot org",
+      "Press 2 for upcoming events",
+      "Visit R H P L dot org. For more information."
+    ].join("\n")
+  );
+}
+
+function testSsmlXmlEscaping() {
+  const elements = {
+    input: createElementStub("Raw text that should not be used."),
+    cleanOutput: createElementStub("A & B < C > D"),
+    ssmlOutput: createElementStub(),
+    ssmlStatus: createElementStub()
+  };
+
+  const context = loadSsmlContext(elements);
+  context.generateSsmlFromCleanedText();
+
+  const output = elements.ssmlOutput.value;
+  const body = output.replace(/<\/?speak>|<\/?prosody[^>]*>/g, "");
+
+  assert.ok(output.includes("A &amp; B &lt; C &gt; D"));
+  assert.ok(!body.includes("A & B < C > D"));
+}
+
+function testSsmlApprovedCleanedTextPreservation() {
+  const approvedText = [
+    "Approved wording stays exact.",
+    "",
+    "Call us at 2-4-8, 6-5-0, 7-1-5-0.",
+    "",
+    "Visit O T B S dot R H P L dot org."
+  ].join("\n");
+
+  const elements = {
+    input: createElementStub("DB123456 should not be cleaned from raw input."),
+    cleanOutput: createElementStub(approvedText),
+    ssmlOutput: createElementStub(),
+    ssmlStatus: createElementStub()
+  };
+
+  const context = loadSsmlContext(elements);
+  context.generateSsmlFromCleanedText();
+
+  const output = elements.ssmlOutput.value;
+  assert.ok(output.includes(approvedText));
+  assert.ok(!output.includes("DB 1-2-3-4-5-6"));
+  assert.ok(!output.includes("DB123456 should not be cleaned from raw input."));
+}
+
+function testSsmlChunkingSafety() {
+  const context = loadSsmlContext();
+  const shortText = [
+    "First short IVR prompt.",
+    "",
+    "Second short IVR prompt."
+  ].join("\n");
+  const nearLimitText = "This IVR prompt stays inside one chunk. ".repeat(70).trim();
+
+  const shortChunks = context.splitIntoBookAwareChunks(shortText, 3000);
+  const nearLimitChunks = context.splitIntoBookAwareChunks(nearLimitText, 3000);
+
+  assert.strictEqual(
+    JSON.stringify(shortChunks),
+    JSON.stringify([
+      "First short IVR prompt.",
+      "Second short IVR prompt."
+    ])
+  );
+  assert.strictEqual(nearLimitChunks.length, 1);
+  assert.ok(nearLimitChunks.every((chunk) => chunk.trim()));
+}
+
+function testSsmlEmptyActionStatuses() {
+  const elements = {
+    input: createElementStub(""),
+    cleanOutput: createElementStub(""),
+    ssmlOutput: createElementStub(""),
+    ssmlStatus: createElementStub(),
+    chunksContainer: createElementStub(),
+    chunkSummary: createElementStub()
+  };
+
+  const context = loadSsmlContext(elements);
+
+  context.generateSsmlOnly();
+  assert.strictEqual(elements.ssmlStatus.textContent, "Nothing to generate yet.");
+
+  context.speakTextById("cleanOutput");
+  assert.strictEqual(elements.ssmlStatus.textContent, "Nothing to read yet.");
+
+  context.exportChunksZip();
+  assert.strictEqual(elements.ssmlStatus.textContent, "Nothing to export yet.");
+}
+
 function main() {
   runTest("Hidden characters", testCleanEngineHiddenCharacters);
   runTest("Hidden-character page structure", testScriptHiddenPageStructure);
   runTest("PDF paste reflow", testScriptPdfPostProcessing);
   runTest("SecondDraft rewrites", testSecondDraftRewrites);
   runTest("SSML cleanup", testSsmlCleanup);
+  runTest("SSML IVR menu cleanup", testSsmlIvrMenuCleanup);
+  runTest("SSML XML escaping", testSsmlXmlEscaping);
   runTest("SSML generate from cleaned text", testSsmlGenerateFromCleanedText);
+  runTest("SSML approved cleaned text preservation", testSsmlApprovedCleanedTextPreservation);
+  runTest("SSML chunking safety", testSsmlChunkingSafety);
+  runTest("SSML empty action statuses", testSsmlEmptyActionStatuses);
 
   console.log("All regression checks passed.");
 }
