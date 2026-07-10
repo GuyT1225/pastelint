@@ -780,9 +780,18 @@ function setToolStatus(els, message) {
   els.toolStatus.hidden = !message;
 }
 
+function setPageResultState(active) {
+  if (!document.body.classList.contains("pdf-paste-page")) return;
+
+  document.body.classList.toggle("has-clean-result", Boolean(active));
+}
+
 function handleClean(els) {
   const raw = getInputText(els);
-  if (!raw) return;
+  if (!raw) {
+    setPageResultState(false);
+    return;
+  }
 
   const cleanMode = getCleanMode(els);
   const reviewMode = getReviewMode(els);
@@ -794,6 +803,7 @@ function handleClean(els) {
   );
 
   setOutput(els, result.text);
+  setPageResultState(Boolean(result.text));
 
   if (els.postCleanActions) {
     els.postCleanActions.hidden = false;
@@ -1326,6 +1336,7 @@ function copyOutput(els) {
 function clearAll(els) {
   if (els.input) els.input.value = "";
   if (els.output) els.output.value = "";
+  setPageResultState(false);
 
   updateCounters(els);
   renderEmptyIssues(els);

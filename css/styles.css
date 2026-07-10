@@ -1620,6 +1620,51 @@ body.task-landing-page > .hero > * {
   max-width: 42rem;
 }
 
+.pdf-paste-page:not(.has-clean-result) .tool-shell > .insight-panel {
+  display: none;
+}
+
+.pdf-paste-page .pdf-check-panel {
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.pdf-paste-page .pdf-check-intro {
+  max-width: 42rem;
+  margin: 0.35rem 0 1rem;
+  color: var(--muted);
+}
+
+.pdf-paste-page .pdf-check-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--editor-border);
+}
+
+.pdf-paste-page .pdf-check-item {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--editor-border);
+}
+
+.pdf-paste-page .pdf-check-item:nth-child(odd) {
+  padding-right: 1rem;
+}
+
+.pdf-paste-page .pdf-check-item:nth-child(even) {
+  padding-left: 1rem;
+}
+
+.pdf-paste-page .pdf-check-item strong {
+  font-size: 0.95rem;
+}
+
+.pdf-paste-page .pdf-check-item span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .tts-cleanup-page #tool.tool-shell {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -1743,6 +1788,16 @@ body.task-landing-page > .hero > * {
   body.task-landing-page .example-grid,
   body.task-landing-page .landing-info-grid {
     grid-template-columns: 1fr;
+  }
+
+  .pdf-paste-page .pdf-check-list {
+    grid-template-columns: 1fr;
+  }
+
+  .pdf-paste-page .pdf-check-item:nth-child(odd),
+  .pdf-paste-page .pdf-check-item:nth-child(even) {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .tts-cleanup-page .tts-check-list {

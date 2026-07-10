@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
-<body class="task-landing-page">
+<body class="task-landing-page pdf-paste-page">
   <header class="site-header">
     <a class="brand-link" href="index.html">PasteLint</a>
 
@@ -37,21 +37,6 @@
     Remove broken line breaks, spacing issues, and messy formatting from PDF text before reusing it in email, documents, IVR scripts, websites, or text to speech tools.
   </p>
 </section>
-<section class="tool-panel">
-
-  <h2>Common PDF copy problems</h2>
-
-  <ul>
-    <li>Every sentence appears on its own line</li>
-    <li>Broken spacing after copying from PDFs</li>
-    <li>Text copied in short fragments</li>
-    <li>Awkward line breaks from columns</li>
-    <li>Formatting breaks when pasting into email or documents</li>
-    <li>PDF text becomes difficult to use in TTS or IVR workflows</li>
-
-  </ul>
-
-</section>
     <section class="tool-shell" aria-labelledby="tool-title">
       <div class="tool-panel control-panel" aria-label="Cleaning controls">
         <div class="control-group">
@@ -76,7 +61,7 @@
 
       <div class="tool-panel input-panel">
         <label for="input">Paste your messy text</label>
-        <textarea id="input" placeholder="Paste text from AI tools, PDFs, websites, emails, or documents..."></textarea>
+        <textarea id="input" placeholder="Paste text copied from a PDF, report, article, or document..."></textarea>
 
         <div class="meta">
           <span id="inputCharCount">0 chars</span>
@@ -180,6 +165,48 @@
 
 </div>
     </section>
+
+<section class="tool-panel pdf-check-panel" aria-labelledby="pdf-checks-title">
+
+  <p class="eyebrow">PDF paste cleanup</p>
+
+  <h2 id="pdf-checks-title">PDF paste repair checks</h2>
+
+  <p class="pdf-check-intro">Copied PDF text often breaks because visual lines become hard line breaks.</p>
+
+  <div class="pdf-check-list">
+    <div class="pdf-check-item">
+      <strong>Broken line wraps</strong>
+      <span>Rejoins lines that were split by PDF columns, margins, or page width.</span>
+    </div>
+
+    <div class="pdf-check-item">
+      <strong>Paragraph breaks</strong>
+      <span>Keeps paragraph intent instead of flattening everything into one unreadable block.</span>
+    </div>
+
+    <div class="pdf-check-item">
+      <strong>Hidden spacing</strong>
+      <span>Removes copied spacing artifacts that make pasted text harder to edit.</span>
+    </div>
+
+    <div class="pdf-check-item">
+      <strong>Header and footer debris</strong>
+      <span>Helps surface repeated page text that should be removed before reuse.</span>
+    </div>
+
+    <div class="pdf-check-item">
+      <strong>Report cleanup</strong>
+      <span>Makes copied research notes, reports, and articles easier to read or summarize.</span>
+    </div>
+
+    <div class="pdf-check-item">
+      <strong>Next-step rewrite</strong>
+      <span>Send cleaned PDF text to SecondDraft when it needs a clearer version.</span>
+    </div>
+  </div>
+
+</section>
 
     <section class="trust-panel">
       <p class="eyebrow">Privacy-first text cleanup</p>
