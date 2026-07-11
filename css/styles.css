@@ -1749,6 +1749,57 @@ body.task-landing-page > .hero > * {
   line-height: 1.55;
 }
 
+/* Proof surfaces: quiet review-sheet rhythm */
+.pastelint-clean-page .pastelint-review-panel,
+.second-draft-page .revision-review-grid .tool-panel,
+.pdf-paste-page .pdf-check-panel,
+.hidden-characters-page .hidden-check-panel,
+.tts-cleanup-page .tts-check-panel,
+.ivr-prep-page .ivr-check-panel,
+.ssml-proof-panel {
+  border-color: color-mix(in srgb, var(--editor-border) 78%, transparent);
+  background: color-mix(in srgb, var(--panel) 58%, transparent);
+}
+
+.pdf-paste-page .pdf-check-list,
+.hidden-characters-page .hidden-check-list,
+.tts-cleanup-page .tts-check-list,
+.ivr-prep-page .ivr-check-grid {
+  border-top: 1px solid color-mix(in srgb, var(--editor-border) 58%, transparent);
+}
+
+.pdf-paste-page .pdf-check-item,
+.hidden-characters-page .hidden-check-item,
+.tts-cleanup-page .tts-check-item,
+.ivr-prep-page .ivr-check-item,
+.tts-cleanup-page .tts-example-item,
+.second-draft-page .edit-item {
+  border-color: color-mix(in srgb, var(--editor-border) 55%, transparent);
+}
+
+.pdf-paste-page .pdf-check-item,
+.hidden-characters-page .hidden-check-item {
+  padding-block: 0.65rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--editor-border) 38%, transparent);
+}
+
+.pastelint-clean-page .pastelint-proof-stack strong,
+.pastelint-clean-page #textBrief strong,
+.pdf-paste-page .pdf-check-item strong,
+.hidden-characters-page .hidden-check-item strong,
+.tts-cleanup-page .tts-check-item strong,
+.ivr-prep-page .ivr-check-item strong {
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.second-draft-page .edit-label,
+.tts-cleanup-page .tts-proof-pair strong {
+  letter-spacing: 0.145em;
+}
+
 .tts-cleanup-page #tool.tool-shell {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
