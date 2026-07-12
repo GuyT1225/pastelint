@@ -93,12 +93,12 @@ html[data-theme="terminal"] {
   --surface: #0b1c13;
   --surface-strong: #10291b;
 
-  --text: #d8ffe4;
-  --muted: #9ee6b3;
-  --faint: #78c98e;
+  --text: #c7f7d4;
+  --muted: #8bcf9f;
+  --faint: #5fae77;
 
-  --border: #184f2f;
-  --border-strong: #2a7a4a;
+  --border: #123b25;
+  --border-strong: #1f623b;
 
   --accent: #57ff8a;
   --accent-hover: #8cffad;
@@ -115,7 +115,7 @@ html[data-theme="terminal"] {
   --warning-soft: rgba(255, 224, 102, 0.12);
 
   --editor-bg: color-mix(in srgb, var(--surface) 88%, black 12%);
-  --editor-border: color-mix(in srgb, var(--border) 82%, var(--accent) 18%);
+  --editor-border: color-mix(in srgb, var(--border) 88%, var(--accent) 12%);
   --editor-focus-bg: color-mix(in srgb, var(--surface) 94%, var(--accent) 6%);
   --focus-ring: 0 0 0 3px rgba(87, 255, 138, 0.2);
 }
