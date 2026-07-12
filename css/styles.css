@@ -623,10 +623,29 @@ textarea:focus-visible {
   box-shadow: var(--focus-ring);
 }
 
+#cleanBtn,
+.second-draft-page #reviseBtn,
+.ssml-builder-page .primary-btn {
+  min-height: 2.45rem;
+  padding: 0.68rem 1rem;
+  border-color: color-mix(in srgb, var(--accent) 88%, var(--border));
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 900;
+}
+
+#cleanBtn:hover,
+.second-draft-page #reviseBtn:hover,
+.ssml-builder-page .primary-btn:hover {
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+  color: var(--accent-text);
+}
+
 #cleanBtn {
   background: var(--accent);
   color: var(--accent-text);
-  border-color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 88%, var(--border));
 }
 
 #cleanBtn:hover {
@@ -1102,7 +1121,7 @@ html[data-theme="terminal"] .output-panel::before {
 .second-draft-page #reviseBtn {
   background: var(--accent);
   color: var(--accent-text);
-  border-color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 88%, var(--border));
 }
 
 .second-draft-page #reviseBtn:hover {
@@ -2025,6 +2044,34 @@ body.task-landing-page > .hero > * {
     display: none;
   }
 
+  .second-draft-page {
+    width: min(100% - 2rem, 100%);
+    margin-inline: auto;
+    overflow-x: hidden;
+  }
+
+  .second-draft-page::before {
+    width: 100%;
+  }
+
+  .second-draft-page,
+  .second-draft-page .hero,
+  .second-draft-page .input-panel,
+  .second-draft-page .control-panel,
+  .second-draft-page .output-panel,
+  .second-draft-page .editorial-summary,
+  .second-draft-page .revision-review-grid,
+  .second-draft-page .action-panel {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .second-draft-page > *,
+  .second-draft-page .control-grid > *,
+  .second-draft-page .revision-review-grid > * {
+    min-width: 0;
+  }
+
   .pastelint-clean-page {
     grid-template-columns: 1fr;
   }
@@ -2105,10 +2152,10 @@ body.task-landing-page > .hero > * {
   .post-clean-actions a {
     flex: 1;
   }
-.second-draft-page .control-grid,
-.second-draft-page .revision-review-grid {
-  grid-template-columns: 1fr;
-}
+  .second-draft-page .control-grid,
+  .second-draft-page .revision-review-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 901px) and (max-width: 1100px) {
