@@ -1492,6 +1492,14 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
   margin-top: 0.45rem;
 }
 
+.pastelint-clean-page .tool-note {
+  max-width: 46rem;
+  margin: -0.4rem 0 0.45rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
 /* Actions */
 .pastelint-clean-page .action-panel {
   display: flex;
