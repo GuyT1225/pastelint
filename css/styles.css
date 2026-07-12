@@ -15,9 +15,9 @@ html[data-theme="light"] {
   --font-display: "Instrument Sans", "Inter", system-ui, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 22px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
 
   --bg: #f7f8fb;
   --panel: #ffffff;
@@ -238,7 +238,7 @@ select {
   min-height: 1.9rem;
   padding: 0.35rem 0.75rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--text);
   font-size: 0.8rem;
@@ -678,7 +678,7 @@ textarea:focus-visible {
   min-height: 2.05rem;
   padding: 0.55rem 0.9rem;
   border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   background: color-mix(in srgb, var(--accent) 14%, transparent);
   color: var(--accent);
 }
@@ -920,7 +920,7 @@ html[data-theme="terminal"] .output-panel::before {
   z-index: 5;
 
   padding: 0.1rem 0.45rem;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
 
   font-family: var(--font-mono);
   font-size: 0.68rem;
