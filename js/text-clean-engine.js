@@ -119,6 +119,41 @@ function fixRepeatedWords(text, changes) {
     return match ? match[0] : "";
   }
 
+  const COMMON_SHORT_WORDS_AFTER_ZERO_WIDTH = new Set([
+    "a",
+    "an",
+    "am",
+    "are",
+    "as",
+    "at",
+    "be",
+    "by",
+    "can",
+    "do",
+    "for",
+    "had",
+    "has",
+    "he",
+    "her",
+    "his",
+    "in",
+    "is",
+    "it",
+    "may",
+    "of",
+    "on",
+    "or",
+    "our",
+    "she",
+    "so",
+    "the",
+    "to",
+    "was",
+    "we",
+    "who",
+    "you"
+  ]);
+
   function isUrlOrEmailBoundary(left, right) {
     return /[@:\/._-]/.test(left) || /[@:\/._-]/.test(right);
   }
@@ -144,7 +179,13 @@ function fixRepeatedWords(text, changes) {
     const after = getTokenFragmentAfter(text, index);
 
     if (!before || !after) return false;
-    if (before.length <= 3 || after.length <= 3) return false;
+    if (before.length <= 3) return false;
+    if (
+      after.length <= 3 &&
+      !COMMON_SHORT_WORDS_AFTER_ZERO_WIDTH.has(after.toLowerCase())
+    ) {
+      return false;
+    }
 
     return true;
   }
@@ -213,7 +254,7 @@ function isLikelyDomainOrEmailPeriod(text, offset) {
   const before = source.slice(Math.max(0, offset - 80), offset);
   const after = source.slice(offset + 1, Math.min(source.length, offset + 80));
   const leftToken = before.match(/[A-Za-z0-9@:_/-]+$/)?.[0] || "";
-  const rightToken = after.match(/^[A-Za-z0-9_/-]+/)?.[0] || "";
+  const rightToken = after.match(/^[A-Za-z0-9_/-]+(?:\.[A-Za-z0-9_/-]+)*/)?.[0] || "";
 
   if (!leftToken || !rightToken) return false;
 

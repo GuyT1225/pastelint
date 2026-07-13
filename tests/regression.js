@@ -207,11 +207,40 @@ function assertCleaned(input, expected) {
 
 function testCleanEngineHiddenCharacters() {
   assertCleaned("This text\u200Blooks normal.", "This text looks normal.");
+  assertCleaned(
+    "This text\u200Bhas a hidden character.",
+    "This text has a hidden character."
+  );
   assertCleaned("hid\u200Bden", "hidden");
   assertCleaned("Hello\u200B, world.", "Hello, world.");
   assertCleaned("support\u200B@example.com", "support@example.com");
+  assertCleaned("help\u200B@example.org", "help@example.org");
   assertCleaned("https://example\u200B.com/path", "https://example.com/path");
   assertCleaned("example\u200B.com", "example.com");
+  assertCleaned("www\u200B.example.org", "www.example.org");
+}
+
+function testHomepageHiddenCharacterSmokeCase() {
+  const context = loadControllerContext();
+  const input = [
+    "This is a really great opportunity to leverage our ability to move forward.",
+    "",
+    "This text\u200Bhas a hidden character.",
+    "",
+    "Here is a PDF-style line",
+    "break that should be easier",
+    "to review after cleanup."
+  ].join("\n");
+
+  const result = context.getCleanResult(input, "standard", "paragraph").text;
+
+  assert.ok(result.includes("This text has a hidden character."));
+  assert.ok(!result.includes("texthas"));
+  assert.ok(
+    result.includes(
+      "Here is a PDF-style line break that should be easier to review after cleanup."
+    )
+  );
 }
 
 function testScriptHiddenPageStructure() {
@@ -497,6 +526,7 @@ function testSsmlEmptyActionStatuses() {
 
 function main() {
   runTest("Hidden characters", testCleanEngineHiddenCharacters);
+  runTest("Homepage hidden-character smoke case", testHomepageHiddenCharacterSmokeCase);
   runTest("Hidden-character page structure", testScriptHiddenPageStructure);
   runTest("PDF paste reflow", testScriptPdfPostProcessing);
   runTest("SecondDraft rewrites", testSecondDraftRewrites);
