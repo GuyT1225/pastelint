@@ -794,6 +794,12 @@ function handleClean(els) {
   const raw = getInputText(els);
   if (!raw) {
     setPageResultState(false);
+    setToolStatus(els, "Paste some text first.");
+
+    if (els.postCleanActions) {
+      els.postCleanActions.hidden = true;
+    }
+
     return;
   }
 

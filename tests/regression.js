@@ -243,6 +243,44 @@ function testHomepageHiddenCharacterSmokeCase() {
   );
 }
 
+function testHomepageEmptyInputStatus() {
+  const context = loadControllerContext();
+
+  function makeElements(value) {
+    return {
+      input: createElementStub(value),
+      output: createElementStub(""),
+      cleanMode: createElementStub("standard"),
+      viewMode: createElementStub("paragraph"),
+      toolStatus: createElementStub(),
+      postCleanActions: createElementStub()
+    };
+  }
+
+  ["", "   \n\t  "].forEach((value) => {
+    const elements = makeElements(value);
+    elements.postCleanActions.hidden = false;
+
+    context.handleClean(elements);
+
+    assert.strictEqual(elements.toolStatus.textContent, "Paste some text first.");
+    assert.strictEqual(elements.toolStatus.hidden, false);
+    assert.strictEqual(elements.output.value, "");
+    assert.strictEqual(elements.postCleanActions.hidden, true);
+  });
+
+  const realInputElements = makeElements("This text has extra    spacing.");
+  context.handleClean(realInputElements);
+
+  assert.strictEqual(
+    realInputElements.toolStatus.textContent,
+    "Cleaned text ready. Review the changes, then copy or rewrite in SecondDraft."
+  );
+  assert.strictEqual(realInputElements.toolStatus.hidden, false);
+  assert.strictEqual(realInputElements.postCleanActions.hidden, false);
+  assert.ok(realInputElements.output.value);
+}
+
 function testScriptHiddenPageStructure() {
   const context = loadControllerContext("hidden-characters-page");
   const input = [
@@ -527,6 +565,7 @@ function testSsmlEmptyActionStatuses() {
 function main() {
   runTest("Hidden characters", testCleanEngineHiddenCharacters);
   runTest("Homepage hidden-character smoke case", testHomepageHiddenCharacterSmokeCase);
+  runTest("Homepage empty input status", testHomepageEmptyInputStatus);
   runTest("Hidden-character page structure", testScriptHiddenPageStructure);
   runTest("PDF paste reflow", testScriptPdfPostProcessing);
   runTest("SecondDraft rewrites", testSecondDraftRewrites);
