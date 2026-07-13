@@ -2053,6 +2053,31 @@ body.task-landing-page > .hero > * {
   .tts-cleanup-page .tts-example-item.wide {
     grid-column: auto;
   }
+
+  .pastelint-clean-page .action-panel {
+    align-items: stretch;
+  }
+
+  .pastelint-clean-page .action-panel > button {
+    flex: 1 1 calc(50% - 0.4rem);
+    min-width: min(9rem, 100%);
+  }
+
+  .pastelint-clean-page .post-clean-actions:not([hidden]) {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin-left: 0;
+    gap: 0.55rem;
+  }
+
+  .pastelint-clean-page .post-clean-actions button,
+  .pastelint-clean-page .post-clean-actions a {
+    width: 100%;
+    min-height: 2.65rem;
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 @media (max-width: 900px) {
