@@ -1546,6 +1546,10 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
   margin-top: 2rem;
 }
 
+body:not(.has-clean-result) .pastelint-clean-page .inspection-chapter {
+  opacity: 0.72;
+}
+
 .pastelint-clean-page .pastelint-review-panel {
   padding: clamp(1rem, 2vw, 1.35rem);
 }
