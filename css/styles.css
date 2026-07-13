@@ -1224,6 +1224,10 @@ html[data-theme="terminal"] .output-panel::before {
   overflow-x: hidden;
 }
 
+.page-shell.workflow-grid.clean-chatgpt-page {
+  grid-template-columns: 1fr;
+}
+
 /* Subtle editor grid behind hero only */
 .clean-chatgpt-page::before {
   content: "";
@@ -1278,6 +1282,10 @@ html[data-theme="terminal"] .output-panel::before {
   max-width: 42rem;
   padding-bottom: 0.75rem;
   margin-bottom: 0.5rem;
+}
+
+.clean-chatgpt-page .hero-content {
+  max-width: 38rem;
 }
 
 .clean-chatgpt-page .hero-script-label {
@@ -1397,11 +1405,11 @@ html[data-theme="terminal"] .clean-chatgpt-page #output {
   text-decoration: none;
 }
 
-@media (min-width: 901px) {
+@media (min-width: 1101px) {
   .clean-chatgpt-page .hero-proof-layout {
     display: grid;
-    grid-template-columns: minmax(24rem, 0.95fr) minmax(0, 1.65fr);
-    gap: clamp(2rem, 5vw, 5rem);
+    grid-template-columns: minmax(20rem, 1fr) minmax(0, 1.35fr);
+    gap: clamp(2rem, 4vw, 4rem);
     align-items: start;
   }
 
