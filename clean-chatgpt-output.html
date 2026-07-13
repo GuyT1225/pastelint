@@ -44,7 +44,7 @@
          <h1>Clean ChatGPT text before you send it.</h1>
 
           <p>
-          Paste ChatGPT text or output, remove filler phrases, formatting noise, rough spacing, and inflated wording, then copy or revise it before you send or publish. Runs in your browser. No login. No upload.
+          Paste ChatGPT text or output, clean up overused phrasing, formatting noise, rough spacing, and inflated wording, then copy or revise it before you send or publish. Runs in your browser. No login. No upload.
           </p>
         </div>
       </section>
@@ -272,7 +272,17 @@
         event.stopImmediatePropagation();
 
         const inputText = getTextValue("input").trim();
-        if (!inputText) return;
+
+        if (!inputText) {
+          setToolStatus("Paste some ChatGPT text first.");
+
+          const postCleanActions = document.getElementById("postCleanActions");
+          if (postCleanActions) {
+            postCleanActions.hidden = true;
+          }
+
+          return;
+        }
 
         const cleaned = runChatGPTCleanup(inputText);
 
