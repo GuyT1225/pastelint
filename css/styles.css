@@ -1456,9 +1456,30 @@ html[data-theme="terminal"] .clean-chatgpt-page #output {
   box-sizing: border-box;
 }
 
+.pastelint-clean-page .input-panel {
+  order: 1;
+}
+
+.pastelint-clean-page .tool-note {
+  order: 2;
+}
+
+.pastelint-clean-page .mode-row {
+  order: 3;
+  margin-bottom: 0;
+}
+
+.pastelint-clean-page .action-panel {
+  order: 4;
+}
+
+.pastelint-clean-page .output-panel {
+  order: 5;
+}
+
 /* Input surface: warm paper accent, restrained */
 .pastelint-clean-page #input {
-  min-height: 210px;
+  min-height: clamp(10rem, 22vh, 13rem);
   border-color: var(--paper-border);
   background:
     linear-gradient(
@@ -1494,7 +1515,7 @@ html[data-theme="terminal"] .pastelint-clean-page #input {
 
 .pastelint-clean-page .tool-note {
   max-width: 46rem;
-  margin: -0.4rem 0 0.45rem;
+  margin: 0;
   color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.45;
