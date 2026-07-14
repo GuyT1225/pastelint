@@ -80,6 +80,21 @@ function getFooterText() {
   return "";
 }
 
+function normalizeMojibakePunctuation(text) {
+  return String(text || "")
+    .replace(/([A-Za-z])\?\s*\?\s*\?([A-Za-z])/g, "$1'$2")
+    .replace(/\?\s*\?\s*\?/g, "-")
+    .replace(/\?\s*\?(?=\s)/g, "")
+    .replace(/\u00e2\u20ac\u2122/g, "'")
+    .replace(/\u00e2\u20ac\u02dc/g, "'")
+    .replace(/\u00e2\u20ac\u0153/g, '"')
+    .replace(/\u00e2\u20ac\u009d/g, '"')
+    .replace(/\u00e2\u20ac\u201c/g, "-")
+    .replace(/\u00e2\u20ac\u201d/g, "-")
+    .replace(/\u00c2\u00ae/g, "")
+    .replace(/\u00c2\u00a9/g, "");
+}
+
 function removeLegalSymbols(text) {
   return text.replace(/[®™©℠]/g, "");
 }
@@ -144,7 +159,7 @@ function normalizeContactInfoForSpeech(text) {
 }
 
 function fixSpecialCharacters(text) {
-  return normalizeContactInfoForSpeech(removeLegalSymbols(text))
+  return normalizeContactInfoForSpeech(removeLegalSymbols(normalizeMojibakePunctuation(text)))
     .replace(/&/g, " and ")
     .replace(/@/g, " at ")
     .replace(/[“”]/g, '"')
@@ -177,6 +192,18 @@ function fixReadBy(text) {
     .replace(/\.\s*\.\s*Read by/gi, ". Read by");
 }
 
+function normalizeScriptLineContinuations(text) {
+  return normalizeMojibakePunctuation(text)
+    .replace(
+      /\b(call(?:\s+[A-Z][a-z]+)?\s+at|call)\s*\n+\s*([0-9(][0-9()\s-]{6,}[0-9]\.?)/gi,
+      "$1 $2"
+    )
+    .replace(
+      /\b(\d{1,2}\s*[ap]\.m\.)\s*[-\u2013\u2014]\s*(\d{1,2}:?\d*\s*[ap]\.m\.)/gi,
+      "$1 to $2"
+    );
+}
+
 function hasTerminalPunctuation(text) {
   return /[:;?!.]$/.test(text.trim());
 }
@@ -196,7 +223,7 @@ function looksLikeHeading(line) {
 }
 
 function splitRawIntoBookUnits(rawText) {
-  const lines = rawText
+  const lines = normalizeScriptLineContinuations(rawText)
     .replace(/\r\n/g, "\n")
     .replace(/\r/g, "\n")
     .split(/\n+/)
@@ -230,6 +257,20 @@ function splitRawIntoBookUnits(rawText) {
         text: line
       });
 
+      return;
+    }
+
+    if (pendingHeadings.length) {
+      units.push({
+        type: "headings",
+        text: pendingHeadings.join("\n")
+      });
+      pendingHeadings = [];
+
+      units.push({
+        type: "text",
+        text: line
+      });
       return;
     }
 
@@ -322,9 +363,11 @@ function formatTalkingBookEntry(text) {
 function cleanSpacing(text) {
   return text
     .replace(/[ \t]+/g, " ")
+    .replace(/\b(\d{1,2}\s*[ap]\.m\.)\s*[-\u2013\u2014]\s*(\d{1,2}:?\s*\d*\s*[ap]\.m\.)/gi, "$1 to $2")
     .replace(/\n{3,}/g, "\n\n")
-    .replace(/\s+([.,!?])/g, "$1")
+    .replace(/\s+([.,!?;:)])/g, "$1")
     .replace(/([,!?])(?=\S)/g, "$1 ")
+    .replace(/([:;])(?=\S)/g, "$1 ")
     .replace(/\.(?=\S)/g, function (match, offset, source) {
       const previous = source.charAt(offset - 1);
       const next = source.charAt(offset + 1);
@@ -337,6 +380,10 @@ function cleanSpacing(text) {
     })
     .replace(/,\s*,/g, ",")
     .replace(/\.\s*\./g, ".")
+    .replace(/\s+([:;)])/g, "$1")
+    .replace(/\.\s+,/g, ".,")
+    .replace(/(\d{1,2}):\s+(\d{2}\s*[ap]\.m\.)/gi, "$1:$2")
+    .replace(/\b(\d{1,2}\s*[ap]\.m\.)\s*[-\u2013\u2014]\s*(\d{1,2}:?\d*\s*[ap]\.m\.)/gi, "$1 to $2")
     .replace(/(\d+)\s+hours?\s*,?\s*(\d+)\s+minutes?/gi, "$1 hours, $2 minutes")
     .replace(/\bDB\s?(\d{6})\b/gi, function (match, digits) {
       return "DB " + digits.split("").join("-");
@@ -344,6 +391,7 @@ function cleanSpacing(text) {
     .replace(/\bDB\s?(\d[\d-]*)\./gi, function (match, digits) {
       return "DB " + digits.replace(/-/g, "").split("").join("-") + ".";
     })
+    .replace(/Leader Dogs For the Blind/g, "Leader Dogs for the Blind")
     .replace(/([a-z0-9])\.\s+but\b/g, "$1. But")
     .replace(/([A-Za-z0-9])$/g, "$1.")
     .trim();
@@ -372,6 +420,10 @@ function buildFullCleanText() {
     }
 
     if (unit.type === "book") {
+      cleanedParts.push(cleanText(unit.text));
+    }
+
+    if (unit.type === "text") {
       cleanedParts.push(cleanText(unit.text));
     }
   });

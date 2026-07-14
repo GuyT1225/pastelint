@@ -540,6 +540,115 @@ function testSsmlChunkingSafety() {
   assert.ok(nearLimitChunks.every((chunk) => chunk.trim()));
 }
 
+function testSsmlLargeOtbsScriptCleanup() {
+  const input = [
+    "Dial-In Discussions",
+    "",
+    "Each month we will gather to discuss various topics over the phone. For updated information about monthly topics, call ",
+    "248-650-7150. ",
+    "",
+    "Third Monday of each month at 1 p.m.",
+    "",
+    "To join the call, dial 888-916-5522. No pin or password is needed. ",
+    "",
+    "August 24, 1 p.m.: Vicky Preddy from Vanda Pharmaceuticals shares information and resources about Non-24-Hour Sleep-Wake Disorder, a common disorder for people who are blind. (Note: this meeting is the fourth Monday of August)",
+    "",
+    "September 21, 1 p.m.: Dan Mancina, a blind skateboarder who made a skatepark designed for the visually impaired, will join us to tell his story and all about his skate park project. He shares his skate videos on his instagram account, @danthemancina.",
+    "",
+    "October 19, 1 p.m.: ACB Get Up and Get Moving Committee talks about their mission to engage, empower, and educate individuals to help everyone take responsibility over their own health.",
+    "",
+    "Where itâ€™s A.T.",
+    "",
+    "Each month, Chad will host a discussion on Accessible Technology (A.T.) topics over the phone. If you have questions, call Chad at ",
+    "248-650-5683.",
+    "",
+    "Second Monday of each month at 1pm. ",
+    "",
+    "To join the call, dial 888-916-5522. No pin or password is needed. ",
+    "",
+    "August 10: Ray-Ban Meta Glasses",
+    "",
+    "September 14: Humanware eReader",
+    "",
+    "October 12: Siri and Hey Google",
+    "",
+    "OTBS Book Discussion Groups",
+    "",
+    "Are you looking for an opportunity to discuss great books and meet other Oakland Talking Book Service (OTBS) patrons? Consider joining one (or both!) of our book discussion groups. If you have questions or want to receive the books, call 248-650-5681.",
+    "",
+    "Monday, August 3 at 1 p.m. (In-person)",
+    "",
+    "FH Brunch Factory, 25938 Middlebelt Rd., Farmington Hills MI, 48336",
+    "",
+    "Join us for an in person meeting! Come with a book recommendation to share with the group. Food available for purchase.",
+    "",
+    "First Monday of each month at 1 p.m.",
+    "",
+    "To join the call, dial 888-916-5522. No pin or password is needed.",
+    "",
+    "September 7: No meeting due to the Labor Day holiday.",
+    "",
+    "October 5: Cheesecake: A Novel by Mark Kurlansky DB134728",
+    "",
+    "Third Wednesday of each month at 1 p.m.",
+    "",
+    "To join the call, dial (888) 916-5522. No pin or password is needed.",
+    "",
+    "August: No Meeting ",
+    "",
+    "September 16: Weird Universe: Everything We Donâ€™t Know About Space (and Why Itâ€™s Important) by Erika Hamden DB134289",
+    "",
+    "October 21: Killers of a Certain Age by Deanna Raybourn DB 110076",
+    "",
+    "Low Vision Expo at Leader Dogs For the Blind",
+    "",
+    "Wednesday, September 23 from 10 a.m.â€“1:30 p.m.",
+    "",
+    "Leader Dogs for the Blind campus, Polk Residence Building, ",
+    "1039 S Rochester Rd, Rochester Hills, MI, 48307",
+    "",
+    "Rochester Hills Public Library and Leader Dogs for the BlindÂ® are pleased to present the third Low Vision Expo. In addition to a variety of exhibitors who will demonstrate the latest products and services for the blind and visually impaired, presentations will be offered on topics relating to services for the visually impaired and adaptive technology."
+  ].join("\n");
+
+  const elements = {
+    input: createElementStub(input),
+    cleanOutput: createElementStub(),
+    ssmlOutput: createElementStub(),
+    ssmlStatus: createElementStub()
+  };
+  const context = loadSsmlContext(elements);
+  const cleaned = context.buildFullCleanText();
+  const ssml = context.wrapSSML(cleaned);
+
+  assert.ok(cleaned.includes("call 248-650-7150."));
+  assert.ok(cleaned.includes("call Chad at 248-650-5683."));
+  assert.ok(!cleaned.includes("call.\n248-650-7150."));
+  assert.ok(!cleaned.includes("call Chad at.\n248-650-5683."));
+  assert.ok(cleaned.includes("August 24, 1 p.m.: Vicky Preddy"));
+  assert.ok(!cleaned.includes("August 24, 1 p.m. :"));
+  assert.ok(cleaned.includes("(A.T.)"));
+  assert.ok(!cleaned.includes("(A.T. )"));
+  assert.ok(cleaned.includes("one (or both!)"));
+  assert.ok(!cleaned.includes("one (or both! )"));
+  assert.ok(cleaned.includes("Middlebelt Rd.,"));
+  assert.ok(!cleaned.includes("Middlebelt Rd. ,"));
+  assert.ok(
+    cleaned.includes(
+      "October 21: Killers of a Certain Age by Deanna Raybourn DB 1-1-0-0-7-6."
+    )
+  );
+  assert.ok(cleaned.includes("Low Vision Expo at Leader Dogs for the Blind."));
+  assert.ok(!cleaned.includes("DB 1-1-0-0-7-6 Rochester Hills Public Library"));
+  assert.ok(cleaned.includes("from 10 a.m. to 1:30 p.m."));
+  assert.ok(!cleaned.includes("10 a.m. â€“1:30 p.m."));
+  assert.ok(!cleaned.includes("Â®"));
+  assert.ok(!cleaned.includes("? ?"));
+  assert.ok(ssml.includes("<speak>"));
+  assert.ok(ssml.includes("<prosody rate=\"94%\">"));
+  assert.ok(ssml.includes("</prosody>"));
+  assert.ok(ssml.includes("</speak>"));
+}
+
 function testSsmlEmptyActionStatuses() {
   const elements = {
     input: createElementStub(""),
@@ -575,6 +684,7 @@ function main() {
   runTest("SSML generate from cleaned text", testSsmlGenerateFromCleanedText);
   runTest("SSML approved cleaned text preservation", testSsmlApprovedCleanedTextPreservation);
   runTest("SSML chunking safety", testSsmlChunkingSafety);
+  runTest("SSML large OTBS script cleanup", testSsmlLargeOtbsScriptCleanup);
   runTest("SSML empty action statuses", testSsmlEmptyActionStatuses);
 
   console.log("All regression checks passed.");
