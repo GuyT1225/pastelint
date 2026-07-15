@@ -85,6 +85,9 @@ function normalizeMojibakePunctuation(text) {
     .replace(/([A-Za-z])\?\s*\?\s*\?([A-Za-z])/g, "$1'$2")
     .replace(/\?\s*\?\s*\?/g, "-")
     .replace(/\?\s*\?(?=\s)/g, "")
+    .replace(/\u00c3\u00a2\u00e2\u201a\u00ac\u00e2\u201e\u00a2/g, "'")
+    .replace(/\u00c3\u00a2\u00e2\u201a\u00ac\u00e2\u20ac\u0153/g, "-")
+    .replace(/\u00c3\u201a\u00c2\u00ae/g, "")
     .replace(/\u00e2\u20ac\u2122/g, "'")
     .replace(/\u00e2\u20ac\u02dc/g, "'")
     .replace(/\u00e2\u20ac\u0153/g, '"')
@@ -368,6 +371,9 @@ function cleanSpacing(text) {
     .replace(/\s+([.,!?;:)])/g, "$1")
     .replace(/([,!?])(?=\S)/g, "$1 ")
     .replace(/([:;])(?=\S)/g, "$1 ")
+    .replace(/\b(by\s+[^.\n,;:!?]+?)([,.:;!?]?)\s+DB\s?(\d[\d-]*)\b/gi, function (_, lead, punctuation, digits) {
+      return lead + (punctuation || ",") + " DB " + digits;
+    })
     .replace(/\.(?=\S)/g, function (match, offset, source) {
       const previous = source.charAt(offset - 1);
       const next = source.charAt(offset + 1);

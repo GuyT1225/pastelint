@@ -417,10 +417,45 @@ function testSsmlCleanup() {
   assert.strictEqual(context.cleanText("Program\u2122 update"), "Program update.");
   assert.strictEqual(context.cleanText("Copyright \u00A9 2026"), "Copyright 2026.");
   assert.strictEqual(context.cleanText("Service mark\u2120 notice"), "Service mark notice.");
+  assert.strictEqual(context.cleanText("Everything We DonÃ¢â‚¬â„¢t Know"), "Everything We Don't Know.");
+  assert.strictEqual(context.cleanText("10 a.m.Ã¢â‚¬â€œ1:30 p.m."), "10 a.m. to 1:30 p.m.");
+  assert.strictEqual(context.cleanText("Leader Dogs for the BlindÃ‚Â®"), "Leader Dogs for the Blind.");
   assert.ok(context.cleanText("DB134728").includes("DB 1-3-4-7-2-8"));
   assert.ok(context.cleanText("DB123456").includes("DB 1-2-3-4-5-6"));
   assert.ok(context.cleanText("DB 1-2-3-4-5-6").includes("DB 1-2-3-4-5-6"));
   assert.ok(!context.cleanText("DB 1-2-3-4-5-6").includes("DB 1---2"));
+  assert.ok(
+    context.cleanText("by Mark Kurlansky DB134728").includes(
+      "by Mark Kurlansky, DB 1-3-4-7-2-8"
+    )
+  );
+  assert.ok(
+    context.cleanText("by Erika Hamden DB134289").includes(
+      "by Erika Hamden, DB 1-3-4-2-8-9"
+    )
+  );
+  assert.ok(
+    context.cleanText("by Deanna Raybourn DB 110076").includes(
+      "by Deanna Raybourn, DB 1-1-0-0-7-6"
+    )
+  );
+  assert.ok(
+    context.cleanText("by Mark Kurlansky, DB134728").includes(
+      "by Mark Kurlansky, DB 1-3-4-7-2-8"
+    )
+  );
+  assert.ok(!context.cleanText("by Mark Kurlansky, DB134728").includes("Kurlansky,, DB"));
+  assert.ok(!context.cleanText("by Mark Kurlansky, DB134728").includes("Kurlansky, , DB"));
+  assert.ok(
+    context.cleanText("by Mark Kurlansky: DB134728").includes(
+      "by Mark Kurlansky: DB 1-3-4-7-2-8"
+    )
+  );
+  assert.ok(
+    context.cleanText("by Mark Kurlansky. DB134728").includes(
+      "by Mark Kurlansky. DB 1-3-4-7-2-8"
+    )
+  );
   assert.strictEqual(context.cleanText("version 1.2.3"), "version 1.2.3.");
   assert.strictEqual(
     context.cleanText("file name report.final.doc"),
@@ -634,9 +669,22 @@ function testSsmlLargeOtbsScriptCleanup() {
   assert.ok(!cleaned.includes("Middlebelt Rd. ,"));
   assert.ok(
     cleaned.includes(
-      "October 21: Killers of a Certain Age by Deanna Raybourn DB 1-1-0-0-7-6."
+      "October 5: Cheesecake: A Novel by Mark Kurlansky, DB 1-3-4-7-2-8."
     )
   );
+  assert.ok(
+    cleaned.includes(
+      "September 16: Weird Universe: Everything We Don't Know About Space (and Why It's Important) by Erika Hamden, DB 1-3-4-2-8-9."
+    )
+  );
+  assert.ok(
+    cleaned.includes(
+      "October 21: Killers of a Certain Age by Deanna Raybourn, DB 1-1-0-0-7-6."
+    )
+  );
+  assert.ok(!cleaned.includes("Kurlansky,, DB"));
+  assert.ok(!cleaned.includes("Hamden,, DB"));
+  assert.ok(!cleaned.includes("Raybourn,, DB"));
   assert.ok(cleaned.includes("Low Vision Expo at Leader Dogs for the Blind."));
   assert.ok(!cleaned.includes("DB 1-1-0-0-7-6 Rochester Hills Public Library"));
   assert.ok(cleaned.includes("from 10 a.m. to 1:30 p.m."));
