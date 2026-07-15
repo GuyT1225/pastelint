@@ -469,6 +469,16 @@ function setSsmlStatus(message) {
 }
 
 function cleanOnly() {
+  const raw = document.getElementById("input")?.value || "";
+  const footerText = getFooterText();
+
+  if (!raw.trim() && !footerText.trim()) {
+    document.getElementById("cleanOutput").value = "";
+    updateCounters();
+    setSsmlStatus("Paste some text first.");
+    return "";
+  }
+
   const cleaned = buildFullCleanText();
 
   document.getElementById("cleanOutput").value = cleaned;

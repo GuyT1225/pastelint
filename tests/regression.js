@@ -703,11 +703,40 @@ function testSsmlEmptyActionStatuses() {
     cleanOutput: createElementStub(""),
     ssmlOutput: createElementStub(""),
     ssmlStatus: createElementStub(),
+    footerType: createElementStub("none"),
     chunksContainer: createElementStub(),
     chunkSummary: createElementStub()
   };
 
   const context = loadSsmlContext(elements);
+
+  context.cleanOnly();
+  assert.strictEqual(elements.ssmlStatus.textContent, "Paste some text first.");
+  assert.strictEqual(elements.cleanOutput.value, "");
+
+  elements.input.value = "   \n\t   ";
+  elements.cleanOutput.value = "Previous cleaned text.";
+  context.cleanOnly();
+  assert.strictEqual(elements.ssmlStatus.textContent, "Paste some text first.");
+  assert.strictEqual(elements.cleanOutput.value, "");
+
+  elements.input.value = "Welcome to the library.";
+  const cleaned = context.cleanOnly();
+  assert.strictEqual(elements.ssmlStatus.textContent, "Cleaned text ready. Review it before generating SSML.");
+  assert.ok(cleaned.includes("Welcome to the library."));
+  assert.ok(elements.cleanOutput.value.includes("Welcome to the library."));
+
+  elements.input.value = "";
+  elements.cleanOutput.value = "";
+  elements.footerType.value = "calendar";
+  const footerCleaned = context.cleanOnly();
+  assert.strictEqual(elements.ssmlStatus.textContent, "Cleaned text ready. Review it before generating SSML.");
+  assert.ok(footerCleaned.includes("To go back to the previous section, press 4."));
+  assert.ok(elements.cleanOutput.value.includes("To go back to the previous section, press 4."));
+
+  elements.footerType.value = "none";
+  elements.cleanOutput.value = "";
+  elements.ssmlOutput.value = "";
 
   context.generateSsmlOnly();
   assert.strictEqual(elements.ssmlStatus.textContent, "Nothing to generate yet.");
