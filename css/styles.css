@@ -874,7 +874,6 @@ textarea:focus-visible {
 ----------------------------- */
 
 .site-footer {
-  display: none; 
   padding: 1.25rem 0 2.5rem;
   color: var(--muted);
   font-size: 0.88rem;
