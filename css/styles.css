@@ -972,6 +972,78 @@ textarea:focus-visible {
 }
 
 /* -----------------------------
+   LEGAL / TRUST PAGES
+----------------------------- */
+
+.legal-page {
+  width: min(100% - 2rem, 760px);
+  margin-inline: auto;
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0 clamp(4rem, 8vw, 6rem);
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.legal-page .legal-hero {
+  max-width: 42rem;
+}
+
+.legal-page .legal-hero h1 {
+  margin-bottom: 0.85rem;
+}
+
+.legal-page .hero-kicker {
+  margin-bottom: 0.55rem;
+}
+
+.legal-page .subtitle {
+  max-width: 40rem;
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.12rem);
+  line-height: 1.6;
+}
+
+.legal-page .legal-card {
+  padding-top: clamp(1.2rem, 2.5vw, 1.7rem);
+  border-top: 1px solid color-mix(in srgb, var(--editor-border) 66%, transparent);
+}
+
+.legal-page .legal-card h2 {
+  margin-bottom: 0.8rem;
+  font-size: clamp(1.35rem, 2.8vw, 2rem);
+  line-height: 1.08;
+}
+
+.legal-page .legal-card h3 {
+  margin: 1.45rem 0 0.45rem;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.legal-page .legal-card p,
+.legal-page .legal-card li {
+  max-width: 42rem;
+  color: var(--muted);
+  line-height: 1.68;
+}
+
+.legal-page .legal-card p {
+  margin-bottom: 0.9rem;
+}
+
+.legal-page .legal-card ul,
+.legal-page .legal-card ol {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.6rem 0 1rem;
+  padding-left: 1.25rem;
+}
+
+.legal-page .legal-card strong {
+  color: var(--text);
+}
+
+/* -----------------------------
    TERMINAL HARDENING
 ----------------------------- */
 
