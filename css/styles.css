@@ -899,6 +899,79 @@ textarea:focus-visible {
 }
 
 /* -----------------------------
+   TEXT READINESS FRAMEWORK
+----------------------------- */
+
+.text-readiness-page {
+  width: min(100% - 2rem, var(--page-width, 1120px));
+  margin-inline: auto;
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0 clamp(4rem, 8vw, 6rem);
+  display: grid;
+  gap: clamp(1.4rem, 3vw, 2.25rem);
+}
+
+.text-readiness-page .tool-hero {
+  max-width: 46rem;
+}
+
+.text-readiness-page .tool-hero p {
+  max-width: 42rem;
+}
+
+.text-readiness-page .tool-shell {
+  grid-column: auto;
+  width: min(100%, 52rem);
+  display: grid;
+  gap: clamp(1.35rem, 3vw, 2rem);
+}
+
+.text-readiness-page .section {
+  padding-top: clamp(1.15rem, 2.4vw, 1.6rem);
+  border-top: 1px solid color-mix(in srgb, var(--editor-border) 66%, transparent);
+}
+
+.text-readiness-page .section-heading {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.85rem;
+}
+
+.text-readiness-page .section-heading h2 {
+  margin-bottom: 0;
+  font-size: clamp(1.35rem, 2.8vw, 2rem);
+  line-height: 1.08;
+}
+
+.text-readiness-page .section p,
+.text-readiness-page .section li {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.text-readiness-page ol,
+.text-readiness-page ul {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.text-readiness-page li {
+  padding-left: 0.15rem;
+}
+
+.text-readiness-page li strong {
+  color: var(--text);
+}
+
+.text-readiness-page .note {
+  width: fit-content;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--editor-border) 58%, transparent);
+}
+
+/* -----------------------------
    TERMINAL HARDENING
 ----------------------------- */
 
@@ -2010,6 +2083,15 @@ body.task-landing-page > .hero > * {
 }
 
 @media (max-width: 700px) {
+  .text-readiness-page {
+    width: min(100% - 1rem, 100%);
+    padding-top: 2rem;
+  }
+
+  .text-readiness-page .tool-shell {
+    width: 100%;
+  }
+
   body.task-landing-page > main,
   body.task-landing-page > .hero {
     width: min(100% - 1rem, 100%);
