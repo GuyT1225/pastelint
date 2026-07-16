@@ -14,7 +14,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css" />
-  <script defer src="js/themes.js"></script>
 </head>
 
 <body class="task-landing-page">
@@ -46,18 +45,56 @@
     </p>
   </section>
 
- <main class="page-shell">
-    <section class="tool-panel input-panel">
-      <div class="tool-header">
-        <h2>For quick messages written too fast</h2>
-        <p>
-          Paste something you typed quickly, clean it, review what changed, then copy the improved version.
-        </p>
+  <main class="page-shell">
+    <section class="tool-shell" id="tool">
+
+      <div class="tool-panel input-panel">
+        <label for="input">
+          Paste a text message or short draft
+        </label>
+
+        <textarea
+          id="input"
+          placeholder="Paste a rushed text, quick email, or mobile draft..."
+        ></textarea>
+
+        <div class="meta">
+          <span id="inputCharCount">0 chars</span>
+          <span id="inputWordCount">0 words</span>
+        </div>
       </div>
 
-      <div class="tool-actions">
-        <a class="primary-btn" href="index.html">Open PasteLint Clean</a>
-        <a class="secondary-btn" href="second-draft.html">Try SecondDraft</a>
+      <div class="tool-panel action-panel tool-actions">
+        <p id="toolStatus" class="tool-status" role="status" aria-live="polite" hidden></p>
+
+        <button id="cleanBtn" type="button">
+          Clean text
+        </button>
+
+        <button id="copyBtn" type="button">
+          Copy clean text
+        </button>
+
+        <button id="clearBtn" type="button">
+          Clear
+        </button>
+      </div>
+
+      <div class="tool-panel output-panel">
+        <label for="output">
+          Copy-ready output
+        </label>
+
+        <textarea
+          id="output"
+          readonly
+          placeholder="Cleaned message will appear here..."
+        ></textarea>
+
+        <div class="meta">
+          <span id="outputCharCount">0 chars</span>
+          <span id="outputWordCount">0 words</span>
+        </div>
       </div>
     </section>
 
@@ -130,5 +167,11 @@
   <a href="text-readiness-framework.html">Text Readiness Framework</a>
 </p>
   </footer>
+
+<script src="js/utils.js"></script>
+<script src="js/themes.js"></script>
+<script src="js/text-analyzer.js"></script>
+<script src="js/text-clean-engine.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
