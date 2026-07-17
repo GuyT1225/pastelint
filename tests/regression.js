@@ -420,6 +420,28 @@ function testSsmlCleanup() {
   assert.strictEqual(context.cleanText("Everything We DonÃ¢â‚¬â„¢t Know"), "Everything We Don't Know.");
   assert.strictEqual(context.cleanText("10 a.m.Ã¢â‚¬â€œ1:30 p.m."), "10 a.m. to 1:30 p.m.");
   assert.strictEqual(context.cleanText("Leader Dogs for the BlindÃ‚Â®"), "Leader Dogs for the Blind.");
+  assert.strictEqual(
+    context.cleanText("Third Monday of each month at 1 p.m."),
+    "Third Monday of each month at 1 p.m."
+  );
+  assert.strictEqual(
+    context.cleanText("Second Monday of each month at 1pm."),
+    "Second Monday of each month at 1 p.m."
+  );
+  assert.strictEqual(
+    context.cleanText("Wednesday, September 23 from 10 a.m.\u20131:30 p.m."),
+    "Wednesday, September 23 from 10 a.m. to 1:30 p.m."
+  );
+  assert.strictEqual(
+    context.cleanText("Wednesday, September 23 from 10 a. m. to 1: 30 p. m."),
+    "Wednesday, September 23 from 10 a.m. to 1:30 p.m."
+  );
+  assert.strictEqual(context.cleanText("The event is at 7 PM."), "The event is at 7 p.m.");
+  assert.strictEqual(
+    context.cleanText("Accessible Technology (A.T.) topics"),
+    "Accessible Technology (A.T.) topics."
+  );
+  assert.strictEqual(context.cleanText("U.S. history discussion."), "U.S. history discussion.");
   assert.ok(context.cleanText("DB134728").includes("DB 1-3-4-7-2-8"));
   assert.ok(context.cleanText("DB123456").includes("DB 1-2-3-4-5-6"));
   assert.ok(context.cleanText("DB 1-2-3-4-5-6").includes("DB 1-2-3-4-5-6"));
@@ -688,6 +710,14 @@ function testSsmlLargeOtbsScriptCleanup() {
   assert.ok(cleaned.includes("Low Vision Expo at Leader Dogs for the Blind."));
   assert.ok(!cleaned.includes("DB 1-1-0-0-7-6 Rochester Hills Public Library"));
   assert.ok(cleaned.includes("from 10 a.m. to 1:30 p.m."));
+  assert.ok(!cleaned.includes("p. m."));
+  assert.ok(!cleaned.includes("a. m."));
+  assert.ok(!cleaned.includes("1pm"));
+  assert.ok(!cleaned.includes("1: 30"));
+  assert.ok(!ssml.includes("p. m."));
+  assert.ok(!ssml.includes("a. m."));
+  assert.ok(!ssml.includes("1pm"));
+  assert.ok(!ssml.includes("1: 30"));
   assert.ok(!cleaned.includes("10 a.m. â€“1:30 p.m."));
   assert.ok(!cleaned.includes("Â®"));
   assert.ok(!cleaned.includes("? ?"));

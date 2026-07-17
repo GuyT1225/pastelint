@@ -363,8 +363,17 @@ function formatTalkingBookEntry(text) {
   );
 }
 
+function normalizeTimeAbbreviations(text) {
+  return text.replace(
+    /\b(\d{1,2})(?:\s*:\s*(\d{2}))?\s*([ap])\s*\.?\s*m\.?(?=\s|$|[.,!?;:)\-\u2013\u2014])/gi,
+    function (_, hour, minutes, meridiem) {
+      return hour + (minutes ? ":" + minutes : "") + " " + meridiem.toLowerCase() + ".m.";
+    }
+  );
+}
+
 function cleanSpacing(text) {
-  return text
+  return normalizeTimeAbbreviations(text)
     .replace(/[ \t]+/g, " ")
     .replace(/\b(\d{1,2}\s*[ap]\.m\.)\s*[-\u2013\u2014]\s*(\d{1,2}:?\s*\d*\s*[ap]\.m\.)/gi, "$1 to $2")
     .replace(/\n{3,}/g, "\n\n")
