@@ -409,6 +409,11 @@ function testSsmlCleanup() {
   assert.ok(
     context.cleanText("www.example.org").includes("W W W dot example dot org.")
   );
+  assert.strictEqual(context.cleanText("@danthemancina"), "at danthemancina.");
+  assert.strictEqual(
+    context.cleanText("Follow us @libraryname."),
+    "Follow us at libraryname."
+  );
   assert.notStrictEqual(context.formatHeading("In this issue:"), "In this issue:.");
   assert.notStrictEqual(context.formatHeading("Need help?"), "Need help?.");
   assert.notStrictEqual(context.formatHeading("Important update!"), "Important update!.");
@@ -547,11 +552,36 @@ function testSsmlXmlEscaping() {
 
   assert.ok(output.includes("A &amp; B &lt; C &gt; D"));
   assert.ok(!body.includes("A & B < C > D"));
+
+  const rawHandleElements = {
+    input: createElementStub("Follow us @danthemancina."),
+    cleanOutput: createElementStub(""),
+    ssmlOutput: createElementStub(),
+    ssmlStatus: createElementStub()
+  };
+  const rawHandleContext = loadSsmlContext(rawHandleElements);
+  rawHandleContext.generateSsmlOnly();
+
+  assert.ok(rawHandleElements.ssmlOutput.value.includes("Follow us at danthemancina."));
+  assert.ok(!rawHandleElements.ssmlOutput.value.includes("@danthemancina"));
+
+  const rawEmailElements = {
+    input: createElementStub("Email help@example.org."),
+    cleanOutput: createElementStub(""),
+    ssmlOutput: createElementStub(),
+    ssmlStatus: createElementStub()
+  };
+  const rawEmailContext = loadSsmlContext(rawEmailElements);
+  rawEmailContext.generateSsmlOnly();
+
+  assert.ok(rawEmailElements.ssmlOutput.value.includes("Email help@example.org."));
+  assert.ok(!rawEmailElements.ssmlOutput.value.includes("help at example"));
 }
 
 function testSsmlApprovedCleanedTextPreservation() {
   const approvedText = [
     "Approved wording stays exact.",
+    "Approved @handle stays exact.",
     "",
     "Call us at 2-4-8, 6-5-0, 7-1-5-0.",
     "",
@@ -685,6 +715,8 @@ function testSsmlLargeOtbsScriptCleanup() {
   assert.ok(!cleaned.includes("August 24, 1 p.m. :"));
   assert.ok(cleaned.includes("(A.T.)"));
   assert.ok(!cleaned.includes("(A.T. )"));
+  assert.ok(cleaned.includes("instagram account, at danthemancina."));
+  assert.ok(!cleaned.includes("@danthemancina"));
   assert.ok(cleaned.includes("one (or both!)"));
   assert.ok(!cleaned.includes("one (or both! )"));
   assert.ok(cleaned.includes("Middlebelt Rd.,"));

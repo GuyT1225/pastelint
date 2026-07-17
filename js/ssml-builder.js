@@ -141,6 +141,15 @@ function repairContactBoundaries(text) {
   );
 }
 
+function normalizeSocialHandlesForSpeech(text) {
+  return String(text || "").replace(
+    /(^|[\s([{"'“‘,;:!?-])@([A-Za-z0-9_][A-Za-z0-9._-]*)\b/g,
+    function (_, prefix, handle) {
+      return prefix + "at " + handle;
+    }
+  );
+}
+
 function normalizeContactInfoForSpeech(text) {
   let normalized = String(text || "");
 
@@ -157,6 +166,8 @@ function normalizeContactInfoForSpeech(text) {
       return formatSpeechDomain(domain);
     }
   );
+
+  normalized = normalizeSocialHandlesForSpeech(normalized);
 
   return repairContactBoundaries(normalized);
 }
@@ -502,7 +513,7 @@ function getSsmlSourceText() {
   const cleaned = document.getElementById("cleanOutput").value || "";
   const raw = document.getElementById("input").value || "";
 
-  return cleaned.trim() ? cleaned : raw;
+  return cleaned.trim() ? cleaned : normalizeSocialHandlesForSpeech(raw);
 }
 
 function generateSsmlFromText(text) {
