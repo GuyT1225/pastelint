@@ -383,8 +383,23 @@ function normalizeTimeAbbreviations(text) {
   );
 }
 
+function normalizeCatalogMetadataPunctuation(text) {
+  return text.replace(
+    /\b([^.\n!?;:]{1,120}?)\s*,?\s+DB\s?(\d(?:[- ]?\d){5,})\s+(\d+)\s+hours?,\s*(\d+)\s+minutes?\s+by\s+([^.\n]+?)(?=\.|$)/gi,
+    function (_, title, dbDigits, hours, minutes, author) {
+      const formattedDB = "DB " + dbDigits.replace(/\D/g, "").split("").join("-");
+      return (
+        title.trim().replace(/[,\s]+$/, "") + ", " +
+        formattedDB + ". " +
+        hours + " hours, " + minutes + " minutes, by " +
+        author.trim().replace(/[,\s]+$/, "")
+      );
+    }
+  );
+}
+
 function cleanSpacing(text) {
-  return normalizeTimeAbbreviations(text)
+  return normalizeCatalogMetadataPunctuation(normalizeTimeAbbreviations(text))
     .replace(/[ \t]+/g, " ")
     .replace(/\b(\d{1,2}\s*[ap]\.m\.)\s*[-\u2013\u2014]\s*(\d{1,2}:?\s*\d*\s*[ap]\.m\.)/gi, "$1 to $2")
     .replace(/\n{3,}/g, "\n\n")
@@ -417,6 +432,7 @@ function cleanSpacing(text) {
     .replace(/\bDB\s?(\d[\d-]*)\./gi, function (match, digits) {
       return "DB " + digits.replace(/-/g, "").split("").join("-") + ".";
     })
+    .replace(/\b(Read by\s+[A-Za-z][A-Za-z.\s]*?[A-Za-z])\s+(?=["\u201c])/g, "$1. ")
     .replace(/Leader Dogs For the Blind/g, "Leader Dogs for the Blind")
     .replace(/([a-z0-9])\.\s+but\b/g, "$1. But")
     .replace(/([A-Za-z0-9])$/g, "$1.")

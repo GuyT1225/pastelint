@@ -483,6 +483,26 @@ function testSsmlCleanup() {
       "by Mark Kurlansky. DB 1-3-4-7-2-8"
     )
   );
+  assert.strictEqual(
+    context.cleanText("Spellcaster DB 1-3-4-0-3-7 10 hours, 6 minutes by Jaymin Eve."),
+    "Spellcaster, DB 1-3-4-0-3-7. 10 hours, 6 minutes, by Jaymin Eve."
+  );
+  assert.strictEqual(
+    context.cleanText("Spellcaster DB134037 10 hours, 6 minutes by Jaymin Eve."),
+    "Spellcaster, DB 1-3-4-0-3-7. 10 hours, 6 minutes, by Jaymin Eve."
+  );
+  assert.strictEqual(
+    context.cleanText("Heart the Lover, DB 1-3-3-2-9-0. 5 hours, 56 minutes, by Lily King."),
+    "Heart the Lover, DB 1-3-3-2-9-0. 5 hours, 56 minutes, by Lily King."
+  );
+  assert.strictEqual(
+    context.cleanText("DB 1-3-4-0-3-7 Spellcaster."),
+    "DB 1-3-4-0-3-7 Spellcaster."
+  );
+  assert.strictEqual(
+    context.cleanText('Read by Savannah Peachwood "Welcome to the story."'),
+    'Read by Savannah Peachwood. "Welcome to the story. "'
+  );
   assert.strictEqual(context.cleanText("version 1.2.3"), "version 1.2.3.");
   assert.strictEqual(
     context.cleanText("file name report.final.doc"),
