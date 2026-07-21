@@ -1451,6 +1451,33 @@ html[data-theme="light"] body.journal-surface .journal-note {
   border-bottom: 1px solid var(--fieldnote-rule);
 }
 
+.journal-invite {
+  width: min(100%, 46rem);
+  padding: clamp(1rem, 2.5vw, 1.35rem) 0 0 clamp(0.9rem, 2vw, 1.15rem);
+  border-top: 1px solid var(--journal-rule);
+  border-left: 2px solid var(--accent);
+}
+
+html[data-theme="light"] body.journal-surface .journal-invite {
+  background: color-mix(in srgb, var(--journal-sheet) 84%, transparent);
+}
+
+.journal-invite h2 {
+  margin: 0 0 0.65rem;
+  color: var(--journal-ink);
+  font-size: clamp(1.35rem, 3vw, 2.15rem);
+  line-height: 1.05;
+}
+
+.journal-invite p:not(.eyebrow):not(.journal-tools) {
+  color: var(--journal-muted);
+  line-height: 1.62;
+}
+
+.journal-invite-link {
+  font-weight: 800;
+}
+
 .tool-map {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1531,6 +1558,12 @@ html[data-theme="light"] body.journal-surface .journal-note {
 
 .legal-page .legal-card strong {
   color: var(--text);
+}
+
+.legal-page .contact-journal-note {
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--editor-border) 66%, transparent);
 }
 
 /* -----------------------------
