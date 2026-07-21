@@ -1164,6 +1164,179 @@ textarea:focus-visible {
   width: min(100%, 44rem);
 }
 
+.journal-article {
+  --fieldnote-rule: color-mix(in srgb, var(--editor-border) 72%, transparent);
+}
+
+.fieldnote-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.fieldnote-hero-copy {
+  display: grid;
+  gap: clamp(0.85rem, 2vw, 1.2rem);
+}
+
+.fieldnote-hero h1 {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 6.2rem);
+  line-height: 0.92;
+}
+
+.fieldnote-source-panel,
+.workflow-chain,
+.principle-callout,
+.readiness-checkpoint {
+  min-width: 0;
+  padding-top: clamp(1rem, 2.5vw, 1.35rem);
+  border-top: 1px solid var(--fieldnote-rule);
+}
+
+.fieldnote-source-panel {
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 1.8rem);
+  padding-left: clamp(1rem, 2vw, 1.25rem);
+  border-left: 2px solid var(--accent);
+}
+
+.fieldnote-source-panel p:not(.journal-signal),
+.workflow-chain p,
+.pain-card p,
+.principle-callout p,
+.readiness-checkpoint li {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.fieldnote-source-panel .fieldnote-panel-thesis {
+  color: var(--text);
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  line-height: 1.18;
+  font-weight: 800;
+}
+
+.workflow-chain {
+  display: grid;
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+}
+
+.workflow-steps,
+.handoff-layer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.workflow-step,
+.handoff-layer span,
+.pain-chips span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--fieldnote-rule);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.workflow-arrow {
+  color: var(--faint);
+  font-weight: 800;
+}
+
+.handoff-layer {
+  width: fit-content;
+  padding-left: clamp(0.8rem, 2vw, 1.1rem);
+  border-left: 2px solid var(--accent);
+}
+
+.handoff-layer span,
+.pain-chips span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.2rem, 3vw, 2rem);
+}
+
+.pain-card {
+  min-width: 0;
+  padding: clamp(1rem, 2.5vw, 1.35rem) 0 0 clamp(0.9rem, 2vw, 1.15rem);
+  border-top: 1px solid var(--fieldnote-rule);
+  border-left: 1px solid var(--fieldnote-rule);
+}
+
+.pain-card h3 {
+  margin: 0 0 0.65rem;
+  color: var(--text);
+  font-size: clamp(1.2rem, 2.6vw, 1.7rem);
+  line-height: 1.08;
+}
+
+.pain-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.principle-callout {
+  width: min(100%, 50rem);
+  padding-left: clamp(1rem, 3vw, 1.5rem);
+  border-left: 3px solid var(--accent);
+}
+
+.principle-callout h2 {
+  max-width: 18ch;
+  margin: 0.35rem 0 0.75rem;
+  color: var(--text);
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 0.98;
+}
+
+.readiness-checkpoint {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.readiness-checkpoint ul {
+  display: grid;
+  gap: 0;
+  max-width: 52rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--fieldnote-rule);
+}
+
+.readiness-checkpoint li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--fieldnote-rule);
+}
+
+.tool-map {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+}
+
+.tool-map .journal-track {
+  padding-top: 0.85rem;
+}
+
 /* -----------------------------
    LEGAL / TRUST PAGES
 ----------------------------- */
@@ -2382,6 +2555,40 @@ body.task-landing-page > .hero > * {
   .journal-track,
   .journal-opening {
     padding-left: 0.9rem;
+  }
+
+  .fieldnote-hero,
+  .pain-grid,
+  .tool-map {
+    grid-template-columns: 1fr;
+  }
+
+  .fieldnote-hero h1 {
+    max-width: 9ch;
+    font-size: clamp(2.45rem, 14vw, 3.8rem);
+  }
+
+  .fieldnote-source-panel,
+  .pain-card,
+  .principle-callout {
+    padding-left: 0.9rem;
+  }
+
+  .workflow-steps {
+    align-items: stretch;
+  }
+
+  .workflow-step {
+    flex: 1 1 8rem;
+    justify-content: center;
+  }
+
+  .workflow-arrow {
+    align-self: center;
+  }
+
+  .handoff-layer {
+    width: 100%;
   }
 
   body.task-landing-page > main,
