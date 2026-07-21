@@ -974,6 +974,41 @@ textarea:focus-visible {
    TEXT PREPARATION JOURNAL
 ----------------------------- */
 
+body.journal-surface {
+  --journal-paper: var(--bg);
+  --journal-sheet: color-mix(in srgb, var(--panel) 90%, var(--bg) 10%);
+  --journal-rule: color-mix(in srgb, var(--editor-border) 76%, transparent);
+  --journal-ink: var(--text);
+  --journal-muted: var(--muted);
+}
+
+html[data-theme="light"] body.journal-surface {
+  --journal-paper: #f5efd8;
+  --journal-sheet: #fffaf0;
+  --journal-rule: #d8c89d;
+  --journal-ink: #172033;
+  --journal-muted: #5f6671;
+  --accent: #255edb;
+  --accent-hover: #1746a6;
+  --editor-border: var(--journal-rule);
+  background: var(--journal-paper);
+}
+
+html[data-theme="dark"] body.journal-surface {
+  --journal-sheet: color-mix(in srgb, var(--panel) 88%, #221f1a 12%);
+  --journal-rule: color-mix(in srgb, var(--editor-border) 82%, transparent);
+}
+
+html[data-theme="terminal"] body.journal-surface {
+  --journal-sheet: var(--bg);
+  --journal-rule: var(--border-strong);
+}
+
+.journal-surface .site-header,
+.journal-surface .site-footer {
+  position: relative;
+}
+
 .journal-page {
   width: min(100% - 2rem, var(--page-width, 1120px));
   margin-inline: auto;
@@ -1007,14 +1042,14 @@ textarea:focus-visible {
 
 .journal-hero p {
   max-width: 48rem;
-  color: var(--muted);
+  color: var(--journal-muted);
   font-size: clamp(1rem, 2vw, 1.16rem);
   line-height: 1.62;
 }
 
 .journal-hero .journal-thesis {
   max-width: 52rem;
-  color: var(--text);
+  color: var(--journal-ink);
   font-size: clamp(1.35rem, 3.2vw, 2.2rem);
   line-height: 1.14;
   font-weight: 700;
@@ -1033,14 +1068,33 @@ textarea:focus-visible {
 
 .journal-opening p {
   margin: 0;
-  color: var(--text);
+  color: var(--journal-ink);
   font-size: clamp(1.05rem, 2vw, 1.22rem);
   line-height: 1.62;
 }
 
+.journal-docket-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.55rem 0;
+  border-top: 1px solid var(--journal-rule);
+  border-bottom: 1px solid var(--journal-rule);
+}
+
+.journal-docket-strip span {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .journal-section {
   padding-top: clamp(1.2rem, 2.5vw, 1.8rem);
-  border-top: 1px solid color-mix(in srgb, var(--editor-border) 66%, transparent);
+  border-top: 1px solid var(--journal-rule);
 }
 
 .journal-section-heading {
@@ -1068,7 +1122,7 @@ textarea:focus-visible {
 .journal-note {
   min-width: 0;
   padding-top: 1rem;
-  border-top: 1px solid var(--editor-border);
+  border-top: 1px solid var(--journal-rule);
 }
 
 .journal-marker,
@@ -1094,7 +1148,7 @@ textarea:focus-visible {
 .journal-track p,
 .journal-note p,
 .journal-close p {
-  color: var(--muted);
+  color: var(--journal-muted);
   line-height: 1.62;
 }
 
@@ -1106,7 +1160,7 @@ textarea:focus-visible {
 
 .journal-track {
   padding-left: clamp(0.9rem, 1.6vw, 1.15rem);
-  border-left: 1px solid color-mix(in srgb, var(--editor-border) 78%, transparent);
+  border-left: 1px solid var(--journal-rule);
 }
 
 .journal-track h3,
@@ -1125,7 +1179,7 @@ textarea:focus-visible {
 }
 
 .journal-track li {
-  color: var(--muted);
+  color: var(--journal-muted);
   line-height: 1.55;
 }
 
@@ -1146,6 +1200,18 @@ textarea:focus-visible {
   row-gap: 0.5rem;
 }
 
+html[data-theme="light"] body.journal-surface .journal-note,
+html[data-theme="light"] body.journal-surface .fieldnote-source-panel,
+html[data-theme="light"] body.journal-surface .workflow-chain,
+html[data-theme="light"] body.journal-surface .readiness-checkpoint {
+  background: color-mix(in srgb, var(--journal-sheet) 88%, transparent);
+}
+
+html[data-theme="light"] body.journal-surface .journal-note {
+  padding: clamp(1rem, 2vw, 1.25rem);
+  border-left: 1px solid var(--journal-rule);
+}
+
 .journal-note .journal-signal,
 .journal-note h3 {
   grid-column: 1;
@@ -1157,7 +1223,7 @@ textarea:focus-visible {
 }
 
 .journal-note strong {
-  color: var(--text);
+  color: var(--journal-ink);
 }
 
 .journal-close {
@@ -1165,7 +1231,7 @@ textarea:focus-visible {
 }
 
 .journal-article {
-  --fieldnote-rule: color-mix(in srgb, var(--editor-border) 72%, transparent);
+  --fieldnote-rule: var(--journal-rule);
 }
 
 .fieldnote-hero {
@@ -1199,7 +1265,7 @@ textarea:focus-visible {
 .fieldnote-source-panel {
   display: grid;
   gap: clamp(1.2rem, 3vw, 1.8rem);
-  padding-left: clamp(1rem, 2vw, 1.25rem);
+  padding: clamp(1rem, 2.5vw, 1.35rem) 0 0 clamp(1rem, 2vw, 1.25rem);
   border-left: 2px solid var(--accent);
 }
 
@@ -1208,7 +1274,7 @@ textarea:focus-visible {
 .pain-card p,
 .principle-callout p,
 .readiness-checkpoint li {
-  color: var(--muted);
+  color: var(--journal-muted);
   line-height: 1.62;
 }
 
@@ -1219,9 +1285,65 @@ textarea:focus-visible {
   font-weight: 800;
 }
 
+.fieldnote-source-title {
+  margin: 0 0 0.85rem;
+  color: var(--text);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.12;
+}
+
+.fieldnote-source-meta {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.fieldnote-source-meta div,
+.fieldnote-metrics div {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.75fr) minmax(0, 1.25fr);
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.55rem 0;
+  border-top: 1px solid var(--fieldnote-rule);
+}
+
+.fieldnote-source-meta dt,
+.fieldnote-metrics span {
+  color: var(--journal-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.fieldnote-source-meta dd {
+  margin: 0;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.fieldnote-metrics {
+  display: grid;
+  gap: 0;
+  margin-top: 1rem;
+  border-bottom: 1px solid var(--fieldnote-rule);
+}
+
+.fieldnote-metrics strong {
+  color: var(--accent);
+  font-size: clamp(1rem, 2vw, 1.18rem);
+}
+
+.fieldnote-source-action {
+  margin-top: 1rem;
+}
+
 .workflow-chain {
   display: grid;
   gap: clamp(0.9rem, 2vw, 1.25rem);
+  padding-left: clamp(0.9rem, 2vw, 1.15rem);
+  border-left: 1px solid var(--fieldnote-rule);
 }
 
 .workflow-steps,
@@ -1240,7 +1362,7 @@ textarea:focus-visible {
   min-height: 2rem;
   padding: 0.25rem 0.65rem;
   border: 1px solid var(--fieldnote-rule);
-  border-radius: var(--radius-sm);
+  border-radius: 0;
   color: var(--text);
   font-size: 0.88rem;
   font-weight: 700;
@@ -1310,6 +1432,8 @@ textarea:focus-visible {
 .readiness-checkpoint {
   display: grid;
   gap: 0.75rem;
+  padding-left: clamp(0.9rem, 2vw, 1.15rem);
+  border-left: 1px solid var(--fieldnote-rule);
 }
 
 .readiness-checkpoint ul {
@@ -2572,6 +2696,12 @@ body.task-landing-page > .hero > * {
   .pain-card,
   .principle-callout {
     padding-left: 0.9rem;
+  }
+
+  .fieldnote-source-meta div,
+  .fieldnote-metrics div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
   }
 
   .workflow-steps {
