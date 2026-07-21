@@ -971,6 +971,200 @@ textarea:focus-visible {
 }
 
 /* -----------------------------
+   TEXT PREPARATION JOURNAL
+----------------------------- */
+
+.journal-page {
+  width: min(100% - 2rem, var(--page-width, 1120px));
+  margin-inline: auto;
+  padding: clamp(2.75rem, 6vw, 5rem) 0 clamp(4rem, 8vw, 6rem);
+  display: grid;
+  gap: clamp(1.8rem, 4vw, 3rem);
+}
+
+.journal-hero {
+  max-width: 58rem;
+  display: grid;
+  gap: clamp(0.85rem, 2vw, 1.2rem);
+}
+
+.journal-hero .eyebrow,
+.journal-section-heading .eyebrow,
+.journal-close .eyebrow {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.journal-hero h1 {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(3rem, 9vw, 6.7rem);
+  line-height: 0.92;
+}
+
+.journal-hero p {
+  max-width: 48rem;
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.16rem);
+  line-height: 1.62;
+}
+
+.journal-hero .journal-thesis {
+  max-width: 52rem;
+  color: var(--text);
+  font-size: clamp(1.35rem, 3.2vw, 2.2rem);
+  line-height: 1.14;
+  font-weight: 700;
+}
+
+.journal-shell {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.journal-opening {
+  width: min(100%, 42rem);
+  padding-left: clamp(1rem, 2vw, 1.35rem);
+  border-left: 2px solid var(--accent);
+}
+
+.journal-opening p {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.05rem, 2vw, 1.22rem);
+  line-height: 1.62;
+}
+
+.journal-section {
+  padding-top: clamp(1.2rem, 2.5vw, 1.8rem);
+  border-top: 1px solid color-mix(in srgb, var(--editor-border) 66%, transparent);
+}
+
+.journal-section-heading {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.journal-section-heading h2,
+.journal-close h2 {
+  max-width: 15ch;
+  margin: 0;
+  font-size: clamp(1.7rem, 4vw, 3rem);
+  line-height: 1;
+}
+
+.journal-method {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.4rem);
+}
+
+.journal-method-step,
+.journal-track,
+.journal-note {
+  min-width: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--editor-border);
+}
+
+.journal-marker,
+.journal-signal {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+  margin-bottom: 0.6rem;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.journal-label {
+  margin: 0 0 0.45rem;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.journal-method-step p:not(.journal-label),
+.journal-track p,
+.journal-note p,
+.journal-close p {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.journal-track-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.journal-track {
+  padding-left: clamp(0.9rem, 1.6vw, 1.15rem);
+  border-left: 1px solid color-mix(in srgb, var(--editor-border) 78%, transparent);
+}
+
+.journal-track h3,
+.journal-note h3 {
+  margin: 0 0 0.65rem;
+  color: var(--text);
+  font-size: clamp(1.12rem, 2vw, 1.45rem);
+  line-height: 1.15;
+}
+
+.journal-track ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.85rem 0;
+  padding-left: 1.1rem;
+}
+
+.journal-track li {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.journal-tools {
+  margin-top: 0.9rem;
+  font-size: 0.94rem;
+}
+
+.journal-note-list {
+  display: grid;
+  gap: clamp(1.15rem, 2.5vw, 1.75rem);
+}
+
+.journal-note {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.7fr) minmax(0, 1.3fr);
+  column-gap: clamp(1.25rem, 4vw, 3rem);
+  row-gap: 0.5rem;
+}
+
+.journal-note .journal-signal,
+.journal-note h3 {
+  grid-column: 1;
+}
+
+.journal-note p:not(.journal-signal) {
+  grid-column: 2;
+  margin: 0;
+}
+
+.journal-note strong {
+  color: var(--text);
+}
+
+.journal-close {
+  width: min(100%, 44rem);
+}
+
+/* -----------------------------
    LEGAL / TRUST PAGES
 ----------------------------- */
 
@@ -2161,6 +2355,33 @@ body.task-landing-page > .hero > * {
 
   .text-readiness-page .tool-shell {
     width: 100%;
+  }
+
+  .journal-page {
+    width: min(100% - 1rem, 100%);
+    padding-top: 2rem;
+  }
+
+  .journal-hero h1 {
+    max-width: 9ch;
+    font-size: clamp(2.6rem, 16vw, 4rem);
+  }
+
+  .journal-method,
+  .journal-track-grid,
+  .journal-note {
+    grid-template-columns: 1fr;
+  }
+
+  .journal-note .journal-signal,
+  .journal-note h3,
+  .journal-note p:not(.journal-signal) {
+    grid-column: 1;
+  }
+
+  .journal-track,
+  .journal-opening {
+    padding-left: 0.9rem;
   }
 
   body.task-landing-page > main,

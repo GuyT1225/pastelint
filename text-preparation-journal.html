@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Text Preparation Journal | PasteLint</title>
+  <meta
+    name="description"
+    content="Field notes on cleaning, structuring, and preparing text before it enters AI, TTS, publishing, accessibility, and automation workflows."
+  />
+  <link rel="canonical" href="https://guyt1225.github.io/pastelint/text-preparation-journal.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="https://cdn.statskit.ai/v.js" data-site-id="vpk_live_20e8d5020dab682829ccd0beafbe17c93cacdfd20d14f200" data-api="https://edge.statskit.ai"></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand-link" href="index.html">PasteLint</a>
+
+    <nav class="tool-nav" aria-label="Tool navigation">
+      <a href="index.html">Clean</a>
+      <a href="second-draft.html">SecondDraft</a>
+      <a href="SSML_builder.html">SSML Builder</a>
+    </nav>
+
+    <nav class="theme-switcher" aria-label="Theme selector">
+      <button class="theme-btn active" type="button" data-theme-choice="light">Light</button>
+      <button class="theme-btn" type="button" data-theme-choice="dark">Dark</button>
+      <button class="theme-btn" type="button" data-theme-choice="terminal">Terminal</button>
+    </nav>
+  </header>
+
+  <main class="journal-page">
+    <section class="journal-hero">
+      <p class="eyebrow">Editorial research</p>
+      <h1>Text Preparation Journal</h1>
+      <p class="journal-thesis">
+        Broken text usually does not announce itself. It waits until the next tool.
+      </p>
+      <p>
+        The Text Preparation Journal tracks the cleanup layer between raw text and real use: AI drafts, PDF fragments, TTS scripts, hidden characters, IVR copy, and the small formatting failures that become expensive downstream.
+      </p>
+      <p>
+        The goal is not to publish AI tips. The goal is to name the text-preparation problems people are already running into.
+      </p>
+    </section>
+
+    <section class="journal-shell" aria-label="Journal overview">
+      <div class="journal-opening">
+        <p>
+          Each note starts with a real signal: a complaint, a workflow failure, a search query, a documentation edge case, or a production script problem. From there, the work is to find the pain underneath and turn it into a practical preparation rule.
+        </p>
+      </div>
+
+      <section class="journal-section journal-method-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">How a field note starts</p>
+          <h2>Signal, pain, principle, tool.</h2>
+        </div>
+
+        <div class="journal-method">
+          <div class="journal-method-step">
+            <span class="journal-marker">01</span>
+            <p class="journal-label">Signal</p>
+            <p>One real source or production failure: a thread, query pattern, support question, workflow video, documentation edge case, or script problem.</p>
+          </div>
+
+          <div class="journal-method-step">
+            <span class="journal-marker">02</span>
+            <p class="journal-label">Pain</p>
+            <p>The broken paste, unsafe speech output, invisible formatting bug, or draft that looks finished before it is useful.</p>
+          </div>
+
+          <div class="journal-method-step">
+            <span class="journal-marker">03</span>
+            <p class="journal-label">Principle</p>
+            <p>The reusable text-preparation rule revealed by the failure.</p>
+          </div>
+
+          <div class="journal-method-step">
+            <span class="journal-marker">04</span>
+            <p class="journal-label">Tool</p>
+            <p>The PasteLint workflow that maps to the problem, only when the connection is direct.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="journal-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">Research tracks</p>
+          <h2>Where the cleanup layer keeps showing up.</h2>
+        </div>
+
+        <div class="journal-track-grid">
+          <article class="journal-track">
+            <p class="journal-signal">AI output</p>
+            <h3>AI output that looks finished too early</h3>
+            <p>The risky part is not always bad writing. It is usable-looking text that skips the second pass.</p>
+            <ul>
+              <li>Polished but interchangeable phrasing.</li>
+              <li>Prompting around a problem that needs editing.</li>
+            </ul>
+            <p class="journal-tools">Tools: <a href="clean-chatgpt-output.html">Clean ChatGPT Output</a>, <a href="second-draft.html">SecondDraft</a>, <a href="text-readiness-framework.html">Text Readiness Framework</a>.</p>
+          </article>
+
+          <article class="journal-track">
+            <p class="journal-signal">PDF paste</p>
+            <h3>PDF text that breaks after copy/paste</h3>
+            <p>PDFs preserve pages well. They often preserve reusable text badly.</p>
+            <ul>
+              <li>Line breaks that fracture paragraphs.</li>
+              <li>Spacing and punctuation inherited from a visual layout.</li>
+            </ul>
+            <p class="journal-tools">Tools: <a href="fix-pdf-paste.html">Fix PDF Paste</a>, <a href="index.html">PasteLint Clean</a>.</p>
+          </article>
+
+          <article class="journal-track">
+            <p class="journal-signal">Speech prep</p>
+            <h3>Speech-ready text is not reader-ready text</h3>
+            <p>Screen-readable text can still make a voice system stumble.</p>
+            <ul>
+              <li>Times, DB numbers, contact info, and symbols that need speech-safe formatting.</li>
+              <li>Long scripts that need reviewable chunks before final audio.</li>
+            </ul>
+            <p class="journal-tools">Tools: <a href="tts-text-cleanup.html">TTS Text Cleanup</a>, <a href="SSML_builder.html">SSML Builder</a>.</p>
+          </article>
+
+          <article class="journal-track">
+            <p class="journal-signal">Invisible text</p>
+            <h3>Invisible characters as production bugs</h3>
+            <p>Some text failures are invisible until search, layout, speech, or automation has to process them.</p>
+            <ul>
+              <li>Zero-width characters that merge words or disrupt matching.</li>
+              <li>Nonbreaking spaces and formatting residue from another system.</li>
+            </ul>
+            <p class="journal-tools">Tools: <a href="remove-hidden-characters.html">Remove Hidden Characters</a>, <a href="index.html">PasteLint Clean</a>.</p>
+          </article>
+
+          <article class="journal-track">
+            <p class="journal-signal">Workflow handoff</p>
+            <h3>Prompt-to-production cleanup</h3>
+            <p>The hard part is often moving text safely from a generator, document, export, or draft into the next system.</p>
+            <ul>
+              <li>Raw output that still needs reviewed wording.</li>
+              <li>Text prepared for publishing, speech, accessibility, or automation without uploading the paste.</li>
+            </ul>
+            <p class="journal-tools">Tools: <a href="text-readiness-framework.html">Text Readiness Framework</a>, <a href="second-draft.html">SecondDraft</a>, <a href="SSML_builder.html">SSML Builder</a>.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="journal-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">Editorial docket</p>
+          <h2>Planned investigations, not published articles yet.</h2>
+        </div>
+
+        <div class="journal-note-list">
+          <article class="journal-note">
+            <p class="journal-signal">Planned note</p>
+            <h3>The problem is not that ChatGPT writes badly. It is that people publish the first draft.</h3>
+            <p><strong>Signal to look for:</strong> a concrete workflow where generated text moved too quickly from draft to use.</p>
+            <p><strong>Pain to investigate:</strong> polished wording that still needs review, compression, or a second pass.</p>
+            <p class="journal-tools">Related tools: <a href="clean-chatgpt-output.html">Clean ChatGPT Output</a>, <a href="second-draft.html">SecondDraft</a>.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Planned note</p>
+            <h3>PDFs were built for pages, not reusable text.</h3>
+            <p><strong>Signal to look for:</strong> a copied PDF example with broken line breaks or paragraph flow.</p>
+            <p><strong>Pain to investigate:</strong> page layout leaking into reusable text.</p>
+            <p class="journal-tools">Related tools: <a href="fix-pdf-paste.html">Fix PDF Paste</a>, <a href="index.html">PasteLint Clean</a>.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Planned note</p>
+            <h3>Text that looks fine can still sound bad.</h3>
+            <p><strong>Signal to look for:</strong> a TTS or IVR script where visual text produced awkward speech.</p>
+            <p><strong>Pain to investigate:</strong> abbreviations, symbols, ranges, and catalog metadata in spoken output.</p>
+            <p class="journal-tools">Related tools: <a href="tts-text-cleanup.html">TTS Text Cleanup</a>, <a href="SSML_builder.html">SSML Builder</a>.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Planned note</p>
+            <h3>Hidden characters are production bugs, not cosmetic issues.</h3>
+            <p><strong>Signal to look for:</strong> a hidden-character failure in editing, search, publishing, or automation.</p>
+            <p><strong>Pain to investigate:</strong> invisible formatting that survives until it breaks a downstream job.</p>
+            <p class="journal-tools">Related tools: <a href="remove-hidden-characters.html">Remove Hidden Characters</a>, <a href="index.html">PasteLint Clean</a>.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="journal-section journal-close">
+        <p class="eyebrow">Working rule</p>
+        <h2>Prepare text before it enters the next system.</h2>
+        <p>
+          PasteLint is browser-only and no-upload. The journal follows the same constraint: practical text-preparation problems, not collected pasted text, private drafts, or invented source material.
+        </p>
+        <p>
+          Start with the broader <a href="text-readiness-framework.html">Text Readiness Framework</a>.
+        </p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-brand">
+        PasteLint &mdash; browser-based text cleanup tools.
+      </p>
+
+      <p class="footer-note">
+        No login. No upload. Everything runs in your browser.
+      </p>
+
+      <div class="footer-columns">
+        <div>
+          <h4>Popular cleanup tasks</h4>
+
+          <p>
+            <a href="fix-pdf-paste.html">Fix Text Copied from PDF</a>
+            <span>|</span>
+            <a href="clean-chatgpt-output.html">Clean ChatGPT Output</a>
+            <span>|</span>
+            <a href="remove-hidden-characters.html">Remove Hidden Characters</a>
+          </p>
+
+          <p>
+            <a href="tts-text-cleanup.html">Prepare Text for TTS</a>
+            <span>|</span>
+            <a href="ivr-text-prep.html">IVR Text Prep</a>
+            <span>|</span>
+            <a href="SSML_builder.html">SSML Builder</a>
+          </p>
+        </div>
+
+        <div>
+          <h4>Core tools</h4>
+
+          <p>
+            <a href="index.html">PasteLint Clean</a>
+            <span>|</span>
+            <a href="second-draft.html">SecondDraft</a>
+            <span>|</span>
+            <a href="SSML_builder.html">SSML Builder</a>
+            <span>|</span>
+            <a href="text-readiness-framework.html">Text Readiness Framework</a>
+          </p>
+        </div>
+
+        <div>
+          <h4>Legal</h4>
+
+          <p>
+            <a href="privacy.html">Privacy Policy</a>
+            <span>|</span>
+            <a href="terms.html">Terms</a>
+            <span>|</span>
+            <a href="contact.html">Contact</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/themes.js"></script>
+</body>
+</html>
