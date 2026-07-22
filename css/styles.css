@@ -1957,8 +1957,8 @@ html[data-theme="terminal"] .output-panel::before {
 }
 
 .clean-chatgpt-page .chatgpt-proof-panel {
-  margin-top: 1.25rem;
-  padding-top: 1rem;
+  margin-top: 1rem;
+  padding-top: 0.8rem;
   border-top: 1px solid var(--editor-border);
 }
 
@@ -1969,14 +1969,14 @@ html[data-theme="terminal"] .output-panel::before {
 
 .clean-chatgpt-page .chatgpt-proof-panel p {
   color: var(--muted);
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
 .clean-chatgpt-page .chatgpt-proof-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.85rem;
-  margin: 0.9rem 0;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
 }
 
 .clean-chatgpt-page .chatgpt-proof-grid strong {
@@ -1990,6 +1990,11 @@ html[data-theme="terminal"] .output-panel::before {
 
 .clean-chatgpt-page .chatgpt-proof-grid p {
   margin: 0;
+}
+
+.clean-chatgpt-page .chatgpt-proof-note {
+  margin: 0.65rem 0 0;
+  font-size: 0.88rem;
 }
 
 .clean-chatgpt-page .hero-script-label {
