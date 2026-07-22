@@ -2404,6 +2404,19 @@ body.task-landing-page > .hero > * {
   background-image: none;
 }
 
+.pdf-paste-page .preview-panel {
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.pdf-paste-page .preview-panel .example-grid strong {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .pdf-paste-page .pdf-check-panel {
   padding: clamp(1rem, 2vw, 1.35rem);
 }
