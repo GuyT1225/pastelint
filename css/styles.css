@@ -1803,6 +1803,23 @@ html[data-theme="terminal"] .output-panel::before {
   border: 1px solid var(--editor-border);
 }
 
+.second-draft-page .second-draft-action-note {
+  flex-basis: 100%;
+  max-width: 48rem;
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.2rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--editor-border) 72%, transparent);
+}
+
+.second-draft-page .second-draft-action-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
 /* Review area */
 .second-draft-page .revision-review-grid {
   display: grid;
