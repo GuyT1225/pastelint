@@ -606,6 +606,77 @@ function splitLongText(text, limit) {
   return chunks;
 }
 
+function splitOversizedText(text, limit) {
+  const chunks = [];
+  let remaining = String(text || "").trim();
+
+  while (remaining.length > limit) {
+    let splitAt = remaining.lastIndexOf(" ", limit);
+
+    if (splitAt < Math.floor(limit * 0.6)) {
+      splitAt = limit;
+    }
+
+    chunks.push(remaining.slice(0, splitAt).trim());
+    remaining = remaining.slice(splitAt).trim();
+  }
+
+  if (remaining) {
+    chunks.push(remaining);
+  }
+
+  return chunks;
+}
+
+function looksLikeCatalogRecord(text) {
+  const value = String(text || "").trim();
+
+  return (
+    /\bDB\s?(?:\d{6}|\d(?:[- ]?\d){5,})\b/i.test(value) &&
+    /\b\d+\s+hours?,\s*\d+\s+minutes?\b/i.test(value) &&
+    /\bby\s+[^.\n]+/i.test(value)
+  );
+}
+
+function splitCatalogRecordsFromBlock(block) {
+  if (!looksLikeCatalogRecord(block)) {
+    return [String(block || "").trim()].filter(Boolean);
+  }
+
+  const lines = String(block || "")
+    .split(/\n+/)
+    .map(function (line) {
+      return line.trim();
+    })
+    .filter(Boolean);
+
+  if (!lines.length) return [];
+
+  const units = [];
+  let current = "";
+
+  lines.forEach(function (line) {
+    const startsCatalogRecord =
+      /\bDB\s?(?:\d{6}|\d(?:[- ]?\d){5,})\b/i.test(line) &&
+      /\b\d+\s+hours?,?\s*\d+\s+minutes?\b/i.test(line) &&
+      /\bby\s+/i.test(line);
+
+    if (startsCatalogRecord && current) {
+      units.push(current.trim());
+      current = line;
+      return;
+    }
+
+    current = current ? current + " " + line : line;
+  });
+
+  if (current.trim()) {
+    units.push(current.trim());
+  }
+
+  return units;
+}
+
 function splitIntoBookAwareUnits(text) {
   const blocks = text
     .split(/\n\s*\n+/)
@@ -617,7 +688,15 @@ function splitIntoBookAwareUnits(text) {
   const units = [];
   let current = "";
 
+  const recordBlocks = [];
+
   blocks.forEach(function (block) {
+    splitCatalogRecordsFromBlock(block).forEach(function (recordBlock) {
+      recordBlocks.push(recordBlock);
+    });
+  });
+
+  recordBlocks.forEach(function (block) {
     const startsBook = /\bDB\s?\d/i.test(block);
 
     if (startsBook) {
@@ -709,6 +788,10 @@ function splitIntoBookAwareChunks(text, limit) {
       splitLongText(unit, limit).forEach(function (part) {
         if (part.length <= limit) {
           chunks.push(part);
+        } else {
+          splitOversizedText(part, limit).forEach(function (oversizedPart) {
+            chunks.push(oversizedPart);
+          });
         }
       });
     }

@@ -647,6 +647,57 @@ function testSsmlChunkingSafety() {
   assert.ok(nearLimitChunks.every((chunk) => chunk.trim()));
 }
 
+function normalizeChunkText(text) {
+  return String(text || "").replace(/\s+/g, " ").trim();
+}
+
+function testSsmlCatalogRecordChunking() {
+  const context = loadSsmlContext();
+  const limit = 3000;
+  const longDescription = "This synthetic catalog description keeps the first record near the chunk limit while remaining one complete book record for review. ".repeat(19);
+  const firstRecord = [
+    "How To Test Negative for Stupid and Why Washington Never Will DB 1-3-3-8-7-3. 8 hours, 17 minutes, by John Kennedy. Read by John Kennedy.",
+    `"${longDescription.trim()}"`,
+    "From publisher. Unrated. Commercial audiobook. Bestseller. 2025. DB 1-3-3-8-7-3. How To Test Negative for Stupid and Why Washington Never Will."
+  ].join(" ");
+  const secondTitle = "Jump and Find Joy: Embracing Change in Every Season of Life";
+  const secondRecord = [
+    `${secondTitle}, DB 1-3-4-0-7-6. 5 hours, 30 minutes, by Hoda Kotb. Read by Hoda Kotb.`,
+    "\"A short synthetic description about change, seasons, and practical encouragement.\"",
+    "From publisher. Unrated. Commercial audiobook. 2025. DB 1-3-4-0-7-6. Jump and Find Joy: Embracing Change in Every Season of Life."
+  ].join(" ");
+  const source = [
+    "Adult Nonfiction",
+    "Biography",
+    "",
+    firstRecord,
+    secondRecord
+  ].join("\n");
+
+  const chunks = context.splitIntoBookAwareChunks(source, limit);
+  const secondRecordChunk = chunks.find((chunk) => chunk.includes(secondTitle));
+  const secondRecordChunkIndex = chunks.indexOf(secondRecordChunk);
+
+  assert.ok(chunks.length > 1);
+  assert.ok(secondRecordChunk, "Expected a chunk containing the Jump and Find Joy record.");
+  assert.ok(secondRecordChunk.includes("DB 1-3-4-0-7-6"));
+  assert.ok(secondRecordChunk.includes("5 hours, 30 minutes"));
+  assert.ok(secondRecordChunk.includes("by Hoda Kotb"));
+  assert.ok(secondRecordChunk.includes("Read by Hoda Kotb"));
+  assert.ok(secondRecordChunk.includes("From publisher."));
+  assert.ok(secondRecordChunk.includes("Jump and Find Joy: Embracing Change in Every Season of Life."));
+
+  if (secondRecordChunkIndex > 0) {
+    assert.ok(
+      !chunks[secondRecordChunkIndex - 1].includes(secondTitle),
+      "The second catalog title should not be orphaned in the previous chunk."
+    );
+  }
+
+  assert.ok(chunks.every((chunk) => chunk.length <= limit));
+  assert.strictEqual(normalizeChunkText(chunks.join("\n\n")), normalizeChunkText(source));
+}
+
 function testSsmlLargeOtbsScriptCleanup() {
   const input = [
     "Dial-In Discussions",
@@ -843,6 +894,7 @@ function main() {
   runTest("SSML generate from cleaned text", testSsmlGenerateFromCleanedText);
   runTest("SSML approved cleaned text preservation", testSsmlApprovedCleanedTextPreservation);
   runTest("SSML chunking safety", testSsmlChunkingSafety);
+  runTest("SSML catalog record chunking", testSsmlCatalogRecordChunking);
   runTest("SSML large OTBS script cleanup", testSsmlLargeOtbsScriptCleanup);
   runTest("SSML empty action statuses", testSsmlEmptyActionStatuses);
 
