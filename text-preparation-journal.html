@@ -58,16 +58,19 @@
       </div>
 
       <div class="journal-docket-strip" aria-label="Journal working labels">
-        <span>Source file</span>
-        <span>Field note</span>
-        <span>Research docket</span>
+        <span>Sources &amp; Case Studies</span>
+        <span>Editor&rsquo;s Desk</span>
+        <span>Engine Room</span>
         <span>Working rule</span>
       </div>
 
       <section class="journal-section">
         <div class="journal-section-heading">
-          <p class="eyebrow">Available field note</p>
-          <h2>One source signal, one cleanup lesson.</h2>
+          <p class="eyebrow">Sources &amp; Case Studies</p>
+          <h2>Source-led observations from real cleanup work.</h2>
+          <p>
+            Real-world signals from workflows, posts, articles, search behavior, and production failures. These notes show where text preparation problems appear before they become tool features.
+          </p>
         </div>
 
         <div class="journal-note-list">
@@ -85,6 +88,90 @@
             <p><strong>Source signal:</strong> OpenAI Academy article on revising papers without losing voice.</p>
             <p><strong>Pain to investigate:</strong> AI-assisted revision can improve clarity while making ownership harder to see unless edits stay reviewable.</p>
             <p class="journal-tools">Read the field note: <a href="journal-cleanup-pass-voice-survives.html">The cleanup pass is where voice survives</a>.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="journal-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">Editor&rsquo;s Desk</p>
+          <h2>Writing and revision principles behind the work.</h2>
+          <p>
+            Writing and revision principles behind PasteLint Clean and SecondDraft. These planned notes explain why cleanup, structure, punctuation, and reviewable edits matter when generated or copied text needs to be reused.
+          </p>
+        </div>
+
+        <div class="journal-note-list">
+          <article class="journal-note">
+            <p class="journal-signal">Planned Editing Note</p>
+            <h3>PDF line breaks are layout, not paragraphs</h3>
+            <p>Why copied PDF text often breaks paragraph flow before the writing itself is edited.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Planned Editing Note</p>
+            <h3>Filler openings make AI drafts feel unfinished</h3>
+            <p>Why phrases like “it is important to note” and “in today&rsquo;s landscape” weaken generated copy.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Planned Editing Note</p>
+            <h3>Why hidden characters can merge words</h3>
+            <p>How invisible Unicode artifacts can turn normal-looking text into broken pasted output.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Planned Editing Note</p>
+            <h3>Reviewable edits protect voice</h3>
+            <p>Why revision works better when writers can compare, choose, and reject changes.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Planned Editing Note</p>
+            <h3>When punctuation is an audio instruction</h3>
+            <p>Why commas, periods, times, symbols, and abbreviations matter for TTS and IVR scripts.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="journal-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">Engine Room</p>
+          <h2>Transparent cleanup improvements from real testing.</h2>
+          <p>
+            Recent cleanup fixes and rule improvements from real PasteLint testing. These notes show what changed, why it mattered, and which cleanup path is now safer.
+          </p>
+        </div>
+
+        <div class="journal-note-list">
+          <article class="journal-note">
+            <p class="journal-signal">Recent improvement</p>
+            <h3>Speech cleanup: time abbreviations</h3>
+            <p>Improved cases like “1pm” and “7 PM” so speech output reads more naturally.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Recent improvement</p>
+            <h3>Speech cleanup: social handles</h3>
+            <p>Improved handling of @handles so they are prepared as “at handle” for spoken output.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Recent improvement</p>
+            <h3>Catalog cleanup: DB numbers and book metadata</h3>
+            <p>Improved punctuation around DB numbers, durations, titles, and author lines for audio-script prep.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Recent improvement</p>
+            <h3>Hidden character cleanup</h3>
+            <p>Improved recovery when invisible characters appear inside words, emails, or URLs.</p>
+          </article>
+
+          <article class="journal-note">
+            <p class="journal-signal">Recent improvement</p>
+            <h3>PDF paste cleanup</h3>
+            <p>Improved line-break repair so copied PDF text can return to readable paragraph flow.</p>
           </article>
         </div>
       </section>
