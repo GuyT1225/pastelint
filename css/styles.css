@@ -1807,14 +1807,31 @@ html[data-theme="terminal"] .output-panel::before {
   flex-basis: 100%;
   max-width: 48rem;
   display: grid;
-  gap: 0.35rem;
-  margin-top: 0.2rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid color-mix(in srgb, var(--editor-border) 72%, transparent);
+  gap: 0.55rem;
+  margin-top: 0.3rem;
+  padding: 0.8rem 0 0.1rem 0.9rem;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 42%, var(--editor-border));
 }
 
-.second-draft-page .second-draft-action-note p {
+.second-draft-page .second-draft-action-note p,
+.second-draft-page .second-draft-action-note dl,
+.second-draft-page .second-draft-action-note dd {
   margin: 0;
+}
+
+.second-draft-page .second-draft-action-note dl {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.second-draft-page .second-draft-action-note dt {
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 850;
+}
+
+.second-draft-page .second-draft-action-note p,
+.second-draft-page .second-draft-action-note dd {
   color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.45;
