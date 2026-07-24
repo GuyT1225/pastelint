@@ -1,385 +1,172 @@
 # PasteLint
 
-**Prepare text before it leaves your browser.**
+Browser-only text preparation for copied, generated, and speech-ready text.
 
-PasteLint is a privacy-first browser-based text preparation suite for cleaning, revising, and preparing messy copied text before reuse.
+PasteLint helps clean and prepare text before it becomes a post, script, prompt, voiceover, support reply, document, SSML file, or IVR recording.
 
-The core workflow is:
+Live site: <https://guyt1225.github.io/pastelint/>
 
-```text
-Clean → Rewrite → Prepare
+Repository: <https://github.com/GuyT1225/pastelint>
+
+## Trust Model
+
+PasteLint is a static GitHub Pages project.
+
+- Runs in the browser
+- No login
+- No upload
+- No backend
+- No API
+- Pasted text is processed locally in the page
+- Analytics are used for basic page/event understanding, not pasted text
+
+Do not paste confidential, client, medical, legal, personal, or sensitive text into public reports or GitHub issues. Small anonymized examples are best.
+
+## What PasteLint Is Not
+
+- Not an AI humanizer
+- Not detector bypass
+- Not a grammar subscription
+- Not a cloud editor
+- Not a place to paste confidential text for review
+
+PasteLint is for cleanup, review, and preparation before text moves into the next system.
+
+## Tools
+
+| Tool/page | What it prepares | Link |
+| --- | --- | --- |
+| PasteLint Clean | General copied text, paste artifacts, hidden characters, spacing, and formatting noise | [index.html](index.html) |
+| Clean ChatGPT Output | Generated drafts with filler, inflated phrasing, rough spacing, or paste noise | [clean-chatgpt-output.html](clean-chatgpt-output.html) |
+| Fix PDF Paste | Text copied from PDFs with broken line breaks or paragraph flow | [fix-pdf-paste.html](fix-pdf-paste.html) |
+| Remove Hidden Characters | Zero-width characters, hard spaces, and invisible formatting residue | [remove-hidden-characters.html](remove-hidden-characters.html) |
+| Clean Text Message | Short messages, quick emails, and mobile drafts | [clean-text-message.html](clean-text-message.html) |
+| SecondDraft | Reviewable revision options for tone, length, and structure | [second-draft.html](second-draft.html) |
+| SSML Builder | Speech-ready text, XML escaping, DB numbers, chunks, and SSML handoff | [SSML_builder.html](SSML_builder.html) |
+| TTS Text Cleanup | Read-aloud text before narration, TTS, or SSML | [tts-text-cleanup.html](tts-text-cleanup.html) |
+| IVR Text Prep | Phone menu copy, contact info, and public-service scripts | [ivr-text-prep.html](ivr-text-prep.html) |
+| Text Readiness Framework | The broader Clean -> Rewrite -> Prepare model | [text-readiness-framework.html](text-readiness-framework.html) |
+| Text Preparation Journal | Field notes, writing rules, and engine notes from real cleanup cases | [text-preparation-journal.html](text-preparation-journal.html) |
+
+## How It Works
+
+At a high level:
+
+1. Text is pasted into a page.
+2. Browser-side JavaScript detects cleanup issues.
+3. Cleaned output is generated locally.
+4. The user reviews and copies the result.
+5. SSML Builder can clean, generate, escape, and chunk speech-ready text.
+6. Regression tests protect known cleanup, rewrite, and SSML rules.
+
+PasteLint does not need a server to process pasted text.
+
+## Key Implementation Files
+
+| File | Purpose |
+| --- | --- |
+| [js/text-clean-engine.js](js/text-clean-engine.js) | Shared cleanup rules for pasted text, hidden characters, PDF reflow, spacing, and related cleanup behavior |
+| [js/text-analyzer.js](js/text-analyzer.js) | Shared analysis helpers for detecting text issues and reporting what changed |
+| [js/script.js](js/script.js) | Main PasteLint Clean and shared task-page controller behavior |
+| [js/second-draft.js](js/second-draft.js) | SecondDraft revision, brief, and local rewrite-support behavior |
+| [js/ssml-builder.js](js/ssml-builder.js) | SSML Builder cleanup, XML escaping, speech-safe formatting, and chunking logic |
+| [js/themes.js](js/themes.js) | Light, Dark, and Terminal theme switching |
+| [tests/regression.js](tests/regression.js) | No-dependency regression checks for cleanup, SecondDraft, and SSML behavior |
+
+## Local Development
+
+Serve the static site locally:
+
+```powershell
+python -m http.server 8000
 ```
 
-* Clean removes paste artifacts, spacing issues, hidden characters, and formatting noise.
-* Rewrite uses SecondDraft for clearer local revisions while preserving meaning.
-* Prepare uses SSML Builder and task pages for speech, TTS, IVR, publishing, and document workflows.
-
-PasteLint helps repair text copied from:
-
-* PDFs
-* AI tools
-* websites
-* emails
-* Word documents
-* OCR exports
-* transcripts
-* IVR scripts
-* accessibility workflows
-
-Everything runs locally in the browser.
-
-No uploads. No accounts. No APIs. No backend.
-
----
-
-# Live Project
-
-https://guyt1225.github.io/pastelint/
-
----
-
-# What PasteLint Can Do
-
-PasteLint currently helps:
-
-* clean copied PDF text
-* repair messy AI-generated formatting
-* remove hidden characters
-* normalize pasted text
-* repair spacing and punctuation
-* detect readability and narration risks
-* prepare text for IVR and TTS workflows
-* clean OCR and transcript formatting
-* improve readability before publishing or narration
-
----
-
-# Core Philosophy
-
-PasteLint is intentionally designed as:
-
-* browser-only
-* privacy-first
-* lightweight
-* explainable
-* accessibility-aware
-* utility-focused
-
-The goal is not to conceal authorship or evade review.
-
-The goal is to:
-
-* improve readability
-* reduce formatting friction
-* improve narration flow
-* improve accessibility
-* improve spoken-text usability
-* preserve meaning while making text easier to reuse
-
-PasteLint aims to feel more like a trusted public utility than a hype-driven AI product.
-
----
-
-# Why This Exists
-
-PasteLint began as a practical solution for real-world communication problems:
-
-* messy pasted text
-* IVR narration cleanup
-* accessibility formatting
-* speech synthesis preparation
-* AI-generated text cleanup
-* PDF and OCR formatting repair
-
-The project continues to evolve through real operational workflows rather than artificial demo scenarios.
-
----
-
-# Current Tools
-
-## PasteLint Clean
-
-Cleans messy pasted text and formatting problems.
-
-Current capabilities include:
-
-* extra spacing cleanup
-* punctuation spacing repair
-* hidden character detection
-* smart quote normalization
-* repeated word detection
-* typo correction
-* line ending normalization
-* paragraph cleanup
-* narration-aware symbol detection
-* speech-risk detection
-
-The system also includes:
-
-* Text Brief
-* What PasteLint Found
-* Edit Map
-* Visual cleanup preview
-
----
-
-## Clean ChatGPT Output
-
-Cleans ChatGPT text before sending, publishing, revising, or reusing it.
-
-Focus areas include:
-
-* filler phrase cleanup
-* formatting noise removal
-* readability checks
-* browser-only copy and cleanup flow
-* handoff into SecondDraft
-
----
-
-## SecondDraft
-
-SecondDraft improves readability, tone, rhythm, and flow while preserving the original meaning.
-
-The goal is restrained revision rather than aggressive rewriting.
-
-Current and planned areas of focus include:
-
-* filler reduction
-* readability improvement
-* sentence rhythm balancing
-* structure smoothing
-* accessibility-aware rewriting
-* narration-aware cadence
-* tone controls
-* paragraph reflow
-
-SecondDraft is intentionally designed to avoid:
-
-* synonym spinning
-* authorship evasion
-* meaning distortion
-* over-polished AI tone
-
----
-
-## SSML Builder
-
-SSML Builder prepares text for:
-
-* Amazon Polly
-* IVR systems
-* narration workflows
-* screen readers
-* speech synthesis
-* accessibility systems
-
-Current features include:
-
-* Polly-safe formatting
-* DB number normalization
-* chunk generation
-* speech pacing cleanup
-* special character normalization
-* narration-safe structure cleanup
-* readable spoken formatting
-
-The builder was originally developed to support real-world public library IVR systems and accessibility-focused narration workflows.
-
----
-
-## Task Cleanup Pages
-
-PasteLint also includes focused task pages:
-
-* PDF paste cleanup - repair copied PDF text without uploading files.
-* Hidden character cleanup - remove zero-width characters, hard spaces, and invisible formatting noise.
-* TTS text cleanup - prepare text before read-aloud, narration, or speech tools.
-* IVR text prep - clean scripts, contact information, and menu wording before final audio.
-* Clean text message - tidy short messages before sending.
-* Text Readiness Framework - explains the Clean → Rewrite → Prepare model.
-
----
-
-# Current Analyzer Capabilities
-
-The shared analyzer layer currently detects:
-
-* hidden characters
-* excessive spacing
-* filler phrases
-* repeated words
-* long sentences
-* punctuation issues
-* speech risks
-* narration formatting risks
-* accessibility-related readability concerns
-
-Current speech-related detection includes:
-
-* ampersands
-* at-symbols
-* slash characters
-* em dashes
-* en dashes
-* overly long sentences
-* narration pacing risks
-
-The analyzer is gradually becoming a shared intelligence layer across the platform.
-
----
-
-# Architecture
-
-PasteLint uses a modular browser-only architecture.
-
-No frameworks.
-No backend.
-No build tools.
-No APIs.
-
-Current shared infrastructure includes:
+Then open:
 
 ```text
-/js/text-clean-engine.js
-/js/text-analyzer.js
+http://127.0.0.1:8000/
 ```
 
-The project is gradually moving toward a more reusable shared-engine architecture across cleanup, readability, narration, and accessibility workflows.
+Run the regression suite:
 
-Long-term architectural goals include:
-
-```text
-shared cleanup engines
-shared analyzers
-reusable cleanup profiles
-page-specific controllers
-browser-native processing
-```
-
-The overall goal is stable, understandable, reusable text infrastructure shared across all tools.
-
----
-
-# Regression Checks
-
-PasteLint includes a no-dependency regression harness for recent cleanup, rewrite, and SSML behavior.
-
-Run:
-
-```text
+```powershell
 node tests/regression.js
 ```
 
-The checks cover hidden-character spacing, PDF paste reflow, SecondDraft rewrite seams, SSML contact cleanup, and approved-text SSML generation.
+There is no build step.
 
----
+## Text Preparation Journal
 
-# Accessibility Goals
+The Text Preparation Journal is PasteLint's public notebook for text cleanup work.
 
-Future development strongly considers:
+Tracks:
 
-* screen-reader workflows
-* auditory cognition
-* low-vision usability
-* read-aloud fatigue
-* spoken chunking
-* narration pacing
-* cognitive readability
-* accessibility-aware formatting
+- Sources & Case Studies: real examples of text problems found in posts, tools, search behavior, and production work
+- Editor's Desk: writing and editing rules used by PasteLint Clean and SecondDraft
+- Engine Room: cleanup rules and SSML fixes that came from real testing
 
-The goal is to optimize text not only visually, but auditorily.
+The Journal is not a generic writing blog. It documents text-prep problems that affect reuse, revision, publishing, speech, SSML, IVR, and related handoffs.
 
----
+## Reporting Feedback, Source Signals, And Bugs
 
-# Design Goals
+Friendly/nontechnical notes can go to:
 
-PasteLint intentionally avoids:
+```text
+contact.pastelint@gmail.com
+```
 
-* flashy AI startup aesthetics
-* opaque black-box rewriting
-* aggressive marketing language
-* over-engineered interfaces
+GitHub Issues are public and are best for repeatable bugs, broken links, cleanup edge cases, and technical reports:
 
-The intended experience is:
+<https://github.com/GuyT1225/pastelint/issues>
 
-* calm
-* clean
-* trustworthy
-* transparent
-* utility-focused
-* understandable
-* explainable
+Useful reports are usually small:
 
----
+```text
+Tool used:
+Input type:
+What happened:
+What you expected:
+Small safe example:
+Browser/device, if relevant:
+```
 
-# Privacy
+For Journal source signals:
 
-PasteLint processes text locally in the browser.
+```text
+Source link:
+What happened:
+Why it seems like a text-prep problem:
+Related tool, if any:
+```
 
-That means:
+Please do not send confidential, client, medical, legal, personal, or sensitive text. Summaries and anonymized examples are best.
 
-* no uploads
-* no account creation
-* no cloud processing
-* no hidden API calls
-* no server-side text storage
+## Development Principles
 
-Your text stays on your device.
+PasteLint development is intentionally conservative:
 
----
+- Browser-native first
+- Minimal dependencies
+- No backend text processing
+- Explainable cleanup rules
+- Regression coverage for production-discovered edge cases
+- Small, reviewable changes
 
-# Project Direction
+The goal is boringly safe, useful text infrastructure.
 
-PasteLint is gradually expanding beyond basic text cleanup into broader readability and narration-oriented cleanup workflows.
+## Status
 
-Current areas of focus include:
+PasteLint is actively developed and used as a live browser-only text preparation suite.
 
-* accessibility-aware formatting
-* narration-safe cleanup
-* speech-risk analysis
-* reusable readability infrastructure
-* explainable cleanup systems
-* browser-native processing
-* AI-era utility discoverability
+Recent work has focused on:
 
-Future improvements may include additional narration, accessibility, and spoken-text preparation workflows.
+- Hidden-character word-boundary recovery
+- PDF paste reflow
+- Empty-input status clarity
+- SSML large-script cleanup
+- SSML catalog record chunking
+- Journal notes for source-led cleanup lessons
 
----
-
-# Development Principles
-
-The project follows a deliberately conservative engineering philosophy:
-
-* local-only processing
-* minimal dependencies
-* modular architecture
-* explainable changes
-* transparent cleanup
-* reusable engines
-* safe incremental refactoring
-* browser-native reliability
-
-The goal is boringly safe, stable, understandable software.
-
----
-
-# Status
-
-PasteLint is actively under development.
-
-Current work includes:
-
-* modular engine refactoring
-* analyzer expansion
-* shared infrastructure extraction
-* narration-aware cleanup systems
-* accessibility-focused improvements
-* UI stabilization
-* reusable cleanup profiles
-
----
-
-# License
+## License
 
 TBD
