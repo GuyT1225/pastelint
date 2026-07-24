@@ -980,7 +980,7 @@ body.journal-surface {
   --journal-rule: color-mix(in srgb, var(--editor-border) 76%, transparent);
   --journal-ink: var(--text);
   --journal-muted: var(--muted);
-  --journal-display: Constantia, Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+  --journal-display: Cambria, Georgia, "Iowan Old Style", "Palatino Linotype", serif;
 }
 
 html[data-theme="light"] body.journal-surface {
