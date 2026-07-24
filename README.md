@@ -4,9 +4,7 @@ Browser-only text preparation for copied, generated, and speech-ready text.
 
 PasteLint helps clean and prepare text before it becomes a post, script, prompt, voiceover, support reply, document, SSML file, or IVR recording.
 
-Live site: <https://guyt1225.github.io/pastelint/>
-
-Repository: <https://github.com/GuyT1225/pastelint>
+Live demo: <https://guyt1225.github.io/pastelint/> | [Text Preparation Journal](text-preparation-journal.html) | [Report an edge case](contact.html) | Repo: <https://github.com/GuyT1225/pastelint>
 
 ## Trust Model
 
@@ -17,7 +15,7 @@ PasteLint is a static GitHub Pages project.
 - No upload
 - No backend
 - No API
-- Pasted text is processed locally in the page
+- Pasted text stays in the browser
 - Analytics are used for basic page/event understanding, not pasted text
 
 Do not paste confidential, client, medical, legal, personal, or sensitive text into public reports or GitHub issues. Small anonymized examples are best.
