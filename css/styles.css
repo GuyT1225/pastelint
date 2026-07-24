@@ -1708,6 +1708,17 @@ html[data-theme="light"] body.journal-surface .journal-invite {
   color: var(--text);
 }
 
+.legal-page .legal-card pre {
+  max-width: 42rem;
+  margin: 0.75rem 0 1rem;
+  padding: 0.85rem;
+  overflow-x: auto;
+  border-top: 1px solid color-mix(in srgb, var(--editor-border) 66%, transparent);
+  color: var(--text);
+  font: 0.9rem/1.55 var(--mono-font, Consolas, "Liberation Mono", monospace);
+  white-space: pre-wrap;
+}
+
 .legal-page .contact-journal-note {
   margin-top: 1.4rem;
   padding-top: 1rem;

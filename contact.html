@@ -29,15 +29,14 @@
 <main class="legal-page">
   <section class="hero legal-hero">
     <div class="hero-kicker">PasteLint</div>
-    <h1>Contact</h1>
-    <p class="subtitle">Get in touch about PasteLint feedback, text tools, consulting, library IVR, and accessibility workflows.</p>
+    <h1>Contact PasteLint</h1>
+    <p class="subtitle">Send source signals, cleanup examples, bug reports, or general feedback. Please do not send confidential, client, medical, legal, personal, or sensitive text. Summaries and anonymized examples are best.</p>
   </section>
 
   <section class="info-card legal-card">
-    <h2>Contact</h2>
+    <h2>Where to send it</h2>
     <p>
-      Have feedback, a bug report, a library or IVR accessibility project, or a consulting question?
-      Open a GitHub issue or view the PasteLint repository.
+      Open a public GitHub issue for source signals, cleanup examples, bug reports, or confusing tool behavior. GitHub Issues are public, so do not include private or sensitive text.
     </p>
 
     <p>
@@ -46,27 +45,52 @@
       <a href="https://github.com/GuyT1225/pastelint" target="_blank" rel="noopener noreferrer">View the PasteLint repository</a>
     </p>
 
-    <h3>Good reasons to reach out</h3>
-    <ul>
-      <li>Suggest a text-cleaning feature</li>
-      <li>Report an issue with one of the tools</li>
-      <li>Ask about library, IVR, TTS, or accessibility text workflows</li>
-      <li>Discuss consulting or custom implementation work</li>
-    </ul>
-
     <p>
-      Please do not send sensitive private information, passwords, protected health information, financial information, or confidential documents.
+      A useful report is usually small: the broken line, what PasteLint did, and what you expected instead. PasteLint does not need full documents to investigate most cleanup problems.
     </p>
 
+    <h3>General feedback</h3>
+    <ul>
+      <li>Confusing page</li>
+      <li>Unclear tool behavior</li>
+      <li>Missing explanation</li>
+      <li>Broken link</li>
+    </ul>
+
     <div class="contact-journal-note">
-      <h3>Text Preparation Journal suggestions</h3>
+      <h3>Send a Journal source signal</h3>
       <p>
-        For Text Preparation Journal suggestions, send a source link and a short note about the cleanup problem it shows. You can open a GitHub issue and include the source link, a short summary, and why the text-prep problem matters.
+        The Text Preparation Journal starts with real examples. Send a Reddit thread, article, screenshot, search query, workflow failure, or public example that shows text breaking before it becomes a post, script, prompt, voiceover, support reply, or SSML/IVR recording.
       </p>
-      <p>
-        Please do not send confidential, sensitive, client, personal, medical, legal, or private text. Summaries and anonymized examples are best.
-      </p>
+      <pre><code>Source link:
+What happened:
+Why it seems like a text-prep problem:
+Related tool, if any:</code></pre>
     </div>
+
+    <div class="contact-journal-note">
+      <h3>Report a cleanup edge case</h3>
+      <p>
+        PasteLint improves when real cleanup cases expose a rule that should be safer. For bug reports, include only the smallest safe excerpt needed to explain the issue.
+      </p>
+      <ul>
+        <li>PDF paste breaks</li>
+        <li>Hidden characters</li>
+        <li>Repeated AI filler</li>
+        <li>TTS/SSML pronunciation or chunking issue</li>
+        <li>Copied text that looks fine but behaves badly</li>
+      </ul>
+      <pre><code>Tool used:
+Input type:
+What happened:
+What you expected:
+Small safe example:
+Browser/device, if relevant:</code></pre>
+    </div>
+
+    <p>
+      Please do not send confidential, sensitive, client, personal, medical, legal, or private text. Summaries and anonymized examples are best.
+    </p>
   </section>
 </main>
 
