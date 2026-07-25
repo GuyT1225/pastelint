@@ -644,6 +644,16 @@ textarea:focus-visible {
   gap: 0.45rem;
 }
 
+.workflow-action-label {
+  width: 100%;
+  margin: 0.65rem 0 -0.2rem;
+  color: var(--faint);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .action-primary {
   min-height: 2.45rem;
   padding: 0.68rem 1rem;
@@ -1898,7 +1908,7 @@ html[data-theme="terminal"] .output-panel::before {
   left: 50%;
   transform: translateX(-50%);
 
-  width: min(100vw, 96rem);
+  width: min(100%, 96rem);
   height: clamp(11rem, 20vw, 16rem);
 
   pointer-events: none;
@@ -3357,6 +3367,33 @@ body.task-landing-page > .hero > * {
 
   .action-panel > button {
     flex: 1;
+  }
+
+  .workflow-actions {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .workflow-actions > .action-primary {
+    flex: 1 1 100%;
+  }
+
+  .workflow-actions > .action-secondary,
+  .workflow-actions > .next-step-action {
+    flex: 1 1 min(100%, 13rem);
+  }
+
+  .workflow-actions > .action-utility {
+    flex: 1 1 min(100%, 9.5rem);
+  }
+
+  .stage-complete-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .workflow-actions-utilities > .action-utility {
+    flex: 1 1 min(100%, 10rem);
   }
 
   textarea {

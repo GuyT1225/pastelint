@@ -94,13 +94,20 @@
 
         <p id="ssmlStatus" class="tool-status" role="status" aria-live="polite" hidden></p>
 
+        <p class="workflow-action-label">Raw input actions</p>
+
         <div class="controls control-panel workflow-actions">
           <button id="cleanGenerateBtn" class="primary-btn action-primary" type="button">Clean + Generate SSML</button>
           <button id="generateSsmlBtn" class="secondary-btn action-secondary" type="button">Generate SSML from approved text</button>
           <button id="cleanTextBtn" class="secondary-btn action-utility" type="button">Clean Text Only</button>
+          <button id="clearSsmlBtn" class="secondary-btn action-utility" type="button">Clear</button>
+        </div>
+
+        <p class="workflow-action-label">Chunk and export actions</p>
+
+        <div class="controls control-panel workflow-actions workflow-actions-utilities">
           <button id="autoChunkBtn" class="secondary-btn action-utility" type="button">Auto Chunk</button>
           <button id="exportChunksBtn" class="secondary-btn action-utility" type="button">Export Chunks ZIP</button>
-          <button id="clearSsmlBtn" class="secondary-btn action-utility" type="button">Clear</button>
         </div>
 
         <p class="note">
@@ -120,6 +127,8 @@
         <p class="note">
           Speech-ready cleanup may expand DB numbers, contact info, and punctuation.
         </p>
+
+        <p class="workflow-action-label">Cleaned text actions</p>
 
         <div class="controls control-panel workflow-actions">
           <button id="generateFromCleanBtn" class="secondary-btn action-secondary" type="button">Generate SSML from cleaned text</button>
@@ -142,6 +151,8 @@
         <div id="ssmlWarning" class="warning-box" hidden>
           This SSML output is over 3000 characters. Use the chunked SSML boxes for final Polly generation.
         </div>
+
+        <p class="workflow-action-label">SSML output actions</p>
 
         <div class="controls control-panel workflow-actions workflow-actions-utilities">
           <button id="editSsmlBtn" class="secondary-btn action-utility" type="button">Edit SSML</button>

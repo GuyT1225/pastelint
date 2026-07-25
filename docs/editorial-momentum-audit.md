@@ -93,3 +93,47 @@ No text cleanup, revision, SSML generation, chunking, or approved-text preservat
 - Post-result action bars that change by completion state across every tool.
 - A full shared HTML component system.
 - New backend, upload, login, or API behavior.
+
+## Phase 2 Mobile and Long-Form Action Audit
+
+### Mobile risks on PasteLint Clean
+
+- Action rows wrap cleanly around 390px, but the post-clean row can become dense because Copy, Continue to SecondDraft, and View inspection report appear together.
+- Clean Text should remain the easiest target on mobile.
+- Utilities should remain available, but Copy and inspection should not visually compete with the next editorial move.
+
+### Mobile risks on SecondDraft
+
+- Revise Draft, Build Brief, Prepare for SSML, Copy, and Clear all need to fit without horizontal overflow.
+- Revise Draft should remain the primary action.
+- Prepare for SSML is useful as a next-stage path, but it should not become louder than revision.
+- The action guidance note helps explain the tool, so action styling should not push it too far down the page.
+
+### Mobile risks on SSML Builder
+
+- SSML Builder has the highest risk because one page contains raw input, cleaned text, SSML output, chunking, copying, exporting, and previewing.
+- The primary action needs to remain Clean + Generate SSML.
+- Generate SSML from approved text must remain visible because it protects reviewed scripts.
+- Utility actions can feel like button soup if they are not grouped by stage.
+
+### Long-form scrolling friction
+
+- SSML Builder requires movement between related regions: raw input, cleaned text, SSML output, and chunked output.
+- A sticky action treatment could reduce scrolling, but it risks covering text, adding clutter, and making Terminal theme feel less calm.
+- Phase 2 should improve grouping and wrapping first, then revisit persistence only after observing real usage.
+
+### Recommended Phase 2 changes
+
+- Add mobile-specific workflow action wrapping so primary actions are full-width or easiest to tap while secondary and utility actions wrap below them.
+- Add quiet action group labels to SSML Builder so controls read as raw input actions, cleaned text actions, SSML output actions, and chunk/export actions.
+- Keep Clean and SecondDraft hierarchy from Phase 1 intact.
+- Defer sticky controls until there is evidence that grouping and wrapping are not enough.
+
+### Deferred ideas
+
+- Sticky bottom mobile action bars.
+- Floating action buttons.
+- A persistent SSML command palette.
+- Collapsible utility drawers.
+- A new JavaScript action-state system.
+- Reordering SSML sections around generated state.
