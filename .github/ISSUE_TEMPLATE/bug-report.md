@@ -1,3 +1,11 @@
+---
+name: Bug report
+about: Report a broken page, broken link, or repeatable PasteLint bug.
+title: "[Bug] "
+labels: ""
+assignees: ""
+---
+
 # Bug report
 
 GitHub Issues are public. Do not include confidential, client, medical, legal, personal, or sensitive text.

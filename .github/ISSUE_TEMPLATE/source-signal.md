@@ -1,3 +1,11 @@
+---
+name: Journal source signal
+about: Suggest a public source, workflow pattern, or text-prep problem for the Text Preparation Journal.
+title: "[Source signal] "
+labels: ""
+assignees: ""
+---
+
 # Journal source signal
 
 Use this to suggest a public source, workflow pattern, or text-prep problem for the Text Preparation Journal.

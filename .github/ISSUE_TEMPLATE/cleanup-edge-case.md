@@ -1,3 +1,11 @@
+---
+name: Cleanup edge case
+about: Report copied-text, PDF paste, hidden-character, SSML, or cleanup behavior that should be safer.
+title: "[Cleanup edge case] "
+labels: ""
+assignees: ""
+---
+
 # Cleanup edge case
 
 Thanks for helping improve PasteLint.
