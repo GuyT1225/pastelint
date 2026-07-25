@@ -102,28 +102,30 @@
   </div>
 </section>
 
-  <section class="tool-panel action-panel" aria-label="SecondDraft actions">
+  <section class="tool-panel action-panel workflow-actions" aria-label="SecondDraft actions">
     <p id="toolStatus" class="tool-status" role="status" aria-live="polite" hidden></p>
 
-    <button id="reviseBtn" type="button">Revise draft</button>
+    <button id="reviseBtn" class="action-primary" type="button">Revise Draft</button>
 
-    <button id="buildBriefBtn" class="secondary-button" type="button">
-      Build brief
+    <button id="buildBriefBtn" class="secondary-button action-secondary" type="button">
+      Build Brief
     </button>
 
-    <button id="copyBtn" type="button">Copy output</button>
-    <button id="clearBtn" type="button">Clear</button>
+    <a class="action-secondary next-step-action" href="SSML_builder.html">Prepare for SSML</a>
+
+    <button id="copyBtn" class="action-utility" type="button">Copy output</button>
+    <button id="clearBtn" class="action-utility" type="button">Clear</button>
 
     <div class="second-draft-action-note" aria-label="What the actions do">
       <p class="eyebrow">Choose your next pass</p>
       <dl>
         <div>
-          <dt>Revise draft</dt>
+          <dt>Revise Draft</dt>
           <dd>Creates a cleaner version using the selected tone, length, and structure settings.</dd>
         </div>
 
         <div>
-          <dt>Build brief</dt>
+          <dt>Build Brief</dt>
           <dd>Turns the draft into a compact review brief so you can understand the main point, cleanup opportunities, and next step before rewriting.</dd>
         </div>
       </dl>

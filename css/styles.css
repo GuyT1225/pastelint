@@ -623,6 +623,76 @@ textarea:focus-visible {
   box-shadow: var(--focus-ring);
 }
 
+.workflow-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.workflow-actions-primary,
+.workflow-actions-secondary,
+.workflow-actions-utilities,
+.stage-complete-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.workflow-actions-utilities {
+  gap: 0.45rem;
+}
+
+.action-primary {
+  min-height: 2.45rem;
+  padding: 0.68rem 1rem;
+  border-color: color-mix(in srgb, var(--accent) 88%, var(--border));
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 900;
+}
+
+.action-primary:hover,
+.action-primary:focus-visible {
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+  color: var(--accent-text);
+}
+
+.action-secondary,
+.next-step-action {
+  border-color: color-mix(in srgb, var(--accent) 52%, var(--border));
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+}
+
+.action-secondary:hover,
+.action-secondary:focus-visible,
+.next-step-action:hover,
+.next-step-action:focus-visible {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent);
+}
+
+.action-utility {
+  min-height: 2.05rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  color: var(--muted);
+}
+
+.action-utility:hover,
+.action-utility:focus-visible {
+  background: var(--surface-strong);
+  color: var(--text);
+}
+
+.stage-complete-actions {
+  margin-left: auto;
+}
+
 #cleanBtn,
 .second-draft-page #reviseBtn,
 .ssml-builder-page .primary-btn {
@@ -656,6 +726,10 @@ textarea:focus-visible {
 #copyBtn {
   background: transparent;
   color: var(--text);
+}
+
+#copyBtn.action-utility {
+  color: var(--muted);
 }
 
 #clearBtn {
@@ -706,6 +780,19 @@ textarea:focus-visible {
 .post-clean-actions a:focus-visible {
   background: color-mix(in srgb, var(--accent) 24%, transparent);
   border-color: var(--accent);
+}
+
+.post-clean-actions a.action-utility {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--muted);
+}
+
+.post-clean-actions a.action-utility:hover,
+.post-clean-actions a.action-utility:focus-visible {
+  border-color: var(--border-strong);
+  background: var(--surface-strong);
+  color: var(--text);
 }
 
 /* -----------------------------

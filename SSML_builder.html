@@ -94,13 +94,13 @@
 
         <p id="ssmlStatus" class="tool-status" role="status" aria-live="polite" hidden></p>
 
-        <div class="controls control-panel">
-          <button id="cleanTextBtn" class="secondary-btn" type="button">Clean Text</button>
-          <button id="generateSsmlBtn" class="primary-btn" type="button">Generate SSML</button>
-          <button id="cleanGenerateBtn" class="secondary-btn" type="button">Clean + Generate</button>
-          <button id="autoChunkBtn" class="secondary-btn" type="button">Auto Chunk</button>
-          <button id="exportChunksBtn" class="secondary-btn" type="button">Export Chunks ZIP</button>
-          <button id="clearSsmlBtn" class="secondary-btn" type="button">Clear</button>
+        <div class="controls control-panel workflow-actions">
+          <button id="cleanGenerateBtn" class="primary-btn action-primary" type="button">Clean + Generate SSML</button>
+          <button id="generateSsmlBtn" class="secondary-btn action-secondary" type="button">Generate SSML from approved text</button>
+          <button id="cleanTextBtn" class="secondary-btn action-utility" type="button">Clean Text Only</button>
+          <button id="autoChunkBtn" class="secondary-btn action-utility" type="button">Auto Chunk</button>
+          <button id="exportChunksBtn" class="secondary-btn action-utility" type="button">Export Chunks ZIP</button>
+          <button id="clearSsmlBtn" class="secondary-btn action-utility" type="button">Clear</button>
         </div>
 
         <p class="note">
@@ -121,12 +121,12 @@
           Speech-ready cleanup may expand DB numbers, contact info, and punctuation.
         </p>
 
-        <div class="controls control-panel">
-          <button id="generateFromCleanBtn" class="primary-btn" type="button">Generate SSML</button>
-          <button id="editCleanBtn" class="secondary-btn" type="button">Edit Cleaned Text</button>
-          <button id="copyCleanBtn" class="secondary-btn" type="button">Copy Cleaned Text</button>
-          <button id="readCleanBtn" class="secondary-btn" type="button">Read Cleaned Text</button>
-          <button id="stopReadingBtn" class="secondary-btn" type="button">Stop Reading</button>
+        <div class="controls control-panel workflow-actions">
+          <button id="generateFromCleanBtn" class="secondary-btn action-secondary" type="button">Generate SSML from cleaned text</button>
+          <button id="editCleanBtn" class="secondary-btn action-utility" type="button">Edit Cleaned Text</button>
+          <button id="copyCleanBtn" class="secondary-btn action-utility" type="button">Copy Cleaned Text</button>
+          <button id="readCleanBtn" class="secondary-btn action-utility" type="button">Read Cleaned Text</button>
+          <button id="stopReadingBtn" class="secondary-btn action-utility" type="button">Stop Reading</button>
         </div>
 
         <p class="note">
@@ -143,9 +143,9 @@
           This SSML output is over 3000 characters. Use the chunked SSML boxes for final Polly generation.
         </div>
 
-        <div class="controls control-panel">
-          <button id="editSsmlBtn" class="secondary-btn" type="button">Edit SSML</button>
-          <button id="copySsmlBtn" class="secondary-btn" type="button">Copy SSML</button>
+        <div class="controls control-panel workflow-actions workflow-actions-utilities">
+          <button id="editSsmlBtn" class="secondary-btn action-utility" type="button">Edit SSML</button>
+          <button id="copySsmlBtn" class="secondary-btn action-utility" type="button">Copy SSML</button>
         </div>
       </div>
 

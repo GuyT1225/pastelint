@@ -43,7 +43,7 @@
   <main class="page-shell workflow-grid pastelint-clean-page">
     <section class="hero workflow-chapter hero-chapter">
       <div class="hero-content">
-        <p class="eyebrow">PasteLint Clean</p>
+        <p class="eyebrow">Stage 1 &middot; Clean</p>
 
         <h1>Fix what copy and paste broke.</h1>
 
@@ -92,21 +92,21 @@
         Helps clean common paste problems: broken line breaks, weird spacing, hidden characters, PDF fragments, and formatting noise.
       </p>
 
-      <section class="tool-panel action-panel" aria-label="PasteLint actions">
+      <section class="tool-panel action-panel workflow-actions" aria-label="PasteLint actions">
         <p id="toolStatus" class="tool-status" role="status" aria-live="polite" hidden></p>
-        <button id="cleanBtn" class="primary-btn" type="button">Clean text</button>
-        <button id="clearBtn" class="clear-btn" type="button">Clear</button>
+        <button id="cleanBtn" class="primary-btn action-primary" type="button">Clean Text</button>
+        <button id="clearBtn" class="clear-btn action-utility" type="button">Clear</button>
 
-        <div class="post-clean-actions" id="postCleanActions" hidden>
-          <button id="copyBtn" class="primary-btn result-primary-btn" type="button">
+        <div class="post-clean-actions stage-complete-actions" id="postCleanActions" hidden>
+          <button id="copyBtn" class="result-primary-btn action-utility" type="button">
             Copy clean text
           </button>
 
-  <button id="sendToSecondDraftBtn" class="secondary-btn next-step-btn" type="button">
-  <span>Revise in </span><span class="second-draft-script">SecondDraft</span> <span aria-hidden="true">&rarr;</span>
+  <button id="sendToSecondDraftBtn" class="secondary-btn next-step-btn action-secondary next-step-action" type="button">
+  <span>Continue to </span><span class="second-draft-script">SecondDraft</span> <span aria-hidden="true">&rarr;</span>
 </button>
 
-          <a class="inspection-link" href="#inspection-report">View inspection report</a>
+          <a class="inspection-link action-utility" href="#inspection-report">View inspection report</a>
         </div>
       </section>
 
