@@ -167,16 +167,19 @@ function reviseSecondDraft(text, options) {
   let revised = normalizeSecondDraftText(text);
   const edits = [];
   const changes = [];
+  const ruleMatches = [];
 
   const patternResult = applySecondDraftPatternRules(revised, options);
   revised = patternResult.text;
   edits.push(...patternResult.edits);
   changes.push(...patternResult.changes);
+  ruleMatches.push(...patternResult.ruleMatches);
 
   const phraseResult = applySecondDraftPhraseRules(revised, options.tone);
   revised = phraseResult.text;
   edits.push(...phraseResult.edits);
   changes.push(...phraseResult.changes);
+  ruleMatches.push(...phraseResult.ruleMatches);
 
   const lengthResult = applySecondDraftLengthRules(revised, options.length);
   revised = lengthResult.text;
@@ -186,6 +189,11 @@ function reviseSecondDraft(text, options) {
   if (options.reflow) {
     revised = reflowSecondDraftParagraphs(revised);
     changes.push("Reflowed text into cleaner paragraphs");
+    pushSecondDraftRuleMatch(
+      ruleMatches,
+      "SD-STRUCTURE-001",
+      "Reflowed text into cleaner paragraphs"
+    );
   }
 
   revised = cleanupSecondDraftSentenceFlow(revised);
@@ -198,16 +206,18 @@ function reviseSecondDraft(text, options) {
   return {
     text: revised,
     changes: uniqueSecondDraftItems(changes),
-    edits
+    edits,
+    ruleMatches: uniqueSecondDraftRuleMatches(ruleMatches)
   };
 }
 
 function applySecondDraftPatternRules(text, options) {
   const edits = [];
   const changes = [];
+  const ruleMatches = [];
   let revised = text;
 
-  const applyRewrite = (pattern, buildReplacement, change) => {
+  const applyRewrite = (pattern, buildReplacement, change, ruleId) => {
     const match = revised.match(pattern);
     if (!match) return;
 
@@ -219,10 +229,12 @@ function applySecondDraftPatternRules(text, options) {
 
     edits.push({
       before: match[0],
-      after: replacement
+      after: replacement,
+      ruleId
     });
 
     changes.push(change);
+    pushSecondDraftRuleMatch(ruleMatches, ruleId, change);
   };
 
   const focusedMode =
@@ -241,32 +253,37 @@ function applySecondDraftPatternRules(text, options) {
 
       return capitalizeSecondDraftSentence(clause);
     },
-    "Rewrote a filler opening into a clearer sentence"
+    "Rewrote a filler opening into a clearer sentence",
+    "SD-CLARITY-001"
   );
 
   if (focusedMode) {
     applyRewrite(
       /\bI think there are a few areas where the wording could be improved,\s+and it may be helpful to make it a little clearer and more concise([.?!]?)/i,
       () => "The wording could be clearer and more concise.",
-      "Condensed weak phrasing into a clearer sentence"
+      "Condensed weak phrasing into a clearer sentence",
+      "SD-COMPRESSION-001"
     );
 
     applyRewrite(
       /\bThere are a few areas where the wording could be improved([.?!]?)/i,
       () => "The wording could be clearer.",
-      "Condensed weak phrasing into a clearer sentence"
+      "Condensed weak phrasing into a clearer sentence",
+      "SD-COMPRESSION-001"
     );
 
     applyRewrite(
       /\bAlso,\s+I wanted to mention that the current version feels a bit long and maybe slightly repetitive in certain places([.?!]?)/i,
       () => "The current version feels long and repetitive in places.",
-      "Removed setup wording and tightened the observation"
+      "Removed setup wording and tightened the observation",
+      "SD-REPETITION-001"
     );
 
     applyRewrite(
       /\bThe main point is that we should\s+([^.!?]+)([.?!]?)/i,
       (match) => makeSecondDraftDirectAction(`we should ${match[1].trim()}`),
-      "Turned the main point into a direct action"
+      "Turned the main point into a direct action",
+      "SD-CLARITY-002"
     );
 
     applyRewrite(
@@ -285,7 +302,8 @@ function applySecondDraftPatternRules(text, options) {
   applyRewrite(
     /\bI wanted to mention that\s+([^.!?]+)([.?!]?)/i,
     (match) => capitalizeSecondDraftSentence(match[1].trim()),
-    "Removed an unnecessary setup phrase"
+    "Removed an unnecessary setup phrase",
+    "SD-CLARITY-001"
   );
 
   if (options.tone === "direct") {
@@ -372,23 +390,24 @@ function applySecondDraftPatternRules(text, options) {
     });
   }
 
-  return { text: revised, edits, changes };
+  return { text: revised, edits, changes, ruleMatches };
 }
 
 function applySecondDraftPhraseRules(text, tone) {
   let revised = text;
   const edits = [];
   const changes = [];
+  const ruleMatches = [];
 
   const rules = [
     ["It is important to note that", "", "Removed unnecessary opening phrase"],
-    ["due to the fact that", "because", "Simplified wordy phrasing"],
-    ["in order to", "to", "Simplified wordy phrasing"],
-    ["for the purpose of", "to", "Simplified wordy phrasing"],
-    ["At this point in time", "Now", "Simplified time phrasing"],
-    ["at this point in time", "now", "Simplified time phrasing"],
-    ["currently in the process of", "currently", "Simplified process wording"],
-    ["in the process of", "", "Removed wordy process phrasing"],
+    ["due to the fact that", "because", "Simplified wordy phrasing", "SD-COMPRESSION-001"],
+    ["in order to", "to", "Simplified wordy phrasing", "SD-COMPRESSION-001"],
+    ["for the purpose of", "to", "Simplified wordy phrasing", "SD-COMPRESSION-001"],
+    ["At this point in time", "Now", "Simplified time phrasing", "SD-COMPRESSION-001"],
+    ["at this point in time", "now", "Simplified time phrasing", "SD-COMPRESSION-001"],
+    ["currently in the process of", "currently", "Simplified process wording", "SD-COMPRESSION-001"],
+    ["in the process of", "", "Removed wordy process phrasing", "SD-COMPRESSION-001"],
     ["quickly reach out", "reach out", "Simplified wording"],
     ["let you know that", "", "Removed unnecessary setup phrase"],
     ["I think it would probably be helpful to", "", "Removed hesitant phrasing"],
@@ -432,17 +451,18 @@ function applySecondDraftPhraseRules(text, tone) {
     );
   }
 
-  rules.forEach(([before, after, change]) => {
-    const result = replaceSecondDraftPhraseWithEdit(revised, before, after);
+  rules.forEach(([before, after, change, ruleId]) => {
+    const result = replaceSecondDraftPhraseWithEdit(revised, before, after, ruleId);
     revised = result.text;
 
     if (result.count > 0) {
       changes.push(change);
       edits.push(...result.edits);
+      pushSecondDraftRuleMatch(ruleMatches, ruleId, change);
     }
   });
 
-  return { text: revised, edits, changes };
+  return { text: revised, edits, changes, ruleMatches };
 }
 
 function applySecondDraftLengthRules(text, length) {
@@ -509,7 +529,7 @@ function expandSecondDraftText(text) {
     .join(" ");
 }
 
-function replaceSecondDraftPhraseWithEdit(text, before, after) {
+function replaceSecondDraftPhraseWithEdit(text, before, after, ruleId) {
   const edits = [];
   const pattern = new RegExp(`\\b${escapeSecondDraftRegExp(before)}\\b`, "g");
 
@@ -520,7 +540,8 @@ function replaceSecondDraftPhraseWithEdit(text, before, after) {
 
     edits.push({
       before: match,
-      after: after || "[removed]"
+      after: after || "[removed]",
+      ruleId
     });
 
     return after;
@@ -786,6 +807,29 @@ function countSecondDraftWords(text) {
 
 function uniqueSecondDraftItems(items) {
   return [...new Set(items.filter(Boolean))];
+}
+
+function pushSecondDraftRuleMatch(matches, ruleId, change) {
+  if (!ruleId) return;
+
+  matches.push({
+    ruleId,
+    change
+  });
+}
+
+function uniqueSecondDraftRuleMatches(matches) {
+  const seen = new Set();
+
+  return matches.filter((match) => {
+    if (!match || !match.ruleId) return false;
+
+    const key = `${match.ruleId}|${match.change || ""}`;
+    if (seen.has(key)) return false;
+
+    seen.add(key);
+    return true;
+  });
 }
 
 function escapeSecondDraftRegExp(text) {

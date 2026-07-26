@@ -1,0 +1,288 @@
+{
+  "schemaVersion": "1.0.0",
+  "registryVersion": "2026-07-25.1",
+  "rules": [
+    {
+      "id": "SD-CLARITY-001",
+      "slug": "reduce-filler-openings",
+      "name": "Reduce filler openings",
+      "category": "clarity",
+      "type": "deterministic-editorial",
+      "status": "active",
+      "summary": "Reduces opening phrasing that delays the main statement.",
+      "rationale": "Readers should reach the main point before they have to pass through empty setup wording.",
+      "triggerDescription": "The draft begins a sentence with filler framing such as reaching out or wanting to mention something.",
+      "changeDescription": "Removes or rewrites the setup so the sentence starts closer to the useful claim or action.",
+      "confidence": "high",
+      "automation": "eligible",
+      "source": {
+        "type": "internal-engine-observation",
+        "reference": "applySecondDraftPatternRules"
+      },
+      "examples": [
+        {
+          "before": "I just wanted to reach out and say that we should review the draft.",
+          "after": "Review the draft.",
+          "explanation": "The revision removes the filler opening and moves the action forward."
+        }
+      ],
+      "counterexamples": [
+        {
+          "text": "I wanted to mention this privately because the context affects the decision.",
+          "reason": "The setup may carry useful intent or relationship context."
+        }
+      ],
+      "tags": [
+        "clarity",
+        "directness",
+        "filler"
+      ]
+    },
+    {
+      "id": "SD-CLARITY-002",
+      "slug": "turn-main-point-into-direct-action",
+      "name": "Turn the main point into direct action",
+      "category": "clarity",
+      "type": "deterministic-editorial",
+      "status": "active",
+      "summary": "Turns a stated main point into a clearer action sentence when the draft already names the action.",
+      "rationale": "When a sentence announces the main point and then states an action, the action can usually carry the sentence by itself.",
+      "triggerDescription": "The phrase \"The main point is that we should\" introduces an action that can stand on its own.",
+      "changeDescription": "Removes the framing phrase and starts with the action.",
+      "confidence": "high",
+      "automation": "eligible",
+      "source": {
+        "type": "internal-engine-observation",
+        "reference": "applySecondDraftPatternRules"
+      },
+      "examples": [
+        {
+          "before": "The main point is that we should review the message.",
+          "after": "Review the message.",
+          "explanation": "The revision removes the announcement and keeps the action."
+        }
+      ],
+      "counterexamples": [
+        {
+          "text": "The main point is that the schedule changed because the venue closed.",
+          "reason": "The sentence explains a situation rather than giving a direct action."
+        }
+      ],
+      "tags": [
+        "clarity",
+        "action",
+        "directness"
+      ]
+    },
+    {
+      "id": "SD-COMPRESSION-001",
+      "slug": "simplify-known-wordy-phrasing",
+      "name": "Simplify known wordy phrasing",
+      "category": "compression",
+      "type": "deterministic-editorial",
+      "status": "active",
+      "summary": "Replaces known wordy phrases with shorter equivalents.",
+      "rationale": "Predictable wordy constructions slow the reader without adding meaning.",
+      "triggerDescription": "The draft contains a known phrase such as \"due to the fact that\" or \"in order to.\"",
+      "changeDescription": "Uses the shorter equivalent while preserving the sentence meaning.",
+      "confidence": "high",
+      "automation": "eligible",
+      "source": {
+        "type": "internal-engine-observation",
+        "reference": "applySecondDraftPhraseRules"
+      },
+      "examples": [
+        {
+          "before": "We are meeting in order to review the draft.",
+          "after": "We are meeting to review the draft.",
+          "explanation": "The revision replaces a wordy phrase with a shorter equivalent."
+        }
+      ],
+      "counterexamples": [
+        {
+          "text": "The phrase appears inside a quoted source.",
+          "reason": "Quoted source language may need preservation rather than compression."
+        }
+      ],
+      "tags": [
+        "compression",
+        "plain-language",
+        "wordiness"
+      ]
+    },
+    {
+      "id": "SD-REPETITION-001",
+      "slug": "reduce-obvious-filler-repetition",
+      "name": "Reduce obvious filler repetition",
+      "category": "repetition",
+      "type": "deterministic-editorial",
+      "status": "active",
+      "summary": "Reduces repeated setup wording when the draft already states the useful observation.",
+      "rationale": "Repeated filler makes a draft feel longer without making the point clearer.",
+      "triggerDescription": "The draft uses setup wording around an observation that already names length or repetition.",
+      "changeDescription": "Removes the setup and keeps the observation.",
+      "confidence": "high",
+      "automation": "eligible",
+      "source": {
+        "type": "internal-engine-observation",
+        "reference": "applySecondDraftPatternRules"
+      },
+      "examples": [
+        {
+          "before": "Also, I wanted to mention that the current version feels a bit long and maybe slightly repetitive in certain places.",
+          "after": "The current version feels long and repetitive in places.",
+          "explanation": "The revision removes setup wording and keeps the useful observation."
+        }
+      ],
+      "counterexamples": [
+        {
+          "text": "A deliberate repeated phrase is part of a slogan, title, or quoted passage.",
+          "reason": "Deliberate repetition may be meaningful and should not be flattened automatically."
+        }
+      ],
+      "tags": [
+        "repetition",
+        "filler",
+        "compression"
+      ]
+    },
+    {
+      "id": "SD-STRUCTURE-001",
+      "slug": "reflow-draft-paragraphs",
+      "name": "Reflow draft paragraphs",
+      "category": "structure",
+      "type": "mechanical",
+      "status": "active",
+      "summary": "Reflows draft lines into cleaner paragraph breaks when the user asks for paragraph reflow.",
+      "rationale": "Copied or rough draft text can carry line breaks that make revision harder to scan.",
+      "triggerDescription": "The user enables the SecondDraft reflow option.",
+      "changeDescription": "Trims lines and separates non-empty lines into paragraph blocks.",
+      "confidence": "high",
+      "automation": "constrained",
+      "source": {
+        "type": "internal-engine-observation",
+        "reference": "reflowSecondDraftParagraphs"
+      },
+      "examples": [
+        {
+          "before": "First line\nsecond line",
+          "after": "First line\n\nsecond line",
+          "explanation": "The revision makes paragraph boundaries easier to review."
+        }
+      ],
+      "counterexamples": [
+        {
+          "text": "A poem, transcript, address, or code sample depends on line-level structure.",
+          "reason": "Line breaks may carry meaning and should not be reflowed unless the user asks."
+        }
+      ],
+      "tags": [
+        "structure",
+        "paragraphs",
+        "reviewability"
+      ]
+    },
+    {
+      "id": "SD-READER-001",
+      "slug": "flag-potentially-difficult-long-sentences",
+      "name": "Flag potentially difficult long sentences",
+      "category": "reader-orientation",
+      "type": "advisory",
+      "status": "active",
+      "summary": "Flags long sentences that may be harder to read or hear aloud.",
+      "rationale": "Long sentences can increase reader effort, especially in speech, support, and publishing workflows.",
+      "triggerDescription": "A sentence crosses the current word-count threshold used by SecondDraft hints.",
+      "changeDescription": "No automatic change is made by this rule; it supports review guidance.",
+      "confidence": "medium",
+      "automation": "suggestion-only",
+      "source": {
+        "type": "internal-engine-observation",
+        "reference": "detectSecondDraftIssues"
+      },
+      "examples": [
+        {
+          "before": "A long sentence with several clauses may require extra attention before sending.",
+          "after": "",
+          "explanation": "The rule flags the sentence for review rather than rewriting it automatically."
+        }
+      ],
+      "counterexamples": [
+        {
+          "text": "A legal, technical, or quoted sentence may need to remain long.",
+          "reason": "Length alone does not prove the sentence is wrong."
+        }
+      ],
+      "tags": [
+        "reader-orientation",
+        "readability",
+        "advisory"
+      ]
+    },
+    {
+      "id": "SD-PRESERVE-001",
+      "slug": "preserve-user-meaning",
+      "name": "Preserve user meaning",
+      "category": "preservation",
+      "type": "preservation-rule",
+      "status": "active",
+      "summary": "SecondDraft should improve wording without changing the user's intended meaning.",
+      "rationale": "Revision support must leave the user in control of the final meaning.",
+      "triggerDescription": "All SecondDraft revision flows operate under this preservation constraint.",
+      "changeDescription": "This rule does not describe a specific automatic edit; it constrains acceptable edits.",
+      "confidence": "contextual",
+      "automation": "explanation-only",
+      "source": {
+        "type": "editorial-constitution",
+        "reference": "preserve-meaning-and-ownership"
+      },
+      "examples": [
+        {
+          "before": "The draft asks for a cautious recommendation.",
+          "after": "The revision keeps the recommendation cautious.",
+          "explanation": "The revision may clarify wording, but it should not change the user's intent."
+        }
+      ],
+      "counterexamples": [
+        {
+          "text": "A revision that changes a maybe into a definite yes.",
+          "reason": "That would alter meaning rather than prepare the draft."
+        }
+      ],
+      "tags": [
+        "preservation",
+        "meaning",
+        "ownership"
+      ]
+    },
+    {
+      "id": "SD-RHYTHM-001",
+      "slug": "improve-sentence-rhythm",
+      "name": "Improve sentence rhythm",
+      "category": "rhythm",
+      "type": "interpretive-editorial",
+      "status": "research-only",
+      "summary": "Research direction for improving cadence without flattening the user's voice.",
+      "rationale": "Rhythm can matter in revision, but it is contextual and should not be treated as an implemented automatic capability yet.",
+      "triggerDescription": "Future research may identify patterns where rhythm guidance helps review.",
+      "changeDescription": "No current engine behavior is activated by this rule.",
+      "confidence": "contextual",
+      "automation": "research-only",
+      "source": {
+        "type": "editorial-research-journal",
+        "reference": "voice-survives-reviewable-revision"
+      },
+      "examples": [],
+      "counterexamples": [
+        {
+          "text": "A writer's deliberate cadence or repetition.",
+          "reason": "Rhythm changes are interpretive and may damage voice."
+        }
+      ],
+      "tags": [
+        "rhythm",
+        "voice",
+        "research"
+      ]
+    }
+  ]
+}

@@ -164,6 +164,21 @@ function loadSecondDraftContext() {
   return context;
 }
 
+function loadSecondDraftRuleRegistryContext() {
+  const context = createContext();
+  loadScript("js/second-draft-rule-registry.js", context);
+  return context;
+}
+
+function readSecondDraftRuleRegistryData() {
+  return JSON.parse(
+    fs.readFileSync(
+      path.join(ROOT, "data", "second-draft-rules.json"),
+      "utf8"
+    )
+  );
+}
+
 function loadSsmlContext(elements = {}) {
   const defaults = {
     input: createElementStub(),
@@ -385,6 +400,220 @@ function testSecondDraftRewrites() {
   ].forEach((expected) => {
     assert.ok(result.includes(expected), `Missing expected phrase: ${expected}`);
   });
+}
+
+function getSecondDraftRegressionInput() {
+  return [
+    "I just wanted to reach out and say that we should probably take a look at the draft before sending it over. I think there are a few areas where the wording could be improved, and it may be helpful to make it a little clearer and more concise.",
+    "",
+    "Also, I wanted to mention that the current version feels a bit long and maybe slightly repetitive in certain places. The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural.",
+    "",
+    "Let me know if you think this is something we should handle today or if it can wait until tomorrow."
+  ].join("\n");
+}
+
+function testSecondDraftRuleRegistry() {
+  const context = loadSecondDraftRuleRegistryContext();
+  const registry = context.window.PasteLintSecondDraftRuleRegistry;
+  const data = readSecondDraftRuleRegistryData();
+
+  assert.strictEqual(registry.validateRegistry(data).valid, true);
+
+  const duplicateId = JSON.parse(JSON.stringify(data));
+  duplicateId.rules[1].id = duplicateId.rules[0].id;
+  assert.strictEqual(registry.validateRegistry(duplicateId).valid, false);
+  assert.ok(
+    registry.validateRegistry(duplicateId).errors.some((error) =>
+      error.includes("duplicate-id")
+    )
+  );
+
+  const duplicateSlug = JSON.parse(JSON.stringify(data));
+  duplicateSlug.rules[1].slug = duplicateSlug.rules[0].slug;
+  assert.strictEqual(registry.validateRegistry(duplicateSlug).valid, false);
+  assert.ok(
+    registry.validateRegistry(duplicateSlug).errors.some((error) =>
+      error.includes("duplicate-slug")
+    )
+  );
+
+  const invalidEnum = JSON.parse(JSON.stringify(data));
+  invalidEnum.rules[0].status = "experimental";
+  assert.strictEqual(registry.validateRegistry(invalidEnum).valid, false);
+
+  const missingRequired = JSON.parse(JSON.stringify(data));
+  delete missingRequired.rules[0].rationale;
+  assert.strictEqual(registry.validateRegistry(missingRequired).valid, false);
+
+  const duplicatePurpose = JSON.parse(JSON.stringify(data));
+  duplicatePurpose.rules.push({
+    ...duplicatePurpose.rules[0],
+    id: "SD-CLARITY-999",
+    slug: "duplicate-purpose-test"
+  });
+  assert.strictEqual(registry.validateRegistry(duplicatePurpose).valid, false);
+  assert.ok(
+    registry.validateRegistry(duplicatePurpose).errors.some((error) =>
+      error.includes("duplicate-active-semantic-purpose")
+    )
+  );
+
+  const inactiveFiltering = JSON.parse(JSON.stringify(data));
+  inactiveFiltering.rules.push(
+    {
+      ...inactiveFiltering.rules[0],
+      id: "SD-CLARITY-998",
+      slug: "inactive-test",
+      status: "inactive"
+    },
+    {
+      ...inactiveFiltering.rules[0],
+      id: "SD-CLARITY-997",
+      slug: "deprecated-test",
+      status: "deprecated",
+      automation: "deprecated"
+    }
+  );
+
+  registry.useRegistry(inactiveFiltering, "test");
+
+  const activeIds = registry.getActiveRules().map((rule) => rule.id);
+  assert.ok(activeIds.includes("SD-CLARITY-001"));
+  assert.ok(!activeIds.includes("SD-RHYTHM-001"));
+  assert.ok(!activeIds.includes("SD-CLARITY-998"));
+  assert.ok(!activeIds.includes("SD-CLARITY-997"));
+  assert.strictEqual(registry.getRule("SD-RHYTHM-001"), null);
+
+  const preservationRule = registry.getRule("SD-PRESERVE-001");
+  assert.strictEqual(preservationRule.type, "preservation-rule");
+  assert.strictEqual(preservationRule.automation, "explanation-only");
+
+  registry.useFallback("missing-registry");
+  assert.strictEqual(registry.getActiveRules().length, 0);
+  assert.strictEqual(registry.getStatus().state, "unavailable");
+  assert.strictEqual(registry.getStatus().errorCode, "missing-registry");
+}
+
+function testSecondDraftRuleMetadataPreservesOutput() {
+  const context = loadSecondDraftContext();
+  const input = getSecondDraftRegressionInput();
+
+  const directShorter = context.reviseSecondDraft(input, {
+    tone: "direct",
+    length: "shorter",
+    reflow: false
+  });
+
+  assert.strictEqual(
+    directShorter.text,
+    "Review the draft before sending it over. The wording could be clearer and more concise. The current version feels long and repetitive in places. Review the message, tighten the language, and make sure it sounds professional but still natural. Tell me whether we should handle this today or tomorrow."
+  );
+  assert.deepStrictEqual(Array.from(directShorter.changes), [
+    "Rewrote a filler opening into a clearer sentence",
+    "Condensed weak phrasing into a clearer sentence",
+    "Removed setup wording and tightened the observation",
+    "Turned the main point into a direct action",
+    "Tightened the timing question",
+    "Tightened wording to make the draft shorter"
+  ]);
+
+  const ruleIds = directShorter.ruleMatches.map((match) => match.ruleId);
+  assert.ok(ruleIds.includes("SD-CLARITY-001"));
+  assert.ok(ruleIds.includes("SD-COMPRESSION-001"));
+  assert.ok(ruleIds.includes("SD-REPETITION-001"));
+  assert.ok(ruleIds.includes("SD-CLARITY-002"));
+  assert.ok(directShorter.edits.some((edit) => edit.ruleId === "SD-CLARITY-001"));
+  assert.ok(directShorter.edits.some((edit) => edit.ruleId === "SD-COMPRESSION-001"));
+
+  const naturalSame = context.reviseSecondDraft(input, {
+    tone: "natural",
+    length: "same",
+    reflow: false
+  });
+
+  assert.strictEqual(
+    naturalSame.text,
+    "We should probably take a look at the draft before sending it over. I think there are a few areas where the wording could be improved. It may be helpful to make it a little clearer and more concise. Also, the current version feels a bit long and maybe slightly repetitive in certain places. The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural. Let me know if you think this is something we should handle today or if it can wait until tomorrow."
+  );
+  assert.deepStrictEqual(Array.from(naturalSame.changes), [
+    "Rewrote a filler opening into a clearer sentence",
+    "Removed an unnecessary setup phrase"
+  ]);
+
+  const professionalExpand = context.reviseSecondDraft(input, {
+    tone: "professional",
+    length: "expand",
+    reflow: false
+  });
+
+  assert.strictEqual(
+    professionalExpand.text,
+    "We should probably take a look at the draft before sending it over. This helps frame the main point more clearly. I think there are a few areas where the wording could be improved. It may be helpful to make it a little clearer and more concise. Also, the current version feels a bit long and maybe slightly repetitive in certain places. The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural. Let me know if you think this is something we should handle today or if it can wait until tomorrow."
+  );
+  assert.deepStrictEqual(Array.from(professionalExpand.changes), [
+    "Rewrote a filler opening into a clearer sentence",
+    "Removed an unnecessary setup phrase",
+    "Expanded the draft slightly for smoother context and flow"
+  ]);
+
+  const friendlyReflow = context.reviseSecondDraft(input, {
+    tone: "friendly",
+    length: "same",
+    reflow: true
+  });
+
+  assert.strictEqual(
+    friendlyReflow.text,
+    "We should probably take a look at the draft before sending it over. I think there are a few areas where the wording could be improved. It may be helpful to make it a little clearer and more concise. Also, the current version feels a bit long and maybe slightly repetitive in certain places. The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural. Let me know if you think this is something we should handle today or if it can wait until tomorrow."
+  );
+  assert.deepStrictEqual(Array.from(friendlyReflow.changes), [
+    "Rewrote a filler opening into a clearer sentence",
+    "Removed an unnecessary setup phrase",
+    "Reflowed text into cleaner paragraphs"
+  ]);
+  assert.ok(
+    friendlyReflow.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
+  );
+
+  const brief = context.buildAnalysisBrief(
+    ["A source paragraph.", "", "Another source paragraph."].join("\n")
+  );
+
+  assert.strictEqual(
+    brief,
+    `# Analysis Brief
+
+## Source Material
+
+A source paragraph.
+
+Another source paragraph.
+
+## Analysis Goal
+
+Analyze this material for useful patterns, insights, risks, and next steps.
+
+## Focus Areas
+
+- Main themes
+- Repeated phrases or ideas
+- Important claims
+- Gaps or unclear sections
+- Possible opportunities
+- Recommended next actions
+
+## Output Format
+
+- Short summary
+- Key insights
+- Notable quotes
+- Risks or concerns
+- Actionable next steps
+
+## Instructions
+
+Use the source material as the evidence base. Separate direct observations from interpretation.`
+  );
 }
 
 function testSsmlCleanup() {
@@ -888,6 +1117,8 @@ function main() {
   runTest("Hidden-character page structure", testScriptHiddenPageStructure);
   runTest("PDF paste reflow", testScriptPdfPostProcessing);
   runTest("SecondDraft rewrites", testSecondDraftRewrites);
+  runTest("SecondDraft rule registry", testSecondDraftRuleRegistry);
+  runTest("SecondDraft rule metadata preserves output", testSecondDraftRuleMetadataPreservesOutput);
   runTest("SSML cleanup", testSsmlCleanup);
   runTest("SSML IVR menu cleanup", testSsmlIvrMenuCleanup);
   runTest("SSML XML escaping", testSsmlXmlEscaping);
