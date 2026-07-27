@@ -6,9 +6,11 @@ The SecondDraft editorial rule registry gives stable names and IDs to the small,
 
 ## Relationship To SecondDraft
 
-SecondDraft is Stage 2 revision support. PasteLint Clean prepares copied or generated text by removing cleanup problems. SecondDraft then helps revise that prepared text for clarity, length, tone, structure, and review.
+SecondDraft is the Revise stage in the Paste -> Clean -> Revise -> Prepare workflow. PasteLint Clean prepares copied or generated text by removing mechanical cleanup problems. SecondDraft then applies bounded, deterministic editorial patterns for clarity, length, tone, structure, and review.
 
 The registry describes rule metadata. It does not replace the SecondDraft engine, change output by itself, or authorize broad rewriting.
+
+The engine in `js/second-draft.js` executes transformations. The loader in `js/second-draft-rule-registry.js` validates and exposes metadata from the canonical JSON registry. Loading a rule does not activate engine behavior, and registry order does not determine transformation order.
 
 ## Relationship To The Editorial Constitution
 
@@ -23,7 +25,9 @@ Every rule must respect PasteLint's editorial constitution:
 
 Cleaning removes text-transfer problems such as hidden characters, broken line breaks, mojibake, unsafe speech text, or spacing damage.
 
-Revision changes wording after cleanup. A revision rule may shorten, clarify, reflow, or flag a draft, but it must not silently change the user's intended meaning.
+Revision changes wording after cleanup. A revision rule may shorten, clarify, reflow, or flag a draft, but only through implemented finite patterns and options.
+
+Preservation is an editorial constraint supported by targeted regression fixtures. It is not a universal semantic guarantee for arbitrary input. Users must review revised output.
 
 ## Canonical JSON Registry
 
@@ -46,6 +50,11 @@ Examples:
 - `SD-CLARITY-001`
 - `SD-COMPRESSION-001`
 - `SD-STRUCTURE-001`
+
+Current repetition IDs intentionally describe different concepts:
+
+- `SD-REPETITION-001`: reduce the known filler-repetition setup sentence
+- `SD-REPETITION-002`: remove later exact eligible repeated sentences in Shorter mode
 
 ## Category Policy
 
@@ -162,9 +171,60 @@ Avoid:
 - Mapping a visible explanation to a rule when no related change happened.
 - Showing a rule as active when it is research-only or deprecated.
 
+Some implemented transformations do not yet have a rule ID. That is preferable to attaching metadata whose trigger or purpose does not exactly match the transformation.
+
 ## Explanations Tied To Actual Transformations
 
 Rule metadata may support explainability, but SecondDraft should only explain changes that actually occurred. The registry should not create decorative badges, confidence theater, or generic writing advice.
+
+The current engine returns:
+
+- `edits`, which contain internal before-and-after records
+- `ruleMatches`, which associate selected observed transformations with stable IDs
+- `changes`, which contain user-facing explanation strings
+
+The page's **Why it works** area renders the visible `changes` strings. The **What changed** area renders the `edits` records. It does not currently render full registry metadata, confidence, rationale, source, or provenance. Internal `ruleMatches` and visible explanations must therefore be documented as related but distinct layers.
+
+## Current Structure Behavior
+
+Ordinary revision preserves blank-line-separated paragraph blocks. Sentence-flow cleanup runs inside each paragraph instead of flattening the full draft.
+
+When the user enables reflow, each non-empty source line is trimmed and treated as a paragraph. SecondDraft emits the visible reflow explanation and `SD-STRUCTURE-001` only when the paragraph count actually changes. Normalizing extra blank lines without changing paragraph count does not justify a reflow claim.
+
+Reflow does not infer semantic paragraph boundaries within a single long paragraph.
+
+## Current Notification-Frame Behavior
+
+The engine recognizes complete sentence-opening notification frames such as `We are writing to let you know that ...` and `I wanted to let you know that ...`. It removes the complete frame and retains the main statement.
+
+Regression fixtures verify preservation of negation, approval conditions, contrast clauses, following sentences, paragraphs, dates, email addresses, phone numbers, and URLs. Non-target and quoted fixtures are also protected by the current bounded match.
+
+These safeguards describe tested patterns, not universal semantic analysis.
+
+## Current Direct Behavior
+
+Direct tone activates a finite set of exact patterns and phrase substitutions. It can remove selected hesitation, convert selected recommendations into actions, tighten a known timing question, and apply defined wording substitutions.
+
+Direct is not a universal tone model. Unrecognized wording can remain unchanged.
+
+## Current Shorter Behavior
+
+Shorter mode removes a defined set of filler words and phrases. It also removes a later sentence when all of these conditions hold:
+
+- the sentence is delimited by `.`, `!`, or `?`
+- it has at least five recognized words
+- its lowercase normalized word sequence exactly matches an earlier eligible sentence
+- it is not recognized as a bullet or numbered-list item
+
+The first eligible occurrence remains. `SD-REPETITION-002` is attached to later exact removals. `SD-REPETITION-001` remains attached to the separate known filler-repetition rewrite.
+
+Shorter does not perform semantic summarization, paraphrase detection, merging of similar ideas, importance ranking, or general redundancy detection.
+
+## Prepare For SSML
+
+Prepare for SSML stores the revised output exactly when that output contains non-whitespace text. If it does not, SecondDraft stores the original input. The handoff does not clean, trim, reflow, escape, or revise the selected value.
+
+SSML Builder consumes the stored value only when its input is empty, dispatches its normal input event, and then removes the one-time transfer. If the builder already contains input, it does not overwrite that input or consume the pending transfer.
 
 ## Safe Registry Failure
 
@@ -175,6 +235,8 @@ If the JSON is missing, invalid, blocked, or unavailable:
 - Rule lookup should return empty metadata.
 - No pasted text should be sent anywhere.
 - Validation errors should be non-user-content codes.
+
+The fallback affects metadata lookup only. It does not change the deterministic revision pipeline or visible output.
 
 ## Proposal And Review Process
 
