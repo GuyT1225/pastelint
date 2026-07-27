@@ -36,6 +36,7 @@ function createElementStub(value = "") {
     },
     click() {},
     select() {},
+    dispatchEvent() {},
     scrollIntoView() {},
     setAttribute() {},
     removeAttribute() {}
@@ -50,9 +51,13 @@ function createDomStub(options = {}) {
   );
 
   const elements = options.elements || {};
+  const eventListeners = options.eventListeners || {};
 
   return {
-    addEventListener() {},
+    addEventListener(type, callback) {
+      if (!eventListeners[type]) eventListeners[type] = [];
+      eventListeners[type].push(callback);
+    },
     getElementById(id) {
       return Object.prototype.hasOwnProperty.call(elements, id)
         ? elements[id]
@@ -87,6 +92,7 @@ function createDomStub(options = {}) {
 }
 
 function createContext(options = {}) {
+  const documentEvents = options.documentEvents || {};
   const windowObject = {
     isSecureContext: true,
     speechSynthesis: {
@@ -94,11 +100,16 @@ function createContext(options = {}) {
       speak() {}
     }
   };
+  const storage = options.storage || {};
 
   const context = {
     console,
     window: windowObject,
-    document: createDomStub(options),
+    document: createDomStub({
+      ...options,
+      eventListeners: documentEvents
+    }),
+    __documentEvents: documentEvents,
     navigator: {
       clipboard: {
         writeText() {
@@ -107,11 +118,21 @@ function createContext(options = {}) {
       }
     },
     localStorage: {
-      getItem() {
-        return null;
+      getItem(key) {
+        return Object.prototype.hasOwnProperty.call(storage, key)
+          ? storage[key]
+          : null;
       },
-      setItem() {},
-      removeItem() {}
+      setItem(key, value) {
+        storage[key] = String(value);
+      },
+      removeItem(key) {
+        delete storage[key];
+      }
+    },
+    Event: function EventStub(type, init = {}) {
+      this.type = type;
+      this.bubbles = Boolean(init.bubbles);
     },
     Blob: function BlobStub() {},
     URL: {
@@ -158,8 +179,8 @@ function loadControllerContext(bodyClass = "") {
   return context;
 }
 
-function loadSecondDraftContext() {
-  const context = createContext();
+function loadSecondDraftContext(options = {}) {
+  const context = createContext(options);
   loadScript("js/second-draft.js", context);
   return context;
 }
@@ -179,7 +200,7 @@ function readSecondDraftRuleRegistryData() {
   );
 }
 
-function loadSsmlContext(elements = {}) {
+function loadSsmlContext(elements = {}, options = {}) {
   const defaults = {
     input: createElementStub(),
     cleanOutput: createElementStub(),
@@ -205,7 +226,9 @@ function loadSsmlContext(elements = {}) {
     elements: {
       ...defaults,
       ...elements
-    }
+    },
+    storage: options.storage,
+    documentEvents: options.documentEvents
   });
 
   loadScript("js/ssml-builder.js", context);
@@ -412,6 +435,21 @@ function getSecondDraftRegressionInput() {
   ].join("\n");
 }
 
+function countTestParagraphs(text) {
+  return String(text || "")
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean).length;
+}
+
+function assertNoTrailingWhitespace(text) {
+  String(text)
+    .split("\n")
+    .forEach((line) => {
+      assert.strictEqual(line, line.trimEnd());
+    });
+}
+
 function testSecondDraftRuleRegistry() {
   const context = loadSecondDraftRuleRegistryContext();
   const registry = context.window.PasteLintSecondDraftRuleRegistry;
@@ -533,7 +571,13 @@ function testSecondDraftRuleMetadataPreservesOutput() {
 
   assert.strictEqual(
     naturalSame.text,
-    "We should probably take a look at the draft before sending it over. I think there are a few areas where the wording could be improved. It may be helpful to make it a little clearer and more concise. Also, the current version feels a bit long and maybe slightly repetitive in certain places. The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural. Let me know if you think this is something we should handle today or if it can wait until tomorrow."
+    [
+      "We should probably take a look at the draft before sending it over. I think there are a few areas where the wording could be improved. It may be helpful to make it a little clearer and more concise.",
+      "",
+      "Also, the current version feels a bit long and maybe slightly repetitive in certain places. The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural.",
+      "",
+      "Let me know if you think this is something we should handle today or if it can wait until tomorrow."
+    ].join("\n")
   );
   assert.deepStrictEqual(Array.from(naturalSame.changes), [
     "Rewrote a filler opening into a clearer sentence",
@@ -564,15 +608,20 @@ function testSecondDraftRuleMetadataPreservesOutput() {
 
   assert.strictEqual(
     friendlyReflow.text,
-    "We should probably take a look at the draft before sending it over. I think there are a few areas where the wording could be improved. It may be helpful to make it a little clearer and more concise. Also, the current version feels a bit long and maybe slightly repetitive in certain places. The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural. Let me know if you think this is something we should handle today or if it can wait until tomorrow."
+    [
+      "We should probably take a look at the draft before sending it over. I think there are a few areas where the wording could be improved. It may be helpful to make it a little clearer and more concise.",
+      "",
+      "Also, the current version feels a bit long and maybe slightly repetitive in certain places. The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural.",
+      "",
+      "Let me know if you think this is something we should handle today or if it can wait until tomorrow."
+    ].join("\n")
   );
   assert.deepStrictEqual(Array.from(friendlyReflow.changes), [
     "Rewrote a filler opening into a clearer sentence",
-    "Removed an unnecessary setup phrase",
-    "Reflowed text into cleaner paragraphs"
+    "Removed an unnecessary setup phrase"
   ]);
   assert.ok(
-    friendlyReflow.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
+    !friendlyReflow.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
   );
 
   const brief = context.buildAnalysisBrief(
@@ -614,6 +663,250 @@ Analyze this material for useful patterns, insights, risks, and next steps.
 
 Use the source material as the evidence base. Separate direct observations from interpretation.`
   );
+}
+
+function testSecondDraftParagraphReflowTruthfulness() {
+  const context = loadSecondDraftContext();
+  const reflowClaim = "Reflowed text into cleaner paragraphs";
+
+  const fixtureA = [
+    "I just wanted to reach out and say that we are currently in the process of reviewing the updated phone menu for the library.",
+    "",
+    "Several event descriptions changed after the original script was approved. The library team must confirm the dates, phone numbers, department names, and menu options before recording.",
+    "",
+    "Please review the attached script and send approval by Tuesday, July 28."
+  ].join("\n");
+
+  const fixtureAResult = context.reviseSecondDraft(fixtureA, {
+    tone: "natural",
+    length: "same",
+    reflow: true
+  });
+
+  assert.ok(fixtureAResult.text.includes("\n\n"));
+  assert.strictEqual(countTestParagraphs(fixtureAResult.text), 3);
+  assert.ok(fixtureAResult.text.includes("Tuesday, July 28"));
+  assert.ok(!fixtureAResult.changes.includes(reflowClaim));
+  assert.ok(
+    !fixtureAResult.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
+  );
+  assertNoTrailingWhitespace(fixtureAResult.text);
+
+  const singleParagraph = "The revised menu is ready for review. Several event descriptions changed after the first approval. The library team should confirm the dates and menu options. Recording begins after approval. Late changes may delay the launch.";
+  const singleResult = context.reviseSecondDraft(singleParagraph, {
+    tone: "natural",
+    length: "same",
+    reflow: true
+  });
+
+  assert.strictEqual(countTestParagraphs(singleResult.text), 1);
+  assert.ok(!singleResult.text.includes("\n\n"));
+  assert.ok(!singleResult.changes.includes(reflowClaim));
+  assert.ok(
+    !singleResult.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
+  );
+  assert.ok(singleResult.changes.includes("No major revision needed. The text already reads cleanly."));
+
+  const concise = "Please review the revised menu and approve it by Tuesday. Recording begins after approval.";
+  const conciseResult = context.reviseSecondDraft(concise, {
+    tone: "direct",
+    length: "shorter",
+    reflow: true
+  });
+
+  assert.strictEqual(conciseResult.text, concise);
+  assert.ok(!conciseResult.changes.includes(reflowClaim));
+  assert.ok(
+    !conciseResult.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
+  );
+  assert.ok(conciseResult.changes.includes("No major revision needed. The text already reads cleanly."));
+
+  const blankLineVariation = ["First paragraph.", "", "", "Second paragraph.", "", "", "", "Third paragraph."].join("\n");
+  const blankLineResult = context.reviseSecondDraft(blankLineVariation, {
+    tone: "natural",
+    length: "same",
+    reflow: true
+  });
+
+  assert.strictEqual(blankLineResult.text, "First paragraph.\n\nSecond paragraph.\n\nThird paragraph.");
+  assert.strictEqual(countTestParagraphs(blankLineResult.text), 3);
+  assert.ok(!blankLineResult.changes.includes(reflowClaim));
+  assert.ok(!/\n{3,}/.test(blankLineResult.text));
+  assertNoTrailingWhitespace(blankLineResult.text);
+
+  const lineBreakSource = "First paragraph.\nSecond paragraph.";
+  const lineBreakResult = context.reviseSecondDraft(lineBreakSource, {
+    tone: "natural",
+    length: "same",
+    reflow: true
+  });
+
+  assert.strictEqual(lineBreakResult.text, "First paragraph.\n\nSecond paragraph.");
+  assert.ok(lineBreakResult.changes.includes(reflowClaim));
+  assert.ok(
+    lineBreakResult.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
+  );
+  assert.ok(!lineBreakResult.changes.includes("No major revision needed. The text already reads cleanly."));
+  assertNoTrailingWhitespace(lineBreakResult.text);
+}
+
+function testSecondDraftPrimaryReflowPreservesProtectedValues() {
+  const context = loadSecondDraftContext();
+  const input = [
+    "I just wanted to reach out and say that we are currently in the process of reviewing the updated phone menu for the library. Due to the fact that several event descriptions were changed after the original script was approved, we need to go through the entire document again in order to make sure that the recorded version is accurate.",
+    "",
+    "At this point in time, the main point is that we really need the library team to review the revised script and confirm that the dates, phone numbers, department names, and menu options are correct before we create the final audio files, because making changes after recording takes additional time and can cause the launch schedule to be delayed.",
+    "",
+    "We also wanted to mention that the introduction is a little bit longer than it needs to be, and there are also several places where the same information is repeated more than once. This is really important because callers should be able to understand the available options quickly and easily.",
+    "",
+    "Please review the attached script and send approval by Tuesday, July 28. Questions can be sent to support@example.com or discussed by calling 914-555-0184. The approved information page is https://example.com/library-menu.",
+    "",
+    "To summarize, we just need you to review everything, make sure everything is correct, and let us know whether or not we can move forward with recording."
+  ].join("\n");
+
+  const result = context.reviseSecondDraft(input, {
+    tone: "natural",
+    length: "same",
+    reflow: true
+  });
+
+  assert.strictEqual(countTestParagraphs(result.text), 5);
+  assert.ok(result.text.includes("Tuesday, July 28"));
+  assert.ok(result.text.includes("support@example.com"));
+  assert.ok(result.text.includes("914-555-0184"));
+  assert.ok(result.text.includes("https://example.com/library-menu"));
+  assert.ok(result.text.includes("library team to review the revised script"));
+  assert.ok(result.text.includes("before we create the final audio files"));
+  assert.ok(result.text.includes("can cause the launch schedule to be delayed"));
+  assert.ok(!result.changes.includes("Reflowed text into cleaner paragraphs"));
+  assert.ok(
+    !result.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
+  );
+  assertNoTrailingWhitespace(result.text);
+  assert.ok(!/\n{3,}/.test(result.text));
+}
+
+function testSecondDraftPrepareForSsmlTransfer() {
+  const storage = {};
+  const context = loadSecondDraftContext({ storage });
+  const fixture = [
+    "The revised library phone menu is ready for final review.",
+    "",
+    "Please confirm the event dates, department names, phone numbers, and menu options. Send approval to support@example.com by Tuesday, July 28.",
+    "",
+    "Recording begins only after approval. Questions may be discussed by calling 914-555-0184.",
+    "",
+    "Late changes may delay the launch. The approved information page is https://example.com/library-menu."
+  ].join("\n");
+
+  const elements = {
+    input: createElementStub("Original input should not be transferred."),
+    output: createElementStub(fixture),
+    toolStatus: createElementStub()
+  };
+
+  context.handlePrepareSecondDraftForSsml(elements);
+
+  assert.strictEqual(storage["pastelint-transfer-text"], fixture);
+  assert.ok(storage["pastelint-transfer-text"].includes("\n\n"));
+  assert.ok(storage["pastelint-transfer-text"].includes("support@example.com"));
+  assert.ok(storage["pastelint-transfer-text"].includes("Tuesday, July 28"));
+  assert.ok(storage["pastelint-transfer-text"].includes("914-555-0184"));
+  assert.ok(storage["pastelint-transfer-text"].includes("https://example.com/library-menu"));
+  assert.ok(storage["pastelint-transfer-text"].includes("Recording begins only after approval"));
+  assert.ok(storage["pastelint-transfer-text"].includes("Late changes may delay the launch"));
+  assert.ok(!storage["pastelint-transfer-text"].includes("Original input should not be transferred."));
+
+  const fallbackStorage = {};
+  const fallbackContext = loadSecondDraftContext({ storage: fallbackStorage });
+  fallbackContext.handlePrepareSecondDraftForSsml({
+    input: createElementStub(fixture),
+    output: createElementStub(""),
+    toolStatus: createElementStub()
+  });
+
+  assert.strictEqual(fallbackStorage["pastelint-transfer-text"], fixture);
+
+  const unavailableStorageContext = loadSecondDraftContext();
+  const unavailableElements = {
+    input: createElementStub(fixture),
+    output: createElementStub(fixture),
+    toolStatus: createElementStub()
+  };
+  unavailableStorageContext.localStorage.setItem = function () {
+    throw new Error("storage unavailable");
+  };
+
+  assert.doesNotThrow(() => {
+    unavailableStorageContext.handlePrepareSecondDraftForSsml(unavailableElements);
+  });
+  assert.strictEqual(unavailableElements.input.value, fixture);
+  assert.strictEqual(unavailableElements.output.value, fixture);
+}
+
+function testSsmlBuilderLoadsTransferText() {
+  const fixture = [
+    "The revised library phone menu is ready for final review.",
+    "",
+    "Please confirm the event dates, department names, phone numbers, and menu options. Send approval to support@example.com by Tuesday, July 28.",
+    "",
+    "Recording begins only after approval. Questions may be discussed by calling 914-555-0184.",
+    "",
+    "Late changes may delay the launch. The approved information page is https://example.com/library-menu."
+  ].join("\n");
+  const storage = {
+    "pastelint-transfer-text": fixture
+  };
+  const input = createElementStub("");
+  const cleanOutput = createElementStub("");
+  const ssmlOutput = createElementStub("");
+  const documentEvents = {};
+  const context = loadSsmlContext(
+    {
+      input,
+      cleanOutput,
+      ssmlOutput
+    },
+    { storage, documentEvents }
+  );
+
+  assert.strictEqual(documentEvents.DOMContentLoaded.length, 1);
+  documentEvents.DOMContentLoaded[0]();
+
+  assert.strictEqual(input.value, fixture);
+  assert.strictEqual(cleanOutput.value, "");
+  assert.strictEqual(ssmlOutput.value, "");
+  assert.strictEqual(storage["pastelint-transfer-text"], undefined);
+  assert.ok(input.value.includes("\n\n"));
+  assert.ok(input.value.includes("support@example.com"));
+  assert.ok(input.value.includes("Tuesday, July 28"));
+  assert.ok(input.value.includes("914-555-0184"));
+  assert.ok(input.value.includes("https://example.com/library-menu"));
+  assert.ok(input.value.includes("Recording begins only after approval"));
+  assert.ok(input.value.includes("Late changes may delay the launch"));
+
+  const waitingStorage = {
+    "pastelint-transfer-text": "Transferred text should wait."
+  };
+  const waitingInput = createElementStub("Existing SSML input.");
+  const waitingDocumentEvents = {};
+  loadSsmlContext(
+    {
+      input: waitingInput,
+      cleanOutput: createElementStub(""),
+      ssmlOutput: createElementStub("")
+    },
+    {
+      storage: waitingStorage,
+      documentEvents: waitingDocumentEvents
+    }
+  );
+
+  assert.strictEqual(waitingDocumentEvents.DOMContentLoaded.length, 1);
+  waitingDocumentEvents.DOMContentLoaded[0]();
+
+  assert.strictEqual(waitingInput.value, "Existing SSML input.");
+  assert.strictEqual(waitingStorage["pastelint-transfer-text"], "Transferred text should wait.");
 }
 
 function testSsmlCleanup() {
@@ -1119,6 +1412,10 @@ function main() {
   runTest("SecondDraft rewrites", testSecondDraftRewrites);
   runTest("SecondDraft rule registry", testSecondDraftRuleRegistry);
   runTest("SecondDraft rule metadata preserves output", testSecondDraftRuleMetadataPreservesOutput);
+  runTest("SecondDraft paragraph reflow truthfulness", testSecondDraftParagraphReflowTruthfulness);
+  runTest("SecondDraft primary reflow preserves protected values", testSecondDraftPrimaryReflowPreservesProtectedValues);
+  runTest("SecondDraft Prepare for SSML transfer", testSecondDraftPrepareForSsmlTransfer);
+  runTest("SSML Builder loads transfer text", testSsmlBuilderLoadsTransferText);
   runTest("SSML cleanup", testSsmlCleanup);
   runTest("SSML IVR menu cleanup", testSsmlIvrMenuCleanup);
   runTest("SSML XML escaping", testSsmlXmlEscaping);

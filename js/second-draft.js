@@ -22,6 +22,7 @@ function getSecondDraftElements() {
 
     reviseBtn: document.getElementById("reviseBtn"),
     buildBriefBtn: document.getElementById("buildBriefBtn"),
+    prepareSsmlLink: document.querySelector(".second-draft-page .next-step-action[href='SSML_builder.html']"),
     copyBtn: document.getElementById("copyBtn"),
     clearBtn: document.getElementById("clearBtn"),
 
@@ -55,6 +56,7 @@ function bindSecondDraftEvents(els) {
 
   els.reviseBtn?.addEventListener("click", () => handleSecondDraftRevise(els));
   els.buildBriefBtn?.addEventListener("click", () => handleBuildAnalysisBrief(els));
+  els.prepareSsmlLink?.addEventListener("click", () => handlePrepareSecondDraftForSsml(els));
   els.copyBtn?.addEventListener("click", () => copySecondDraftOutput(els));
   els.clearBtn?.addEventListener("click", () => clearSecondDraft(els));
 }
@@ -113,6 +115,25 @@ function handleBuildAnalysisBrief(els) {
   setToolStatus(els, "Draft revised. Review the result, then copy or adjust the settings.");
 }
 
+function handlePrepareSecondDraftForSsml(els) {
+  const transferText = getSecondDraftTransferText(els);
+
+  if (!transferText) return;
+
+  try {
+    localStorage.setItem("pastelint-transfer-text", transferText);
+  } catch (error) {
+    setToolStatus(els, "Prepare for SSML opened. Copy the text manually if it does not appear there.");
+  }
+}
+
+function getSecondDraftTransferText(els) {
+  const revisedText = els.output?.value || "";
+  const inputText = els.input?.value || "";
+
+  return revisedText.trim() ? revisedText : inputText;
+}
+
 function buildAnalysisBrief(sourceText) {
   const source = prepareBriefSourceMaterial(sourceText);
 
@@ -165,6 +186,7 @@ function getSecondDraftOptions(els) {
 
 function reviseSecondDraft(text, options) {
   let revised = normalizeSecondDraftText(text);
+  const normalizedOriginal = normalizeSecondDraftText(text);
   const edits = [];
   const changes = [];
   const ruleMatches = [];
@@ -186,8 +208,20 @@ function reviseSecondDraft(text, options) {
   edits.push(...lengthResult.edits);
   changes.push(...lengthResult.changes);
 
+  const beforeReflow = revised;
+
   if (options.reflow) {
     revised = reflowSecondDraftParagraphs(revised);
+  }
+
+  revised = cleanupSecondDraftSentenceFlow(revised);
+  revised = normalizeSecondDraftText(revised);
+
+  const reflowChangedStructure =
+    options.reflow &&
+    hasSecondDraftParagraphStructureChanged(beforeReflow, revised);
+
+  if (reflowChangedStructure) {
     changes.push("Reflowed text into cleaner paragraphs");
     pushSecondDraftRuleMatch(
       ruleMatches,
@@ -196,10 +230,7 @@ function reviseSecondDraft(text, options) {
     );
   }
 
-  revised = cleanupSecondDraftSentenceFlow(revised);
-  revised = normalizeSecondDraftText(revised);
-
-  if (!edits.length && revised === normalizeSecondDraftText(text)) {
+  if (!edits.length && !reflowChangedStructure && revised === normalizedOriginal) {
     changes.push("No major revision needed. The text already reads cleanly.");
   }
 
@@ -559,6 +590,13 @@ function reflowSecondDraftParagraphs(text) {
 }
 
 function cleanupSecondDraftSentenceFlow(text) {
+  return getSecondDraftParagraphs(text)
+    .map(cleanupSecondDraftParagraphFlow)
+    .join("\n\n")
+    .trim();
+}
+
+function cleanupSecondDraftParagraphFlow(text) {
   return String(text)
     .replace(/\band It\b/g, ". It")
     .replace(/\band it\b/g, ". It")
@@ -575,7 +613,7 @@ function cleanupSecondDraftSentenceFlow(text) {
     )
     .replace(/\s+\./g, ".")
     .replace(/\.\./g, ".")
-    .replace(/\s{2,}/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
@@ -604,6 +642,21 @@ function ensureSecondDraftSentence(text) {
   if (/[.!?]$/.test(clean)) return clean;
 
   return `${clean}.`;
+}
+
+function getSecondDraftParagraphs(text) {
+  return String(text || "")
+    .replace(/\r\n?/g, "\n")
+    .split(/\n{2,}/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+}
+
+function hasSecondDraftParagraphStructureChanged(before, after) {
+  const beforeParagraphs = getSecondDraftParagraphs(before);
+  const afterParagraphs = getSecondDraftParagraphs(after);
+
+  return beforeParagraphs.length !== afterParagraphs.length;
 }
 
 function capitalizeSecondDraftSentence(text) {

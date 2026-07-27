@@ -41,8 +41,35 @@ document.addEventListener("DOMContentLoaded", function () {
     copyText("ssmlOutput");
   });
 
+  loadSsmlTransferText();
   updateCounters();
 });
+
+function loadSsmlTransferText() {
+  const input = document.getElementById("input");
+  if (!input || input.value.trim()) return false;
+
+  let transferText = "";
+
+  try {
+    transferText = localStorage.getItem("pastelint-transfer-text") || "";
+  } catch (error) {
+    return false;
+  }
+
+  if (!transferText) return false;
+
+  input.value = transferText;
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+
+  try {
+    localStorage.removeItem("pastelint-transfer-text");
+  } catch (error) {
+    return true;
+  }
+
+  return true;
+}
 
 function resizeAllTextareas() {
   document.querySelectorAll(".ssml-builder-page textarea").forEach(function (textarea) {
