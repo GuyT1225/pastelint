@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "registryVersion": "2026-07-27.1",
+  "registryVersion": "2026-07-27.2",
   "rules": [
     {
       "id": "SD-CLARITY-001",
@@ -40,15 +40,15 @@
     },
     {
       "id": "SD-CLARITY-002",
-      "slug": "turn-main-point-into-direct-action",
-      "name": "Turn the main point into direct action",
+      "slug": "turn-framed-action-into-direct-action",
+      "name": "Turn a framed action into direct action",
       "category": "clarity",
       "type": "deterministic-editorial",
       "status": "active",
-      "summary": "Turns a stated main point into a clearer action sentence when the draft already names the action.",
-      "rationale": "When a sentence announces the main point and then states an action, the action can usually carry the sentence by itself.",
-      "triggerDescription": "The phrase \"The main point is that we should\" introduces an action that can stand on its own.",
-      "changeDescription": "Removes the framing phrase and starts with the action.",
+      "summary": "Turns a supported framing construction into a clearer action sentence when the draft already names the requested action.",
+      "rationale": "When a narrow frame delays an explicit action, the action can carry the sentence without changing its object or conditions.",
+      "triggerDescription": "A supported main-point or Direct hesitant-request frame introduces an explicit action that can stand on its own.",
+      "changeDescription": "Removes the complete supported frame and starts with the preserved action, using a professional request form where appropriate.",
       "confidence": "high",
       "automation": "eligible",
       "source": {
@@ -60,12 +60,21 @@
           "before": "The main point is that we should review the message.",
           "after": "Review the message.",
           "explanation": "The revision removes the announcement and keeps the action."
+        },
+        {
+          "before": "I was wondering if you could review the revised menu.",
+          "after": "Please review the revised menu.",
+          "explanation": "Direct mode removes the hesitant request frame and preserves a professional request."
         }
       ],
       "counterexamples": [
         {
           "text": "The main point is that the schedule changed because the venue closed.",
           "reason": "The sentence explains a situation rather than giving a direct action."
+        },
+        {
+          "text": "Could you please confirm the event dates?",
+          "reason": "The request is already sufficiently direct and does not need a forced rewrite."
         }
       ],
       "tags": [

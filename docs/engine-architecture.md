@@ -120,6 +120,23 @@ These are fixture-backed, pattern-bounded safeguards. They are not a universal s
 
 Direct tone activates a finite set of patterns and phrase substitutions. Current examples include removing selected hesitation, converting selected suggestions into actions, tightening a known timing question, and applying defined substitutions such as `may` to `can`.
 
+The Direct request-frame pass runs after shared notification, filler, and focused-mode patterns but before general tone phrase substitutions and length handling. It recognizes only these complete sentence- or paragraph-opening constructions:
+
+- `I was` or `We were` `hoping you might be able to ...`
+- `I was` or `We were` `hoping you could ...`
+- `I was` or `We were` `wondering if you could ...`
+- `I` or `We` `just wanted to ask if you could ...`
+- `When you have a chance, could you ...`
+- `If possible, could you ...`
+- `Would you be able to ...`
+- `Could you possibly ...`
+
+The engine replaces the complete frame with `Please ` and the captured action clause. Matching stops within the paragraph and uses the sentence's terminal punctuation, so following sentences and paragraphs are not consumed. The current quoted fixture is not at an eligible boundary and remains unchanged.
+
+Direct request edits begin as pending evidence. After tone substitutions, length behavior, paragraph cleanup, and final normalization, the engine checks that the exact replacement still appears in the final output. Only then does it add the edit-map record, visible explanation, and `SD-CLARITY-002` rule match.
+
+Already-direct commands, `Could you please ...`, unsupported conditional requests, non-request hope statements, and third-party notification instructions do not trigger this pass.
+
 Direct is not a universal tone model. Text outside its recognized patterns may remain unchanged, and each output still requires user review.
 
 ## Shorter Mode

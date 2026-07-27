@@ -425,6 +425,287 @@ function testSecondDraftRewrites() {
   });
 }
 
+function testSecondDraftDirectRequestDifferentiation() {
+  const context = loadSecondDraftContext();
+  const naturalOptions = {
+    tone: "natural",
+    length: "same",
+    reflow: false
+  };
+  const directOptions = {
+    tone: "direct",
+    length: "same",
+    reflow: false
+  };
+  const directChange =
+    "Rewrote hesitant request framing into a clear, professional action";
+  const directRuleId = "SD-CLARITY-002";
+
+  const primary =
+    "I was hoping you might be able to review the revised menu when you have a chance. The main thing we need is approval before recording can begin.";
+  const primaryNatural = context.reviseSecondDraft(primary, naturalOptions);
+  const primaryDirect = context.reviseSecondDraft(primary, directOptions);
+
+  assert.strictEqual(primaryNatural.text, primary);
+  assert.strictEqual(
+    primaryDirect.text,
+    "Please review the revised menu when you have a chance. The main thing we need is approval before recording can begin."
+  );
+  assert.notStrictEqual(primaryDirect.text, primaryNatural.text);
+  assert.ok(primaryDirect.text.includes("review the revised menu"));
+  assert.ok(primaryDirect.text.includes("approval before recording can begin"));
+  assert.ok(!primaryDirect.text.includes("by Tuesday"));
+
+  const simple =
+    "I was wondering if you could review the revised menu.";
+  const simpleNatural = context.reviseSecondDraft(simple, naturalOptions);
+  const simpleDirect = context.reviseSecondDraft(simple, directOptions);
+
+  assert.strictEqual(simpleNatural.text, simple);
+  assert.strictEqual(simpleDirect.text, "Please review the revised menu.");
+  assert.notStrictEqual(simpleDirect.text, simpleNatural.text);
+  assert.deepStrictEqual(Array.from(simpleDirect.changes), [directChange]);
+  assert.strictEqual(simpleDirect.ruleMatches.length, 1);
+  assert.strictEqual(simpleDirect.ruleMatches[0].ruleId, directRuleId);
+  assert.strictEqual(simpleDirect.ruleMatches[0].change, directChange);
+  assert.strictEqual(simpleDirect.edits.length, 1);
+  assert.strictEqual(simpleDirect.edits[0].before, simple);
+  assert.strictEqual(
+    simpleDirect.edits[0].after,
+    "Please review the revised menu."
+  );
+  assert.strictEqual(simpleDirect.edits[0].ruleId, directRuleId);
+  assert.ok(simpleDirect.edits.every((edit) => simpleDirect.text.includes(edit.after)));
+  assert.ok(!simpleNatural.ruleMatches.some((match) => match.ruleId === directRuleId));
+
+  [
+    "I was hoping you could review the revised menu.",
+    "We were hoping you could review the revised menu.",
+    "I was hoping you might be able to review the revised menu.",
+    "We were hoping you might be able to review the revised menu."
+  ].forEach((input) => {
+    const natural = context.reviseSecondDraft(input, naturalOptions);
+    const direct = context.reviseSecondDraft(input, directOptions);
+
+    assert.strictEqual(natural.text, input);
+    assert.strictEqual(direct.text, "Please review the revised menu.");
+    assert.ok(direct.changes.includes(directChange));
+    assert.ok(
+      direct.ruleMatches.some((match) => match.ruleId === directRuleId)
+    );
+    assert.ok(
+      direct.edits.some(
+        (edit) =>
+          edit.before === input &&
+          edit.after === "Please review the revised menu."
+      )
+    );
+  });
+
+  const pluralRequest =
+    "We were hoping you could review the event dates and confirm the phone numbers.";
+  const pluralNatural = context.reviseSecondDraft(
+    pluralRequest,
+    naturalOptions
+  );
+  const pluralDirect = context.reviseSecondDraft(
+    pluralRequest,
+    directOptions
+  );
+
+  assert.strictEqual(pluralNatural.text, pluralRequest);
+  assert.strictEqual(
+    pluralDirect.text,
+    "Please review the event dates and confirm the phone numbers."
+  );
+  assert.ok(pluralDirect.text.includes("review the event dates"));
+  assert.ok(pluralDirect.text.includes("confirm the phone numbers"));
+  assert.ok(!pluralDirect.text.includes("Please were review"));
+  assert.ok(!pluralDirect.text.includes("Please hoping"));
+  assert.ok(!pluralDirect.text.includes("Please you could"));
+
+  const multipleActions =
+    "When you have a chance, could you review the event dates and confirm the phone numbers?";
+  const multipleActionsDirect = context.reviseSecondDraft(
+    multipleActions,
+    directOptions
+  );
+  assert.strictEqual(
+    multipleActionsDirect.text,
+    "Please review the event dates and confirm the phone numbers?"
+  );
+  assert.ok(multipleActionsDirect.text.includes("review the event dates"));
+  assert.ok(multipleActionsDirect.text.includes("confirm the phone numbers"));
+
+  const protectedValues =
+    "I was hoping you could approve the revised menu by Tuesday, July 28. Send questions to support@example.com or call 914-555-0184.";
+  const protectedValuesDirect = context.reviseSecondDraft(
+    protectedValues,
+    directOptions
+  );
+  assert.strictEqual(
+    protectedValuesDirect.text,
+    "Please approve the revised menu by Tuesday, July 28. Send questions to support@example.com or call 914-555-0184."
+  );
+  assert.ok(protectedValuesDirect.text.includes("Tuesday, July 28"));
+  assert.ok(protectedValuesDirect.text.includes("support@example.com"));
+  assert.ok(protectedValuesDirect.text.includes("914-555-0184"));
+  assert.ok(protectedValuesDirect.text.includes("approve the revised menu by"));
+
+  const url =
+    "Would you be able to review the approved page at https://example.com/library-menu?";
+  const urlDirect = context.reviseSecondDraft(url, directOptions);
+  assert.strictEqual(
+    urlDirect.text,
+    "Please review the approved page at https://example.com/library-menu?"
+  );
+  assert.ok(urlDirect.text.includes("https://example.com/library-menu"));
+  assert.ok(!urlDirect.text.includes("approve the approved page"));
+
+  const negation =
+    "I was wondering if you could confirm that recording will not begin before approval.";
+  const negationDirect = context.reviseSecondDraft(negation, directOptions);
+  assert.strictEqual(
+    negationDirect.text,
+    "Please confirm that recording will not begin before approval."
+  );
+  assert.ok(negationDirect.text.includes("not"));
+  assert.ok(negationDirect.text.includes("before approval"));
+
+  const condition =
+    "If the dates are correct, could you approve the revised menu?";
+  const conditionDirect = context.reviseSecondDraft(condition, directOptions);
+  assert.strictEqual(conditionDirect.text, condition);
+  assert.ok(conditionDirect.text.startsWith("If the dates are correct"));
+  assert.ok(!conditionDirect.changes.includes(directChange));
+  assert.ok(
+    !conditionDirect.ruleMatches.some((match) => match.ruleId === directRuleId)
+  );
+
+  const alreadyDirect =
+    "Please review the revised menu and approve it by Tuesday. Recording begins after approval.";
+  const alreadyDirectNatural = context.reviseSecondDraft(
+    alreadyDirect,
+    naturalOptions
+  );
+  const alreadyDirectResult = context.reviseSecondDraft(
+    alreadyDirect,
+    directOptions
+  );
+  assert.strictEqual(alreadyDirectNatural.text, alreadyDirect);
+  assert.strictEqual(alreadyDirectResult.text, alreadyDirect);
+  assert.deepStrictEqual(Array.from(alreadyDirectResult.edits), []);
+  assert.ok(!alreadyDirectResult.changes.includes(directChange));
+  assert.ok(
+    !alreadyDirectResult.ruleMatches.some((match) => match.ruleId === directRuleId)
+  );
+
+  const politeDirect = "Could you please confirm the event dates?";
+  const politeDirectResult = context.reviseSecondDraft(
+    politeDirect,
+    directOptions
+  );
+  assert.strictEqual(politeDirectResult.text, politeDirect);
+  assert.deepStrictEqual(Array.from(politeDirectResult.edits), []);
+  assert.ok(!politeDirectResult.changes.includes(directChange));
+
+  const nonRequest = "I hope the library event goes well.";
+  const nonRequestDirect = context.reviseSecondDraft(nonRequest, directOptions);
+  assert.strictEqual(nonRequestDirect.text, nonRequest);
+  assert.ok(!nonRequestDirect.changes.includes(directChange));
+
+  const supervisor =
+    "Please let your supervisor know that the menu was approved.";
+  const supervisorDirect = context.reviseSecondDraft(supervisor, directOptions);
+  assert.strictEqual(supervisorDirect.text, supervisor);
+  assert.ok(!supervisorDirect.changes.includes(directChange));
+
+  const quoted =
+    "The script says, \u201cI was hoping you might be able to review the revised menu.\u201d";
+  const quotedDirect = context.reviseSecondDraft(quoted, directOptions);
+  assert.strictEqual(quotedDirect.text, quoted);
+  assert.ok(!quotedDirect.changes.includes(directChange));
+
+  const paragraphs = [
+    "I was wondering if you could review the revised menu.",
+    "",
+    "Recording begins only after approval."
+  ].join("\n");
+  const paragraphsDirect = context.reviseSecondDraft(
+    paragraphs,
+    directOptions
+  );
+  assert.strictEqual(
+    paragraphsDirect.text,
+    [
+      "Please review the revised menu.",
+      "",
+      "Recording begins only after approval."
+    ].join("\n")
+  );
+  assert.ok(paragraphsDirect.text.includes("\n\n"));
+  assert.ok(paragraphsDirect.text.includes("only after approval"));
+
+  const directCommand = "Review the revised menu before recording.";
+  const directCommandNatural = context.reviseSecondDraft(
+    directCommand,
+    naturalOptions
+  );
+  const directCommandResult = context.reviseSecondDraft(
+    directCommand,
+    directOptions
+  );
+  assert.strictEqual(directCommandNatural.text, directCommand);
+  assert.strictEqual(directCommandResult.text, directCommand);
+  assert.deepStrictEqual(Array.from(directCommandResult.edits), []);
+  assert.ok(!directCommandResult.changes.includes(directChange));
+  assert.ok(
+    !directCommandResult.ruleMatches.some((match) => match.ruleId === directRuleId)
+  );
+
+  [
+    primaryDirect,
+    simpleDirect,
+    pluralDirect,
+    multipleActionsDirect,
+    protectedValuesDirect,
+    urlDirect,
+    negationDirect,
+    conditionDirect,
+    alreadyDirectResult,
+    politeDirectResult,
+    nonRequestDirect,
+    supervisorDirect,
+    quotedDirect,
+    paragraphsDirect,
+    directCommandResult
+  ].forEach((result) => {
+    [
+      "Please to review",
+      "Please you review",
+      "Please could",
+      "Please if",
+      "Please were review",
+      "Please hoping",
+      "Please you could"
+    ].forEach((fragment) => {
+      assert.ok(
+        !result.text.includes(fragment),
+        `Unexpected malformed Direct output: ${fragment}`
+      );
+    });
+
+    result.edits.forEach((edit) => {
+      if (edit.ruleId === directRuleId) {
+        assert.ok(
+          result.text.includes(edit.after),
+          `Stale Direct edit-map value: ${edit.after}`
+        );
+      }
+    });
+  });
+}
+
 function testSecondDraftShorterRedundancyReduction() {
   const context = loadSecondDraftContext();
   const repeated =
@@ -581,6 +862,15 @@ function testSecondDraftRuleRegistry() {
   const preservationRule = registry.getRule("SD-PRESERVE-001");
   assert.strictEqual(preservationRule.type, "preservation-rule");
   assert.strictEqual(preservationRule.automation, "explanation-only");
+
+  const directActionRule = registry.getRule("SD-CLARITY-002");
+  assert.strictEqual(
+    directActionRule.name,
+    "Turn a framed action into direct action"
+  );
+  assert.ok(
+    directActionRule.triggerDescription.includes("Direct hesitant-request frame")
+  );
 
   const exactRepetitionRule = registry.getRule("SD-REPETITION-002");
   assert.strictEqual(exactRepetitionRule.name, "Remove exact repeated sentences in Shorter mode");
@@ -1615,6 +1905,7 @@ function main() {
   runTest("Hidden-character page structure", testScriptHiddenPageStructure);
   runTest("PDF paste reflow", testScriptPdfPostProcessing);
   runTest("SecondDraft rewrites", testSecondDraftRewrites);
+  runTest("SecondDraft Direct request differentiation", testSecondDraftDirectRequestDifferentiation);
   runTest("SecondDraft Shorter redundancy reduction", testSecondDraftShorterRedundancyReduction);
   runTest("SecondDraft rule registry", testSecondDraftRuleRegistry);
   runTest("SecondDraft rule metadata preserves output", testSecondDraftRuleMetadataPreservesOutput);

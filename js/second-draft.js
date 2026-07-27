@@ -190,12 +190,14 @@ function reviseSecondDraft(text, options) {
   const edits = [];
   const changes = [];
   const ruleMatches = [];
+  const pendingVerifiedEdits = [];
 
   const patternResult = applySecondDraftPatternRules(revised, options);
   revised = patternResult.text;
   edits.push(...patternResult.edits);
   changes.push(...patternResult.changes);
   ruleMatches.push(...patternResult.ruleMatches);
+  pendingVerifiedEdits.push(...patternResult.pendingVerifiedEdits);
 
   const phraseResult = applySecondDraftPhraseRules(revised, options.tone);
   revised = phraseResult.text;
@@ -217,6 +219,22 @@ function reviseSecondDraft(text, options) {
 
   revised = cleanupSecondDraftSentenceFlow(revised);
   revised = normalizeSecondDraftText(revised);
+
+  pendingVerifiedEdits.forEach((edit) => {
+    if (!revised.includes(edit.after)) return;
+
+    edits.push({
+      before: edit.before,
+      after: edit.after,
+      ruleId: edit.ruleId
+    });
+    changes.push(edit.change);
+    pushSecondDraftRuleMatch(
+      ruleMatches,
+      edit.ruleId,
+      edit.change
+    );
+  });
 
   const reflowChangedStructure =
     options.reflow &&
@@ -247,6 +265,7 @@ function applySecondDraftPatternRules(text, options) {
   const edits = [];
   const changes = [];
   const ruleMatches = [];
+  const pendingVerifiedEdits = [];
   let revised = text;
 
   const applyRewrite = (pattern, buildReplacement, change, ruleId) => {
@@ -345,6 +364,10 @@ function applySecondDraftPatternRules(text, options) {
   );
 
   if (options.tone === "direct") {
+    const requestResult = rewriteSecondDraftHesitantRequests(revised);
+    revised = requestResult.text;
+    pendingVerifiedEdits.push(...requestResult.pendingVerifiedEdits);
+
     applyRewrite(
       /\bI think there are a few areas where we can\s+([^.!?]+)([.?!]?)/i,
       (match) => {
@@ -428,7 +451,39 @@ function applySecondDraftPatternRules(text, options) {
     });
   }
 
-  return { text: revised, edits, changes, ruleMatches };
+  return {
+    text: revised,
+    edits,
+    changes,
+    ruleMatches,
+    pendingVerifiedEdits
+  };
+}
+
+function rewriteSecondDraftHesitantRequests(text) {
+  const pendingVerifiedEdits = [];
+  const change = "Rewrote hesitant request framing into a clear, professional action";
+  const ruleId = "SD-CLARITY-002";
+  const pattern =
+    /(^|[.!?]\s+|\n+)((?:(?:I\s+was|We\s+were)\s+hoping\s+(?:you\s+might\s+be\s+able\s+to|you\s+could)|(?:I\s+was|We\s+were)\s+wondering\s+if\s+you\s+could|(?:I|We)\s+just\s+wanted\s+to\s+ask\s+if\s+you\s+could|When\s+you\s+have\s+a\s+chance,\s+could\s+you|If\s+possible,\s+could\s+you|Would\s+you\s+be\s+able\s+to|Could\s+you\s+possibly)\s+)([^\n]+?)([.!?])(?=\s+[A-Z]|\s*$|\n)/g;
+
+  const revised = String(text).replace(
+    pattern,
+    (match, boundary, frame, action, punctuation) => {
+      const replacement = `Please ${action.trim()}${punctuation}`;
+
+      pendingVerifiedEdits.push({
+        before: `${frame}${action}${punctuation}`,
+        after: replacement,
+        ruleId,
+        change
+      });
+
+      return `${boundary}${replacement}`;
+    }
+  );
+
+  return { text: revised, pendingVerifiedEdits };
 }
 
 function rewriteSecondDraftNotificationFrames(text) {

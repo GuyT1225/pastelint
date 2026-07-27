@@ -2,6 +2,56 @@
 
 This file records completed engine cycles. It describes shipped behavior only; possible extensions are labeled as future work.
 
+## 2026-07 - Direct Request Differentiation
+
+### Problem
+
+Natural and Direct could produce identical output for clearly hesitant requests because Direct had no complete request-frame transformation.
+
+### Root Cause or Design Gap
+
+Existing Direct behavior relied on unrelated sentence patterns and individual phrase substitutions. It did not capture a complete hesitant request, preserve its action clause as one unit, or verify the Direct-specific evidence against final output.
+
+### Implemented Safeguard
+
+- Added a Direct-only pass for a finite set of complete sentence- and paragraph-opening request frames.
+- Rewrites a supported frame as `Please ` plus the captured action clause.
+- Stops matching within the paragraph and preserves terminal punctuation, following sentences, and paragraph boundaries.
+- Defers the edit, explanation, and `SD-CLARITY-002` match until the exact replacement is present after final cleanup.
+- Leaves Natural, already-direct requests, unsupported conditions, non-request statements, third-party notifications, and the tested quoted form unchanged.
+- Broadened `SD-CLARITY-002` metadata from one main-point phrase to the durable concept of turning a supported framed action into direct action.
+
+### Tests Added
+
+Regression fixtures cover:
+
+- Natural versus Direct behavior for primary and simple hesitant requests
+- multiple coordinated actions and objects
+- dates, deadlines, email addresses, phone numbers, and URLs
+- negation and approval conditions
+- existing paragraph boundaries
+- already-direct and sufficiently direct controls
+- a non-request statement
+- third-party notification language
+- quoted language
+- exact edit-map values, truthful explanations, and rule matches
+- malformed-output negatives
+
+### User-Visible Effect
+
+Direct now produces a restrained, professional difference for supported hesitant requests, such as changing `I was wondering if you could review the revised menu.` to `Please review the revised menu.` It does not force a difference when the input is already direct.
+
+### Known Limitations
+
+- The pass recognizes only the documented frames.
+- It does not parse arbitrary requests, quotations, or conditions.
+- A supported frame inside an unsupported construction remains unchanged.
+- Existing Direct phrase substitutions are separate from the complete-frame pass and still require user review.
+
+### Logical Future Extension
+
+The next Direct phase should audit broad single-word tone substitutions against modality and uncertainty fixtures before adding more request frames. It should favor narrower contextual patterns over global word replacement.
+
 ## 2026-07 - Second Draft Registry and Preservation Cycle
 
 ### Problem

@@ -205,6 +205,21 @@ These safeguards describe tested patterns, not universal semantic analysis.
 
 Direct tone activates a finite set of exact patterns and phrase substitutions. It can remove selected hesitation, convert selected recommendations into actions, tighten a known timing question, and apply defined wording substitutions.
 
+Direct also recognizes these complete hesitant-request frames at a sentence or paragraph opening:
+
+- `I was` or `We were` `hoping you might be able to ...`
+- `I was` or `We were` `hoping you could ...`
+- `I was` or `We were` `wondering if you could ...`
+- `I` or `We` `just wanted to ask if you could ...`
+- `When you have a chance, could you ...`
+- `If possible, could you ...`
+- `Would you be able to ...`
+- `Could you possibly ...`
+
+For these frames, Direct preserves the captured action clause and rewrites the complete request as `Please ...`. The rule does not run in Natural mode. Conditions outside the supported frames, sufficiently direct requests such as `Could you please ...`, non-request statements, third-party notification instructions, and the tested quoted form remain unchanged.
+
+The engine defers the Direct-specific edit, explanation, and `SD-CLARITY-002` match until final-output cleanup is complete. They are emitted only when the exact `Please ...` replacement remains in the final text.
+
 Direct is not a universal tone model. Unrecognized wording can remain unchanged.
 
 ## Current Shorter Behavior
