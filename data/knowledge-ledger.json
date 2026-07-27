@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "knowledge": [
+    {
+      "knowledgeId": "KN-0001",
+      "title": "Directness without false certainty",
+      "cycle": "Direct modality-safety preservation",
+      "commit": "f3e859a",
+      "date": "2026-07-27",
+      "trigger": "Direct revisions could remove or replace qualified language and silently strengthen a claim.",
+      "reusableInsight": "A supported request frame can become more direct while its embedded possibility, probability, negation, and conditions remain unchanged.",
+      "evidence": [
+        "Commit f3e859a",
+        "Regression group: SecondDraft Direct modality preservation",
+        "Published Engine Room and Editor's Desk examples"
+      ],
+      "inference": "Directness should come from changing supported framing, not from globally increasing certainty.",
+      "claimBoundary": "The safeguard is rule-based and fixture-backed; it does not establish truth or preserve arbitrary language universally.",
+      "primaryDestination": "engine-room",
+      "status": "Published",
+      "relatedRuleIds": [
+        "SD-CLARITY-002"
+      ],
+      "relatedTests": [
+        "SecondDraft Direct modality preservation"
+      ],
+      "relatedArticles": [
+        "directness-without-false-certainty",
+        "clearer-is-not-more-certain"
+      ],
+      "secondaryReferences": [
+        "docs/engine-architecture.md",
+        "docs/second-draft-editorial-rulebook.md",
+        "docs/engine-changelog.md"
+      ],
+      "canonPromotionCandidate": true,
+      "handbookPromotionCandidate": true,
+      "invalidationRisk": "New Direct substitutions or request frames could exceed the tested modality boundary.",
+      "existingKnowledgePotentiallyAffected": [
+        "Direct-tone claims",
+        "Supported-request examples"
+      ],
+      "lastReviewed": "2026-07-27"
+    },
+    {
+      "knowledgeId": "KN-0002",
+      "title": "Recommendation strength, actor, and responsibility preservation",
+      "cycle": "Second Draft strength-preservation audit",
+      "commit": "5d88030",
+      "date": "2026-07-27",
+      "trigger": "Focused revision could convert recommendations into instructions or change who was responsible.",
+      "reusableInsight": "Removing an announcement frame is safe only when recommendation strength, actor, timing, conditions, and workflow context survive.",
+      "evidence": [
+        "Commit 5d88030",
+        "Regression group: SecondDraft strength preservation"
+      ],
+      "inference": "Revision should preserve who is acting and how strongly the action is proposed.",
+      "claimBoundary": "Coverage is limited to tested patterns and is not a universal actor, duty, or intent parser.",
+      "primaryDestination": "editors-desk",
+      "status": "Published",
+      "relatedRuleIds": [],
+      "relatedTests": [
+        "SecondDraft strength preservation"
+      ],
+      "relatedArticles": [
+        "directness-without-false-certainty",
+        "clearer-is-not-more-certain"
+      ],
+      "secondaryReferences": [
+        "docs/engine-architecture.md",
+        "docs/engine-changelog.md"
+      ],
+      "canonPromotionCandidate": true,
+      "handbookPromotionCandidate": true,
+      "invalidationRisk": "New focused rewrites could remove an actor, modal, timing clause, or condition.",
+      "existingKnowledgePotentiallyAffected": [
+        "Recommendation-strength examples",
+        "Directness editorial principle"
+      ],
+      "lastReviewed": "2026-07-27"
+    },
+    {
+      "knowledgeId": "KN-0003",
+      "title": "Time-abbreviation preservation during sentence cleanup",
+      "cycle": "Time-abbreviation preservation patch",
+      "commit": "122f311",
+      "date": "2026-07-27",
+      "trigger": "Sentence cleanup and exact-repetition processing could damage lowercase a.m. and p.m. forms.",
+      "reusableInsight": "Sentence-level cleanup must distinguish abbreviation periods from sentence boundaries and restore the original protected form.",
+      "evidence": [
+        "Commit 122f311",
+        "Regression group: SecondDraft time abbreviation preservation"
+      ],
+      "inference": "Protected-value handling must extend through intermediate segmentation and final normalization.",
+      "claimBoundary": "The safeguard covers the tested a.m. and p.m. forms; it is not a universal abbreviation parser.",
+      "primaryDestination": "internal-documentation",
+      "status": "Captured",
+      "relatedRuleIds": [],
+      "relatedTests": [
+        "SecondDraft time abbreviation preservation"
+      ],
+      "relatedArticles": [
+        "directness-without-false-certainty"
+      ],
+      "secondaryReferences": [
+        "docs/engine-architecture.md",
+        "docs/engine-changelog.md"
+      ],
+      "canonPromotionCandidate": false,
+      "handbookPromotionCandidate": false,
+      "invalidationRisk": "New sentence splitting or normalization may bypass abbreviation protection.",
+      "existingKnowledgePotentiallyAffected": [
+        "Protected-value guarantees",
+        "Sentence-boundary behavior"
+      ],
+      "lastReviewed": "2026-07-27"
+    }
+  ]
+}

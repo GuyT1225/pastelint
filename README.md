@@ -204,6 +204,17 @@ Recent work has focused on:
 
 Shorter remains deliberately narrow: it removes defined filler and later exact eligible sentence repetitions, not broad semantic redundancy.
 
+## Workflow v2
+
+[Workflow v2](docs/workflow-v2.md) keeps verified technical work independent from optional editorial publication while preserving reusable knowledge and provenance.
+
+- Record significant-cycle knowledge in `data/knowledge-ledger.json`.
+- Start a capture with `docs/templates/knowledge-capture-note.md`.
+- Keep every published or planned Journal record in `data/journal-manifest.json`.
+- Run `node scripts/validate-journal.mjs` after changing the manifest, ledger, Journal cards, article metadata, analytics, related reading, sources, or sitemap.
+
+Validation errors identify objective drift such as missing files, cards, canonicals, destinations, or required events. Warnings retain useful uncertainty such as incomplete historical provenance or absent optional dates. The next Sources & Case Studies article should begin with a capture note and a `draft` manifest entry before publication work starts.
+
 ## License
 
 TBD

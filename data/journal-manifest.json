@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "articles": [
+    {
+      "slug": "cleanup-pass-voice-survives",
+      "file": "journal-cleanup-pass-voice-survives.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-cleanup-pass-voice-survives.html",
+      "title": "The Cleanup Pass Is Where Voice Survives",
+      "track": "sources-case-studies",
+      "published": null,
+      "modified": null,
+      "summary": "A Text Preparation Journal note on why AI-assisted revision should make edits visible, reviewable, and owned by the writer.",
+      "status": "published",
+      "primaryCta": {
+        "destination": "suggest-field-note",
+        "href": "contact.html",
+        "event": "Journal CTA | cleanup-pass-voice-survives | suggest-field-note"
+      },
+      "related": [],
+      "sources": [
+        {
+          "id": "openai-academy-source",
+          "type": "official-guidance",
+          "url": "https://academy.openai.com/public/clubs/higher-education-05x4z/blogs/improve-your-papers-without-losing-your-voice-2026-05-18",
+          "analyticsDestination": "openai-academy-source"
+        }
+      ],
+      "analytics": {
+        "open": "Journal Open | cleanup-pass-voice-survives",
+        "cta": [
+          "Journal CTA | cleanup-pass-voice-survives | suggest-field-note"
+        ],
+        "related": [],
+        "media": [
+          "Journal Media | cleanup-pass-voice-survives | openai-academy-source"
+        ]
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": []
+    },
+    {
+      "slug": "content-pipeline-breaks-before-writing",
+      "file": "journal-content-pipeline-breaks-before-writing.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-content-pipeline-breaks-before-writing.html",
+      "title": "The Content Pipeline Breaks Before the Writing Does",
+      "track": "sources-case-studies",
+      "published": null,
+      "modified": null,
+      "summary": "A Text Preparation Journal note on how one r/micro_saas SEO post reveals the workflow problem behind content consistency, cleanup, and publishing readiness.",
+      "status": "published",
+      "primaryCta": {
+        "destination": "suggest-field-note",
+        "href": "contact.html",
+        "event": "Journal CTA | content-pipeline-breaks-before-writing | suggest-field-note"
+      },
+      "related": [],
+      "sources": [
+        {
+          "id": "reddit-source",
+          "type": "practitioner-case",
+          "url": "https://www.reddit.com/r/micro_saas/s/fDeAmcsGfn",
+          "analyticsDestination": "reddit-source"
+        }
+      ],
+      "analytics": {
+        "open": "Journal Open | content-pipeline-breaks-before-writing",
+        "cta": [
+          "Journal CTA | content-pipeline-breaks-before-writing | suggest-field-note"
+        ],
+        "related": [],
+        "media": [
+          "Journal Media | content-pipeline-breaks-before-writing | reddit-source"
+        ]
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": []
+    },
+    {
+      "slug": "tracing-with-the-model",
+      "file": "journal-tracing-with-the-model.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-tracing-with-the-model.html",
+      "title": "Tracing Changes the Conditions Around the Output",
+      "track": "sources-case-studies",
+      "published": null,
+      "modified": null,
+      "summary": "A Text Preparation Journal source note on completion-oriented prompting, collapse prevention, and why text preparation begins before the next response is generated.",
+      "status": "published",
+      "primaryCta": {
+        "destination": "share-source-signal",
+        "href": "contact.html",
+        "event": "Journal CTA | tracing-with-the-model | share-source-signal"
+      },
+      "related": [],
+      "sources": [
+        {
+          "id": "substack-source",
+          "type": "practitioner-essay",
+          "url": "https://humanistheloop.substack.com/p/tracing-with-the-model",
+          "analyticsDestination": "substack-source"
+        }
+      ],
+      "analytics": {
+        "open": "Journal Open | tracing-with-the-model",
+        "cta": [
+          "Journal CTA | tracing-with-the-model | share-source-signal"
+        ],
+        "related": [],
+        "media": [
+          "Journal Media | tracing-with-the-model | substack-source"
+        ]
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": []
+    },
+    {
+      "slug": "filler-openings",
+      "file": "journal-editors-desk-filler-openings.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-editors-desk-filler-openings.html",
+      "title": "Filler Openings Make AI Drafts Feel Unfinished",
+      "track": "editors-desk",
+      "published": null,
+      "modified": null,
+      "summary": "An Editor's Desk note on why filler openings weaken generated copy and how cleaner revision starts by finding the real sentence underneath.",
+      "status": "published",
+      "primaryCta": {
+        "destination": "share-source-signal",
+        "href": "contact.html",
+        "event": "Journal CTA | filler-openings | share-source-signal"
+      },
+      "related": [],
+      "sources": [],
+      "analytics": {
+        "open": "Journal Open | filler-openings",
+        "cta": [
+          "Journal CTA | filler-openings | share-source-signal"
+        ],
+        "related": [],
+        "media": []
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": []
+    },
+    {
+      "slug": "clearer-is-not-more-certain",
+      "file": "journal-editors-desk-clearer-is-not-more-certain.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-editors-desk-clearer-is-not-more-certain.html",
+      "title": "Clearer Is Not More Certain",
+      "track": "editors-desk",
+      "published": "2026-07-27",
+      "modified": "2026-07-27",
+      "summary": "Removing a hedge can make a sentence cleaner while changing what it claims. Learn how to preserve uncertainty, judgment, and recommendation strength.",
+      "status": "published",
+      "primaryCta": {
+        "destination": "second-draft",
+        "href": "second-draft.html",
+        "event": "Journal CTA | clearer-is-not-more-certain | second-draft"
+      },
+      "related": [
+        "directness-without-false-certainty",
+        "filler-openings"
+      ],
+      "sources": [],
+      "analytics": {
+        "open": "Journal Open | clearer-is-not-more-certain",
+        "cta": [
+          "Journal CTA | clearer-is-not-more-certain | second-draft"
+        ],
+        "related": [
+          "Journal Related | clearer-is-not-more-certain | directness-without-false-certainty",
+          "Journal Related | clearer-is-not-more-certain | filler-openings"
+        ],
+        "media": []
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": [
+        "KN-0001",
+        "KN-0002"
+      ]
+    },
+    {
+      "slug": "directness-without-false-certainty",
+      "file": "journal-engine-room-directness-without-false-certainty.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-engine-room-directness-without-false-certainty.html",
+      "title": "Directness Without False Certainty",
+      "track": "engine-room",
+      "published": "2026-07-27",
+      "modified": "2026-07-27",
+      "summary": "Why SecondDraft stopped treating qualified language as something to delete.",
+      "status": "published",
+      "primaryCta": {
+        "destination": "second-draft",
+        "href": "second-draft.html",
+        "event": "Journal CTA | directness-without-false-certainty | second-draft"
+      },
+      "related": [
+        "clearer-is-not-more-certain",
+        "cleanup-pass-voice-survives",
+        "filler-openings"
+      ],
+      "sources": [],
+      "analytics": {
+        "open": "Journal Open | directness-without-false-certainty",
+        "cta": [
+          "Journal CTA | directness-without-false-certainty | second-draft"
+        ],
+        "related": [
+          "Journal Related | directness-without-false-certainty | clearer-is-not-more-certain",
+          "Journal Related | directness-without-false-certainty | cleanup-pass-voice-survives",
+          "Journal Related | directness-without-false-certainty | filler-openings"
+        ],
+        "media": []
+      },
+      "engineCommits": [
+        "f3e859a",
+        "5d88030",
+        "122f311"
+      ],
+      "ruleIds": [
+        "SD-CLARITY-002"
+      ],
+      "knowledgeIds": [
+        "KN-0001",
+        "KN-0002",
+        "KN-0003"
+      ]
+    },
+    {
+      "slug": "ssml-catalog-chunks",
+      "file": "journal-engine-ssml-catalog-chunks.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-engine-ssml-catalog-chunks.html",
+      "title": "Preserving Catalog Records Across SSML Chunks",
+      "track": "engine-room",
+      "published": null,
+      "modified": null,
+      "summary": "An Engine Room note on improving SSML Builder chunking so catalog titles, DB numbers, authors, narrators, and descriptions stay together when possible.",
+      "status": "published",
+      "primaryCta": {
+        "destination": "share-source-signal",
+        "href": "contact.html",
+        "event": "Journal CTA | ssml-catalog-chunks | share-source-signal"
+      },
+      "related": [],
+      "sources": [],
+      "analytics": {
+        "open": "Journal Open | ssml-catalog-chunks",
+        "cta": [
+          "Journal CTA | ssml-catalog-chunks | share-source-signal"
+        ],
+        "related": [],
+        "media": []
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": []
+    }
+  ]
+}
