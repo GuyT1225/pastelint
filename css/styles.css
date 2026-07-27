@@ -1637,6 +1637,141 @@ html[data-theme="light"] body.journal-surface .journal-note {
   --fieldnote-rule: var(--journal-track-rule);
 }
 
+.editors-desk-article .journal-article {
+  --fieldnote-rule: var(--journal-track-rule);
+}
+
+.editors-desk-article .journal-shell {
+  gap: clamp(2.4rem, 5.5vw, 4.8rem);
+}
+
+.editors-desk-article .fieldnote-hero h1 {
+  max-width: min(100%, 12ch);
+  font-family: var(--journal-display);
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  line-height: 0.98;
+}
+
+.editors-desk-article .fieldnote-source-panel,
+.editors-desk-article .journal-invite {
+  border-left-color: var(--journal-track-accent);
+}
+
+.editors-desk-article .journal-section-heading .eyebrow,
+.editors-desk-article .journal-signal {
+  color: var(--journal-track-accent);
+}
+
+.editorial-example {
+  width: min(100%, 54rem);
+  margin: clamp(1.2rem, 3vw, 1.8rem) 0;
+  padding: 0.85rem 0 0 clamp(0.9rem, 2vw, 1.2rem);
+  border-top: 1px solid var(--journal-track-rule);
+  border-left: 2px solid var(--journal-track-accent);
+}
+
+.editorial-example p {
+  margin: 0;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--fieldnote-rule);
+}
+
+.hedge-checklist {
+  width: min(100%, 58rem);
+  margin: 0;
+  padding: clamp(1.3rem, 3.5vw, 2rem) clamp(1rem, 3vw, 1.8rem);
+  border-block: 2px solid var(--journal-track-accent);
+  border-left: 1px solid var(--journal-track-rule);
+  background: color-mix(in srgb, var(--journal-sheet) 76%, transparent);
+}
+
+.hedge-checklist figcaption h2 {
+  max-width: 18ch;
+  margin: 0.3rem 0 0.6rem;
+  font-family: var(--journal-display);
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  line-height: 1;
+}
+
+.hedge-checklist figcaption p {
+  max-width: 42rem;
+}
+
+.hedge-checklist ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: clamp(1.2rem, 3vw, 1.8rem) 0 0;
+  padding: 0;
+  list-style-position: inside;
+  counter-reset: hedge-test;
+}
+
+.hedge-checklist li {
+  min-width: 0;
+  padding: 0.85rem 0.8rem 0.85rem 0;
+  border-top: 1px solid var(--journal-track-rule);
+  color: var(--journal-ink);
+  line-height: 1.5;
+}
+
+.hedge-checklist li:nth-child(even) {
+  padding-left: 1rem;
+  border-left: 1px solid var(--journal-track-rule);
+}
+
+.hedge-checklist-note {
+  margin: 1.2rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 3px double var(--journal-track-accent);
+  color: var(--journal-ink);
+  font-weight: 800;
+}
+
+.editorial-principle {
+  width: min(100%, 50rem);
+  margin: 0;
+  padding: clamp(1.2rem, 3vw, 1.8rem) 0 clamp(1.2rem, 3vw, 1.8rem) clamp(1rem, 3vw, 1.5rem);
+  border-left: 3px solid var(--journal-track-accent);
+}
+
+.editorial-principle p {
+  max-width: 22ch;
+  margin: 0;
+  font-family: var(--journal-display);
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.editorial-principle footer {
+  max-width: 38rem;
+  margin-top: 0.8rem;
+  color: var(--journal-muted);
+}
+
+.editorial-note,
+.editorial-limitations {
+  width: min(100%, 52rem);
+  padding: 1rem 0 0 1rem;
+  border-top: 1px solid var(--journal-track-rule);
+  border-left: 3px double var(--journal-track-accent);
+}
+
+.editorial-note {
+  margin-top: 1.4rem;
+}
+
+.editorial-note h3 {
+  margin: 0 0 0.5rem;
+  color: var(--journal-track-accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .engine-room-article .journal-shell {
   gap: clamp(2.6rem, 6vw, 5.2rem);
 }
@@ -3532,6 +3667,20 @@ body.task-landing-page > .hero > * {
   .preservation-ledger div {
     grid-template-columns: 1fr;
     gap: 0.2rem;
+  }
+
+  .editors-desk-article .fieldnote-hero h1 {
+    max-width: 10ch;
+    font-size: clamp(2.45rem, 14vw, 3.8rem);
+  }
+
+  .hedge-checklist ol {
+    grid-template-columns: 1fr;
+  }
+
+  .hedge-checklist li:nth-child(even) {
+    padding-left: 0;
+    border-left: 0;
   }
 
   .engine-room-article .fieldnote-hero h1 {
