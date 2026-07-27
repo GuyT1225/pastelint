@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "registryVersion": "2026-07-25.1",
+  "registryVersion": "2026-07-27.1",
   "rules": [
     {
       "id": "SD-CLARITY-001",
@@ -144,6 +144,46 @@
         "repetition",
         "filler",
         "compression"
+      ]
+    },
+    {
+      "id": "SD-REPETITION-002",
+      "slug": "remove-exact-repeated-sentences-in-shorter-mode",
+      "name": "Remove exact repeated sentences in Shorter mode",
+      "category": "repetition",
+      "type": "deterministic-editorial",
+      "status": "active",
+      "summary": "Removes later exact sentence repetitions when the user selects Shorter mode.",
+      "rationale": "An exact repeated sentence can make a draft longer without adding new information.",
+      "triggerDescription": "Shorter mode encounters a later punctuated sentence of at least five words whose normalized word sequence exactly matches an earlier eligible sentence.",
+      "changeDescription": "Keeps the first eligible sentence and removes each later exact repetition.",
+      "confidence": "high",
+      "automation": "constrained",
+      "source": {
+        "type": "internal-engine-observation",
+        "reference": "reduceSecondDraftExactRedundancy"
+      },
+      "examples": [
+        {
+          "before": "Please review the final draft before Tuesday. The schedule remains unchanged. Please review the final draft before Tuesday.",
+          "after": "Please review the final draft before Tuesday. The schedule remains unchanged.",
+          "explanation": "Shorter mode keeps the first sentence and removes its later exact repetition."
+        }
+      ],
+      "counterexamples": [
+        {
+          "text": "Please review the final draft before Tuesday. Please approve the final draft before Tuesday.",
+          "reason": "The sentences are similar but not exact repetitions."
+        },
+        {
+          "text": "Thank you. The draft is ready. Thank you.",
+          "reason": "Short repeated sentences below the eligibility threshold are preserved."
+        }
+      ],
+      "tags": [
+        "repetition",
+        "exact-match",
+        "shorter"
       ]
     },
     {

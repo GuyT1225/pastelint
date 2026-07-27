@@ -446,12 +446,12 @@ function testSecondDraftShorterRedundancyReduction() {
   assert.ok(
     shorter.edits.some(
       (edit) =>
-        edit.ruleId === "SD-REPETITION-001" &&
+        edit.ruleId === "SD-REPETITION-002" &&
         edit.before === "Please review the final draft before Tuesday."
     )
   );
   assert.ok(
-    shorter.ruleMatches.some((match) => match.ruleId === "SD-REPETITION-001")
+    shorter.ruleMatches.some((match) => match.ruleId === "SD-REPETITION-002")
   );
 
   const sameLength = context.reviseSecondDraft(repeated, {
@@ -571,6 +571,8 @@ function testSecondDraftRuleRegistry() {
 
   const activeIds = registry.getActiveRules().map((rule) => rule.id);
   assert.ok(activeIds.includes("SD-CLARITY-001"));
+  assert.ok(activeIds.includes("SD-REPETITION-001"));
+  assert.ok(activeIds.includes("SD-REPETITION-002"));
   assert.ok(!activeIds.includes("SD-RHYTHM-001"));
   assert.ok(!activeIds.includes("SD-CLARITY-998"));
   assert.ok(!activeIds.includes("SD-CLARITY-997"));
@@ -579,6 +581,13 @@ function testSecondDraftRuleRegistry() {
   const preservationRule = registry.getRule("SD-PRESERVE-001");
   assert.strictEqual(preservationRule.type, "preservation-rule");
   assert.strictEqual(preservationRule.automation, "explanation-only");
+
+  const exactRepetitionRule = registry.getRule("SD-REPETITION-002");
+  assert.strictEqual(exactRepetitionRule.name, "Remove exact repeated sentences in Shorter mode");
+  assert.strictEqual(
+    exactRepetitionRule.source.reference,
+    "reduceSecondDraftExactRedundancy"
+  );
 
   registry.useFallback("missing-registry");
   assert.strictEqual(registry.getActiveRules().length, 0);
@@ -613,6 +622,7 @@ function testSecondDraftRuleMetadataPreservesOutput() {
   assert.ok(ruleIds.includes("SD-CLARITY-001"));
   assert.ok(ruleIds.includes("SD-COMPRESSION-001"));
   assert.ok(ruleIds.includes("SD-REPETITION-001"));
+  assert.ok(!ruleIds.includes("SD-REPETITION-002"));
   assert.ok(ruleIds.includes("SD-CLARITY-002"));
   assert.ok(directShorter.edits.some((edit) => edit.ruleId === "SD-CLARITY-001"));
   assert.ok(directShorter.edits.some((edit) => edit.ruleId === "SD-COMPRESSION-001"));

@@ -565,7 +565,7 @@ function applySecondDraftLengthRules(text, length) {
       changes.push(change);
       pushSecondDraftRuleMatch(
         ruleMatches,
-        "SD-REPETITION-001",
+        "SD-REPETITION-002",
         change
       );
     }
@@ -618,7 +618,7 @@ function reduceSecondDraftExactRedundancy(text) {
       edits.push({
         before: clean,
         after: "[removed repeated sentence]",
-        ruleId: "SD-REPETITION-001"
+        ruleId: "SD-REPETITION-002"
       });
       return;
     }
