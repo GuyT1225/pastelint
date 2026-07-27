@@ -61,6 +61,24 @@
         </p>
       </div>
 
+      <nav class="journal-track-nav" aria-label="Journal tracks">
+        <p class="journal-track-nav-label">Choose a track</p>
+        <div class="journal-track-nav-links">
+          <a class="journal-track-link journal-track-link--engine-room" href="#engine-room" data-statkit-event="Journal Track | engine-room">
+            <span>Engine Room</span>
+            <small>Engine changes, safeguards, and tests</small>
+          </a>
+          <a class="journal-track-link journal-track-link--editors-desk" href="#editors-desk" data-statkit-event="Journal Track | editors-desk">
+            <span>Editor&rsquo;s Desk</span>
+            <small>Practical editorial principles</small>
+          </a>
+          <a class="journal-track-link journal-track-link--sources" href="#sources-case-studies" data-statkit-event="Journal Track | sources-case-studies">
+            <span>Sources &amp; Case Studies</span>
+            <small>Outside evidence and observed cases</small>
+          </a>
+        </div>
+      </nav>
+
       <section class="journal-track-overview" aria-labelledby="journal-track-overview-title">
         <div class="journal-section-heading journal-track-overview-heading">
           <p class="eyebrow">Journal tracks</p>
@@ -68,19 +86,19 @@
         </div>
 
         <div class="journal-track-overview-grid">
-          <article class="journal-track-card">
+          <article class="journal-track-card journal-track-card--sources">
             <p class="journal-signal">Track 01</p>
             <h3>Sources &amp; Case Studies</h3>
             <p>Real examples of text problems found in posts, workflows, search data, and production work.</p>
           </article>
 
-          <article class="journal-track-card">
+          <article class="journal-track-card journal-track-card--editors-desk">
             <p class="journal-signal">Track 02</p>
             <h3>Editor&rsquo;s Desk</h3>
             <p>Simple writing and editing rules used by PasteLint Clean and SecondDraft.</p>
           </article>
 
-          <article class="journal-track-card">
+          <article class="journal-track-card journal-track-card--engine-room">
             <p class="journal-signal">Track 03</p>
             <h3>Engine Room</h3>
             <p>Recent cleanup fixes from real testing, especially SSML, PDF paste, hidden characters, and generated copy.</p>
@@ -88,12 +106,12 @@
         </div>
       </section>
 
-      <section class="journal-section journal-published-section">
+      <section id="sources-case-studies" class="journal-section journal-published-section journal-department journal-department--sources">
         <div class="journal-section-heading">
           <p class="eyebrow">Sources &amp; Case Studies</p>
           <h2>Real examples before theory.</h2>
           <p>
-            These notes start with something concrete: a Reddit thread, article, search query, production issue, or tool failure. Then we pull out the cleanup lesson.
+            Outside evidence, practitioner observations, and cases shaping text preparation.
           </p>
         </div>
 
@@ -124,12 +142,12 @@
         </div>
       </section>
 
-      <section class="journal-section journal-editor-section">
+      <section id="editors-desk" class="journal-section journal-editor-section journal-department journal-department--editors-desk">
         <div class="journal-section-heading">
           <p class="eyebrow">Editor&rsquo;s Desk</p>
           <h2>Editing rules behind the tools.</h2>
           <p>
-            Generated and copied text can look finished before it is actually usable. These notes explain the writing rules behind cleaner second drafts.
+            Practical editorial principles for revision, clarity, speech, and publishing.
           </p>
         </div>
 
@@ -166,16 +184,23 @@
         </div>
       </section>
 
-      <section class="journal-section journal-engine-section">
+      <section id="engine-room" class="journal-section journal-engine-section journal-department journal-department--engine-room">
         <div class="journal-section-heading">
           <p class="eyebrow">Engine Room</p>
           <h2>What the engine learned recently.</h2>
           <p>
-            When real text breaks a cleanup rule, the rule gets better. These notes track recent fixes to PasteLint Clean, SecondDraft, and SSML Builder.
+            Transparent notes on deterministic engine changes, safeguards, and tests.
           </p>
         </div>
 
         <div class="journal-note-list">
+          <article class="journal-note">
+            <p class="journal-signal">Published Engine Room note</p>
+            <h3><a href="journal-engine-room-directness-without-false-certainty.html" data-statkit-event="Journal Open | directness-without-false-certainty">Directness Without False Certainty</a></h3>
+            <p>Why SecondDraft stopped treating qualified language as something to delete in Direct mode.</p>
+            <p><time datetime="2026-07-27">Published July 27, 2026</time></p>
+          </article>
+
           <article class="journal-note">
             <p class="journal-signal">Recent improvement</p>
             <h3>Speech cleanup: time abbreviations</h3>
