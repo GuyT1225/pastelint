@@ -207,6 +207,7 @@ function reviseSecondDraft(text, options) {
   revised = lengthResult.text;
   edits.push(...lengthResult.edits);
   changes.push(...lengthResult.changes);
+  ruleMatches.push(...lengthResult.ruleMatches);
 
   const beforeReflow = revised;
 
@@ -538,6 +539,7 @@ function applySecondDraftPhraseRules(text, tone) {
 function applySecondDraftLengthRules(text, length) {
   const changes = [];
   const edits = [];
+  const ruleMatches = [];
   let revised = text;
 
   if (length === "shorter") {
@@ -553,12 +555,30 @@ function applySecondDraftLengthRules(text, length) {
       .replace(/\s{2,}/g, " ")
       .trim();
 
+    const fillerText = revised;
+    const redundancyResult = reduceSecondDraftExactRedundancy(revised);
+    revised = redundancyResult.text;
+    edits.push(...redundancyResult.edits);
+
+    if (redundancyResult.edits.length > 0) {
+      const change = "Removed repeated sentences to make the draft shorter";
+      changes.push(change);
+      pushSecondDraftRuleMatch(
+        ruleMatches,
+        "SD-REPETITION-001",
+        change
+      );
+    }
+
     if (revised !== beforeText) {
       changes.push("Tightened wording to make the draft shorter");
-      edits.push({
-        before: "Wordier phrasing",
-        after: "Shorter phrasing"
-      });
+
+      if (fillerText !== beforeText) {
+        edits.push({
+          before: "Wordier phrasing",
+          after: "Shorter phrasing"
+        });
+      }
     }
   }
 
@@ -576,7 +596,41 @@ function applySecondDraftLengthRules(text, length) {
     }
   }
 
-  return { text: revised, edits, changes };
+  return { text: revised, edits, changes, ruleMatches };
+}
+
+function reduceSecondDraftExactRedundancy(text) {
+  const seen = new Set();
+  const edits = [];
+  const sentences = String(text).match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
+  const kept = [];
+
+  sentences.forEach((sentence) => {
+    const clean = sentence.trim();
+    const words = clean.match(/[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g) || [];
+    const key = words.join(" ").toLowerCase();
+    const isEligible =
+      /[.!?]$/.test(clean) &&
+      words.length >= 5 &&
+      !/^(?:[-*•]|\d+[.)])\s/.test(clean);
+
+    if (isEligible && seen.has(key)) {
+      edits.push({
+        before: clean,
+        after: "[removed repeated sentence]",
+        ruleId: "SD-REPETITION-001"
+      });
+      return;
+    }
+
+    if (isEligible) seen.add(key);
+    kept.push(clean);
+  });
+
+  return {
+    text: kept.join(" "),
+    edits
+  };
 }
 
 function expandSecondDraftText(text) {

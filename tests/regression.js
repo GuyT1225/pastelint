@@ -425,6 +425,60 @@ function testSecondDraftRewrites() {
   });
 }
 
+function testSecondDraftShorterRedundancyReduction() {
+  const context = loadSecondDraftContext();
+  const repeated =
+    "Please review the final draft before Tuesday. The schedule remains unchanged. Please review the final draft before Tuesday.";
+
+  const shorter = context.reviseSecondDraft(repeated, {
+    tone: "natural",
+    length: "shorter",
+    reflow: false
+  });
+
+  assert.strictEqual(
+    shorter.text,
+    "Please review the final draft before Tuesday. The schedule remains unchanged."
+  );
+  assert.ok(
+    shorter.changes.includes("Removed repeated sentences to make the draft shorter")
+  );
+  assert.ok(
+    shorter.edits.some(
+      (edit) =>
+        edit.ruleId === "SD-REPETITION-001" &&
+        edit.before === "Please review the final draft before Tuesday."
+    )
+  );
+  assert.ok(
+    shorter.ruleMatches.some((match) => match.ruleId === "SD-REPETITION-001")
+  );
+
+  const sameLength = context.reviseSecondDraft(repeated, {
+    tone: "natural",
+    length: "same",
+    reflow: false
+  });
+  assert.strictEqual(sameLength.text, repeated);
+
+  const intentionalShortRepeat = "Thank you. The draft is ready. Thank you.";
+  const preserved = context.reviseSecondDraft(intentionalShortRepeat, {
+    tone: "natural",
+    length: "shorter",
+    reflow: false
+  });
+  assert.strictEqual(preserved.text, intentionalShortRepeat);
+
+  const similarButDistinct =
+    "Please review the final draft before Tuesday. Please approve the final draft before Tuesday.";
+  const distinct = context.reviseSecondDraft(similarButDistinct, {
+    tone: "natural",
+    length: "shorter",
+    reflow: false
+  });
+  assert.strictEqual(distinct.text, similarButDistinct);
+}
+
 function getSecondDraftRegressionInput() {
   return [
     "I just wanted to reach out and say that we should probably take a look at the draft before sending it over. I think there are a few areas where the wording could be improved, and it may be helpful to make it a little clearer and more concise.",
@@ -1551,6 +1605,7 @@ function main() {
   runTest("Hidden-character page structure", testScriptHiddenPageStructure);
   runTest("PDF paste reflow", testScriptPdfPostProcessing);
   runTest("SecondDraft rewrites", testSecondDraftRewrites);
+  runTest("SecondDraft Shorter redundancy reduction", testSecondDraftShorterRedundancyReduction);
   runTest("SecondDraft rule registry", testSecondDraftRuleRegistry);
   runTest("SecondDraft rule metadata preserves output", testSecondDraftRuleMetadataPreservesOutput);
   runTest("SecondDraft paragraph reflow truthfulness", testSecondDraftParagraphReflowTruthfulness);
