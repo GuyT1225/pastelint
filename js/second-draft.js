@@ -600,11 +600,12 @@ function applySecondDraftLengthRules(text, length) {
 function reduceSecondDraftExactRedundancy(text) {
   const seen = new Set();
   const edits = [];
-  const sentences = String(text).match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
+  const protectedText = protectSecondDraftTimeAbbreviationsForSentenceSplitting(text);
+  const sentences = protectedText.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
   const kept = [];
 
   sentences.forEach((sentence) => {
-    const clean = sentence.trim();
+    const clean = restoreSecondDraftTimeAbbreviations(sentence.trim());
     const words = clean.match(/[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g) || [];
     const key = words.join(" ").toLowerCase();
     const isEligible =
@@ -692,7 +693,7 @@ function cleanupSecondDraftParagraphFlow(text) {
     .replace(/\band It\b/g, ". It")
     .replace(/\band it\b/g, ". It")
     .replace(/,\s*\./g, ".")
-    .replace(/\.\s*,/g, ".")
+    .replace(/\.\s*,/g, preserveSecondDraftTimeAbbreviationComma)
     .replace(/([.!?])\1+/g, "$1")
     .replace(
       /,\s+(and|but)\s+(Also|The|This|That|It|There|We|Make|Review|Send)\b/g,
@@ -715,15 +716,49 @@ function normalizeSecondDraftText(text) {
     .replace(/\s+\./g, ".")
     .replace(/\s+,/g, ",")
     .replace(/,\s*\./g, ".")
-    .replace(/\.\s*,/g, ".")
+    .replace(/\.\s*,/g, preserveSecondDraftTimeAbbreviationComma)
     .replace(/([.!?])\1+/g, "$1")
     .replace(/,\s*,/g, ",")
-    .replace(/\.\s*,/g, ".")
+    .replace(/\.\s*,/g, preserveSecondDraftTimeAbbreviationComma)
     .replace(/\n{3,}/g, "\n\n")
-    .replace(/(^|[.!?]\s+)([a-z])/g, (match, start, letter) => {
+    .replace(/(^|[.!?]\s+)([a-z])/g, (match, start, letter, offset, source) => {
+      const boundaryEnd = offset + start.length;
+
+      if (/[ap]\.m\.\s+$/i.test(source.slice(0, boundaryEnd))) {
+        return match;
+      }
+
       return start + letter.toUpperCase();
     })
     .trim();
+}
+
+function protectSecondDraftTimeAbbreviationsForSentenceSplitting(text) {
+  return String(text).replace(
+    /\b([ap])\.(m)\./gi,
+    (match, meridiem, marker, offset, source) => {
+      const followingText = source.slice(offset + match.length);
+      const endsSentence = /^\s*(?:$|[A-Z])/.test(followingText);
+
+      return endsSentence
+        ? `${meridiem}\uE000${marker}.`
+        : `${meridiem}\uE000${marker}\uE001`;
+    }
+  );
+}
+
+function restoreSecondDraftTimeAbbreviations(text) {
+  return String(text)
+    .replace(/\uE000/g, ".")
+    .replace(/\uE001/g, ".");
+}
+
+function preserveSecondDraftTimeAbbreviationComma(match, offset, source) {
+  if (/[ap]\.m\.$/i.test(source.slice(0, offset + 1))) {
+    return match;
+  }
+
+  return ".";
 }
 
 function ensureSecondDraftSentence(text) {

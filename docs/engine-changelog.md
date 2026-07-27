@@ -2,6 +2,36 @@
 
 This file records completed engine cycles. It describes shipped behavior only; possible extensions are labeled as future work.
 
+## 2026-07 - Time-Abbreviation Preservation
+
+### Problem
+
+Second Draft could treat periods inside `a.m.` and `p.m.` as sentence boundaries. It could capitalize a lowercase continuation after the abbreviation, remove a following comma, or reconstruct a repeated Shorter sentence as malformed text such as `p. M.`.
+
+### Root Cause or Design Gap
+
+Final normalization capitalized any lowercase letter following period-plus-space without excluding the final period in a time abbreviation. Separately, exact-repetition analysis split sentences at every period, so a duplicate sentence containing `p.m.` could be divided into abbreviation fragments before reconstruction. General period/comma cleanup also treated the comma in `a.m., and` as accidental punctuation.
+
+### Implemented Safeguard
+
+- Excluded tested `a.m.` and `p.m.` continuations from generic sentence-start capitalization.
+- Protected the internal periods of those time abbreviations during exact-repetition sentence splitting and restored the original source case afterward.
+- Retained the terminal period as a real boundary when the abbreviation ends a sentence.
+- Preserved commas immediately following the tested abbreviations.
+- Added no rule ID, edit row, or visible explanation because the behavior is silent preservation.
+
+### Tests Added
+
+Natural, Direct, Shorter, and Direct + Shorter fixtures cover times within sentences, real following sentences, quotations, multiple times, ranges, conditions, exact repeated sentences, similar-but-distinct sentences, formal notices, ordinary lowercase sentence starts, version-like periods, mixed source case, dates, email addresses, and phone numbers.
+
+### User-Visible Effect
+
+The tested time abbreviations remain textually intact through revision. Shorter can still remove an eligible exact repeated sentence containing `p.m.`, but the retained sentence keeps the correct abbreviation.
+
+### Known Limitations
+
+The safeguard recognizes only `a.m.` and `p.m.` forms. It is not a universal abbreviation parser and does not change the broader sentence-tokenization policy.
+
 ## 2026-07 - Direct Strength Preservation Phase 2B
 
 ### Problem

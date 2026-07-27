@@ -984,20 +984,16 @@ function testSecondDraftStrengthPreservation() {
       });
       const isFocused = mode.tone === "direct" || mode.length === "shorter";
       const isMainPoint = index === 2;
-      const hasKnownPmCleanupDefect =
-        mode.length === "shorter" && (index === 5 || index === 6);
       const expected =
         isMainPoint && isFocused
           ? "We should review the dates before recording."
           : input;
 
-      if (!hasKnownPmCleanupDefect) {
-        assert.strictEqual(
-          result.text,
-          expected,
-          `Unexpected ${mode.name} strength result for fixture ${index + 1}`
-        );
-      }
+      assert.strictEqual(
+        result.text,
+        expected,
+        `Unexpected ${mode.name} strength result for fixture ${index + 1}`
+      );
 
       obsoleteChanges.forEach((change) => {
         assert.ok(
@@ -1181,6 +1177,142 @@ function testSecondDraftShorterRedundancyReduction() {
     reflow: false
   });
   assert.strictEqual(distinct.text, similarButDistinct);
+}
+
+function testSecondDraftTimeAbbreviationPreservation() {
+  const context = loadSecondDraftContext();
+  const modes = [
+    { name: "Natural", tone: "natural", length: "same" },
+    { name: "Direct", tone: "direct", length: "same" },
+    { name: "Shorter", tone: "natural", length: "shorter" },
+    { name: "Direct + Shorter", tone: "direct", length: "shorter" }
+  ];
+  const unchangedFixtures = [
+    "The library will close at 5:00 p.m. today.",
+    "Staff may enter after 8:00 a.m. on Monday.",
+    "The library closes at 5:00 p.m. Recording begins after approval.",
+    "Doors open at 8:00 a.m. Staff should arrive fifteen minutes early.",
+    "The sign reads, \u201cThe library will close at 5:00 p.m.\u201d",
+    "The morning session begins at 9:00 a.m., and the evening session begins at 6:30 p.m.",
+    "The library is open from 9:00 a.m. to 5:00 p.m.",
+    "Recording may begin after 3:00 p.m. if approval arrives today.",
+    "The library closes at 5:00 p.m. The help desk closes at 6:00 p.m.",
+    "Please be advised that the library will close at 5:00 p.m.",
+    "The sign reads, \u201cPlease be advised that the library will close at 5:00 p.m.\u201d",
+    "Use version 2.1. The updated instructions follow.",
+    "The library closes at 5:00 p.m. on Tuesday, July 28. Questions can be sent to support@example.com or 914-555-0184.",
+    "The source uses 5:00 P.M. and 8:00 a.M. in this exact style."
+  ];
+  const forbiddenTimeMutations = [
+    "p. M.",
+    "a. M.",
+    "P. M."
+  ];
+
+  unchangedFixtures.forEach((input, index) => {
+    modes.forEach((mode) => {
+      const result = context.reviseSecondDraft(input, {
+        tone: mode.tone,
+        length: mode.length,
+        reflow: false
+      });
+
+      assert.strictEqual(
+        result.text,
+        input,
+        `Unexpected ${mode.name} time result for fixture ${index + 1}`
+      );
+      forbiddenTimeMutations.forEach((mutation) => {
+        assert.ok(!result.text.includes(mutation));
+      });
+      assert.ok(
+        !result.changes.some((change) =>
+          /abbreviation|time normalization|fixed time/i.test(change)
+        )
+      );
+      assert.deepStrictEqual(Array.from(result.edits), []);
+    });
+  });
+
+  const lowercaseAfterPeriod =
+    "The first draft is complete. review should begin tomorrow.";
+  const capitalizedAfterPeriod =
+    "The first draft is complete. Review should begin tomorrow.";
+
+  modes.forEach((mode) => {
+    const result = context.reviseSecondDraft(lowercaseAfterPeriod, {
+      tone: mode.tone,
+      length: mode.length,
+      reflow: false
+    });
+
+    assert.strictEqual(result.text, capitalizedAfterPeriod);
+    assert.ok(result.text.includes(". Review"));
+  });
+
+  const repeated =
+    "The library closes at 5:00 p.m. The library closes at 5:00 p.m.";
+
+  modes.forEach((mode) => {
+    const result = context.reviseSecondDraft(repeated, {
+      tone: mode.tone,
+      length: mode.length,
+      reflow: false
+    });
+    const isShorter = mode.length === "shorter";
+
+    assert.strictEqual(
+      result.text,
+      isShorter ? "The library closes at 5:00 p.m." : repeated
+    );
+    assert.ok(result.text.includes("5:00 p.m."));
+    assert.ok(!result.text.includes("p. M."));
+    assert.ok(!result.text.includes("p. m."));
+    assert.ok(!result.text.includes(".."));
+
+    if (isShorter) {
+      assert.strictEqual(
+        result.text.match(/The library closes at 5:00 p\.m\./g).length,
+        1
+      );
+      assert.ok(
+        result.edits.some(
+          (edit) =>
+            edit.ruleId === "SD-REPETITION-002" &&
+            edit.before === "The library closes at 5:00 p.m."
+        )
+      );
+    }
+  });
+
+  const realBoundary =
+    "The library closes at 5:00 p.m. Recording begins after approval.";
+  const condition =
+    "Recording may begin after 3:00 p.m. if approval arrives today.";
+  const protectedValues =
+    "The library closes at 5:00 p.m. on Tuesday, July 28. Questions can be sent to support@example.com or 914-555-0184.";
+
+  modes.forEach((mode) => {
+    const options = {
+      tone: mode.tone,
+      length: mode.length,
+      reflow: false
+    };
+    const boundaryResult = context.reviseSecondDraft(realBoundary, options);
+    const conditionResult = context.reviseSecondDraft(condition, options);
+    const protectedResult = context.reviseSecondDraft(protectedValues, options);
+
+    assert.ok(boundaryResult.text.includes("p.m. Recording"));
+    assert.strictEqual(
+      boundaryResult.text.split("Recording begins after approval.").length,
+      2
+    );
+    assert.ok(conditionResult.text.includes("may begin"));
+    assert.ok(conditionResult.text.includes("p.m. if approval arrives today"));
+    assert.ok(protectedResult.text.includes("Tuesday, July 28"));
+    assert.ok(protectedResult.text.includes("support@example.com"));
+    assert.ok(protectedResult.text.includes("914-555-0184"));
+  });
 }
 
 function getSecondDraftRegressionInput() {
@@ -1732,7 +1864,7 @@ function testSecondDraftPrepareForSsmlTransfer() {
     "",
     "Please confirm the event dates, department names, phone numbers, and menu options. Send approval to support@example.com by Tuesday, July 28.",
     "",
-    "Recording begins only after approval. Questions may be discussed by calling 914-555-0184.",
+    "Recording begins at 5:00 p.m. only after approval. Questions may be discussed by calling 914-555-0184.",
     "",
     "Late changes may delay the launch. The approved information page is https://example.com/library-menu."
   ].join("\n");
@@ -1750,8 +1882,13 @@ function testSecondDraftPrepareForSsmlTransfer() {
   assert.ok(storage["pastelint-transfer-text"].includes("support@example.com"));
   assert.ok(storage["pastelint-transfer-text"].includes("Tuesday, July 28"));
   assert.ok(storage["pastelint-transfer-text"].includes("914-555-0184"));
+  assert.ok(storage["pastelint-transfer-text"].includes("5:00 p.m."));
   assert.ok(storage["pastelint-transfer-text"].includes("https://example.com/library-menu"));
-  assert.ok(storage["pastelint-transfer-text"].includes("Recording begins only after approval"));
+  assert.ok(
+    storage["pastelint-transfer-text"].includes(
+      "Recording begins at 5:00 p.m. only after approval"
+    )
+  );
   assert.ok(storage["pastelint-transfer-text"].includes("Late changes may delay the launch"));
   assert.ok(!storage["pastelint-transfer-text"].includes("Original input should not be transferred."));
 
@@ -1788,7 +1925,7 @@ function testSsmlBuilderLoadsTransferText() {
     "",
     "Please confirm the event dates, department names, phone numbers, and menu options. Send approval to support@example.com by Tuesday, July 28.",
     "",
-    "Recording begins only after approval. Questions may be discussed by calling 914-555-0184.",
+    "Recording begins at 5:00 p.m. only after approval. Questions may be discussed by calling 914-555-0184.",
     "",
     "Late changes may delay the launch. The approved information page is https://example.com/library-menu."
   ].join("\n");
@@ -1819,8 +1956,11 @@ function testSsmlBuilderLoadsTransferText() {
   assert.ok(input.value.includes("support@example.com"));
   assert.ok(input.value.includes("Tuesday, July 28"));
   assert.ok(input.value.includes("914-555-0184"));
+  assert.ok(input.value.includes("5:00 p.m."));
   assert.ok(input.value.includes("https://example.com/library-menu"));
-  assert.ok(input.value.includes("Recording begins only after approval"));
+  assert.ok(
+    input.value.includes("Recording begins at 5:00 p.m. only after approval")
+  );
   assert.ok(input.value.includes("Late changes may delay the launch"));
 
   const waitingStorage = {
@@ -2062,6 +2202,7 @@ function testSsmlApprovedCleanedTextPreservation() {
   const approvedText = [
     "Approved wording stays exact.",
     "Approved @handle stays exact.",
+    "Approved recording time remains 5:00 p.m.",
     "",
     "Call us at 2-4-8, 6-5-0, 7-1-5-0.",
     "",
@@ -2080,6 +2221,7 @@ function testSsmlApprovedCleanedTextPreservation() {
 
   const output = elements.ssmlOutput.value;
   assert.ok(output.includes(approvedText));
+  assert.ok(output.includes("5:00 p.m."));
   assert.ok(!output.includes("DB 1-2-3-4-5-6"));
   assert.ok(!output.includes("DB123456 should not be cleaned from raw input."));
 }
@@ -2352,6 +2494,7 @@ function main() {
   runTest("SecondDraft Direct modality preservation", testSecondDraftDirectModalityPreservation);
   runTest("SecondDraft strength preservation", testSecondDraftStrengthPreservation);
   runTest("SecondDraft Shorter redundancy reduction", testSecondDraftShorterRedundancyReduction);
+  runTest("SecondDraft time abbreviation preservation", testSecondDraftTimeAbbreviationPreservation);
   runTest("SecondDraft rule registry", testSecondDraftRuleRegistry);
   runTest("SecondDraft rule metadata preserves output", testSecondDraftRuleMetadataPreservesOutput);
   runTest("SecondDraft paragraph reflow truthfulness", testSecondDraftParagraphReflowTruthfulness);

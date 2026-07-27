@@ -245,7 +245,7 @@ The first eligible occurrence remains. `SD-REPETITION-002` is attached to later 
 
 Shorter does not perform semantic summarization, paraphrase detection, merging of similar ideas, importance ranking, or general redundancy detection.
 
-Shorter returns the source text unchanged when its exact-repetition helper removes no sentence, avoiding incidental reconstruction of quoted text. A separate known cleanup defect can still capitalize `p.m.` as `p. M.` in some Shorter paths; that mechanical repair is not part of the strength-preservation cycle.
+Shorter returns the source text unchanged when its exact-repetition helper removes no sentence, avoiding incidental reconstruction of quoted text. When repetition removal does run, its sentence splitting preserves tested `a.m.` and `p.m.` forms instead of dividing at their internal periods.
 
 ## Prepare For SSML
 

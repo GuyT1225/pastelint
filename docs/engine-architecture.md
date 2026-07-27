@@ -174,7 +174,9 @@ Shorter does not perform semantic summarization, paraphrase detection, general r
 
 A logical future extension is conservative near-duplicate detection presented for review, with explicit preservation thresholds and regression fixtures. That extension is not implemented.
 
-The separate `p.m.` to `p. M.` capitalization defect found in some Shorter cleanup paths remains pending as a mechanical follow-up. It was intentionally not repaired as part of the semantic strength-preservation patch.
+Final sentence-flow normalization preserves lowercase `a.m.` and `p.m.` while retaining real sentence boundaries and ordinary capitalization after actual sentence endings. The exact-repetition splitter temporarily protects those two time abbreviations so a removed duplicate does not reconstruct them as `a. M.` or `p. M.`. Commas immediately following the tested abbreviations are also preserved.
+
+This is a narrow time-abbreviation safeguard, not universal abbreviation parsing or general sentence tokenization.
 
 ## Protected Values and Meaning
 
