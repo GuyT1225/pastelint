@@ -118,7 +118,7 @@ These are fixture-backed, pattern-bounded safeguards. They are not a universal s
 
 ## Direct Tone
 
-Direct tone activates a finite set of patterns and phrase substitutions. Current examples include removing selected request framing, converting selected suggestions into actions, and tightening a known timing question. It does not globally replace `may`, remove `probably`, remove `I think`, or remove `It seems that`.
+Direct tone activates a finite set of patterns and phrase substitutions. Current examples include removing selected request framing and tightening a known timing question. It does not globally replace or remove `may`, `probably`, `I think`, `It seems that`, `I would like to`, or `Please be advised that`.
 
 The Direct request-frame pass runs after shared notification, filler, and focused-mode patterns but before general tone phrase substitutions and length handling. It recognizes only these complete sentence- or paragraph-opening constructions:
 
@@ -137,7 +137,19 @@ Direct request edits begin as pending evidence. After the remaining tone substit
 
 Already-direct commands, `Could you please ...`, unsupported conditional requests, non-request hope statements, and third-party notification instructions do not trigger this pass.
 
-Current regression invariants keep possibility, permission, capability, probability, attributed judgment, recommendation, requirement, negation, and tested conditions distinct in Direct mode. Exact quoted probability and attributed-opinion fixtures also remain unchanged because the unsafe global substitutions are absent; the engine does not provide universal quotation parsing or semantic preservation.
+`SD-CLARITY-002` is limited to this verified Direct request-frame pass. It is not emitted for main-point, recommendation, suggestion, outreach, alignment, intent, or courtesy language.
+
+## Strength Preservation
+
+Current regression invariants keep possibility, permission, capability, probability, attributed judgment, suggestion, recommendation, requirement, negation, actor, and tested conditions distinct across Natural, Direct, Shorter, and Direct + Shorter. Tone and length selection do not authorize increased obligation.
+
+The engine no longer executes the former Direct suggestion-to-action or qualified-recommendation-to-imperative patterns. It also no longer executes global intent or courtesy deletion, shared helpfulness weakening, or the specialized outreach and alignment rewrites that could invent `need to`, `Let's`, or `before sending it`.
+
+A separate focused-mode matcher may remove `The main point is that` only from a complete sentence-opening `The main point is that we should ...` frame. It returns `We should ...`, preserving the actor, `should`, action, negation, conditions, timing, and punctuation. The edit and explanation remain pending until the exact replacement is found after length handling, paragraph cleanup, and final normalization. This rewrite deliberately has no rule ID.
+
+The exact-repetition helper now returns its input unchanged when it finds no later repeated sentence, so merely selecting Shorter does not reconstruct otherwise unchanged quoted text.
+
+Exact quoted notice, recommendation, and intent fixtures remain unchanged because the unsafe broad matchers were removed and the retained main-point matcher requires an eligible boundary. The engine does not provide universal quotation parsing or semantic preservation.
 
 Direct is finite and deterministic, not a universal tone model. Text outside its recognized patterns may remain unchanged, and each output still requires user review.
 
@@ -161,6 +173,8 @@ For exact repeated-sentence removal:
 Shorter does not perform semantic summarization, paraphrase detection, general redundancy detection, merging of similar ideas, or importance ranking. Similar but non-identical sentences remain. Short repeated statements below the threshold remain.
 
 A logical future extension is conservative near-duplicate detection presented for review, with explicit preservation thresholds and regression fixtures. That extension is not implemented.
+
+The separate `p.m.` to `p. M.` capitalization defect found in some Shorter cleanup paths remains pending as a mechanical follow-up. It was intentionally not repaired as part of the semantic strength-preservation patch.
 
 ## Protected Values and Meaning
 

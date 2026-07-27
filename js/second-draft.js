@@ -336,12 +336,9 @@ function applySecondDraftPatternRules(text, options) {
       "SD-REPETITION-001"
     );
 
-    applyRewrite(
-      /\bThe main point is that we should\s+([^.!?]+)([.?!]?)/i,
-      (match) => makeSecondDraftDirectAction(`we should ${match[1].trim()}`),
-      "Turned the main point into a direct action",
-      "SD-CLARITY-002"
-    );
+    const mainPointResult = rewriteSecondDraftMainPointRecommendations(revised);
+    revised = mainPointResult.text;
+    pendingVerifiedEdits.push(...mainPointResult.pendingVerifiedEdits);
 
     applyRewrite(
       /\bLet me know if you think this is something we should handle today or if it can wait until tomorrow([.?!]?)/i,
@@ -383,72 +380,6 @@ function applySecondDraftPatternRules(text, options) {
       "Made a hesitant sentence more direct"
     );
 
-    applyRewrite(
-      /\bIt may be helpful to\s+([^.!?]+)([.?!]?)/i,
-      (match) => makeSecondDraftDirectAction(match[1].trim()),
-      "Made a suggested action more direct"
-    );
-
-    applyRewrite(
-      /\bI think we should probably\s+([^.!?]+)([.?!]?)/i,
-      (match) => capitalizeSecondDraftSentence(match[1].trim()),
-      "Removed hesitation from the recommendation"
-    );
-  }
-
-  const outreachPattern =
-    /\bI just wanted to reach out and let you know that I think it would probably be helpful to ([^.?!]+)([.?!]?)/i;
-
-  const outreachMatch = revised.match(outreachPattern);
-
-  if (outreachMatch) {
-    const action = outreachMatch[1].trim();
-    let replacement = "";
-
-    if (options.length === "shorter") {
-      replacement = `Let's ${action}.`;
-      changes.push("Condensed the sentence into a shorter action statement");
-    } else if (options.tone === "direct") {
-      replacement = `I think we need to ${action}.`;
-      changes.push("Made the message more direct while preserving intent");
-    } else {
-      replacement = `I wanted to reach out because it would be helpful to ${action}.`;
-      changes.push("Smoothed the sentence while preserving a natural tone");
-    }
-
-    revised = revised.replace(outreachPattern, replacement);
-
-    edits.push({
-      before: outreachMatch[0],
-      after: replacement
-    });
-  }
-
-  const alignmentPattern =
-    /\bI know everyone has been busy lately,\s*but I wanted to make sure we were all aligned and on the same page regarding the final version\.?/i;
-
-  const alignmentMatch = revised.match(alignmentPattern);
-
-  if (alignmentMatch) {
-    let replacement = "";
-
-    if (options.length === "shorter") {
-      replacement = "Let's confirm the final version.";
-      changes.push("Condensed alignment wording into a shorter action statement");
-    } else if (options.tone === "direct") {
-      replacement = "Let's confirm the final version before sending it.";
-      changes.push("Replaced alignment filler with a clearer next step");
-    } else {
-      replacement = "I want to make sure we agree on the final version.";
-      changes.push("Simplified business clutter into clearer wording");
-    }
-
-    revised = revised.replace(alignmentPattern, replacement);
-
-    edits.push({
-      before: alignmentMatch[0],
-      after: replacement
-    });
   }
 
   return {
@@ -458,6 +389,31 @@ function applySecondDraftPatternRules(text, options) {
     ruleMatches,
     pendingVerifiedEdits
   };
+}
+
+function rewriteSecondDraftMainPointRecommendations(text) {
+  const pendingVerifiedEdits = [];
+  const change =
+    "Removed the main-point announcement while preserving the recommendation";
+  const pattern =
+    /(^|[.!?]\s+|\n+)(The main point is that\s+)(we should\s+)([^\n.!?]+)([.!?])(?=\s+[A-Z]|\s*$|\n)/gi;
+
+  const revised = String(text).replace(
+    pattern,
+    (match, boundary, frame, recommendation, action, punctuation) => {
+      const replacement = `We should ${action.trim()}${punctuation}`;
+
+      pendingVerifiedEdits.push({
+        before: `${frame}${recommendation}${action}${punctuation}`,
+        after: replacement,
+        change
+      });
+
+      return `${boundary}${replacement}`;
+    }
+  );
+
+  return { text: revised, pendingVerifiedEdits };
 }
 
 function rewriteSecondDraftHesitantRequests(text) {
@@ -536,8 +492,6 @@ function applySecondDraftPhraseRules(text, tone) {
     ["currently in the process of", "currently", "Simplified process wording", "SD-COMPRESSION-001"],
     ["in the process of", "", "Removed wordy process phrasing", "SD-COMPRESSION-001"],
     ["quickly reach out", "reach out", "Simplified wording"],
-    ["I think it would probably be helpful to", "", "Removed hesitant phrasing"],
-    ["probably be helpful to", "be helpful to", "Reduced hesitant phrasing"],
     ["basically", "", "Removed filler wording"],
     ["actually", "", "Removed filler wording"],
     ["utilize", "use", "Simplified formal wording"],
@@ -546,13 +500,6 @@ function applySecondDraftPhraseRules(text, tone) {
     ["with regard to", "about", "Simplified formal wording"],
     ["prior to", "before", "Simplified formal wording"]
   ];
-
-  if (tone === "direct") {
-    rules.push(
-      ["I would like to", "", "Made wording more direct"],
-      ["Please be advised that", "", "Removed overly formal phrasing"]
-    );
-  }
 
   if (tone === "professional") {
     rules.push(
@@ -679,7 +626,7 @@ function reduceSecondDraftExactRedundancy(text) {
   });
 
   return {
-    text: kept.join(" "),
+    text: edits.length > 0 ? kept.join(" ") : String(text),
     edits
   };
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "registryVersion": "2026-07-27.2",
+  "registryVersion": "2026-07-27.3",
   "rules": [
     {
       "id": "SD-CLARITY-001",
@@ -40,27 +40,22 @@
     },
     {
       "id": "SD-CLARITY-002",
-      "slug": "turn-framed-action-into-direct-action",
-      "name": "Turn a framed action into direct action",
+      "slug": "rewrite-supported-hesitant-request",
+      "name": "Rewrite a supported hesitant request",
       "category": "clarity",
       "type": "deterministic-editorial",
       "status": "active",
-      "summary": "Turns a supported framing construction into a clearer action sentence when the draft already names the requested action.",
-      "rationale": "When a narrow frame delays an explicit action, the action can carry the sentence without changing its object or conditions.",
-      "triggerDescription": "A supported main-point or Direct hesitant-request frame introduces an explicit action that can stand on its own.",
-      "changeDescription": "Removes the complete supported frame and starts with the preserved action, using a professional request form where appropriate.",
+      "summary": "Rewrites a supported complete hesitant-request frame as a professional Direct request while preserving the requested action.",
+      "rationale": "A narrow, verified request frame can be removed without changing the requested action, its object, or its conditions.",
+      "triggerDescription": "Direct mode encounters one of the supported complete hesitant-request frames at a sentence or paragraph opening.",
+      "changeDescription": "Replaces the complete supported frame with Please and the preserved action, then verifies the exact replacement in final output.",
       "confidence": "high",
       "automation": "eligible",
       "source": {
         "type": "internal-engine-observation",
-        "reference": "applySecondDraftPatternRules"
+        "reference": "rewriteSecondDraftHesitantRequests"
       },
       "examples": [
-        {
-          "before": "The main point is that we should review the message.",
-          "after": "Review the message.",
-          "explanation": "The revision removes the announcement and keeps the action."
-        },
         {
           "before": "I was wondering if you could review the revised menu.",
           "after": "Please review the revised menu.",
@@ -69,17 +64,13 @@
       ],
       "counterexamples": [
         {
-          "text": "The main point is that the schedule changed because the venue closed.",
-          "reason": "The sentence explains a situation rather than giving a direct action."
-        },
-        {
           "text": "Could you please confirm the event dates?",
           "reason": "The request is already sufficiently direct and does not need a forced rewrite."
         }
       ],
       "tags": [
         "clarity",
-        "action",
+        "request",
         "directness"
       ]
     },

@@ -917,6 +917,218 @@ function testSecondDraftDirectModalityPreservation() {
   assert.ok(protectedValues.includes("Questions can be sent"));
 }
 
+function testSecondDraftStrengthPreservation() {
+  const context = loadSecondDraftContext();
+  const modes = [
+    { name: "Natural", tone: "natural", length: "same" },
+    { name: "Direct", tone: "direct", length: "same" },
+    { name: "Shorter", tone: "natural", length: "shorter" },
+    { name: "Direct + Shorter", tone: "direct", length: "shorter" }
+  ];
+  const fixtures = [
+    "It may be helpful to review the event dates before recording.",
+    "I think we should probably review the revised menu again.",
+    "The main point is that we should review the dates before recording.",
+    "We need to approve the script before recording begins.",
+    "I would like to review the revised menu before it is published.",
+    "Please be advised that the library will close at 5:00 p.m.",
+    "The sign reads, \u201cPlease be advised that the library will close at 5:00 p.m.\u201d",
+    "I wanted to reach out and ask whether you could review the revised menu.",
+    "I wanted to reach out to see whether your team might be available to review the revised menu.",
+    "I wanted to make sure we are aligned on the revised wording.",
+    "I wanted to make sure we are aligned on the revised wording before sending it.",
+    "I wanted to make sure we are aligned on who owns the next review.",
+    "You should contact the library before recording.",
+    "You must contact the library before recording.",
+    "The script needs another review before recording.",
+    "I would like to confirm the event dates.",
+    "I would like to confirm the event dates before I send the script.",
+    "Maria would like to confirm the event dates.",
+    "Reviewing the event dates would probably be helpful.",
+    "The director said, \u201cI think we should probably review the menu again.\u201d",
+    "It may be helpful to review the dates. It may be helpful to confirm the phone numbers.",
+    "We should not publish the script before approval.",
+    "If approval arrives today, it may be helpful to begin recording tomorrow.",
+    "I wanted to make sure the revised title is correct.",
+    "It may be helpful to validate the SSML before calling the Amazon Polly API.",
+    "I think we should probably confirm option 4 with the library before recording.",
+    "Please be advised that recording begins after approval.",
+    "I would like to thank you for reviewing the revised menu.",
+    "I would like to let you know that the recording is complete.",
+    "I think we should probably review the revised menu because the event dates may have changed."
+  ];
+  const mainPointChange =
+    "Removed the main-point announcement while preserving the recommendation";
+  const obsoleteChanges = [
+    "Made a suggested action more direct",
+    "Removed hesitation from the recommendation",
+    "Made the message more direct while preserving intent",
+    "Condensed the sentence into a shorter action statement",
+    "Smoothed the sentence while preserving a natural tone",
+    "Replaced alignment filler with a clearer next step",
+    "Condensed alignment wording into a shorter action statement",
+    "Simplified business clutter into clearer wording",
+    "Made wording more direct",
+    "Removed overly formal phrasing",
+    "Removed hesitant phrasing",
+    "Reduced hesitant phrasing",
+    "Turned the main point into a direct action"
+  ];
+
+  fixtures.forEach((input, index) => {
+    modes.forEach((mode) => {
+      const result = context.reviseSecondDraft(input, {
+        tone: mode.tone,
+        length: mode.length,
+        reflow: false
+      });
+      const isFocused = mode.tone === "direct" || mode.length === "shorter";
+      const isMainPoint = index === 2;
+      const hasKnownPmCleanupDefect =
+        mode.length === "shorter" && (index === 5 || index === 6);
+      const expected =
+        isMainPoint && isFocused
+          ? "We should review the dates before recording."
+          : input;
+
+      if (!hasKnownPmCleanupDefect) {
+        assert.strictEqual(
+          result.text,
+          expected,
+          `Unexpected ${mode.name} strength result for fixture ${index + 1}`
+        );
+      }
+
+      obsoleteChanges.forEach((change) => {
+        assert.ok(
+          !result.changes.includes(change),
+          `Obsolete explanation in ${mode.name} fixture ${index + 1}: ${change}`
+        );
+      });
+
+      assert.ok(!result.text.includes("I think we need to"));
+      assert.ok(!result.text.includes("Let's confirm"));
+      assert.ok(!result.text.includes("Let you know that"));
+
+      if (isMainPoint && isFocused) {
+        assert.deepStrictEqual(Array.from(result.changes), [mainPointChange]);
+        assert.strictEqual(result.edits.length, 1);
+        assert.strictEqual(result.edits[0].before, input);
+        assert.strictEqual(result.edits[0].after, expected);
+        assert.strictEqual(result.edits[0].ruleId, undefined);
+        assert.ok(result.text.includes(result.edits[0].after));
+        assert.ok(
+          !result.ruleMatches.some(
+            (match) => match.ruleId === "SD-CLARITY-002"
+          )
+        );
+      }
+    });
+  });
+
+  const mainPointCases = [
+    {
+      input:
+        "The main point is that we should not publish the script before approval.",
+      expected: "We should not publish the script before approval."
+    },
+    {
+      input:
+        "The main point is that we should review the dates if approval arrives before Tuesday.",
+      expected:
+        "We should review the dates if approval arrives before Tuesday."
+    }
+  ];
+
+  mainPointCases.forEach(({ input, expected }) => {
+    modes.forEach((mode) => {
+      const result = context.reviseSecondDraft(input, {
+        tone: mode.tone,
+        length: mode.length,
+        reflow: false
+      });
+      const isFocused = mode.tone === "direct" || mode.length === "shorter";
+
+      assert.strictEqual(result.text, isFocused ? expected : input);
+
+      if (isFocused) {
+        assert.deepStrictEqual(Array.from(result.changes), [mainPointChange]);
+        assert.deepStrictEqual(
+          Array.from(result.edits).map((edit) => ({
+            before: edit.before,
+            after: edit.after,
+            ruleId: edit.ruleId
+          })),
+          [{ before: input, after: expected, ruleId: undefined }]
+        );
+        assert.strictEqual(result.ruleMatches.length, 0);
+      }
+    });
+  });
+
+  const quotedMainPoint =
+    "The editor wrote, \u201cThe main point is that we should review the dates.\u201d";
+  modes.forEach((mode) => {
+    const result = context.reviseSecondDraft(quotedMainPoint, {
+      tone: mode.tone,
+      length: mode.length,
+      reflow: false
+    });
+    assert.strictEqual(result.text, quotedMainPoint);
+    assert.ok(!result.changes.includes(mainPointChange));
+  });
+
+  const removedLegacyFixtures = [
+    "I just wanted to reach out and let you know that I think it would probably be helpful to review the final script before recording.",
+    "I wanted to reach out because I think it would probably be helpful to review the revised menu.",
+    "I know everyone has been busy lately, but I wanted to make sure we were all aligned and on the same page regarding the final version.",
+    "I wanted to make sure we agree on the final version.",
+    "I think it would probably be helpful to review the menu.",
+    "It would probably be helpful to review the menu."
+  ];
+
+  removedLegacyFixtures.forEach((input) => {
+    modes.forEach((mode) => {
+      const result = context.reviseSecondDraft(input, {
+        tone: mode.tone,
+        length: mode.length,
+        reflow: false
+      });
+
+      assert.strictEqual(result.text, input);
+      assert.ok(!result.text.includes("I think we need to"));
+      assert.ok(!result.text.includes("Let's "));
+      assert.ok(!result.text.includes("before sending it"));
+      assert.deepStrictEqual(Array.from(result.edits), []);
+    });
+  });
+
+  const request =
+    "We were hoping you could confirm that the library may not approve the menu.";
+  const requestDirect = context.reviseSecondDraft(request, {
+    tone: "direct",
+    length: "same",
+    reflow: false
+  });
+
+  assert.strictEqual(
+    requestDirect.text,
+    "Please confirm that the library may not approve the menu."
+  );
+  assert.ok(
+    requestDirect.ruleMatches.some(
+      (match) => match.ruleId === "SD-CLARITY-002"
+    )
+  );
+  assert.ok(
+    requestDirect.edits.some(
+      (edit) =>
+        edit.ruleId === "SD-CLARITY-002" &&
+        requestDirect.text.includes(edit.after)
+    )
+  );
+}
+
 function testSecondDraftShorterRedundancyReduction() {
   const context = loadSecondDraftContext();
   const repeated =
@@ -1077,10 +1289,20 @@ function testSecondDraftRuleRegistry() {
   const directActionRule = registry.getRule("SD-CLARITY-002");
   assert.strictEqual(
     directActionRule.name,
-    "Turn a framed action into direct action"
+    "Rewrite a supported hesitant request"
   );
   assert.ok(
-    directActionRule.triggerDescription.includes("Direct hesitant-request frame")
+    directActionRule.triggerDescription.includes("Direct mode")
+  );
+  assert.strictEqual(
+    directActionRule.source.reference,
+    "rewriteSecondDraftHesitantRequests"
+  );
+  assert.strictEqual(directActionRule.examples.length, 1);
+  assert.ok(
+    !JSON.stringify(directActionRule).includes(
+      "The main point is that we should"
+    )
   );
 
   const exactRepetitionRule = registry.getRule("SD-REPETITION-002");
@@ -1108,15 +1330,15 @@ function testSecondDraftRuleMetadataPreservesOutput() {
 
   assert.strictEqual(
     directShorter.text,
-    "Review the draft before sending it over. The wording could be clearer and more concise. The current version feels long and repetitive in places. Review the message, tighten the language, and make sure it sounds professional but still natural. Tell me whether we should handle this today or tomorrow."
+    "Review the draft before sending it over. The wording could be clearer and more concise. The current version feels long and repetitive in places. We should review the message, tighten the language, and make sure it sounds professional but still natural. Tell me whether we should handle this today or tomorrow."
   );
   assert.deepStrictEqual(Array.from(directShorter.changes), [
     "Rewrote a filler opening into a clearer sentence",
     "Condensed weak phrasing into a clearer sentence",
     "Removed setup wording and tightened the observation",
-    "Turned the main point into a direct action",
     "Tightened the timing question",
-    "Tightened wording to make the draft shorter"
+    "Tightened wording to make the draft shorter",
+    "Removed the main-point announcement while preserving the recommendation"
   ]);
 
   const ruleIds = directShorter.ruleMatches.map((match) => match.ruleId);
@@ -1124,9 +1346,19 @@ function testSecondDraftRuleMetadataPreservesOutput() {
   assert.ok(ruleIds.includes("SD-COMPRESSION-001"));
   assert.ok(ruleIds.includes("SD-REPETITION-001"));
   assert.ok(!ruleIds.includes("SD-REPETITION-002"));
-  assert.ok(ruleIds.includes("SD-CLARITY-002"));
+  assert.ok(!ruleIds.includes("SD-CLARITY-002"));
   assert.ok(directShorter.edits.some((edit) => edit.ruleId === "SD-CLARITY-001"));
   assert.ok(directShorter.edits.some((edit) => edit.ruleId === "SD-COMPRESSION-001"));
+  assert.ok(
+    directShorter.edits.some(
+      (edit) =>
+        edit.before ===
+          "The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural." &&
+        edit.after ===
+          "We should review the message, tighten the language, and make sure it sounds professional but still natural." &&
+        !edit.ruleId
+    )
+  );
 
   const naturalSame = context.reviseSecondDraft(input, {
     tone: "natural",
@@ -2118,6 +2350,7 @@ function main() {
   runTest("SecondDraft rewrites", testSecondDraftRewrites);
   runTest("SecondDraft Direct request differentiation", testSecondDraftDirectRequestDifferentiation);
   runTest("SecondDraft Direct modality preservation", testSecondDraftDirectModalityPreservation);
+  runTest("SecondDraft strength preservation", testSecondDraftStrengthPreservation);
   runTest("SecondDraft Shorter redundancy reduction", testSecondDraftShorterRedundancyReduction);
   runTest("SecondDraft rule registry", testSecondDraftRuleRegistry);
   runTest("SecondDraft rule metadata preserves output", testSecondDraftRuleMetadataPreservesOutput);

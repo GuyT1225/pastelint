@@ -203,7 +203,7 @@ These safeguards describe tested patterns, not universal semantic analysis.
 
 ## Current Direct Behavior
 
-Direct tone activates a finite set of exact patterns and phrase substitutions. It can remove selected request framing, convert selected recommendations into actions, tighten a known timing question, and apply defined wording substitutions. It preserves meaningful modality and attributed judgment: `may`, `probably`, `I think`, and `It seems that` are not removed or replaced globally.
+Direct tone activates a finite set of exact patterns and phrase substitutions. It can remove selected request framing and tighten a known timing question. Tone selection does not authorize a change in force, actor, responsibility, timing, or workflow context. Direct does not globally remove `may`, `probably`, `I think`, `It seems that`, `I would like to`, or `Please be advised that`.
 
 Direct also recognizes these complete hesitant-request frames at a sentence or paragraph opening:
 
@@ -220,7 +220,17 @@ For these frames, Direct preserves the captured action clause, including embedde
 
 The engine defers the Direct-specific edit, explanation, and `SD-CLARITY-002` match until final-output cleanup is complete. They are emitted only when the exact `Please ...` replacement remains in the final text.
 
-Direct is not a universal tone model. Unrecognized wording can remain unchanged. Exact quoted probability and attributed-opinion fixtures remain unchanged because the unsafe global substitutions are absent, not because SecondDraft has a general quotation parser.
+`SD-CLARITY-002` describes only these verified supported Direct request frames. It does not cover recommendation-to-imperative conversion or the separate main-point announcement rewrite.
+
+## Current Strength-Preservation Behavior
+
+Suggestions remain suggestions, recommendations retain `should`, and length selection does not authorize obligation changes. Writer intent is not converted into reader duty, and SecondDraft does not invent timing, deadlines, collective responsibility, or workflow steps.
+
+The former automatic rewrites for `It may be helpful to ...`, `I think we should probably ...`, global `I would like to`, global `Please be advised that`, broad helpfulness phrases, and specialized outreach or alignment sentences are no longer executable behavior.
+
+In focused modes, the bounded sentence-opening frame `The main point is that we should ...` may lose only the announcement. The output retains `We should ...`, including tested negation, conditions, timing, objects, and punctuation. Its edit and visible explanation are emitted only when the exact final replacement survives normalization. It has no rule ID.
+
+Direct is not a universal tone model. Unrecognized wording can remain unchanged. Tested quoted notices, recommendations, and intent statements remain unchanged because unsafe global matchers are absent and the retained main-point matcher requires an eligible boundary. This is fixture-bounded preservation, not a general quotation parser.
 
 ## Current Shorter Behavior
 
@@ -234,6 +244,8 @@ Shorter mode removes a defined set of filler words and phrases. It also removes 
 The first eligible occurrence remains. `SD-REPETITION-002` is attached to later exact removals. `SD-REPETITION-001` remains attached to the separate known filler-repetition rewrite.
 
 Shorter does not perform semantic summarization, paraphrase detection, merging of similar ideas, importance ranking, or general redundancy detection.
+
+Shorter returns the source text unchanged when its exact-repetition helper removes no sentence, avoiding incidental reconstruction of quoted text. A separate known cleanup defect can still capitalize `p.m.` as `p. M.` in some Shorter paths; that mechanical repair is not part of the strength-preservation cycle.
 
 ## Prepare For SSML
 

@@ -2,6 +2,45 @@
 
 This file records completed engine cycles. It describes shipped behavior only; possible extensions are labeled as future work.
 
+## 2026-07 - Direct Strength Preservation Phase 2B
+
+### Problem
+
+Several remaining Direct, focused-mode, and shared transformations changed more than wording. Suggestions and qualified recommendations could become imperatives; writer intent could become apparent reader duty; specialized outreach and alignment sentences could gain obligation, collective action, or an invented sending step; and broad phrase rules could alter quoted language.
+
+### Root Cause or Design Gap
+
+The unsafe transformations treated recommendation strength, intent, courtesy, and workflow context as removable hesitation or filler. Most recorded edits immediately, had no rule ID, and did not verify their evidence against final output. The focused main-point rewrite also attached `SD-CLARITY-002` while removing `should`.
+
+### Implemented Safeguard
+
+- Removed the Direct suggestion-to-imperative and qualified-recommendation-to-imperative patterns.
+- Removed global Direct deletion of `I would like to` and `Please be advised that`.
+- Removed shared helpfulness substitutions that discarded attribution or probability.
+- Removed specialized outreach and alignment transformations that could invent `need to`, `Let's`, or `before sending it`.
+- Narrowed the focused main-point rewrite to remove only `The main point is that`, retaining `We should ...`.
+- Deferred the main-point edit and explanation until the exact replacement survives final normalization.
+- Limited `SD-CLARITY-002` metadata and engine matches to verified supported Direct request frames.
+- Kept the exact-repetition helper from reconstructing unchanged text when it removes no sentence.
+
+### Tests Added
+
+The regression matrix runs the approved strength fixtures through Natural, Direct, Shorter, and Direct + Shorter. It covers suggestions, recommendations, requirements, writer and third-party intent, gratitude, notifications, formal notices, quotations, multiple suggestions, conditions, negation, timing, technical terms, IVR wording, modal language, exact legacy outreach and alignment sources, exact evidence, obsolete explanations, and rule boundaries.
+
+### User-Visible Effect
+
+Tone and length choices no longer turn the tested suggestions, preferences, or attributed recommendations into commands. SecondDraft does not invent obligation or a sending step in the removed legacy frames. A supported main-point recommendation becomes `We should ...`, not an imperative, and its visible evidence describes only the announcement-frame removal.
+
+### Remaining Product Decisions
+
+- No automatic replacement was introduced for ambiguous `I would like to` intent or courtesy language.
+- No bounded `Please be advised that` rewrite was introduced.
+- The engine remains a finite pattern set without universal actor, quotation, or semantic parsing.
+
+### Separate Mechanical Follow-Up
+
+Some Shorter cleanup paths can still change `p.m.` to `p. M.`. That defect requires an isolated time-abbreviation repair and regression cycle; it was not changed in this semantic-strength patch.
+
 ## 2026-07 - Direct Modality Safety Phase 2A
 
 ### Problem
