@@ -257,6 +257,38 @@
       "engineCommits": [],
       "ruleIds": [],
       "knowledgeIds": []
+    },
+    {
+      "slug": "the-new-bottleneck-is-taste",
+      "file": "journal-sources-case-studies-the-new-bottleneck-is-taste.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-sources-case-studies-the-new-bottleneck-is-taste.html",
+      "title": "The New Bottleneck Isn’t Code—It’s Taste",
+      "track": "sources-case-studies",
+      "published": null,
+      "modified": null,
+      "summary": "A practitioner built a functional AI-assisted application, then confronted the harder problem: making it feel considered rather than generated. The case suggests that as construction gets easier, hierarchy, restraint, and design judgment become more valuable.",
+      "status": "draft",
+      "primaryCta": null,
+      "related": [],
+      "sources": [
+        {
+          "id": "make-my-app-look-man-made",
+          "type": "practitioner-community-case",
+          "url": "https://www.reddit.com/r/vibecoding/s/ZH8wBRacCX",
+          "analyticsDestination": "make-my-app-look-man-made"
+        }
+      ],
+      "analytics": {
+        "open": null,
+        "cta": [],
+        "related": [],
+        "media": []
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": [
+        "KN-0004"
+      ]
     }
   ]
 }

@@ -114,6 +114,38 @@
         "Sentence-boundary behavior"
       ],
       "lastReviewed": "2026-07-27"
+    },
+    {
+      "knowledgeId": "KN-0004",
+      "title": "The New Bottleneck Isn’t Code—It’s Taste",
+      "cycle": "First Workflow v2 editorial intake",
+      "commit": null,
+      "date": "2026-07-27",
+      "trigger": "A practitioner built a functional application using an AI-assisted development platform, then sought help making the interface feel less AI-made.",
+      "reusableInsight": "As AI lowers the cost of constructing functional software, differentiation increasingly depends on judgment: hierarchy, restraint, constraints, interaction design, and accumulated taste.",
+      "evidence": [
+        "The builder reported that the running and walking territory application was functional.",
+        "The remaining concern was that the interface looked AI-made.",
+        "Community feedback emphasized studying strong products and understanding layout, hierarchy, constraints, and interaction design.",
+        "The feedback treated color, font, and effects changes as insufficient by themselves.",
+        "Source confidence: 3/5 community and practitioner evidence."
+      ],
+      "inference": "This case suggests that implementation capacity may be becoming easier to acquire than design judgment, shifting attention toward coherent editorial and design decisions.",
+      "claimBoundary": "One Reddit discussion does not establish an industry-wide trend or prove that taste is always the primary software bottleneck. Current AI defaults, templates, prompting, platform conventions, and product constraints may also explain the result. Stronger and broader evidence is required before Canon promotion.",
+      "primaryDestination": "sources-case-studies",
+      "status": "Briefed",
+      "relatedRuleIds": [],
+      "relatedTests": [],
+      "relatedArticles": [],
+      "secondaryReferences": [
+        "docs/knowledge-captures/KN-0004-the-new-bottleneck-is-taste.md",
+        "docs/editorial-momentum-audit.md"
+      ],
+      "canonPromotionCandidate": false,
+      "handbookPromotionCandidate": false,
+      "invalidationRisk": "Broader evidence may show that templates, platform defaults, product constraints, or prompting quality matter more than taste alone. Later research may require narrowing taste into hierarchy, restraint, interaction judgment, or domain familiarity. The source may disappear.",
+      "existingKnowledgePotentiallyAffected": [],
+      "lastReviewed": "2026-07-27"
     }
   ]
 }

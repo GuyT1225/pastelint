@@ -211,7 +211,7 @@ for (const article of articles) {
       error(key, `Invalid source URL: ${source?.url}`);
     }
     const expectedMediaEvent = `Journal Media | ${article.slug} | ${source.analyticsDestination}`;
-    if (!article?.analytics?.media?.includes(expectedMediaEvent)) {
+    if (article?.status === "published" && !article?.analytics?.media?.includes(expectedMediaEvent)) {
       error(key, `Source is missing its declared media event: ${expectedMediaEvent}`);
     }
   }
@@ -219,10 +219,21 @@ for (const article of articles) {
   if (!analytics || !Array.isArray(analytics.cta) || !Array.isArray(analytics.related) || !Array.isArray(analytics.media)) {
     error(key, "analytics requires open, cta, related, and media");
   } else {
-    validateEvent(analytics.open, key);
+    if (analytics.open !== null) validateEvent(analytics.open, key);
     for (const event of [...analytics.cta, ...analytics.related, ...analytics.media]) validateEvent(event, key);
-    if (analytics.open !== `Journal Open | ${article.slug}`) {
+    if (article?.status === "published" && analytics.open !== `Journal Open | ${article.slug}`) {
       error(key, "analytics.open must use the article slug");
+    }
+    if (article?.status === "draft") {
+      if (analytics.open !== null) {
+        error(key, "Draft analytics.open must remain null until publication");
+      }
+      if (analytics.cta.length > 0 || analytics.related.length > 0 || analytics.media.length > 0) {
+        error(key, "Draft analytics arrays must remain empty until publication");
+      }
+      if (article.primaryCta !== null) {
+        error(key, "Draft primaryCta must remain null until publication");
+      }
     }
     for (const event of analytics.cta) {
       if (!event.startsWith(`Journal CTA | ${article.slug} | `)) {
@@ -248,11 +259,11 @@ for (const article of articles) {
       error(key, "primaryCta event must be declared in analytics.cta");
     }
   }
-  if (!(article?.engineCommits?.length)) warning(key, "No engine commits declared");
-  if (!(article?.ruleIds?.length)) warning(key, "No rule IDs declared");
-  if (!(article?.knowledgeIds?.length)) warning(key, "No knowledge IDs declared");
-  if (article?.modified === null) warning(key, "Optional modified date is absent");
-  if (article?.published === null) warning(key, "Historical publication date is unknown");
+  if (article?.status === "published" && !(article?.engineCommits?.length)) warning(key, "No engine commits declared");
+  if (article?.status === "published" && !(article?.ruleIds?.length)) warning(key, "No rule IDs declared");
+  if (article?.status === "published" && !(article?.knowledgeIds?.length)) warning(key, "No knowledge IDs declared");
+  if (article?.status === "published" && article?.modified === null) warning(key, "Optional modified date is absent");
+  if (article?.status === "published" && article?.published === null) warning(key, "Historical publication date is unknown");
 }
 
 for (const article of articles) {
