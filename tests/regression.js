@@ -786,6 +786,147 @@ function testSecondDraftPrimaryReflowPreservesProtectedValues() {
   assert.ok(!/\n{3,}/.test(result.text));
 }
 
+function testSecondDraftNotificationFrameSafety() {
+  const context = loadSecondDraftContext();
+  const options = {
+    tone: "natural",
+    length: "same",
+    reflow: false
+  };
+  const forbiddenFragments = [
+    "writing to the revised",
+    "wanted to the schedule",
+    "reaching out to recording",
+    "writing to approval"
+  ];
+
+  const confirmed = context.reviseSecondDraft(
+    "We are writing to let you know that the revised menu is ready for review.",
+    options
+  );
+  assert.strictEqual(confirmed.text, "The revised menu is ready for review.");
+  assert.strictEqual(confirmed.edits[0].before, "We are writing to let you know that the revised menu is ready for review.");
+  assert.strictEqual(confirmed.edits[0].after, "The revised menu is ready for review.");
+  assert.strictEqual(confirmed.edits[0].ruleId, "SD-CLARITY-001");
+
+  const firstPerson = context.reviseSecondDraft(
+    "I wanted to let you know that the schedule changed.",
+    options
+  );
+  assert.strictEqual(firstPerson.text, "The schedule changed.");
+
+  const reachingOut = context.reviseSecondDraft(
+    "We are reaching out to let you know that recording begins after approval.",
+    options
+  );
+  assert.strictEqual(reachingOut.text, "Recording begins after approval.");
+
+  const negation = context.reviseSecondDraft(
+    "I wanted to let you know that recording will not begin before approval.",
+    options
+  );
+  assert.strictEqual(negation.text, "Recording will not begin before approval.");
+  assert.ok(negation.text.includes("not"));
+  assert.ok(negation.text.includes("before approval"));
+
+  const protectedValues = context.reviseSecondDraft(
+    "We are writing to let you know that approval is due by Tuesday, July 28. Send questions to support@example.com or call 914-555-0184.",
+    options
+  );
+  assert.strictEqual(
+    protectedValues.text,
+    "Approval is due by Tuesday, July 28. Send questions to support@example.com or call 914-555-0184."
+  );
+  assert.ok(protectedValues.text.includes("Tuesday, July 28"));
+  assert.ok(protectedValues.text.includes("support@example.com"));
+  assert.ok(protectedValues.text.includes("914-555-0184"));
+
+  const url = context.reviseSecondDraft(
+    "We wanted to let you know that the approved page is https://example.com/library-menu.",
+    options
+  );
+  assert.strictEqual(url.text, "The approved page is https://example.com/library-menu.");
+  assert.ok(url.text.includes("https://example.com/library-menu"));
+
+  const ambiguousObject = context.reviseSecondDraft(
+    "We wanted to let you know that your request was received, but it has not yet been approved.",
+    options
+  );
+  assert.strictEqual(
+    ambiguousObject.text,
+    "Your request was received, but it has not yet been approved."
+  );
+  assert.ok(ambiguousObject.text.includes("but"));
+  assert.ok(ambiguousObject.text.includes("not yet been approved"));
+
+  const alreadyClean = context.reviseSecondDraft(
+    "The revised menu is ready for review.",
+    options
+  );
+  assert.strictEqual(alreadyClean.text, "The revised menu is ready for review.");
+  assert.deepStrictEqual(Array.from(alreadyClean.edits), []);
+  assert.deepStrictEqual(Array.from(alreadyClean.changes), [
+    "No major revision needed. The text already reads cleanly."
+  ]);
+
+  const nonTarget = context.reviseSecondDraft(
+    "Please let your supervisor know that the menu was approved.",
+    options
+  );
+  assert.strictEqual(nonTarget.text, "Please let your supervisor know that the menu was approved.");
+  assert.deepStrictEqual(Array.from(nonTarget.edits), []);
+
+  const quoted = context.reviseSecondDraft(
+    "The script says, \"We wanted to let you know that service is delayed.\"",
+    options
+  );
+  assert.ok(quoted.text.includes("We wanted to let you know that service is delayed"));
+  assert.ok(!quoted.edits.some((edit) => edit.before.includes("We wanted to let you know")));
+
+  const paragraphs = context.reviseSecondDraft(
+    [
+      "We are writing to let you know that the revised menu is ready for review.",
+      "",
+      "I wanted to let you know that the schedule changed."
+    ].join("\n"),
+    options
+  );
+  assert.strictEqual(
+    paragraphs.text,
+    ["The revised menu is ready for review.", "", "The schedule changed."].join("\n")
+  );
+  assert.ok(paragraphs.text.includes("\n\n"));
+
+  const direct = context.reviseSecondDraft(
+    "We are writing to let you know that the revised menu is ready for review.",
+    {
+      tone: "direct",
+      length: "same",
+      reflow: false
+    }
+  );
+  assert.strictEqual(direct.text, "The revised menu is ready for review.");
+
+  [
+    confirmed,
+    firstPerson,
+    reachingOut,
+    negation,
+    protectedValues,
+    url,
+    ambiguousObject,
+    nonTarget,
+    paragraphs,
+    direct
+  ].forEach((result) => {
+    forbiddenFragments.forEach((fragment) => {
+      assert.ok(!result.text.includes(fragment), `Unexpected malformed fragment: ${fragment}`);
+    });
+    assert.ok(!result.edits.some((edit) => String(edit.after).includes("writing to the revised")));
+    assert.ok(!result.edits.some((edit) => String(edit.after).includes("wanted to the schedule")));
+  });
+}
+
 function testSecondDraftPrepareForSsmlTransfer() {
   const storage = {};
   const context = loadSecondDraftContext({ storage });
@@ -1414,6 +1555,7 @@ function main() {
   runTest("SecondDraft rule metadata preserves output", testSecondDraftRuleMetadataPreservesOutput);
   runTest("SecondDraft paragraph reflow truthfulness", testSecondDraftParagraphReflowTruthfulness);
   runTest("SecondDraft primary reflow preserves protected values", testSecondDraftPrimaryReflowPreservesProtectedValues);
+  runTest("SecondDraft notification frame safety", testSecondDraftNotificationFrameSafety);
   runTest("SecondDraft Prepare for SSML transfer", testSecondDraftPrepareForSsmlTransfer);
   runTest("SSML Builder loads transfer text", testSsmlBuilderLoadsTransferText);
   runTest("SSML cleanup", testSsmlCleanup);

@@ -273,6 +273,12 @@ function applySecondDraftPatternRules(text, options) {
     options.tone === "concise" ||
     options.length === "shorter";
 
+  const notificationResult = rewriteSecondDraftNotificationFrames(revised);
+  revised = notificationResult.text;
+  edits.push(...notificationResult.edits);
+  changes.push(...notificationResult.changes);
+  ruleMatches.push(...notificationResult.ruleMatches);
+
   applyRewrite(
     /\bI just wanted to reach out and say that\s+([^.!?]+)([.?!]?)/i,
     (match) => {
@@ -424,6 +430,40 @@ function applySecondDraftPatternRules(text, options) {
   return { text: revised, edits, changes, ruleMatches };
 }
 
+function rewriteSecondDraftNotificationFrames(text) {
+  const edits = [];
+  const changes = [];
+  const ruleMatches = [];
+  const change = "Rewrote a notification frame into the main statement";
+  const ruleId = "SD-CLARITY-001";
+  let count = 0;
+
+  const pattern =
+    /(^|[.!?]\s+|\n+)((?:We|I)\s+(?:(?:are|am)\s+(?:writing|reaching out)|wanted|want)\s+to\s+let\s+you\s+know\s+that\s+)([^\n]+?)([.!?])(?=\s+[A-Z]|\s*$)/g;
+
+  const revised = String(text).replace(pattern, (match, boundary, frame, clause, punctuation) => {
+    const replacement = ensureSecondDraftSentence(
+      capitalizeSecondDraftSentence(clause.trim()) + punctuation
+    );
+
+    count++;
+    edits.push({
+      before: `${frame}${clause}${punctuation}`,
+      after: replacement,
+      ruleId
+    });
+
+    return `${boundary}${replacement}`;
+  });
+
+  if (count > 0) {
+    changes.push(change);
+    pushSecondDraftRuleMatch(ruleMatches, ruleId, change);
+  }
+
+  return { text: revised, edits, changes, ruleMatches };
+}
+
 function applySecondDraftPhraseRules(text, tone) {
   let revised = text;
   const edits = [];
@@ -440,7 +480,6 @@ function applySecondDraftPhraseRules(text, tone) {
     ["currently in the process of", "currently", "Simplified process wording", "SD-COMPRESSION-001"],
     ["in the process of", "", "Removed wordy process phrasing", "SD-COMPRESSION-001"],
     ["quickly reach out", "reach out", "Simplified wording"],
-    ["let you know that", "", "Removed unnecessary setup phrase"],
     ["I think it would probably be helpful to", "", "Removed hesitant phrasing"],
     ["probably be helpful to", "be helpful to", "Reduced hesitant phrasing"],
     ["basically", "", "Removed filler wording"],
