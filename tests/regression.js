@@ -706,6 +706,217 @@ function testSecondDraftDirectRequestDifferentiation() {
   });
 }
 
+function testSecondDraftDirectModalityPreservation() {
+  const context = loadSecondDraftContext();
+  const naturalOptions = {
+    tone: "natural",
+    length: "same",
+    reflow: false
+  };
+  const directOptions = {
+    tone: "direct",
+    length: "same",
+    reflow: false
+  };
+  const directChange =
+    "Rewrote hesitant request framing into a clear, professional action";
+  const directRuleId = "SD-CLARITY-002";
+  const unchangedFixtures = [
+    "The event may be canceled if severe weather continues.",
+    "Staff may enter the building after 8:00 a.m.",
+    "The new system can process longer scripts.",
+    "The launch will probably be delayed if approval arrives after Tuesday.",
+    "I think the revised menu is ready for review.",
+    "We believe the script needs another review.",
+    "It seems that the event dates do not match the approved schedule.",
+    "The recording might fail if the SSML contains invalid XML.",
+    "You should review the dates before recording.",
+    "You must approve the script before recording begins.",
+    "The library may not approve the revised menu.",
+    "The team may be able to finish by Tuesday, but the schedule will probably remain tight.",
+    "The director said, \u201cThe launch will probably be delayed.\u201d",
+    "The service may return HTTP 429 when the request limit is exceeded.",
+    "Members may renew eligible items twice.",
+    "Please approve the revised menu by Tuesday.",
+    "I think approval may arrive by Tuesday, July 28. Questions can be sent to support@example.com.",
+    "The IVR may route callers incorrectly if option 4 is removed.",
+    "The contractor may terminate the agreement after thirty days\u2019 notice.",
+    "The update will probably affect 20 to 30 records.",
+    "The reviewer wrote, \u201cI think the introduction is too long.\u201d"
+  ];
+  const obsoleteChanges = [
+    "Removed hesitant phrasing",
+    "Removed hesitation",
+    "Removed uncertainty"
+  ];
+  const obsoleteEdits = [
+    ["may", "can"],
+    ["probably", ""],
+    ["I think", ""],
+    ["It seems that", ""]
+  ];
+
+  unchangedFixtures.forEach((input) => {
+    const natural = context.reviseSecondDraft(input, naturalOptions);
+    const direct = context.reviseSecondDraft(input, directOptions);
+
+    assert.strictEqual(natural.text, input);
+    assert.strictEqual(direct.text, input);
+    obsoleteChanges.forEach((change) => {
+      assert.ok(!direct.changes.includes(change));
+    });
+    obsoleteEdits.forEach(([before, after]) => {
+      assert.ok(
+        !direct.edits.some(
+          (edit) => edit.before === before && edit.after === after
+        )
+      );
+    });
+  });
+
+  const requestFixtures = [
+    {
+      input:
+        "I was hoping you could confirm whether the event may be canceled.",
+      expected: "Please confirm whether the event may be canceled."
+    },
+    {
+      input:
+        "I was wondering if you could confirm whether the launch will probably be delayed.",
+      expected:
+        "Please confirm whether the launch will probably be delayed."
+    },
+    {
+      input:
+        "We were hoping you could confirm that the library may not approve the menu.",
+      expected:
+        "Please confirm that the library may not approve the menu."
+    }
+  ];
+
+  requestFixtures.forEach(({ input, expected }) => {
+    const natural = context.reviseSecondDraft(input, naturalOptions);
+    const direct = context.reviseSecondDraft(input, directOptions);
+
+    assert.strictEqual(natural.text, input);
+    assert.strictEqual(direct.text, expected);
+    assert.deepStrictEqual(Array.from(direct.changes), [directChange]);
+    assert.ok(
+      direct.ruleMatches.some(
+        (match) =>
+          match.ruleId === directRuleId && match.change === directChange
+      )
+    );
+    assert.ok(
+      direct.edits.some(
+        (edit) =>
+          edit.before === input &&
+          edit.after === expected &&
+          edit.ruleId === directRuleId
+      )
+    );
+    assert.ok(direct.edits.every((edit) => direct.text.includes(edit.after)));
+    obsoleteChanges.forEach((change) => {
+      assert.ok(!direct.changes.includes(change));
+    });
+    obsoleteEdits.forEach(([before, after]) => {
+      assert.ok(
+        !direct.edits.some(
+          (edit) => edit.before === before && edit.after === after
+        )
+      );
+    });
+  });
+
+  const possibility = context.reviseSecondDraft(
+    unchangedFixtures[0],
+    directOptions
+  ).text;
+  assert.ok(possibility.includes("may be canceled"));
+  assert.ok(possibility.includes("if severe weather continues"));
+
+  const permission = context.reviseSecondDraft(
+    unchangedFixtures[1],
+    directOptions
+  ).text;
+  assert.ok(permission.includes("may enter"));
+  assert.ok(permission.includes("8:00 a.m."));
+
+  const capability = context.reviseSecondDraft(
+    unchangedFixtures[2],
+    directOptions
+  ).text;
+  assert.ok(capability.includes("can process"));
+
+  const probability = context.reviseSecondDraft(
+    unchangedFixtures[3],
+    directOptions
+  ).text;
+  assert.ok(probability.includes("probably"));
+  assert.ok(probability.includes("if approval arrives after Tuesday"));
+
+  const tentativeObservation = context.reviseSecondDraft(
+    unchangedFixtures[6],
+    directOptions
+  ).text;
+  assert.ok(tentativeObservation.includes("It seems that"));
+  assert.ok(tentativeObservation.includes("do not match"));
+
+  const risk = context.reviseSecondDraft(
+    unchangedFixtures[7],
+    directOptions
+  ).text;
+  assert.ok(risk.includes("might fail"));
+  assert.ok(risk.includes("if the SSML contains invalid XML"));
+
+  assert.ok(
+    context
+      .reviseSecondDraft(unchangedFixtures[8], directOptions)
+      .text.includes("should review")
+  );
+  assert.ok(
+    context
+      .reviseSecondDraft(unchangedFixtures[9], directOptions)
+      .text.includes("must approve")
+  );
+
+  const negatedPossibility = context.reviseSecondDraft(
+    unchangedFixtures[10],
+    directOptions
+  ).text;
+  assert.ok(negatedPossibility.includes("may not"));
+  assert.ok(!negatedPossibility.includes("can not"));
+
+  const multipleModals = context.reviseSecondDraft(
+    unchangedFixtures[11],
+    directOptions
+  ).text;
+  assert.ok(multipleModals.includes("may be able to"));
+  assert.ok(multipleModals.includes("probably"));
+  assert.ok(multipleModals.includes("Tuesday"));
+  assert.ok(multipleModals.includes(", but "));
+  assert.ok(!multipleModals.includes("can be able to"));
+
+  assert.strictEqual(
+    context.reviseSecondDraft(unchangedFixtures[12], directOptions).text,
+    unchangedFixtures[12]
+  );
+  assert.strictEqual(
+    context.reviseSecondDraft(unchangedFixtures[20], directOptions).text,
+    unchangedFixtures[20]
+  );
+
+  const protectedValues = context.reviseSecondDraft(
+    unchangedFixtures[16],
+    directOptions
+  ).text;
+  assert.ok(protectedValues.includes("I think"));
+  assert.ok(protectedValues.includes("may"));
+  assert.ok(protectedValues.includes("Tuesday, July 28"));
+  assert.ok(protectedValues.includes("support@example.com"));
+  assert.ok(protectedValues.includes("Questions can be sent"));
+}
+
 function testSecondDraftShorterRedundancyReduction() {
   const context = loadSecondDraftContext();
   const repeated =
@@ -1906,6 +2117,7 @@ function main() {
   runTest("PDF paste reflow", testScriptPdfPostProcessing);
   runTest("SecondDraft rewrites", testSecondDraftRewrites);
   runTest("SecondDraft Direct request differentiation", testSecondDraftDirectRequestDifferentiation);
+  runTest("SecondDraft Direct modality preservation", testSecondDraftDirectModalityPreservation);
   runTest("SecondDraft Shorter redundancy reduction", testSecondDraftShorterRedundancyReduction);
   runTest("SecondDraft rule registry", testSecondDraftRuleRegistry);
   runTest("SecondDraft rule metadata preserves output", testSecondDraftRuleMetadataPreservesOutput);

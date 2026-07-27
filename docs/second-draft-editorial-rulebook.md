@@ -203,7 +203,7 @@ These safeguards describe tested patterns, not universal semantic analysis.
 
 ## Current Direct Behavior
 
-Direct tone activates a finite set of exact patterns and phrase substitutions. It can remove selected hesitation, convert selected recommendations into actions, tighten a known timing question, and apply defined wording substitutions.
+Direct tone activates a finite set of exact patterns and phrase substitutions. It can remove selected request framing, convert selected recommendations into actions, tighten a known timing question, and apply defined wording substitutions. It preserves meaningful modality and attributed judgment: `may`, `probably`, `I think`, and `It seems that` are not removed or replaced globally.
 
 Direct also recognizes these complete hesitant-request frames at a sentence or paragraph opening:
 
@@ -216,11 +216,11 @@ Direct also recognizes these complete hesitant-request frames at a sentence or p
 - `Would you be able to ...`
 - `Could you possibly ...`
 
-For these frames, Direct preserves the captured action clause and rewrites the complete request as `Please ...`. The rule does not run in Natural mode. Conditions outside the supported frames, sufficiently direct requests such as `Could you please ...`, non-request statements, third-party notification instructions, and the tested quoted form remain unchanged.
+For these frames, Direct preserves the captured action clause, including embedded modality, probability, negation, and conditions, and rewrites the complete request as `Please ...`. For example, the frame can change while `may`, `probably`, or `may not` inside the requested proposition remains intact. The rule does not run in Natural mode. Conditions outside the supported frames, sufficiently direct requests such as `Could you please ...`, non-request statements, third-party notification instructions, and the tested quoted form remain unchanged.
 
 The engine defers the Direct-specific edit, explanation, and `SD-CLARITY-002` match until final-output cleanup is complete. They are emitted only when the exact `Please ...` replacement remains in the final text.
 
-Direct is not a universal tone model. Unrecognized wording can remain unchanged.
+Direct is not a universal tone model. Unrecognized wording can remain unchanged. Exact quoted probability and attributed-opinion fixtures remain unchanged because the unsafe global substitutions are absent, not because SecondDraft has a general quotation parser.
 
 ## Current Shorter Behavior
 

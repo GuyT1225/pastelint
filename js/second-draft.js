@@ -550,11 +550,7 @@ function applySecondDraftPhraseRules(text, tone) {
   if (tone === "direct") {
     rules.push(
       ["I would like to", "", "Made wording more direct"],
-      ["It seems that", "", "Removed hesitant phrasing"],
-      ["Please be advised that", "", "Removed overly formal phrasing"],
-      ["I think", "", "Removed hesitation"],
-      ["probably", "", "Removed uncertainty"],
-      ["may", "can", "Made wording more direct"]
+      ["Please be advised that", "", "Removed overly formal phrasing"]
     );
   }
 

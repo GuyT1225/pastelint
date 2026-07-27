@@ -2,6 +2,41 @@
 
 This file records completed engine cycles. It describes shipped behavior only; possible extensions are labeled as future work.
 
+## 2026-07 - Direct Modality Safety Phase 2A
+
+### Problem
+
+Direct mode could silently increase certainty or change meaning by replacing `may` with `can` and removing `probably`, `I think`, and `It seems that`. The substitutions could also alter quoted text and modal language inside an otherwise supported hesitant-request rewrite.
+
+### Root Cause or Design Gap
+
+The four Direct-only substitutions were global and context-free. They had no rule ID or final-output verification, and they ran after the narrow request-frame pass. A later substitution could therefore change the request pass's expected final value and suppress its truthful `SD-CLARITY-002` evidence.
+
+### Implemented Safeguard
+
+- Removed the four unsafe global Direct substitutions without adding replacements.
+- Preserved the existing finite hesitant-request pass and its transformation order.
+- Preserved embedded possibility, probability, negation, and conditions when a supported request frame becomes `Please ...`.
+- Kept `SD-CLARITY-002` limited to the supported framed-action rewrite and retained exact final-output verification.
+
+### Tests Added
+
+Focused Natural-versus-Direct fixtures cover possibility, permission, capability, probability, attributed and group judgment, tentative observation, risk, recommendation, requirement, negated possibility, multiple modal terms, exact quoted language, technical and policy language, protected dates and email addresses, IVR language, contractual language, numeric estimates, already-direct text, and supported request frames containing `may`, `probably`, or `may not`. Assertions also reject obsolete modal edit rows and explanations.
+
+### User-Visible Effect
+
+Direct no longer turns possibility or permission into capability, probability into certainty, or attributed judgment into an unqualified assertion. Supported request framing still becomes `Please ...`, while the embedded proposition and its verified explanation, edit map, and `SD-CLARITY-002` match remain intact.
+
+### Known Limitations
+
+- Direct remains a finite pattern set rather than a semantic tone model.
+- Removing these substitutions does not provide universal quotation parsing or semantic preservation.
+- Other existing Direct transformations were not broadened or redesigned in this phase.
+
+### Logical Future Extension
+
+Phase 2B should audit the remaining Direct transformations individually, especially broad advisory or formality rewrites, using narrow positive fixtures, semantic counterexamples, and final-output evidence before changing behavior.
+
 ## 2026-07 - Direct Request Differentiation
 
 ### Problem
