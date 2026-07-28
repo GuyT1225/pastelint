@@ -1594,6 +1594,105 @@ Use the source material as the evidence base. Separate direct observations from 
   );
 }
 
+function testSecondDraftProfessionalToneSafetyReset() {
+  const context = loadSecondDraftContext();
+  const professional = {
+    tone: "professional",
+    length: "same",
+    reflow: false
+  };
+
+  const collocations = [
+    "Let's get started tomorrow.",
+    "Please get back to me by Friday.",
+    "We need to review the agreement.",
+    "This will help explain the change.",
+    "I can help prepare the final version.",
+    "Please show the team the revised schedule.",
+    "The group will get access after approval.",
+    "We need help with the calendar feed.",
+    "The report shows three unresolved issues.",
+    "Please get the files from the shared folder.",
+    "We have a lot of files to review."
+  ];
+
+  collocations.forEach((input) => {
+    const result = context.reviseSecondDraft(input, professional);
+    assert.strictEqual(result.text, input);
+    assert.deepStrictEqual(Array.from(result.edits), []);
+    assert.deepStrictEqual(Array.from(result.ruleMatches), []);
+    assert.deepStrictEqual(Array.from(result.changes), [
+      "No major revision needed. The text already reads cleanly."
+    ]);
+
+    [
+      "receive started",
+      "receive back",
+      "require to review",
+      "assist explain",
+      "assist prepare",
+      "demonstrate the team"
+    ].forEach((malformed) => {
+      assert.ok(!result.text.toLowerCase().includes(malformed));
+    });
+  });
+
+  const preservationFixtures = [
+    "The vendor may need to regenerate the audio.",
+    "We should probably review the agreement before Friday.",
+    "Rebecca needs to approve the files before Guy uploads them.",
+    "Do not publish unless Rebecca confirms the date.",
+    "The call is optional if email is sufficient.",
+    "Please send the approved schedule by September 1, 2026.",
+    "Meet at 9 a.m. or 2:30 p.m.",
+    "Use DB 1-2-3-4-5-6 for the SSML and OTBS record.",
+    "Email support@example.org and review https://example.org/calendar?feed=fall."
+  ];
+
+  preservationFixtures.forEach((input) => {
+    const result = context.reviseSecondDraft(input, professional);
+    assert.strictEqual(result.text, input);
+    assert.deepStrictEqual(Array.from(result.edits), []);
+    assert.deepStrictEqual(Array.from(result.ruleMatches), []);
+  });
+
+  const signature = "Thanks,\n\nGuy";
+  assert.strictEqual(
+    context.reviseSecondDraft(signature, professional).text,
+    signature
+  );
+
+  const sharedCleanup = context.reviseSecondDraft(
+    "We are writing to let you know that the review is ready. We are meeting in order to confirm the date.",
+    professional
+  );
+  assert.strictEqual(
+    sharedCleanup.text,
+    "The review is ready. We are meeting to confirm the date."
+  );
+  assert.ok(
+    sharedCleanup.ruleMatches.some(
+      (match) => match.ruleId === "SD-CLARITY-001"
+    )
+  );
+  assert.ok(
+    sharedCleanup.ruleMatches.some(
+      (match) => match.ruleId === "SD-COMPRESSION-001"
+    )
+  );
+
+  const friendly = context.reviseSecondDraft(
+    "You will receive access after approval.",
+    {
+      tone: "friendly",
+      length: "same",
+      reflow: false
+    }
+  );
+  assert.strictEqual(friendly.text, "You will get access after approval.");
+  assert.ok(friendly.changes.includes("Made wording more conversational"));
+}
+
 function testSecondDraftParagraphReflowTruthfulness() {
   const context = loadSecondDraftContext();
   const reflowClaim = "Reflowed text into cleaner paragraphs";
@@ -2497,6 +2596,7 @@ function main() {
   runTest("SecondDraft time abbreviation preservation", testSecondDraftTimeAbbreviationPreservation);
   runTest("SecondDraft rule registry", testSecondDraftRuleRegistry);
   runTest("SecondDraft rule metadata preserves output", testSecondDraftRuleMetadataPreservesOutput);
+  runTest("SecondDraft Professional tone safety reset", testSecondDraftProfessionalToneSafetyReset);
   runTest("SecondDraft paragraph reflow truthfulness", testSecondDraftParagraphReflowTruthfulness);
   runTest("SecondDraft primary reflow preserves protected values", testSecondDraftPrimaryReflowPreservesProtectedValues);
   runTest("SecondDraft notification frame safety", testSecondDraftNotificationFrameSafety);

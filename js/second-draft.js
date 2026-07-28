@@ -501,16 +501,6 @@ function applySecondDraftPhraseRules(text, tone) {
     ["prior to", "before", "Simplified formal wording"]
   ];
 
-  if (tone === "professional") {
-    rules.push(
-      ["a lot of", "many", "Made wording more professional"],
-      ["get", "receive", "Adjusted casual wording"],
-      ["help", "assist", "Used more professional wording"],
-      ["need", "require", "Used more professional wording"],
-      ["show", "demonstrate", "Used more professional wording"]
-    );
-  }
-
   if (tone === "friendly") {
     rules.push(
       ["receive", "get", "Made wording more conversational"],

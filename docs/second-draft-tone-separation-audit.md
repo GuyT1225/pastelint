@@ -338,3 +338,26 @@ This audit created reusable knowledge: **Yes**. Primary destination: `internal-d
 Does it justify an Engine Room article now? **Not yet—wait for the Professional implementation and verified regression results.**
 
 After review, commit and push this audit separately. Then run one bounded Professional-only implementation cycle that removes or constrains unsafe broad substitutions, defines Professional through sentence-level purpose and clarity, adds approved fixtures, preserves every existing safety invariant, runs the invalidation scan, and captures the verified repair without waiting for an article.
+
+## Professional safety-reset implementation record
+
+**Implementation date:** July 28, 2026
+**Implementation baseline:** `0b63573` — `docs: audit Second Draft tone separation`
+
+The Professional safety reset addressed `TONE-FINDING-001`. The engine removed all five Professional-only broad substitutions:
+
+- `a lot of` → `many`
+- `get` → `receive`
+- `help` → `assist`
+- `need` → `require`
+- `show` → `demonstrate`
+
+No replacement synonym table, exception list, grammar emulation, or new rule ID was added. Professional continues to receive the same bounded notification, filler, compression, normalization, Length, and Structure behavior shared with other tones. Its default tone-specific result is now intentionally no change.
+
+Regression coverage adopts the audited collocation fixtures and verifies exact preservation of common Professional workplace language. Additional fixtures preserve modality, recommendation strength, actors, responsibility, negation, conditions, deadlines, optionality, URL query strings, email addresses, dates, times, DB numbers, SSML, OTBS, and a blank-line-delimited signature. The tests also prove that shared clarity/compression rules still execute and Friendly's separate `receive` → `get` behavior remains isolated.
+
+The invalidation scan passed for existing Direct requests, modality, recommendation strength, timing abbreviations, Shorter filler and exact-repetition behavior, notification frames, rule metadata, edit-map rendering, paragraph reflow, SSML transfer, and Build Brief behavior through the full regression suite. The registry and editorial rulebook required no change because neither represented the removed Professional substitutions as registered or promised behavior.
+
+Professional is now safe but intentionally conservative. Richer differentiation requires separately proven sentence-level patterns. It does not yet organize workplace requests or add any Professional-only revision when shared cleanup finds nothing to change.
+
+The documented single-newline, list, label/value, and signature-loss defect remains outside this repair. The confirmed next cycle is a bounded structure-preservation pass covering Reflow-off preservation, Reflow-on grouping, and truthful structure-change reporting. Engine Room publication remains deferred until that cycle is also verified.
