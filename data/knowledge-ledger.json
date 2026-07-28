@@ -148,6 +148,45 @@
       "invalidationRisk": "Broader evidence may show that templates, platform defaults, product constraints, or prompting quality matter more than taste alone. Later research may require narrowing taste into hierarchy, restraint, interaction judgment, or domain familiarity. The source may disappear.",
       "existingKnowledgePotentiallyAffected": [],
       "lastReviewed": "2026-07-27"
+    },
+    {
+      "knowledgeId": "KN-0005",
+      "title": "The First Draft Finds the Story",
+      "cycle": "Multi-source media intake on screenplay revision",
+      "commit": null,
+      "date": "2026-07-27",
+      "trigger": "A request to study recognized film-industry practitioners discussing strong and weak scripts and connect their observations to the value and limits of revision.",
+      "reusableInsight": "Revision applies knowledge gained during drafting, collaboration, and production back across the work.",
+      "evidence": [
+        "WIRED transcript: Aaron Sorkin describes reaching the end, discovering what the script became, returning to the beginning, repairing setup, sharpening language, and removing excess.",
+        "BFI program description: Scott Frank focuses on opening scenes, screenwriting challenges, the magic of rewrites, and the importance of words.",
+        "PBS program description: Ed Solomon discusses the evolution of Men in Black from pre-production through post-production, including being fired and rehired and working with cast and crew.",
+        "Source confidence: 4/5 strong triangulated practitioner evidence."
+      ],
+      "inference": "Revision is retrospective alignment: a writer uses knowledge unavailable at the beginning to reconsider earlier choices, while collaboration and constraint can expose assumptions drafting alone did not test.",
+      "claimBoundary": "The three practitioners do not establish one universal rewrite method or formal consensus. Their testimony does not prove general effectiveness, require structural reconstruction, or authorize a tool to discover a work's true meaning or replace writer judgment.",
+      "primaryDestination": "sources-case-studies",
+      "status": "Briefed",
+      "relatedRuleIds": [],
+      "relatedTests": [],
+      "relatedArticles": [
+        "clearer-is-not-more-certain",
+        "directness-without-false-certainty"
+      ],
+      "secondaryReferences": [
+        "docs/knowledge-captures/KN-0005-first-draft-finds-the-story.md",
+        "docs/workflow-v2.md",
+        "docs/engine-architecture.md"
+      ],
+      "canonPromotionCandidate": false,
+      "handbookPromotionCandidate": true,
+      "invalidationRisk": "Fuller review of the BFI or PBS videos, changed publisher metadata, comparative drafts, or counterexamples may narrow the synthesis or alter individual source roles.",
+      "existingKnowledgePotentiallyAffected": [
+        "Product-facing claims about what Second Draft can infer",
+        "Future Handbook material about revision",
+        "Future Sources & Case Studies claims about practitioner consensus"
+      ],
+      "lastReviewed": "2026-07-27"
     }
   ]
 }

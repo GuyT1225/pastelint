@@ -295,6 +295,53 @@
       "knowledgeIds": [
         "KN-0004"
       ]
+    },
+    {
+      "slug": "first-draft-finds-the-story",
+      "file": "journal-sources-case-studies-first-draft-finds-the-story.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-sources-case-studies-first-draft-finds-the-story.html",
+      "title": "The First Draft Finds the Story. Revision Makes It Work.",
+      "track": "sources-case-studies",
+      "published": null,
+      "modified": null,
+      "summary": "Three experienced screenwriters approach rewriting from complementary angles: discovering what the script became, repairing how it begins, and allowing the story to evolve when it meets production reality.",
+      "status": "draft",
+      "primaryCta": null,
+      "related": [
+        "clearer-is-not-more-certain",
+        "directness-without-false-certainty"
+      ],
+      "sources": [
+        {
+          "id": "aaron-sorkin-second-drafts",
+          "type": "screenwriter-video-interview",
+          "url": "https://www.wired.com/video/watch/tech-support-aaron-sorkin-answers-screenwriting-questions-from-twitter",
+          "analyticsDestination": "aaron-sorkin-second-drafts"
+        },
+        {
+          "id": "scott-frank-magic-of-rewrites",
+          "type": "screenwriters-lecture",
+          "url": "https://player.bfi.org.uk/free/film/watch-screenwriters-lecture-with-scott-frank-2012-online",
+          "analyticsDestination": "scott-frank-magic-of-rewrites"
+        },
+        {
+          "id": "ed-solomon-men-in-black-evolution",
+          "type": "screenwriter-video-interview",
+          "url": "https://www.pbs.org/video/-story-men-black-conversation-ed-solomon/",
+          "analyticsDestination": "ed-solomon-men-in-black-evolution"
+        }
+      ],
+      "analytics": {
+        "open": null,
+        "cta": [],
+        "related": [],
+        "media": []
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": [
+        "KN-0005"
+      ]
     }
   ]
 }
