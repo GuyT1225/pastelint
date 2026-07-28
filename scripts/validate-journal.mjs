@@ -8,6 +8,7 @@ const manifestPath = path.join(root, "data", "journal-manifest.json");
 const ledgerPath = path.join(root, "data", "knowledge-ledger.json");
 const indexPath = path.join(root, "text-preparation-journal.html");
 const sitemapPath = path.join(root, "sitemap.xml");
+const shareHelperPath = path.join(root, "journal-share.js");
 
 const errors = new Map();
 const warnings = new Map();
@@ -33,11 +34,16 @@ const destinations = new Set([
   "second-draft-handbook",
   "internal-documentation"
 ]);
-const eventPattern = /^Journal (Open|CTA|Related|Media) \| [a-z0-9]+(?:-[a-z0-9]+)*(?: \| [a-z0-9]+(?:-[a-z0-9]+)*)?$/;
+const eventPattern = /^Journal (?:Open \| [a-z0-9]+(?:-[a-z0-9]+)*|(?:CTA|Related|Media) \| [a-z0-9]+(?:-[a-z0-9]+)* \| [a-z0-9]+(?:-[a-z0-9]+)*|Share \| [a-z0-9]+(?:-[a-z0-9]+)* \| (?:native|copy-link))$/;
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 const knowledgeIdPattern = /^KN-\d{4}$/;
 const ruleIdPattern = /^SD-[A-Z]+-\d{3}$/;
+const authorsByTrack = {
+  "engine-room": { type: "Person", name: "Guy Teichman", visible: "By Guy Teichman" },
+  "sources-case-studies": { type: "Person", name: "Guy Teichman", visible: "By Guy Teichman" },
+  "editors-desk": { type: "Organization", name: "PasteLint Editorial", visible: "By PasteLint Editorial" }
+};
 
 function add(map, key, message) {
   if (!map.has(key)) map.set(key, []);
@@ -102,6 +108,32 @@ function cleanCanonical(value) {
   }
 }
 
+function validIsoDate(value) {
+  if (!datePattern.test(value ?? "")) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.valueOf()) && date.toISOString().slice(0, 10) === value;
+}
+
+function readableDate(value) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC"
+  }).format(new Date(`${value}T00:00:00Z`));
+}
+
+function collectTypedNodes(value, type, found = []) {
+  if (Array.isArray(value)) {
+    for (const item of value) collectTypedNodes(item, type, found);
+  } else if (value && typeof value === "object") {
+    const types = Array.isArray(value["@type"]) ? value["@type"] : [value["@type"]];
+    if (types.includes(type)) found.push(value);
+    for (const nested of Object.values(value)) collectTypedNodes(nested, type, found);
+  }
+  return found;
+}
+
 function validateEvent(event, key) {
   if (typeof event !== "string" || !eventPattern.test(event)) {
     error(key, `Invalid analytics event: ${JSON.stringify(event)}`);
@@ -120,6 +152,10 @@ const manifest = readJson(manifestPath, "data/journal-manifest.json");
 const ledger = readJson(ledgerPath, "data/knowledge-ledger.json");
 const indexHtml = readText(indexPath, "text-preparation-journal.html");
 const sitemapXml = readText(sitemapPath, "sitemap.xml");
+const shareHelper = readText(shareHelperPath, "journal-share.js");
+
+if (!shareHelper.includes('link[rel="canonical"]')) error("journal-share.js", "Share helper must derive the URL from canonical metadata");
+if (/https?:\/\/[^\s"'`]+/i.test(shareHelper)) error("journal-share.js", "Share helper must not contain a third-party endpoint or hardcoded article URL");
 
 const articles = Array.isArray(manifest?.articles) ? manifest.articles : [];
 const knowledge = Array.isArray(ledger?.knowledge) ? ledger.knowledge : [];
@@ -179,9 +215,12 @@ for (const article of articles) {
   }
   if (!article?.title || !article?.summary || !article?.file) error(key, "title, summary, and file are required");
   for (const field of ["published", "modified"]) {
-    if (article?.[field] !== null && !datePattern.test(article?.[field] ?? "")) {
+    if (article?.[field] !== null && !validIsoDate(article?.[field])) {
       error(key, `${field} must be an ISO date or null`);
     }
+  }
+  if (article?.status === "published" && (!validIsoDate(article?.published) || !validIsoDate(article?.modified))) {
+    error(key, "Published articles require valid published and modified ISO dates");
   }
   if (article?.status === "published" && !cleanCanonical(article?.canonical)) {
     error(key, "Published canonical must be a clean HTTPS URL without query or fragment");
@@ -216,11 +255,11 @@ for (const article of articles) {
     }
   }
   const analytics = article?.analytics;
-  if (!analytics || !Array.isArray(analytics.cta) || !Array.isArray(analytics.related) || !Array.isArray(analytics.media)) {
-    error(key, "analytics requires open, cta, related, and media");
+  if (!analytics || !Array.isArray(analytics.cta) || !Array.isArray(analytics.related) || !Array.isArray(analytics.media) || !Array.isArray(analytics.share)) {
+    error(key, "analytics requires open, cta, related, media, and share");
   } else {
     if (analytics.open !== null) validateEvent(analytics.open, key);
-    for (const event of [...analytics.cta, ...analytics.related, ...analytics.media]) validateEvent(event, key);
+    for (const event of [...analytics.cta, ...analytics.related, ...analytics.media, ...analytics.share]) validateEvent(event, key);
     if (article?.status === "published" && analytics.open !== `Journal Open | ${article.slug}`) {
       error(key, "analytics.open must use the article slug");
     }
@@ -228,7 +267,7 @@ for (const article of articles) {
       if (analytics.open !== null) {
         error(key, "Draft analytics.open must remain null until publication");
       }
-      if (analytics.cta.length > 0 || analytics.related.length > 0 || analytics.media.length > 0) {
+      if (analytics.cta.length > 0 || analytics.related.length > 0 || analytics.media.length > 0 || analytics.share.length > 0) {
         error(key, "Draft analytics arrays must remain empty until publication");
       }
       if (article.primaryCta !== null) {
@@ -250,6 +289,15 @@ for (const article of articles) {
         error(key, `Media event uses the wrong source slug: ${event}`);
       }
     }
+    if (article?.status === "published") {
+      const expectedShare = [
+        `Journal Share | ${article.slug} | native`,
+        `Journal Share | ${article.slug} | copy-link`
+      ];
+      if (analytics.share.length !== 2 || new Set(analytics.share).size !== 2 || expectedShare.some((event) => !analytics.share.includes(event))) {
+        error(key, "Published analytics.share must contain exactly the native and copy-link events");
+      }
+    }
   }
   if (article?.primaryCta) {
     if (!article.primaryCta.destination || !article.primaryCta.href || !article.primaryCta.event) {
@@ -266,8 +314,6 @@ for (const article of articles) {
     warning(key, "No rule IDs declared");
   }
   if (article?.status === "published" && !(article?.knowledgeIds?.length)) warning(key, "No knowledge IDs declared");
-  if (article?.status === "published" && article?.modified === null) warning(key, "Optional modified date is absent");
-  if (article?.status === "published" && article?.published === null) warning(key, "Historical publication date is unknown");
 }
 
 for (const article of articles) {
@@ -340,6 +386,7 @@ for (const article of articles.filter((item) => item.status === "published")) {
     continue;
   }
   const html = readText(articlePath, key);
+  const author = authorsByTrack[article.track];
   const canonical = html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
   if (canonical !== article.canonical) error(key, `Canonical mismatch: ${canonical ?? "missing"}`);
   const h1 = decode(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? "");
@@ -347,6 +394,28 @@ for (const article of articles.filter((item) => item.status === "published")) {
   const title = decode(html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? "").replace(/\s*\|\s*PasteLint$/, "");
   if (!title) error(key, "Title metadata is missing or unparseable");
   if (title !== article.title) warning(key, `Title metadata includes legacy framing: ${JSON.stringify(title)}`);
+  const publicationMetaCount = (html.match(/class="[^"]*\bjournal-publication-meta\b[^"]*"/gi) ?? []).length;
+  if (publicationMetaCount !== 1) error(key, `Publication metadata region must appear exactly once (${publicationMetaCount})`);
+  const authorCount = countLiteral(html, `<span class="journal-author">${author.visible}</span>`);
+  if (authorCount !== 1) error(key, `Approved visible byline must appear exactly once (${authorCount})`);
+  for (const candidate of Object.values(authorsByTrack)) {
+    if (candidate.visible !== author.visible && html.includes(`<span class="journal-author">${candidate.visible}</span>`)) {
+      error(key, `Conflicting visible byline: ${candidate.visible}`);
+    }
+  }
+  const publicationTimes = [...html.matchAll(/<time\s+datetime="([^"]+)">Published ([^<]+)<\/time>/gi)];
+  if (publicationTimes.length !== 1) {
+    error(key, `Visible publication time must appear exactly once (${publicationTimes.length})`);
+  } else {
+    if (publicationTimes[0][1] !== article.published) error(key, "Visible publication datetime does not match manifest");
+    if (publicationTimes[0][2] !== readableDate(article.published)) error(key, "Visible publication date text does not match manifest");
+  }
+  const metaAuthor = html.match(/<meta\s+name="author"\s+content="([^"]+)"\s*\/?>/i)?.[1];
+  if (metaAuthor !== author.name) error(key, `Meta author mismatch: ${metaAuthor ?? "missing"}`);
+  const publishedMeta = html.match(/<meta\s+property="article:published_time"\s+content="([^"]+)"/i)?.[1];
+  const modifiedMeta = html.match(/<meta\s+property="article:modified_time"\s+content="([^"]+)"/i)?.[1];
+  if (publishedMeta !== article.published) error(key, "article:published_time does not match manifest");
+  if (modifiedMeta !== article.modified) error(key, "article:modified_time does not match manifest");
   const trackSignals = {
     "engine-room": /journal-track--engine-room|Engine Room/i,
     "editors-desk": /journal-track--editors-desk|Editor(?:&rsquo;|'|’)s Desk/i,
@@ -381,13 +450,43 @@ for (const article of articles.filter((item) => item.status === "published")) {
     if (!html.includes(`href="${source.url}"`)) error(key, `Declared source link missing: ${source.id}`);
   }
   const jsonLdBlocks = [...html.matchAll(/<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/gi)];
+  const parsedJsonLd = [];
   for (const [index, block] of jsonLdBlocks.entries()) {
     try {
-      JSON.parse(block[1]);
+      parsedJsonLd.push(JSON.parse(block[1]));
     } catch (cause) {
       error(key, `Invalid JSON-LD block ${index + 1}: ${cause.message}`);
     }
   }
+  const articleNodes = parsedJsonLd.flatMap((block) => collectTypedNodes(block, "Article"));
+  if (articleNodes.length !== 1) {
+    error(key, `Exactly one Article JSON-LD node is required (${articleNodes.length})`);
+  } else {
+    const node = articleNodes[0];
+    if (decode(node.headline ?? "") !== decode(article.title)) error(key, "Article JSON-LD headline mismatch");
+    if (node.datePublished !== article.published || node.dateModified !== article.modified) error(key, "Article JSON-LD dates do not match manifest");
+    if (node.author?.["@type"] !== author.type || node.author?.name !== author.name) error(key, "Article JSON-LD author does not match track policy");
+    if (node.publisher?.["@type"] !== "Organization" || node.publisher?.name !== "PasteLint") error(key, "Article JSON-LD publisher must be PasteLint");
+    if (node.mainEntityOfPage !== article.canonical) error(key, "Article JSON-LD mainEntityOfPage mismatch");
+  }
+  const shareButtons = [...html.matchAll(/<button\b[^>]*data-journal-share(?:\s|=)[^>]*>[\s\S]*?<\/button>/gi)];
+  if (shareButtons.length !== 1) {
+    error(key, `Share button must appear exactly once (${shareButtons.length})`);
+  } else {
+    const button = shareButtons[0][0];
+    if (!/\btype="button"/i.test(button)) error(key, "Share button must use type=button");
+    if (!/>Share article</i.test(button)) error(key, "Share button must have a visible Share article label");
+    const nativeEvent = `Journal Share | ${article.slug} | native`;
+    const copyEvent = `Journal Share | ${article.slug} | copy-link`;
+    if (countLiteral(button, `data-share-native-event="${nativeEvent}"`) !== 1) error(key, "Native Share event attribute is missing or duplicated");
+    if (countLiteral(button, `data-share-copy-event="${copyEvent}"`) !== 1) error(key, "Copy-link Share event attribute is missing or duplicated");
+  }
+  const statusCount = (html.match(/data-journal-share-status\b/gi) ?? []).length;
+  if (statusCount !== 1 || !/<p\b[^>]*data-journal-share-status[^>]*aria-live="polite"/i.test(html)) {
+    error(key, "Exactly one polite live Share status is required");
+  }
+  const helperCount = countLiteral(html, 'src="journal-share.js"');
+  if (helperCount !== 1) error(key, `Shared helper must be included exactly once (${helperCount})`);
   const metaDescription = html.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1];
   if (metaDescription && decode(metaDescription) !== decode(article.summary)) {
     warning(key, "Manifest summary differs from meta description");
@@ -406,6 +505,10 @@ for (const article of articles.filter((item) => item.status === "published")) {
   }
   const sitemapCount = countLiteral(sitemapXml, `<loc>${article.canonical}</loc>`);
   if (sitemapCount !== 1) error(key, `Sitemap canonical must appear exactly once (${sitemapCount})`);
+  const sitemapEntry = sitemapXml.match(
+    new RegExp(`<url>\\s*<loc>${escapeRegex(article.canonical)}</loc>\\s*<lastmod>([^<]+)</lastmod>`, "i")
+  );
+  if (sitemapEntry?.[1] !== article.modified) error(key, "Sitemap lastmod does not match manifest modified date");
 }
 
 for (const event of [

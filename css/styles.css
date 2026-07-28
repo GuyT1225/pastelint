@@ -4600,6 +4600,124 @@ body.task-landing-page > .hero > * {
 }
 
 /* -----------------------------
+   JOURNAL PUBLICATION IDENTITY
+----------------------------- */
+
+.journal-publication-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.55rem;
+  align-items: baseline;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.journal-author {
+  color: var(--text);
+  font-weight: 650;
+}
+
+.journal-publication-separator {
+  color: var(--faint);
+}
+
+.journal-share {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem 1.5rem;
+  align-items: center;
+  margin-block: clamp(2rem, 5vw, 3.5rem);
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.journal-share-copy > * {
+  margin: 0;
+}
+
+.journal-share-copy h2 {
+  margin-top: 0.2rem;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+}
+
+.journal-share-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--border-strong, var(--border));
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.journal-share-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.journal-share-button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.journal-share-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.journal-share-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.journal-share-status {
+  grid-column: 1 / -1;
+  min-height: 1.4em;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.journal-share.is-success .journal-share-status {
+  color: var(--success, var(--text));
+}
+
+.journal-share.is-error .journal-share-status {
+  color: var(--danger, var(--text));
+}
+
+@media (max-width: 520px) {
+  .journal-publication-separator {
+    display: none;
+  }
+
+  .journal-publication-meta > * {
+    flex-basis: 100%;
+  }
+
+  .journal-share {
+    grid-template-columns: 1fr;
+  }
+
+  .journal-share-button {
+    width: 100%;
+  }
+}
+
+/* -----------------------------
    REDUCED MOTION
 ----------------------------- */
 

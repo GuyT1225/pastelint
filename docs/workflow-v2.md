@@ -78,6 +78,10 @@ Keep at most one article drafting, one article briefed, and one captured next. E
 
 Low-volume analytics are not editorial approval gates. Event totals are not automatically unique-user conversion rates. Each article should have one primary analytics question.
 
+## Journal publication identity
+
+Journal publication identity, historical-date evidence, structured authorship, and article sharing follow the narrow contract in `docs/journal-publication-identity.md`.
+
 ## Three-department design governance
 
 - **Engine Room:** technical, operational, evidence-led.

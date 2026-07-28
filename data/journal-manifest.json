@@ -7,8 +7,8 @@
       "canonical": "https://guyt1225.github.io/pastelint/journal-cleanup-pass-voice-survives.html",
       "title": "The Cleanup Pass Is Where Voice Survives",
       "track": "sources-case-studies",
-      "published": null,
-      "modified": null,
+      "published": "2026-07-22",
+      "modified": "2026-07-28",
       "summary": "A Text Preparation Journal note on why AI-assisted revision should make edits visible, reviewable, and owned by the writer.",
       "status": "published",
       "primaryCta": {
@@ -33,6 +33,10 @@
         "related": [],
         "media": [
           "Journal Media | cleanup-pass-voice-survives | openai-academy-source"
+        ],
+        "share": [
+          "Journal Share | cleanup-pass-voice-survives | native",
+          "Journal Share | cleanup-pass-voice-survives | copy-link"
         ]
       },
       "engineCommits": [],
@@ -45,8 +49,8 @@
       "canonical": "https://guyt1225.github.io/pastelint/journal-content-pipeline-breaks-before-writing.html",
       "title": "The Content Pipeline Breaks Before the Writing Does",
       "track": "sources-case-studies",
-      "published": null,
-      "modified": null,
+      "published": "2026-07-21",
+      "modified": "2026-07-28",
       "summary": "A Text Preparation Journal note on how one r/micro_saas SEO post reveals the workflow problem behind content consistency, cleanup, and publishing readiness.",
       "status": "published",
       "primaryCta": {
@@ -71,6 +75,10 @@
         "related": [],
         "media": [
           "Journal Media | content-pipeline-breaks-before-writing | reddit-source"
+        ],
+        "share": [
+          "Journal Share | content-pipeline-breaks-before-writing | native",
+          "Journal Share | content-pipeline-breaks-before-writing | copy-link"
         ]
       },
       "engineCommits": [],
@@ -83,8 +91,8 @@
       "canonical": "https://guyt1225.github.io/pastelint/journal-tracing-with-the-model.html",
       "title": "Tracing Changes the Conditions Around the Output",
       "track": "sources-case-studies",
-      "published": null,
-      "modified": null,
+      "published": "2026-07-24",
+      "modified": "2026-07-28",
       "summary": "A Text Preparation Journal source note on completion-oriented prompting, collapse prevention, and why text preparation begins before the next response is generated.",
       "status": "published",
       "primaryCta": {
@@ -109,6 +117,10 @@
         "related": [],
         "media": [
           "Journal Media | tracing-with-the-model | substack-source"
+        ],
+        "share": [
+          "Journal Share | tracing-with-the-model | native",
+          "Journal Share | tracing-with-the-model | copy-link"
         ]
       },
       "engineCommits": [],
@@ -121,8 +133,8 @@
       "canonical": "https://guyt1225.github.io/pastelint/journal-editors-desk-filler-openings.html",
       "title": "Filler Openings Make AI Drafts Feel Unfinished",
       "track": "editors-desk",
-      "published": null,
-      "modified": null,
+      "published": "2026-07-24",
+      "modified": "2026-07-28",
       "summary": "An Editor's Desk note on why filler openings weaken generated copy and how cleaner revision starts by finding the real sentence underneath.",
       "status": "published",
       "primaryCta": {
@@ -138,7 +150,11 @@
           "Journal CTA | filler-openings | share-source-signal"
         ],
         "related": [],
-        "media": []
+        "media": [],
+        "share": [
+          "Journal Share | filler-openings | native",
+          "Journal Share | filler-openings | copy-link"
+        ]
       },
       "engineCommits": [],
       "ruleIds": [],
@@ -151,7 +167,7 @@
       "title": "Clearer Is Not More Certain",
       "track": "editors-desk",
       "published": "2026-07-27",
-      "modified": "2026-07-27",
+      "modified": "2026-07-28",
       "summary": "Removing a hedge can make a sentence cleaner while changing what it claims. Learn how to preserve uncertainty, judgment, and recommendation strength.",
       "status": "published",
       "primaryCta": {
@@ -173,7 +189,11 @@
           "Journal Related | clearer-is-not-more-certain | directness-without-false-certainty",
           "Journal Related | clearer-is-not-more-certain | filler-openings"
         ],
-        "media": []
+        "media": [],
+        "share": [
+          "Journal Share | clearer-is-not-more-certain | native",
+          "Journal Share | clearer-is-not-more-certain | copy-link"
+        ]
       },
       "engineCommits": [],
       "ruleIds": [],
@@ -189,7 +209,7 @@
       "title": "Directness Without False Certainty",
       "track": "engine-room",
       "published": "2026-07-27",
-      "modified": "2026-07-27",
+      "modified": "2026-07-28",
       "summary": "Why SecondDraft stopped treating qualified language as something to delete.",
       "status": "published",
       "primaryCta": {
@@ -213,7 +233,11 @@
           "Journal Related | directness-without-false-certainty | cleanup-pass-voice-survives",
           "Journal Related | directness-without-false-certainty | filler-openings"
         ],
-        "media": []
+        "media": [],
+        "share": [
+          "Journal Share | directness-without-false-certainty | native",
+          "Journal Share | directness-without-false-certainty | copy-link"
+        ]
       },
       "engineCommits": [
         "f3e859a",
@@ -235,8 +259,8 @@
       "canonical": "https://guyt1225.github.io/pastelint/journal-engine-ssml-catalog-chunks.html",
       "title": "Preserving Catalog Records Across SSML Chunks",
       "track": "engine-room",
-      "published": null,
-      "modified": null,
+      "published": "2026-07-24",
+      "modified": "2026-07-28",
       "summary": "An Engine Room note on improving SSML Builder chunking so catalog titles, DB numbers, authors, narrators, and descriptions stay together when possible.",
       "status": "published",
       "primaryCta": {
@@ -252,7 +276,11 @@
           "Journal CTA | ssml-catalog-chunks | share-source-signal"
         ],
         "related": [],
-        "media": []
+        "media": [],
+        "share": [
+          "Journal Share | ssml-catalog-chunks | native",
+          "Journal Share | ssml-catalog-chunks | copy-link"
+        ]
       },
       "engineCommits": [],
       "ruleIds": [],
@@ -265,7 +293,7 @@
       "title": "The New Bottleneck Isn’t Code—It’s Taste",
       "track": "sources-case-studies",
       "published": "2026-07-27",
-      "modified": "2026-07-27",
+      "modified": "2026-07-28",
       "summary": "A practitioner built a functional AI-assisted application, then confronted the harder problem: making it feel considered rather than generated. The case suggests that as construction becomes easier, hierarchy, restraint, and design judgment become more valuable.",
       "status": "published",
       "primaryCta": null,
@@ -288,6 +316,10 @@
         ],
         "media": [
           "Journal Media | the-new-bottleneck-is-taste | make-my-app-look-man-made"
+        ],
+        "share": [
+          "Journal Share | the-new-bottleneck-is-taste | native",
+          "Journal Share | the-new-bottleneck-is-taste | copy-link"
         ]
       },
       "engineCommits": [],
@@ -303,7 +335,7 @@
       "title": "The First Draft Finds the Story. Revision Makes It Work.",
       "track": "sources-case-studies",
       "published": "2026-07-27",
-      "modified": "2026-07-27",
+      "modified": "2026-07-28",
       "summary": "Three experienced screenwriters approach rewriting from complementary angles: discovering what the script became, repairing how it begins, and allowing the story to evolve when it meets production reality.",
       "status": "published",
       "primaryCta": null,
@@ -342,6 +374,10 @@
           "Journal Media | first-draft-finds-the-story | aaron-sorkin-second-drafts",
           "Journal Media | first-draft-finds-the-story | scott-frank-magic-of-rewrites",
           "Journal Media | first-draft-finds-the-story | ed-solomon-men-in-black-evolution"
+        ],
+        "share": [
+          "Journal Share | first-draft-finds-the-story | native",
+          "Journal Share | first-draft-finds-the-story | copy-link"
         ]
       },
       "engineCommits": [],
