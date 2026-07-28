@@ -259,8 +259,12 @@ for (const article of articles) {
       error(key, "primaryCta event must be declared in analytics.cta");
     }
   }
-  if (article?.status === "published" && !(article?.engineCommits?.length)) warning(key, "No engine commits declared");
-  if (article?.status === "published" && !(article?.ruleIds?.length)) warning(key, "No rule IDs declared");
+  if (article?.status === "published" && article?.track === "engine-room" && !(article?.engineCommits?.length)) {
+    warning(key, "No engine commits declared");
+  }
+  if (article?.status === "published" && article?.track === "engine-room" && !(article?.ruleIds?.length)) {
+    warning(key, "No rule IDs declared");
+  }
   if (article?.status === "published" && !(article?.knowledgeIds?.length)) warning(key, "No knowledge IDs declared");
   if (article?.status === "published" && article?.modified === null) warning(key, "Optional modified date is absent");
   if (article?.status === "published" && article?.published === null) warning(key, "Historical publication date is unknown");
@@ -388,7 +392,7 @@ for (const article of articles.filter((item) => item.status === "published")) {
   if (metaDescription && decode(metaDescription) !== decode(article.summary)) {
     warning(key, "Manifest summary differs from meta description");
   }
-  if (!/journal-track--(?:engine-room|editors-desk)/.test(html)) {
+  if (!/journal-track--(?:engine-room|editors-desk|sources-case-studies)/.test(html)) {
     warning(key, "Older article uses a legacy visual treatment");
   }
 

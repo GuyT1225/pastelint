@@ -133,10 +133,12 @@
       "inference": "This case suggests that implementation capacity may be becoming easier to acquire than design judgment, shifting attention toward coherent editorial and design decisions.",
       "claimBoundary": "One Reddit discussion does not establish an industry-wide trend or prove that taste is always the primary software bottleneck. Current AI defaults, templates, prompting, platform conventions, and product constraints may also explain the result. Stronger and broader evidence is required before Canon promotion.",
       "primaryDestination": "sources-case-studies",
-      "status": "Briefed",
+      "status": "Published",
       "relatedRuleIds": [],
       "relatedTests": [],
-      "relatedArticles": [],
+      "relatedArticles": [
+        "the-new-bottleneck-is-taste"
+      ],
       "secondaryReferences": [
         "docs/knowledge-captures/KN-0004-the-new-bottleneck-is-taste.md",
         "docs/editorial-momentum-audit.md"

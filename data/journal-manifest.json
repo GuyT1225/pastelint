@@ -264,12 +264,14 @@
       "canonical": "https://guyt1225.github.io/pastelint/journal-sources-case-studies-the-new-bottleneck-is-taste.html",
       "title": "The New Bottleneck Isn’t Code—It’s Taste",
       "track": "sources-case-studies",
-      "published": null,
-      "modified": null,
-      "summary": "A practitioner built a functional AI-assisted application, then confronted the harder problem: making it feel considered rather than generated. The case suggests that as construction gets easier, hierarchy, restraint, and design judgment become more valuable.",
-      "status": "draft",
+      "published": "2026-07-27",
+      "modified": "2026-07-27",
+      "summary": "A practitioner built a functional AI-assisted application, then confronted the harder problem: making it feel considered rather than generated. The case suggests that as construction becomes easier, hierarchy, restraint, and design judgment become more valuable.",
+      "status": "published",
       "primaryCta": null,
-      "related": [],
+      "related": [
+        "filler-openings"
+      ],
       "sources": [
         {
           "id": "make-my-app-look-man-made",
@@ -279,10 +281,14 @@
         }
       ],
       "analytics": {
-        "open": null,
+        "open": "Journal Open | the-new-bottleneck-is-taste",
         "cta": [],
-        "related": [],
-        "media": []
+        "related": [
+          "Journal Related | the-new-bottleneck-is-taste | filler-openings"
+        ],
+        "media": [
+          "Journal Media | the-new-bottleneck-is-taste | make-my-app-look-man-made"
+        ]
       },
       "engineCommits": [],
       "ruleIds": [],

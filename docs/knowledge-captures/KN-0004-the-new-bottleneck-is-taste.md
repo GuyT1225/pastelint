@@ -12,7 +12,7 @@
 - **Related rules:** `[]`
 - **Related tests:** `[]`
 - **Related publications:** `[]`
-- **Status:** `Briefed`
+- **Status:** `Published`
 - **Secondary references:** `docs/editorial-momentum-audit.md` for existing PasteLint hierarchy and primary-action observations.
 - **Canon promotion candidate:** `false`
 - **Handbook promotion candidate:** `false`
@@ -73,3 +73,13 @@
 The later publication should be documentary, source-led, and archival. It should use a prominent source dossier, source type and provenance, an evidence-quality marker, explicit observation-versus-inference treatment, a restrained confidence indicator, a claim-boundary block, and a source trail or evidence ledger. The editorial takeaway should remain visibly separate from direct evidence.
 
 It should share PasteLint’s shell, grid, themes, accessibility, analytics, and spacing rhythm without reusing the Engine Room preservation ledger or the Editor’s Desk worksheet as its governing layout.
+
+## Publication record
+
+- **Public article:** `journal-sources-case-studies-the-new-bottleneck-is-taste.html`
+- **Canonical:** https://guyt1225.github.io/pastelint/journal-sources-case-studies-the-new-bottleneck-is-taste.html
+- **Publication date:** July 27, 2026
+- **Related reading:** `filler-openings`
+- **Primary CTA:** None; the source and related editorial analysis are the natural next steps.
+- **Primary analytics question:** Does a source-led case about AI-assisted design judgment move readers to inspect the original evidence or continue into related editorial analysis?
+- **Final claim boundary:** The article retains the 3/5 evidence rating and presents the bottleneck shift as a possibility raised by one practitioner case, not as an established industry-wide law.

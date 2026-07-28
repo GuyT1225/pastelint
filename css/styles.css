@@ -1126,6 +1126,11 @@ html[data-theme="terminal"] body.journal-surface {
   --journal-track-rule: color-mix(in srgb, var(--journal-rule) 72%, var(--journal-track-accent) 28%);
 }
 
+.journal-track--sources-case-studies {
+  --journal-track-accent: color-mix(in srgb, var(--success) 68%, var(--text) 32%);
+  --journal-track-rule: color-mix(in srgb, var(--journal-rule) 72%, var(--journal-track-accent) 28%);
+}
+
 html[data-theme="terminal"] .journal-track--engine-room,
 html[data-theme="terminal"] .journal-department--engine-room,
 html[data-theme="terminal"] .journal-track-card--engine-room,
@@ -1639,6 +1644,215 @@ html[data-theme="light"] body.journal-surface .journal-note {
 
 .editors-desk-article .journal-article {
   --fieldnote-rule: var(--journal-track-rule);
+}
+
+.sources-case-studies-article .journal-article {
+  --fieldnote-rule: var(--journal-track-rule);
+}
+
+.sources-case-studies-article .journal-shell {
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+.sources-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.sources-hero-copy {
+  min-width: 0;
+  display: grid;
+  gap: clamp(0.85rem, 2vw, 1.2rem);
+}
+
+.sources-hero h1 {
+  max-width: 13ch;
+  margin: 0;
+  font-family: var(--journal-display);
+  font-size: clamp(3rem, 7.5vw, 6rem);
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 0.96;
+}
+
+.sources-case-studies-article .journal-track-lockup-name,
+.sources-case-studies-article .journal-signal,
+.sources-case-studies-article .journal-section-heading .eyebrow {
+  color: var(--journal-track-accent);
+}
+
+.source-dossier {
+  min-width: 0;
+  padding: clamp(1rem, 2.5vw, 1.4rem) 0 0 clamp(1rem, 2.5vw, 1.4rem);
+  border-top: 3px solid var(--journal-track-accent);
+  border-left: 1px solid var(--journal-track-rule);
+}
+
+.source-dossier-heading h2 {
+  margin: 0.3rem 0 1rem;
+  font-family: var(--journal-display);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.05;
+}
+
+.source-dossier-meta {
+  margin: 0;
+  border-bottom: 1px solid var(--journal-track-rule);
+}
+
+.source-dossier-meta div {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 0.75fr) minmax(0, 1.25fr);
+  gap: 0.8rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--journal-track-rule);
+}
+
+.source-dossier-meta dt,
+.source-trail-type,
+.evidence-boundary-label {
+  color: var(--journal-track-accent);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.source-dossier-meta dd {
+  margin: 0;
+  color: var(--journal-ink);
+  font-weight: 700;
+}
+
+.source-dossier-meta dd span {
+  display: block;
+}
+
+.evidence-score {
+  margin-bottom: 0.2rem;
+  color: var(--journal-track-accent);
+  font-family: var(--journal-display);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.source-dossier-note {
+  color: var(--journal-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.source-trail {
+  margin: 0;
+  padding-top: clamp(1.1rem, 3vw, 1.6rem);
+  border-top: 2px solid var(--journal-track-accent);
+}
+
+.source-trail figcaption h2 {
+  max-width: 24ch;
+  margin: 0.3rem 0 1.2rem;
+  font-family: var(--journal-display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.04;
+}
+
+.source-trail ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border-block: 1px solid var(--journal-track-rule);
+  list-style: none;
+}
+
+.source-trail li {
+  min-width: 0;
+  padding: clamp(1rem, 2.5vw, 1.35rem);
+  border-left: 1px solid var(--journal-track-rule);
+}
+
+.source-trail li:first-child {
+  border-left: 0;
+}
+
+.source-trail li::before {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: var(--journal-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  content: "0" counter(list-item);
+}
+
+.source-trail strong {
+  display: block;
+  margin: 0.35rem 0 0.5rem;
+  color: var(--journal-ink);
+  line-height: 1.2;
+}
+
+.source-trail p {
+  margin: 0;
+  color: var(--journal-muted);
+  line-height: 1.5;
+}
+
+.source-trail-inference {
+  border-top: 3px double var(--journal-track-accent);
+}
+
+.evidence-boundary {
+  padding-top: clamp(1.3rem, 3vw, 2rem);
+  border-top: 3px double var(--journal-track-accent);
+}
+
+.evidence-boundary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-block: 1px solid var(--journal-track-rule);
+}
+
+.evidence-boundary-grid section {
+  min-width: 0;
+  padding: clamp(1rem, 2.5vw, 1.4rem);
+  border-left: 1px solid var(--journal-track-rule);
+}
+
+.evidence-boundary-grid section:first-child {
+  border-left: 0;
+}
+
+.evidence-boundary-grid ul {
+  margin: 0.8rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.evidence-boundary-grid li {
+  margin-top: 0.55rem;
+  color: var(--journal-muted);
+  line-height: 1.5;
+}
+
+.claim-boundary {
+  width: min(100%, 54rem);
+  padding: clamp(1.2rem, 3vw, 1.8rem) 0 0 clamp(1rem, 2.5vw, 1.5rem);
+  border-top: 2px solid var(--journal-track-rule);
+  border-left: 3px double var(--journal-track-accent);
+}
+
+.claim-boundary h2 {
+  max-width: 22ch;
+  margin: 0.3rem 0 0.8rem;
+  font-family: var(--journal-display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.04;
+}
+
+.claim-boundary p {
+  color: var(--journal-muted);
 }
 
 .editors-desk-article .journal-shell {
@@ -3672,6 +3886,37 @@ body.task-landing-page > .hero > * {
   .editors-desk-article .fieldnote-hero h1 {
     max-width: 10ch;
     font-size: clamp(2.45rem, 14vw, 3.8rem);
+  }
+
+  .sources-hero,
+  .source-trail ol,
+  .evidence-boundary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sources-hero h1 {
+    max-width: 11ch;
+    font-size: clamp(2.4rem, 13vw, 3.7rem);
+  }
+
+  .source-dossier {
+    padding-left: 0.9rem;
+  }
+
+  .source-dossier-meta div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .source-trail li,
+  .evidence-boundary-grid section {
+    border-top: 1px solid var(--journal-track-rule);
+    border-left: 0;
+  }
+
+  .source-trail li:first-child,
+  .evidence-boundary-grid section:first-child {
+    border-top: 0;
   }
 
   .hedge-checklist ol {
