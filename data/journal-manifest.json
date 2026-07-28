@@ -302,14 +302,14 @@
       "canonical": "https://guyt1225.github.io/pastelint/journal-sources-case-studies-first-draft-finds-the-story.html",
       "title": "The First Draft Finds the Story. Revision Makes It Work.",
       "track": "sources-case-studies",
-      "published": null,
-      "modified": null,
+      "published": "2026-07-27",
+      "modified": "2026-07-27",
       "summary": "Three experienced screenwriters approach rewriting from complementary angles: discovering what the script became, repairing how it begins, and allowing the story to evolve when it meets production reality.",
-      "status": "draft",
+      "status": "published",
       "primaryCta": null,
       "related": [
-        "clearer-is-not-more-certain",
-        "directness-without-false-certainty"
+        "the-new-bottleneck-is-taste",
+        "clearer-is-not-more-certain"
       ],
       "sources": [
         {
@@ -332,10 +332,17 @@
         }
       ],
       "analytics": {
-        "open": null,
+        "open": "Journal Open | first-draft-finds-the-story",
         "cta": [],
-        "related": [],
-        "media": []
+        "related": [
+          "Journal Related | first-draft-finds-the-story | the-new-bottleneck-is-taste",
+          "Journal Related | first-draft-finds-the-story | clearer-is-not-more-certain"
+        ],
+        "media": [
+          "Journal Media | first-draft-finds-the-story | aaron-sorkin-second-drafts",
+          "Journal Media | first-draft-finds-the-story | scott-frank-magic-of-rewrites",
+          "Journal Media | first-draft-finds-the-story | ed-solomon-men-in-black-evolution"
+        ]
       },
       "engineCommits": [],
       "ruleIds": [],

@@ -8,7 +8,7 @@
 - **Central question:** What can a writer know at the end of a first draft that was impossible to know at the beginning?
 - **Reusable insight:** A first draft gives the writer new knowledge about the work's actual subject, structure, setup, emphasis, excess, collaborators, and constraints. Revision applies that later knowledge backward across the work.
 - **Primary destination:** `sources-case-studies`
-- **Status:** `Briefed`
+- **Status:** `Published`
 - **Working record label:** Sources & Case Studies · Media File 001. The repository has an established Field Note sequence through Field Note 004, but no Media File sequence; this first three-video intake uses a distinct working label without changing the public sequence.
 
 ## Evidence
@@ -140,9 +140,9 @@ The repository currently has no public image asset directory, image files, or es
 
 | Source | Discovered preview metadata | Intended local path | Dimensions / ratio | Display and text plan | Status and limitation |
 | --- | --- | --- | --- | --- | --- |
-| WIRED / Aaron Sorkin | Publisher page resolved and exposed title, release date, and transcript. Automated inspection did not expose a reliable `og:image`, `twitter:image`, or poster URL. | `assets/journal/revision-sources/aaron-sorkin-wired.jpg` | Pending manual review | Restrained landscape crop. Alt text should factually identify Aaron Sorkin in the WIRED screenwriting interview. Caption: WIRED, source title, 2020. | `pending-manual-review`; inspect page metadata/player manually and make an editorial provenance judgment before local acquisition. |
-| BFI / Scott Frank | Publisher page exposed `https://player.bfi.org.uk/sites/default/files/hero-images/scott-frank.jpg` through its page image link. The page identifies 2012 and 25 minutes. | `assets/journal/revision-sources/scott-frank-bfi.jpg` | Original dimensions and ratio not exposed in automated inspection | Preserve the official landscape composition where practical. Alt text should factually identify Scott Frank in the BFI screenwriters' lecture. Caption: BFI, source title, 2012. | `verified` as a publisher-hosted page image; dimensions, crop suitability, and local-use judgment remain pending manual review. |
-| PBS / Ed Solomon | Publisher page exposed official PBS image variants, including `https://image.pbs.org/video-assets/KLRU/on-story/131046/images/mezzanine_374.jpg?format=avif&resize=185x104` for the episode and `https://image.pbs.org/video-assets/KLRU/on-story/130524/images/mezzanine_613.jpg?format=avif&resize=316x177` for the promo. | `assets/journal/revision-sources/ed-solomon-pbs.jpg` | Exposed variants are approximately 16:9; original dimensions were not exposed | Prefer the official episode image after manual comparison. Alt text should factually identify Ed Solomon in the *On Story* conversation about *Men in Black*. Caption: PBS / Austin PBS — *On Story*, source title, 2014. | `verified` publisher preview candidates; select the representative asset, remove resize/query dependence through a reviewed local copy, and make a manual local-use judgment. |
+| WIRED / Aaron Sorkin | WIRED `og:image`, `twitter:image`, and VideoObject `thumbnailUrl` exposed `https://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_wired.png,fl_progressive,g_face,h_1080,q_80,w_1920/v1602682660/wired_tech-support-aaron-sorkin-answers-screenwriting-questions-from-twitter.jpg` (the metadata URL carried a nonessential `_a` query that was omitted from the download). | `assets/journal/revision-sources/aaron-sorkin-wired.jpg` | Original 1920×1080; final 960×540; 16:9 | Alt: “Aaron Sorkin in the WIRED screenwriting question-and-answer video.” Visible card metadata identifies WIRED, source title, 2020, and duration. | `verified`; official metadata for the exact video. Downloaded 2026-07-27. Downscaled and recompressed without cropping. Final size 87,672 bytes. SHA-256 `96AD03B71AB194457FCFC5C9A9B1FF1B931CC6C3C2F2C74F607273823BCCF4DF`. Publisher-controlled CDN delivery is documented; reuse rights were not determined. |
+| BFI / Scott Frank | BFI `image_src`, page hero `<img>`, and `og:image` associate `https://player.bfi.org.uk/sites/default/files/hero-images/scott-frank.jpg` with the exact lecture. | `assets/journal/revision-sources/scott-frank-bfi.jpg` | Original 1920×1080; final 960×540; 16:9 | Alt: “Scott Frank in the BFI screenwriters' lecture.” Visible card metadata identifies BFI, source title, 2012, and duration. | `verified`; official BFI hero for the exact lecture. Downloaded 2026-07-27. Downscaled and recompressed without cropping. Final size 54,831 bytes. SHA-256 `1E8366263CCAB556A985B209362B07235D9EF4F22740B7C4F9B3A41D36A04BA4`. Reuse rights were not determined. |
+| PBS / Ed Solomon | PBS VideoObject `thumbnailUrl`, episode image data, and `og:image` associate `https://image.pbs.org/video-assets/KLRU/on-story/131046/images/mezzanine_374.jpg` with the full episode. This was preferred over the separate promo preview. | `assets/journal/revision-sources/ed-solomon-pbs.jpg` | Original 1920×1080; final 960×540; 16:9 | Alt: “Title image for the PBS On Story interview about Men in Black with Ed Solomon.” Visible card metadata identifies PBS / Austin PBS, source title, 2014, and duration. | `verified`; official full-episode preview for the exact PBS page. Downloaded 2026-07-27. Downscaled and recompressed without cropping. Final size 40,744 bytes. SHA-256 `C0E1B182174A0B6B4511F5A77AAFA554EAA23DEAA7744BDD04812E2E4DF73040`. Reuse rights were not determined. |
 
 Thumbnail-source priority for later publication:
 
@@ -175,3 +175,44 @@ Implementation should use local paths, explicit width and height, a stable aspec
 Do thumbnail-backed video dossiers encourage readers to inspect more than one original source and continue into PasteLint's revision analysis?
 
 No performance interpretation occurs during intake.
+
+## Publication record
+
+- **Public filename:** `journal-sources-case-studies-first-draft-finds-the-story.html`
+- **Canonical:** https://guyt1225.github.io/pastelint/journal-sources-case-studies-first-draft-finds-the-story.html
+- **Publication date:** `2026-07-27`
+- **Final title:** *The First Draft Finds the Story. Revision Makes It Work.*
+- **Record label:** Sources & Case Studies · Media File 001
+- **Article word count:** 1,675 core article words, excluding navigation, source-card metadata, captions, and related-reading labels; 1,838 words across the complete article element
+- **Final related reading:** `the-new-bottleneck-is-taste`, `clearer-is-not-more-certain`
+- **Primary CTA:** None
+- **Final evidence rating:** 4 / 5 — Strong triangulated practitioner evidence
+- **Final claim boundary:** The three sources remain practitioner testimony rather than a formal consensus. They do not establish one universal rewrite method, automatic benefit from production disruption, general transfer to every writing form, or software authority over a work's meaning.
+- **Final source roles:** Sorkin — discovery after completion; Frank — opening, structure, and words; Solomon — evolution through production.
+- **Article structure:** Opening question; primary source cluster; new knowledge after completion; earlier setup; diagnosis; non-cosmetic revision; production; source comparison; PasteLint synthesis; evidence boundary; editorial takeaway; future evidence; related reading.
+- **Synthesis figure:** Five-step responsive sequence—First draft → Discover → Repair → Test → Align—prominently labeled as PasteLint's synthesis rather than a speaker-supplied theory.
+- **Public thumbnail paths:** `assets/journal/revision-sources/aaron-sorkin-wired.jpg`, `assets/journal/revision-sources/scott-frank-bfi.jpg`, `assets/journal/revision-sources/ed-solomon-pbs.jpg`
+- **Image processing:** All three official 1920×1080 JPEGs were downscaled to 960×540 and recompressed at bounded JPEG quality. No crop, enlargement, overlay, filter, branding, or content alteration was applied.
+- **Accessibility:** Explicit 960×540 attributes, stable 16:9 frames, factual nonempty alt text, visible publisher/title metadata, one keyboard-accessible action per source, visible focus outline, no nested links, no image-only meaning, and no motion.
+- **Light QA:** Passed locally at desktop and mobile widths.
+- **Dark QA:** Passed locally at desktop and mobile widths.
+- **Terminal QA:** Passed locally at desktop and mobile widths; source images retain their original color.
+- **Desktop QA:** Passed at 1440×1000 and 1280×800. Three equal source columns remain readable, images retain 16:9 composition, and the title uses a deliberate three-line lockup.
+- **Mobile QA:** Passed at 390×844 and 320×700. Cards stack in source order, the title remains balanced, the synthesis becomes a vertical sequence, tap targets remain clear, and no horizontal overflow occurs.
+- **Known limitations:** Local browser QA cannot establish publisher reuse rights, production cache behavior, deployed analytics delivery, search indexing, or whether source metadata will remain stable. WIRED uses a publisher-selected frame containing social-post text; PBS uses a title card rather than a portrait.
+- **Primary analytics question:** Do thumbnail-backed video dossiers encourage readers to inspect more than one original source and continue into PasteLint's revision analysis?
+- **14-day review date:** `2026-08-10`
+- **28-day review date:** `2026-08-24`
+
+### Final event inventory
+
+- `Journal Open | first-draft-finds-the-story`
+- `Journal Media | first-draft-finds-the-story | aaron-sorkin-second-drafts`
+- `Journal Media | first-draft-finds-the-story | scott-frank-magic-of-rewrites`
+- `Journal Media | first-draft-finds-the-story | ed-solomon-men-in-black-evolution`
+- `Journal Related | first-draft-finds-the-story | the-new-bottleneck-is-taste`
+- `Journal Related | first-draft-finds-the-story | clearer-is-not-more-certain`
+
+## Production smoke — pending
+
+Deployment, GitHub Pages asset delivery, production analytics delivery, clean-canonical inspection, Search Console live testing, indexing request, and production smoke documentation remain pending until after review, commit, and push.

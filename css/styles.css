@@ -1677,6 +1677,19 @@ html[data-theme="light"] body.journal-surface .journal-note {
   line-height: 0.96;
 }
 
+.media-file-article .sources-hero h1 {
+  max-width: none;
+  font-size: clamp(3rem, 5vw, 4.5rem);
+}
+
+.media-file-article .sources-hero {
+  grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 0.7fr);
+}
+
+.media-file-article .sources-hero h1 span {
+  display: block;
+}
+
 .sources-case-studies-article .journal-track-lockup-name,
 .sources-case-studies-article .journal-signal,
 .sources-case-studies-article .journal-section-heading .eyebrow {
@@ -1743,6 +1756,206 @@ html[data-theme="light"] body.journal-surface .journal-note {
   color: var(--journal-muted);
   font-size: 0.88rem;
   line-height: 1.55;
+}
+
+.journal-media-section {
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 2rem);
+  padding-top: clamp(1.2rem, 3vw, 1.8rem);
+  border-top: 3px double var(--journal-track-accent);
+}
+
+.journal-media-section > .journal-section-heading {
+  width: min(100%, 48rem);
+}
+
+.journal-media-cluster {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+}
+
+.journal-media-card {
+  min-width: 0;
+  border: 1px solid var(--journal-track-rule);
+  background: var(--journal-paper);
+}
+
+.journal-media-card-action {
+  display: grid;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.journal-media-card-action:hover {
+  color: inherit;
+}
+
+.journal-media-card-action:focus-visible {
+  outline: 3px solid var(--journal-track-accent);
+  outline-offset: 4px;
+}
+
+.journal-media-card-image {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-bottom: 1px solid var(--journal-track-rule);
+  background: var(--journal-rule);
+}
+
+.journal-media-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.journal-media-card-body {
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr auto;
+  gap: 0.65rem;
+  min-width: 0;
+  padding: clamp(1rem, 2vw, 1.25rem);
+}
+
+.journal-media-card-number,
+.journal-media-card-role,
+.journal-media-card-meta {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.journal-media-card-number {
+  color: var(--journal-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.journal-media-card-role {
+  color: var(--journal-track-accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  line-height: 1.35;
+}
+
+.journal-media-card-body > strong {
+  color: var(--journal-ink);
+  font-family: var(--journal-display);
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  line-height: 1.05;
+}
+
+.journal-media-card-title {
+  color: var(--journal-ink);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.journal-media-card-meta {
+  color: var(--journal-muted);
+  font-size: 0.67rem;
+  letter-spacing: 0.035em;
+  line-height: 1.55;
+}
+
+.journal-media-card-watch {
+  align-self: end;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--journal-track-rule);
+  color: var(--journal-track-accent);
+  font-weight: 800;
+}
+
+.journal-media-card-action:hover .journal-media-card-watch {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.source-comparison-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+.revision-alignment {
+  margin: 0;
+  padding-top: clamp(1.2rem, 3vw, 1.8rem);
+  border-top: 3px double var(--journal-track-accent);
+}
+
+.revision-alignment figcaption {
+  width: min(100%, 44rem);
+}
+
+.revision-alignment figcaption h2 {
+  margin: 0.3rem 0 0.65rem;
+  font-family: var(--journal-display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.04;
+}
+
+.revision-alignment figcaption p:last-child {
+  color: var(--journal-muted);
+}
+
+.revision-alignment ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 1.2rem 0 0;
+  padding: 0;
+  border-block: 1px solid var(--journal-track-rule);
+  list-style: none;
+}
+
+.revision-alignment li {
+  position: relative;
+  min-width: 0;
+  padding: clamp(1rem, 2vw, 1.25rem);
+  border-left: 1px solid var(--journal-track-rule);
+}
+
+.revision-alignment li:first-child {
+  border-left: 0;
+}
+
+.revision-alignment li:not(:last-child)::after {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: -0.55rem;
+  display: grid;
+  width: 1.1rem;
+  height: 1.1rem;
+  place-items: center;
+  border: 1px solid var(--journal-track-rule);
+  border-radius: 50%;
+  background: var(--journal-paper);
+  color: var(--journal-track-accent);
+  font-size: 0.75rem;
+  content: "→";
+  transform: translateY(-50%);
+}
+
+.revision-alignment li > span {
+  color: var(--journal-track-accent);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.revision-alignment li > strong {
+  display: block;
+  margin: 0.55rem 0;
+  color: var(--journal-ink);
+}
+
+.revision-alignment li > p {
+  margin: 0;
+  color: var(--journal-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .source-trail {
@@ -3889,14 +4102,26 @@ body.task-landing-page > .hero > * {
   }
 
   .sources-hero,
+  .journal-media-cluster,
   .source-trail ol,
-  .evidence-boundary-grid {
+  .evidence-boundary-grid,
+  .source-comparison-list,
+  .revision-alignment ol {
     grid-template-columns: 1fr;
   }
 
   .sources-hero h1 {
     max-width: 11ch;
     font-size: clamp(2.4rem, 13vw, 3.7rem);
+  }
+
+  .media-file-article .sources-hero h1 {
+    max-width: 16ch;
+    font-size: clamp(1.8rem, 9vw, 2.2rem);
+  }
+
+  .media-file-article .sources-hero {
+    grid-template-columns: 1fr;
   }
 
   .source-dossier {
@@ -3909,14 +4134,23 @@ body.task-landing-page > .hero > * {
   }
 
   .source-trail li,
-  .evidence-boundary-grid section {
+  .evidence-boundary-grid section,
+  .revision-alignment li {
     border-top: 1px solid var(--journal-track-rule);
     border-left: 0;
   }
 
   .source-trail li:first-child,
-  .evidence-boundary-grid section:first-child {
+  .evidence-boundary-grid section:first-child,
+  .revision-alignment li:first-child {
     border-top: 0;
+  }
+
+  .revision-alignment li:not(:last-child)::after {
+    top: auto;
+    right: 50%;
+    bottom: -0.55rem;
+    transform: translateX(50%) rotate(90deg);
   }
 
   .hedge-checklist ol {

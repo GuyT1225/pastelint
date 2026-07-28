@@ -166,10 +166,11 @@
       "inference": "Revision is retrospective alignment: a writer uses knowledge unavailable at the beginning to reconsider earlier choices, while collaboration and constraint can expose assumptions drafting alone did not test.",
       "claimBoundary": "The three practitioners do not establish one universal rewrite method or formal consensus. Their testimony does not prove general effectiveness, require structural reconstruction, or authorize a tool to discover a work's true meaning or replace writer judgment.",
       "primaryDestination": "sources-case-studies",
-      "status": "Briefed",
+      "status": "Published",
       "relatedRuleIds": [],
       "relatedTests": [],
       "relatedArticles": [
+        "first-draft-finds-the-story",
         "clearer-is-not-more-certain",
         "directness-without-false-certainty"
       ],
