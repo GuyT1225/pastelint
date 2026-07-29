@@ -14,6 +14,18 @@ Knowledge lane:
 
 Verified engine work ships when it is ready. Editorial publication may follow later or not at all.
 
+## Editorial Components evidence layer
+
+Workflow v2 remains a two-lane system. Editorial Components add a cross-cutting evidence layer between verified technical proof and optional publication:
+
+> Verified behavior → canonical demonstration → verification state → reusable editorial asset
+
+Engine work still ships independently when it is ready. A demonstration is created only from verified behavior and does not become a prerequisite for technical shipment. Not every engine cycle requires a demonstration, not every demonstration requires an article, and not every article requires a demonstration.
+
+A publication consumes verified behavior through a canonical demonstration when interaction or structured comparison materially improves the explanation. Demonstration capture and publication integration may remain separate commits. The same canonical demonstration may support multiple publication surfaces and may later support an independent Editorial Constitution or Second Draft Handbook promotion decision.
+
+Editorial Components do not create a third publication lane or a new Journal track. They are cross-cutting evidence infrastructure governed by the trust, verification, accessibility, static-fallback, and privacy contract in `docs/editorial-components-v1.md`.
+
 ## Cycle scope fields
 
 Every significant cycle begins with:
