@@ -2054,9 +2054,45 @@ function testEditorialComponentsFoundation() {
   assert.ok(runtimeSource.includes("`${step.label} — ${state.index + 1} of ${state.steps.length}`"));
   assert.ok(runtimeSource.includes('"Comparison displayed side by side."'));
   assert.ok(runtimeSource.includes('"Comparison displayed in a stacked layout."'));
+  assert.ok(runtimeSource.includes("const replayIntervalMs = 2000;"));
+  assert.ok(runtimeSource.includes("}, replayIntervalMs);"));
+  assert.ok(!runtimeSource.includes("}, 1100);"));
+  assert.ok(
+    runtimeSource.indexOf("if (state.index === state.steps.length - 1) stop();") <
+      runtimeSource.indexOf("updateDisabled();", runtimeSource.indexOf("function renderStep"))
+  );
+  assert.ok(runtimeSource.includes('renderStep(state.index - 1);'));
+  assert.ok(runtimeSource.includes('renderStep(state.index + 1);'));
+  assert.ok(runtimeSource.includes('renderStep(0, "Showing the original source.");'));
+  assert.ok(
+    runtimeSource.includes(
+      'renderStep(state.steps.length - 1, "Showing the current verified output.");'
+    )
+  );
   assert.ok(!runtimeSource.includes('"Play comparison", "play"'));
   assert.ok(!runtimeSource.includes('"Restart", "restart"'));
   assert.ok(!runtimeSource.includes('"Show current output", "final"'));
+  const componentCss = fs.readFileSync(
+    path.join(ROOT, "css", "editorial-components.css"),
+    "utf8"
+  );
+  assert.ok(
+    componentCss.includes(
+      'html[data-theme="terminal"] .editorial-demo .editorial-demo__control--secondary'
+    )
+  );
+  assert.ok(
+    componentCss.includes(
+      'html[data-theme="terminal"] .editorial-demo .editorial-demo__control--tertiary'
+    )
+  );
+  assert.ok(
+    componentCss.includes(
+      'html[data-theme="terminal"] .editorial-demo .editorial-demo__control:disabled'
+    )
+  );
+  assert.ok(componentCss.includes("@media (prefers-reduced-motion: reduce)"));
+  assert.ok(componentCss.includes("transition: none !important;"));
   const runtimeContext = createContext();
   let registryFetches = 0;
   runtimeContext.window.fetch = () => {

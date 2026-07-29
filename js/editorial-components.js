@@ -3,6 +3,7 @@
 
   const registryRequests = new Map();
   const supportedModes = new Set(["compare", "replay"]);
+  const replayIntervalMs = 2000;
   const fixedMessages = {
     data: "Demonstration data unavailable",
     record: "Demonstration record unavailable",
@@ -206,9 +207,9 @@
       showPanel("current", step.versionId === "current");
       progress.textContent =
         `${step.label} — ${state.index + 1} of ${state.steps.length}`;
+      if (state.index === state.steps.length - 1) stop();
       updateDisabled();
       setStatus(element, message || stateMessage);
-      if (state.index === state.steps.length - 1) stop();
     }
 
     function act(action) {
@@ -219,7 +220,7 @@
         actionButtons.pause.disabled = false;
         state.timer = root.setInterval(() => {
           renderStep(state.index + 1);
-        }, 1100);
+        }, replayIntervalMs);
       } else if (action === "pause") {
         stop();
         updateDisabled();
