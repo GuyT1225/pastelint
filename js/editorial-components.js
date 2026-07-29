@@ -131,17 +131,28 @@
     progress.className = "editorial-demo__progress";
     progress.setAttribute("aria-live", "polite");
     const actions = [
-      ["Play comparison", "play", "replay-start", "primary"],
+      ["Step through the repair", "play", "replay-start", "primary", "Playback"],
+      ["Pause", "pause", "", "tertiary", "Playback"],
       ["Previous", "previous", "replay-step", "secondary"],
       ["Next", "next", "replay-step", "secondary"],
-      ["Restart", "restart", "reset", "secondary"],
-      ["Pause", "pause", "", "tertiary"],
-      ["Show source", "source", "replay-step", "tertiary"],
-      ["Show current output", "final", "replay-complete", "tertiary"],
-      ["Use side-by-side layout", "compare", "compare-toggle", "tertiary"]
+      ["Start over", "restart", "reset", "secondary"],
+      ["Show source", "source", "replay-step", "tertiary", "View"],
+      ["Show repaired result", "final", "replay-complete", "tertiary", "View"],
+      ["Compare side by side", "compare", "compare-toggle", "tertiary", "View"]
     ];
     const actionButtons = {};
-    actions.forEach(([label, action, analytics, tier]) => {
+    const controlGroups = new Map();
+    actions.forEach(([label, action, analytics, tier, declaredGroup]) => {
+      const groupName =
+        declaredGroup || (tier === "secondary" ? "Navigation" : "Playback");
+      if (!controlGroups.has(groupName)) {
+        const group = root.document.createElement("div");
+        group.className = "editorial-demo__control-group";
+        group.setAttribute("role", "group");
+        group.setAttribute("aria-label", groupName);
+        controlGroups.set(groupName, group);
+        controls.append(group);
+      }
       const control = makeButton(
         label,
         action,
@@ -150,7 +161,7 @@
       );
       if (action === "compare") control.setAttribute("aria-pressed", "false");
       actionButtons[action] = control;
-      controls.append(control);
+      controlGroups.get(groupName).append(control);
     });
 
     function stop() {
@@ -178,20 +189,25 @@
       showPanel("current", true);
       progress.textContent = "Comparing previous engine behavior with current verified behavior.";
       updateDisabled();
-      setStatus(element, message || progress.textContent);
+      setStatus(element, message || "Comparison displayed in a stacked layout.");
     }
 
     function renderStep(index, message) {
       state.mode = "replay";
       state.index = Math.max(0, Math.min(index, state.steps.length - 1));
       const step = state.steps[state.index];
+      const stateMessage = step.id === "source"
+        ? "Showing the original source."
+        : step.versionId === "previous"
+          ? "Showing the previous engine output."
+          : "Showing the current verified output.";
       showPanel("source", step.id === "source");
       showPanel("previous", step.versionId === "previous");
       showPanel("current", step.versionId === "current");
       progress.textContent =
-        `${step.label}. Step ${state.index + 1} of ${state.steps.length}.`;
+        `${step.label} — ${state.index + 1} of ${state.steps.length}`;
       updateDisabled();
-      setStatus(element, message || progress.textContent);
+      setStatus(element, message || stateMessage);
       if (state.index === state.steps.length - 1) stop();
     }
 
@@ -199,7 +215,7 @@
       if (action === "play") {
         stop();
         state.playing = true;
-        renderStep(0, "Original source. Replay started.");
+        renderStep(0, "Showing the original source.");
         actionButtons.pause.disabled = false;
         state.timer = root.setInterval(() => {
           renderStep(state.index + 1);
@@ -210,9 +226,7 @@
         setStatus(element, `Replay paused at ${state.steps[state.index].label}.`);
       } else if (action === "restart" || action === "source") {
         stop();
-        renderStep(0, action === "restart"
-          ? "Replay restarted at Original source."
-          : "Original source shown.");
+        renderStep(0, "Showing the original source.");
       } else if (action === "previous") {
         stop();
         renderStep(state.index - 1);
@@ -221,7 +235,7 @@
         renderStep(state.index + 1);
       } else if (action === "final") {
         stop();
-        renderStep(state.steps.length - 1, "Current verified behavior shown.");
+        renderStep(state.steps.length - 1, "Showing the current verified output.");
       }
     }
 
@@ -235,18 +249,18 @@
         actionButtons.compare.getAttribute("aria-pressed") !== "true";
       actionButtons.compare.setAttribute("aria-pressed", String(active));
       actionButtons.compare.textContent = active
-        ? "Use stacked layout"
-        : "Use side-by-side layout";
+        ? "Stack comparison"
+        : "Compare side by side";
       element.classList.toggle("editorial-demo--side-by-side", active);
       renderCompare(active
-        ? "Side-by-side previous and current comparison."
-        : "Stacked previous and current comparison.");
+        ? "Comparison displayed side by side."
+        : "Comparison displayed in a stacked layout.");
     });
 
     element.append(controls, progress);
     renderMetadata(element, record);
     element.dataset.demoEnhanced = "true";
-    renderCompare("Recorded Replay ready. Previous and current behavior shown.");
+    renderCompare("Comparison displayed in a stacked layout.");
     return { state, act, renderCompare, renderStep };
   }
 

@@ -2048,6 +2048,15 @@ function testEditorialComponentsFoundation() {
   assert.ok(!runtimeSource.includes("reviseSecondDraft"));
   assert.ok(!runtimeSource.includes(demo.fixture.output));
   assert.ok(!/replace\s*\([^)]*(?:hoping|Calendar feeds|Thanks,)/.test(runtimeSource));
+  assert.ok(runtimeSource.includes('"Step through the repair", "play"'));
+  assert.ok(runtimeSource.includes('"Start over", "restart"'));
+  assert.ok(runtimeSource.includes('"Show repaired result", "final"'));
+  assert.ok(runtimeSource.includes("`${step.label} — ${state.index + 1} of ${state.steps.length}`"));
+  assert.ok(runtimeSource.includes('"Comparison displayed side by side."'));
+  assert.ok(runtimeSource.includes('"Comparison displayed in a stacked layout."'));
+  assert.ok(!runtimeSource.includes('"Play comparison", "play"'));
+  assert.ok(!runtimeSource.includes('"Restart", "restart"'));
+  assert.ok(!runtimeSource.includes('"Show current output", "final"'));
   const runtimeContext = createContext();
   let registryFetches = 0;
   runtimeContext.window.fetch = () => {

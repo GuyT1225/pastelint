@@ -59,7 +59,14 @@
 .editorial-demo__controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  align-items: flex-start;
+  gap: 0.85rem 1.1rem;
+}
+
+.editorial-demo__control-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
 }
 
 .editorial-demo__control {
@@ -70,6 +77,12 @@
   border: 1px solid var(--editor-border);
   border-radius: var(--radius, 4px);
   cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 1.35;
+  text-transform: none;
 }
 
 .editorial-demo__control:hover {
@@ -91,16 +104,14 @@
   color: var(--button-text, #fff);
   background: var(--accent);
   border-color: var(--accent);
-  font-weight: 800;
-}
-
-.editorial-demo__control--secondary {
-  font-weight: 700;
 }
 
 .editorial-demo__control--tertiary {
   color: var(--muted);
-  border-style: dashed;
+  border-color: transparent;
+  text-decoration: underline;
+  text-decoration-color: var(--editor-border);
+  text-underline-offset: 0.2em;
 }
 
 .editorial-demo__control:disabled {
@@ -130,7 +141,12 @@
 .editorial-demo__metadata summary {
   min-height: 44px;
   cursor: pointer;
-  font-weight: 700;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 1.35;
+  text-transform: none;
 }
 
 .editorial-demo__metadata dl {
@@ -178,6 +194,10 @@
 
   .editorial-demo__control {
     flex: 1 1 9rem;
+  }
+
+  .editorial-demo__control-group {
+    flex: 1 1 100%;
   }
 
   .editorial-demo__metadata dl {

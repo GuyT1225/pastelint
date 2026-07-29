@@ -117,7 +117,7 @@ Classification describes provenance. Mode describes presentation.
 
 ### Replay
 
-Replay supports Play, Pause, Restart, Step forward, Step backward, complete source, complete output, metadata disclosure, reduced-motion operation, and a complete text alternative. No required information may depend on timing.
+Replay supports Step through the repair, Pause, Start over, forward and backward navigation, complete source, complete repaired output, metadata disclosure, reduced-motion operation, and a complete text alternative. No required information may depend on timing.
 
 ### Compare
 
@@ -552,7 +552,7 @@ The validator is dependency-free, read-only Node ESM. It validates schema, ident
 
 The runtime progressively enhances and reuses the three complete fallback panels rather than appending another output panel. Successful enhancement shows only the evidence needed for the current Compare or Replay state; hidden fallback panels use native `hidden` and `aria-hidden`, preventing redundant visual and screen-reader evidence. Failure and no-JavaScript states retain all three readable panels. The runtime caches registry requests, supports multiple roots, and contains no engine execution or transformation logic.
 
-Compare defaults to Previous engine behavior versus Current verified behavior. Replay supports Play comparison, Pause, Restart, Previous, Next, Show source, Show current output, progress, polite status, and metadata disclosure. Play visibly traverses all three states and stops at current behavior. Native disabled states prevent Previous on the first step, Next on the last step, and Pause while idle. The QA fixture exposes all controls; a future article may use a quieter hierarchy without changing evidence. The explicit Show current output control carries the completion event because no supported programmatic StatsKit event API exists locally; starting Play is not counted as completion.
+Compare defaults to Previous engine behavior versus Current verified behavior. Replay supports Step through the repair, Pause, Start over, Previous, Next, Show source, Show repaired result, descriptive progress, polite status, and metadata disclosure. Step through the repair visibly traverses all three states and stops at current behavior. Native disabled states prevent Previous on the first step, Next on the last step, and Pause while idle. Controls use the publication sans-serif face and are grouped into primary playback, secondary navigation, and quieter view actions. The QA fixture exposes all controls; a future article may lead with Compare and one primary Step through the repair action while keeping navigation and verification details quieter, without requiring a variant system or changing evidence. The explicit Show repaired result control carries the completion event because no supported programmatic StatsKit event API exists locally; starting playback is not counted as completion.
 
 Browser QA passed at desktop, 375 × 812, and 320 × 812. Light, Dark, and Terminal remained legible; keyboard controls, semantic metadata, polite status, reduced motion, minimum touch targets, wrapping, and no horizontal overflow passed. No-JavaScript, missing-registry, and missing-record states retained complete evidence without fabricated output. The page loaded no Second Draft controller and produced no console errors or failed requests.
 
