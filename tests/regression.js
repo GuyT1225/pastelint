@@ -2314,6 +2314,38 @@ function testLineBreaksArticlePublication() {
   assert.ok(!html.includes("reviseSecondDraft"));
   assert.ok(!html.includes("function revise"));
   assert.deepStrictEqual(demo.comparison.defaultVersionIds, ["previous", "current"]);
+  const articleDemoPrimaryRule = cssRuleBody(
+    ".line-breaks-article .editorial-demo--article .editorial-demo__control--primary"
+  );
+  const terminalDemoPrimaryRule = cssRuleBody(
+    'html[data-theme="terminal"] .line-breaks-article .editorial-demo--article .editorial-demo__control--primary'
+  );
+  assert.ok(articleDemoPrimaryRule.includes("min-height: 44px;"));
+  assert.ok(articleDemoPrimaryRule.includes("background: transparent;"));
+  assert.ok(
+    articleDemoPrimaryRule.includes(
+      "border: 2px solid var(--journal-track-accent);"
+    )
+  );
+  assert.ok(articleDemoPrimaryRule.includes("font-weight: 750;"));
+  assert.ok(articleDemoPrimaryRule.includes("box-shadow: none;"));
+  assert.ok(!articleDemoPrimaryRule.includes("background: var(--accent);"));
+  assert.ok(
+    styles.includes(
+      ".line-breaks-article .editorial-demo--article .editorial-demo__control--primary:focus-visible {"
+    )
+  );
+  assert.ok(terminalDemoPrimaryRule.includes("color: var(--accent);"));
+  assert.ok(terminalDemoPrimaryRule.includes("background: transparent;"));
+  assert.ok(terminalDemoPrimaryRule.includes("box-shadow: none;"));
+  assert.ok(!terminalDemoPrimaryRule.includes("var(--warning)"));
+  assert.ok(!terminalDemoPrimaryRule.includes("var(--journal-track-accent)"));
+  assert.ok(
+    styles.includes(
+      'html[data-theme="terminal"] .line-breaks-article .editorial-demo--article .editorial-demo__control--primary:focus-visible {'
+    )
+  );
+  assert.ok(styles.includes("outline-color: var(--accent);"));
 
   const explanationIndex = html.indexOf('data-demo-explanation="DEMO-001"');
   const demoIndex = html.indexOf('data-demo-id="DEMO-001"');
