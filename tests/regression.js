@@ -4,6 +4,8 @@ const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
+const os = require("os");
+const { spawnSync } = require("child_process");
 
 const ROOT = path.resolve(__dirname, "..");
 
@@ -1961,6 +1963,238 @@ function testSecondDraftStructurePreservation() {
   });
 }
 
+function testEditorialComponentsFoundation() {
+  const registry = JSON.parse(
+    fs.readFileSync(
+      path.join(ROOT, "data", "editorial-demonstrations.json"),
+      "utf8"
+    )
+  );
+  assert.strictEqual(registry.schemaVersion, 1);
+  assert.strictEqual(registry.demonstrations.length, 1);
+  const demo = registry.demonstrations[0];
+  assert.strictEqual(demo.id, "DEMO-001");
+  assert.strictEqual(demo.classification, "recorded-replay");
+  assert.deepStrictEqual(Array.from(demo.componentModes), ["compare", "replay"]);
+  assert.deepStrictEqual(demo.engine.options, {
+    tone: "natural",
+    length: "same",
+    reflow: false
+  });
+  assert.strictEqual(demo.engine.adapter, null);
+  assert.deepStrictEqual(
+    demo.comparison.versions.map((version) => version.engineCommit),
+    ["6774224", "2d9454d"]
+  );
+  assert.deepStrictEqual(
+    demo.comparison.versions.map((version) => version.label),
+    ["Previous engine behavior", "Current verified behavior"]
+  );
+  assert.strictEqual(demo.steps.length, 3);
+  assert.deepStrictEqual(demo.rules, ["SD-STRUCTURE-001"]);
+  assert.deepStrictEqual(demo.regressions, ["SecondDraft structure preservation"]);
+  assert.deepStrictEqual(demo.destinations, []);
+
+  const context = loadSecondDraftContext();
+  const first = context.reviseSecondDraft(
+    demo.fixture.input,
+    demo.engine.options
+  );
+  const second = context.reviseSecondDraft(
+    demo.fixture.input,
+    demo.engine.options
+  );
+  assert.strictEqual(first.text, demo.fixture.output);
+  assert.strictEqual(second.text, demo.fixture.output);
+  assert.strictEqual(first.text.split("\n").length, 5);
+  assert.ok(first.text.includes("Happy to schedule a quick call if that would be easier."));
+  assert.ok(first.text.includes("Thanks,\nGuy"));
+
+  const historicalSource = spawnSync(
+    "git",
+    ["show", "6774224:js/second-draft.js"],
+    { cwd: ROOT, encoding: "utf8" }
+  );
+  assert.strictEqual(historicalSource.status, 0, historicalSource.stderr);
+  const historicalContext = createContext();
+  vm.runInContext(historicalSource.stdout, historicalContext, {
+    filename: "6774224:js/second-draft.js"
+  });
+  const historicalFirst = historicalContext.reviseSecondDraft(
+    demo.fixture.input,
+    demo.engine.options
+  ).text;
+  const historicalSecond = historicalContext.reviseSecondDraft(
+    demo.fixture.input,
+    demo.engine.options
+  ).text;
+  assert.strictEqual(historicalFirst, historicalSecond);
+  assert.strictEqual(
+    historicalFirst,
+    demo.comparison.versions[0].output
+  );
+  assert.notStrictEqual(historicalFirst, demo.fixture.output);
+  assert.strictEqual(historicalFirst.split("\n").length, 1);
+  assert.strictEqual(demo.fixture.output.split("\n").length, 5);
+  assert.deepStrictEqual(
+    demo.steps.map((step) => step.text),
+    [demo.fixture.input, historicalFirst, demo.fixture.output]
+  );
+
+  const runtimeSource = fs.readFileSync(
+    path.join(ROOT, "js", "editorial-components.js"),
+    "utf8"
+  );
+  assert.ok(!runtimeSource.includes("reviseSecondDraft"));
+  assert.ok(!runtimeSource.includes(demo.fixture.output));
+  assert.ok(!/replace\s*\([^)]*(?:hoping|Calendar feeds|Thanks,)/.test(runtimeSource));
+  const runtimeContext = createContext();
+  let registryFetches = 0;
+  runtimeContext.window.fetch = () => {
+    registryFetches += 1;
+    return Promise.resolve({
+      ok: true,
+      json() {
+        return Promise.resolve(registry);
+      }
+    });
+  };
+  loadScript("js/editorial-components.js", runtimeContext);
+  const runtime = runtimeContext.window.PasteLintEditorialComponents;
+  assert.ok(runtime);
+  const firstRegistryRequest = runtime.loadRegistry("/registry.json");
+  const secondRegistryRequest = runtime.loadRegistry("/registry.json");
+  assert.strictEqual(firstRegistryRequest, secondRegistryRequest);
+  assert.strictEqual(registryFetches, 1);
+  assert.strictEqual(
+    runtime.eventFor(demo, "compare-toggle"),
+    "Editorial Demo | DEMO-001 | compare-toggle"
+  );
+  assert.strictEqual(runtime.eventFor(demo, "experiment-run"), "");
+  assert.strictEqual(runtime.fixedMessages.data, "Demonstration data unavailable");
+  assert.strictEqual(runtime.fixedMessages.draft, "Demonstration not yet verified.");
+  assert.strictEqual(runtime.fixedMessages["recheck-required"], "Recheck required.");
+  assert.strictEqual(runtime.fixedMessages.retired, "Historical demonstration.");
+  [
+    ["draft", "Demonstration not yet verified."],
+    ["recheck-required", "Recheck required."],
+    ["retired", "Historical demonstration."]
+  ].forEach(([status, expected]) => {
+    const statusElement = { textContent: "" };
+    const rootElement = {
+      dataset: {},
+      querySelector() {
+        return statusElement;
+      }
+    };
+    const record = { ...demo, status };
+    assert.strictEqual(runtime.enhance(rootElement, record), null);
+    assert.strictEqual(statusElement.textContent, expected);
+    assert.strictEqual(rootElement.dataset.demoEnhanced, "failed");
+  });
+
+  const fixtureHtml = fs.readFileSync(
+    path.join(ROOT, "tests", "fixtures", "editorial-components-demo-001.html"),
+    "utf8"
+  );
+  assert.ok(fixtureHtml.includes('content="noindex, nofollow"'));
+  assert.ok(fixtureHtml.includes("Internal QA fixture"));
+  assert.ok(fixtureHtml.includes('data-demo-id="DEMO-001"'));
+  assert.ok(fixtureHtml.includes('data-demo-field="classification"'));
+  assert.ok(fixtureHtml.includes('data-demo-field="title"'));
+  assert.ok(fixtureHtml.includes('data-demo-field="source"'));
+  assert.ok(fixtureHtml.includes('data-demo-field="output"'));
+  assert.ok(fixtureHtml.includes('data-demo-field="previous-output"'));
+  assert.ok(fixtureHtml.includes('data-demo-field="limitation"'));
+  assert.ok(fixtureHtml.includes(demo.fixture.input));
+  assert.ok(fixtureHtml.includes(demo.fixture.output));
+
+  const validator = path.join(ROOT, "scripts", "validate-demonstrations.mjs");
+  const canonicalResult = spawnSync(process.execPath, [validator], {
+    cwd: ROOT,
+    encoding: "utf8"
+  });
+  assert.strictEqual(canonicalResult.status, 0, canonicalResult.stderr);
+
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "pastelint-demo-"));
+  const verifiedBase = JSON.parse(JSON.stringify(registry));
+  verifiedBase.demonstrations[0].status = "verified";
+  verifiedBase.demonstrations[0].accessibility = {
+    staticFallback: true,
+    reducedMotion: true,
+    textAlternative: true
+  };
+
+  const failures = [
+    ["duplicate ID", (data) => data.demonstrations.push({ ...data.demonstrations[0], slug: "other-slug" })],
+    ["duplicate slug", (data) => data.demonstrations.push({ ...data.demonstrations[0], id: "DEMO-002" })],
+    ["schema", (data) => { data.schemaVersion = 2; }],
+    ["classification", (data) => { data.demonstrations[0].classification = "unknown"; }],
+    ["status", (data) => { data.demonstrations[0].status = "unknown"; }],
+    ["mode", (data) => { data.demonstrations[0].componentModes = ["inspect"]; }],
+    ["missing output", (data) => { data.demonstrations[0].fixture.output = ""; }],
+    ["missing commit", (data) => { data.demonstrations[0].comparison.versions[0].engineCommit = ""; }],
+    ["invalid commit", (data) => { data.demonstrations[0].comparison.versions[1].engineCommit = "XYZ"; }],
+    ["invalid date", (data) => { data.demonstrations[0].captureDate = "2026-02-30"; }],
+    ["limitation", (data) => { data.demonstrations[0].limitations = []; }],
+    ["accessibility", (data) => { delete data.demonstrations[0].accessibility.staticFallback; }],
+    ["analytics action", (data) => { data.demonstrations[0].analytics[0] = "Editorial Demo | DEMO-001 | experiment-run"; }],
+    ["analytics ID", (data) => { data.demonstrations[0].analytics[0] = "Editorial Demo | DEMO-002 | replay-start"; }],
+    ["analytics email", (data) => { data.demonstrations[0].analytics[0] = "Editorial Demo | DEMO-001 | support@example.org"; }],
+    ["analytics URL", (data) => { data.demonstrations[0].analytics[0] = "Editorial Demo | DEMO-001 | https://example.org/?q=x"; }],
+    ["rule", (data) => { data.demonstrations[0].rules = ["SD-MISSING-999"]; }],
+    ["regression", (data) => { data.demonstrations[0].regressions = ["Missing regression"]; }],
+    ["module", (data) => { data.demonstrations[0].engine.module = "js/missing.js"; }],
+    ["adapter", (data) => { data.demonstrations[0].engine.adapter = "fake"; }],
+    ["step text", (data) => { delete data.demonstrations[0].steps[0].text; }],
+    ["step ID", (data) => { data.demonstrations[0].steps[1].id = data.demonstrations[0].steps[0].id; }]
+  ];
+
+  try {
+    failures.forEach(([name, mutate], index) => {
+      const candidate = JSON.parse(JSON.stringify(verifiedBase));
+      mutate(candidate);
+      const file = path.join(tempRoot, `invalid-${index}.json`);
+      fs.writeFileSync(file, JSON.stringify(candidate, null, 2));
+      const result = spawnSync(process.execPath, [validator, "--registry", file], {
+        cwd: ROOT,
+        encoding: "utf8"
+      });
+      assert.notStrictEqual(result.status, 0, `${name} unexpectedly passed`);
+    });
+
+    const driftCases = [
+      ["title", (html) => html.replace("Line structure survives revision", "Wrong title")],
+      ["source", (html) => html.replace("Calendar feeds or event links\nDesired", "Calendar feeds or event links Desired")],
+      ["output", (html) => html.replace("Current verified behavior</h3>\n          <pre data-demo-field=\"output\">Calendar", "Current verified behavior</h3>\n          <pre data-demo-field=\"output\">Changed Calendar")],
+      ["previous output", (html) => html.replace("Calendar feeds or event links Desired", "Changed Calendar feeds or event links Desired")],
+      ["limitation", (html) => html.replace('data-demo-field="limitation"', 'data-demo-field="missing-limitation"')],
+      ["classification", (html) => html.replace("Recorded Replay · Captured", "Live Engine · Captured")],
+      ["field marker", (html) => html.replace('data-demo-field="source"', 'data-demo-field="missing-source"')]
+    ];
+    driftCases.forEach(([name, mutate], index) => {
+      const htmlFile = path.join(tempRoot, `drift-${index}.html`);
+      fs.writeFileSync(htmlFile, mutate(fixtureHtml));
+      const candidate = JSON.parse(JSON.stringify(verifiedBase));
+      candidate.demonstrations[0].destinations = [{
+        surface: "documentation",
+        file: path.relative(ROOT, htmlFile).replace(/\\/g, "/"),
+        rootSelector: '[data-demo-id="DEMO-001"]'
+      }];
+      const registryFile = path.join(tempRoot, `drift-${index}.json`);
+      fs.writeFileSync(registryFile, JSON.stringify(candidate, null, 2));
+      const result = spawnSync(
+        process.execPath,
+        [validator, "--registry", registryFile],
+        { cwd: ROOT, encoding: "utf8" }
+      );
+      assert.notStrictEqual(result.status, 0, `${name} drift unexpectedly passed`);
+    });
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true });
+  }
+}
+
 function testSecondDraftPrimaryReflowPreservesProtectedValues() {
   const context = loadSecondDraftContext();
   const input = [
@@ -2782,6 +3016,7 @@ function main() {
   runTest("SecondDraft Professional tone safety reset", testSecondDraftProfessionalToneSafetyReset);
   runTest("SecondDraft paragraph reflow truthfulness", testSecondDraftParagraphReflowTruthfulness);
   runTest("SecondDraft structure preservation", testSecondDraftStructurePreservation);
+  runTest("Editorial Components foundation", testEditorialComponentsFoundation);
   runTest("SecondDraft primary reflow preserves protected values", testSecondDraftPrimaryReflowPreservesProtectedValues);
   runTest("SecondDraft notification frame safety", testSecondDraftNotificationFrameSafety);
   runTest("SecondDraft Prepare for SSML transfer", testSecondDraftPrepareForSsmlTransfer);

@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "demonstrations": [
+    {
+      "id": "DEMO-001",
+      "slug": "line-structure-survives-revision",
+      "title": "Line structure survives revision",
+      "classification": "recorded-replay",
+      "status": "verified",
+      "componentModes": [
+        "compare",
+        "replay"
+      ],
+      "summary": "A recorded Second Draft fixture showing that deliberate line structure remains intact when reflow is off.",
+      "engine": {
+        "name": "Second Draft",
+        "module": "js/second-draft.js",
+        "adapter": null,
+        "options": {
+          "tone": "natural",
+          "length": "same",
+          "reflow": false
+        }
+      },
+      "comparison": {
+        "sourceStepId": "source",
+        "defaultVersionIds": [
+          "previous",
+          "current"
+        ],
+        "versions": [
+          {
+            "id": "previous",
+            "label": "Previous engine behavior",
+            "engineCommit": "6774224",
+            "output": "Calendar feeds or event links Desired go-live timeline Happy to schedule a quick call if that would be easier. Thanks, Guy"
+          },
+          {
+            "id": "current",
+            "label": "Current verified behavior",
+            "engineCommit": "2d9454d",
+            "output": "Calendar feeds or event links\nDesired go-live timeline\nHappy to schedule a quick call if that would be easier.\nThanks,\nGuy"
+          }
+        ]
+      },
+      "fixture": {
+        "id": "second-draft-structure-user-fixture",
+        "input": "Calendar feeds or event links\nDesired go-live timeline\nHappy to schedule a quick call if that would be easier.\nThanks,\nGuy",
+        "output": "Calendar feeds or event links\nDesired go-live timeline\nHappy to schedule a quick call if that would be easier.\nThanks,\nGuy"
+      },
+      "steps": [
+        {
+          "id": "source",
+          "label": "Original source",
+          "text": "Calendar feeds or event links\nDesired go-live timeline\nHappy to schedule a quick call if that would be easier.\nThanks,\nGuy",
+          "rules": [],
+          "versionId": null,
+          "engineCommit": null
+        },
+        {
+          "id": "previous-output",
+          "label": "Previous engine behavior",
+          "text": "Calendar feeds or event links Desired go-live timeline Happy to schedule a quick call if that would be easier. Thanks, Guy",
+          "rules": [],
+          "versionId": "previous",
+          "engineCommit": "6774224"
+        },
+        {
+          "id": "current-output",
+          "label": "Current verified behavior",
+          "text": "Calendar feeds or event links\nDesired go-live timeline\nHappy to schedule a quick call if that would be easier.\nThanks,\nGuy",
+          "rules": [],
+          "versionId": "current",
+          "engineCommit": "2d9454d"
+        }
+      ],
+      "rules": [
+        "SD-STRUCTURE-001"
+      ],
+      "regressions": [
+        "SecondDraft structure preservation"
+      ],
+      "captureDate": "2026-07-29",
+      "lastVerified": "2026-07-29",
+      "verification": {
+        "methods": [
+          "regression",
+          "browser-qa",
+          "static-fallback-qa",
+          "accessibility-qa",
+          "privacy-review"
+        ],
+        "dependencies": [
+          {
+            "type": "file",
+            "value": "js/second-draft.js"
+          },
+          {
+            "type": "file",
+            "value": "data/second-draft-rules.json"
+          },
+          {
+            "type": "regression",
+            "value": "SecondDraft structure preservation"
+          },
+          {
+            "type": "file",
+            "value": "js/editorial-components.js"
+          },
+          {
+            "type": "file",
+            "value": "css/editorial-components.css"
+          },
+          {
+            "type": "file",
+            "value": "scripts/validate-demonstrations.mjs"
+          },
+          {
+            "type": "schema",
+            "value": "1"
+          }
+        ]
+      },
+      "limitations": [
+        "This comparison demonstrates one repaired fixture and does not establish that every newline is semantic.",
+        "It does not prove universal document understanding.",
+        "It does not parse arbitrary Markdown, tables, poetry, or source code.",
+        "It does not establish that every newline is semantic.",
+        "Recorded Replay does not accept reader input.",
+        "The replay represents engine commits 6774224 and 2d9454d and the stated verification date."
+      ],
+      "accessibility": {
+        "staticFallback": true,
+        "reducedMotion": true,
+        "textAlternative": true
+      },
+      "analytics": [
+        "Editorial Demo | DEMO-001 | replay-start",
+        "Editorial Demo | DEMO-001 | replay-complete",
+        "Editorial Demo | DEMO-001 | replay-step",
+        "Editorial Demo | DEMO-001 | compare-toggle",
+        "Editorial Demo | DEMO-001 | metadata-open",
+        "Editorial Demo | DEMO-001 | reset"
+      ],
+      "destinations": [],
+      "notes": "Verified pre-publication evidence asset. The permanent QA fixture is not a publication destination."
+    }
+  ]
+}

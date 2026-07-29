@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Editorial Components DEMO-001 QA fixture</title>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="../../css/editorial-components.css">
+</head>
+<body>
+  <header class="site-header">
+    <strong>Internal QA fixture</strong>
+    <nav class="theme-switcher" aria-label="Theme selector">
+      <button class="theme-btn active" type="button" data-theme-choice="light">Light</button>
+      <button class="theme-btn" type="button" data-theme-choice="dark">Dark</button>
+      <button class="theme-btn" type="button" data-theme-choice="terminal">Terminal</button>
+    </nav>
+  </header>
+  <main class="page-shell">
+    <p>This page tests the reusable component and intentionally exposes its full control set. A future article will use a quieter editorial integration. This fixture is not a publication or product-capability page.</p>
+    <figure
+      class="editorial-demo"
+      data-demo-id="DEMO-001"
+      data-demo-registry="../../data/editorial-demonstrations.json"
+    >
+      <p data-demo-field="classification">Recorded Replay · Captured from PasteLint engine commits 6774224 and 2d9454d</p>
+      <h1 data-demo-field="title">Line structure survives revision</h1>
+      <div class="editorial-demo__comparison">
+        <section class="editorial-demo__state" aria-labelledby="demo-source-label">
+          <h3 id="demo-source-label">Original source</h3>
+          <pre data-demo-field="source">Calendar feeds or event links
+Desired go-live timeline
+Happy to schedule a quick call if that would be easier.
+Thanks,
+Guy</pre>
+        </section>
+        <section class="editorial-demo__state" aria-labelledby="demo-previous-label">
+          <h3 id="demo-previous-label">Previous engine behavior</h3>
+          <pre data-demo-field="previous-output">Calendar feeds or event links Desired go-live timeline Happy to schedule a quick call if that would be easier. Thanks, Guy</pre>
+        </section>
+        <section class="editorial-demo__state" aria-labelledby="demo-output-label">
+          <h3 id="demo-output-label">Current verified behavior</h3>
+          <pre data-demo-field="output">Calendar feeds or event links
+Desired go-live timeline
+Happy to schedule a quick call if that would be easier.
+Thanks,
+Guy</pre>
+        </section>
+      </div>
+      <figcaption data-demo-field="caption">Both outputs were captured from real production commits. The previous engine flattened the fixture; the repaired engine preserves all five lines.</figcaption>
+      <p data-demo-field="takeaway"><strong>Takeaway:</strong> Preserving words is insufficient when line boundaries carry document roles.</p>
+      <p data-demo-field="limitation"><strong>Limitation:</strong> This comparison demonstrates one repaired fixture and does not establish that every newline is semantic.</p>
+      <p data-demo-runtime-status role="status" aria-live="polite">Complete static fallback. Enhancement has not loaded.</p>
+    </figure>
+  </main>
+  <script src="../../js/themes.js"></script>
+  <script src="../../js/editorial-components.js"></script>
+</body>
+</html>

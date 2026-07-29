@@ -255,7 +255,7 @@ Every demonstration requires:
 - `limitations`, including at least one honest boundary;
 - `accessibility.staticFallback`, `accessibility.reducedMotion`, and `accessibility.textAlternative`;
 - fixed `analytics` action declarations;
-- `destinations`, which may be empty while draft;
+- `destinations`, which may be empty for a draft or a verified pre-publication asset;
 - `verification.method` and declared dependencies appropriate to status; and
 - `notes`, which may be null.
 
@@ -525,3 +525,37 @@ After review, commit, and push this architecture separately, run one bounded Edi
 - regression and browser QA.
 
 Do not draft or publish **Line Breaks Are Part of the Meaning** until implementation and DEMO-001 verification pass.
+
+## 35. V1 foundation implementation record
+
+**Implementation date:** July 29, 2026
+**Baseline:** `4fb9925` — `docs: define Editorial Components v1 architecture`
+**Engine provenance:** `6774224` — `fix: make Professional tone grammar-safe`, compared with `2d9454d` — `fix: preserve Second Draft text structure`
+
+The first foundation implements:
+
+- `data/editorial-demonstrations.json`
+- `scripts/validate-demonstrations.mjs`
+- `js/editorial-components.js`
+- `css/editorial-components.css`
+- `tests/fixtures/editorial-components-demo-001.html`
+
+The library remains schema version 1 and contains exactly one verified `recorded-replay`: DEMO-001. Its modes are `compare` and `replay`; it has six fixed privacy-safe analytics events and no publication destination. A verified canonical demonstration may exist before publication. Destination-specific drift checks become mandatory when a real destination is declared, while the permanent noindex QA fixture verifies component and fallback mechanics without becoming a publication destination.
+
+The initial two-state replay was rejected because its source and current output were intentionally identical. That capture was truthful but visually inert and made Replay appear unresponsive.
+
+DEMO-001 now compares two real production versions. Both historical and current sources were loaded with `git show <commit>:js/second-draft.js` and executed twice through the same VM approach used by `tests/regression.js`. The exact call used `{ "tone": "natural", "length": "same", "reflow": false }`. Commit `6774224` deterministically flattened the five source lines into `Calendar feeds or event links Desired go-live timeline Happy to schedule a quick call if that would be easier. Thanks, Guy`. Commit `2d9454d` deterministically preserved the exact five-line source. No output was authored, inferred, or reconstructed for the demonstration.
+
+The registry uses one bounded `comparison` object with exactly two versions: `previous` and `current`. Replay contains three complete captured states: Original source, Previous engine behavior, and Current verified behavior. Step provenance must match the corresponding version output and commit. The supporting regression remains `SecondDraft structure preservation`; the durable rule reference remains `SD-STRUCTURE-001`. No step claims an engine-emitted intermediate finding or rule match.
+
+The validator is dependency-free, read-only Node ESM. It validates schema, identity, classification, status, modes, both engine commits, exact version labels and outputs, local historical module availability, step-to-version provenance, fixture topology, rules, regressions, dates, verification methods and dependencies, limitations, accessibility declarations, fixed analytics, empty pre-publication destinations, and declared-destination fallback drift. Drift validation covers source, previous output, and current output with exact LF-preserving comparison.
+
+The runtime progressively enhances and reuses the three complete fallback panels rather than appending another output panel. Successful enhancement shows only the evidence needed for the current Compare or Replay state; hidden fallback panels use native `hidden` and `aria-hidden`, preventing redundant visual and screen-reader evidence. Failure and no-JavaScript states retain all three readable panels. The runtime caches registry requests, supports multiple roots, and contains no engine execution or transformation logic.
+
+Compare defaults to Previous engine behavior versus Current verified behavior. Replay supports Play comparison, Pause, Restart, Previous, Next, Show source, Show current output, progress, polite status, and metadata disclosure. Play visibly traverses all three states and stops at current behavior. Native disabled states prevent Previous on the first step, Next on the last step, and Pause while idle. The QA fixture exposes all controls; a future article may use a quieter hierarchy without changing evidence. The explicit Show current output control carries the completion event because no supported programmatic StatsKit event API exists locally; starting Play is not counted as completion.
+
+Browser QA passed at desktop, 375 × 812, and 320 × 812. Light, Dark, and Terminal remained legible; keyboard controls, semantic metadata, polite status, reduced motion, minimum touch targets, wrapping, and no horizontal overflow passed. No-JavaScript, missing-registry, and missing-record states retained complete evidence without fabricated output. The page loaded no Second Draft controller and produced no console errors or failed requests.
+
+The updated claim remains narrow: both outputs came from named real commits; the comparison demonstrates one repaired fixture; it accepts no reader input; and it does not establish universal structure understanding, Markdown parsing, or semantic meaning for every newline. Live Engine, Inspect, Experiment, adapters, DEMO-002, public article integration, Journal metadata, and sitemap work remain deferred.
+
+**Exact next cycle:** Review, commit, and push this foundation, then production-smoke the deployed internal QA fixture. After a clean checkpoint, run a separate Engine Room publication cycle for **Line Breaks Are Part of the Meaning**, add its real destination, and activate article fallback drift validation. Do not begin DEMO-002 before that integration is published and production-smoked.
