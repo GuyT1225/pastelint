@@ -2250,9 +2250,14 @@ function testLineBreaksArticlePublication() {
   assert.ok(fs.existsSync(articlePath));
   const html = fs.readFileSync(articlePath, "utf8");
   const styles = fs.readFileSync(path.join(ROOT, "css", "styles.css"), "utf8");
+  const componentStyles = fs.readFileSync(
+    path.join(ROOT, "css", "editorial-components.css"),
+    "utf8"
+  );
+  const allStyles = `${styles}\n${componentStyles}`;
   const cssRuleBody = (selector) => {
     const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const match = styles.match(new RegExp(`${escaped}\\s*\\{([^}]+)\\}`));
+    const match = allStyles.match(new RegExp(`${escaped}\\s*\\{([^}]+)\\}`));
     assert.ok(match, `Missing CSS selector: ${selector}`);
     return match[1];
   };
@@ -2331,7 +2336,7 @@ function testLineBreaksArticlePublication() {
   assert.ok(articleDemoPrimaryRule.includes("box-shadow: none;"));
   assert.ok(!articleDemoPrimaryRule.includes("background: var(--accent);"));
   assert.ok(
-    styles.includes(
+    componentStyles.includes(
       ".line-breaks-article .editorial-demo--article .editorial-demo__control--primary:focus-visible {"
     )
   );
@@ -2341,11 +2346,11 @@ function testLineBreaksArticlePublication() {
   assert.ok(!terminalDemoPrimaryRule.includes("var(--warning)"));
   assert.ok(!terminalDemoPrimaryRule.includes("var(--journal-track-accent)"));
   assert.ok(
-    styles.includes(
+    componentStyles.includes(
       'html[data-theme="terminal"] .line-breaks-article .editorial-demo--article .editorial-demo__control--primary:focus-visible {'
     )
   );
-  assert.ok(styles.includes("outline-color: var(--accent);"));
+  assert.ok(componentStyles.includes("outline-color: var(--accent);"));
 
   const explanationIndex = html.indexOf('data-demo-explanation="DEMO-001"');
   const demoIndex = html.indexOf('data-demo-id="DEMO-001"');
