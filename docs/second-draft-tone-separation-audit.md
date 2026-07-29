@@ -361,3 +361,24 @@ The invalidation scan passed for existing Direct requests, modality, recommendat
 Professional is now safe but intentionally conservative. Richer differentiation requires separately proven sentence-level patterns. It does not yet organize workplace requests or add any Professional-only revision when shared cleanup finds nothing to change.
 
 The documented single-newline, list, label/value, and signature-loss defect remains outside this repair. The confirmed next cycle is a bounded structure-preservation pass covering Reflow-off preservation, Reflow-on grouping, and truthful structure-change reporting. Engine Room publication remains deferred until that cycle is also verified.
+
+## Structure-preservation implementation record
+
+**Implementation date:** July 29, 2026
+**Implementation baseline:** `6774224` — `fix: make Professional tone grammar-safe`
+
+The structure repair addressed the audit's deferred line-boundary defect. The root cause was shared use of vertical-whitespace matching in final normalization, sentence-flow cleanup, Shorter reconstruction, and a reflow function that converted every non-empty source line into a separate blank-line paragraph.
+
+With Reflow off, the engine now preserves meaningful single newlines and blank-line blocks while continuing horizontal-space and punctuation cleanup within individual physical lines. With Reflow on, a small deterministic block model joins only high-confidence hard-wrapped prose. It recognizes blank-line blocks, bullets, numbered items, label/value rows, headings or short fragments, greetings, bounded signoffs, signature blocks, URLs, email addresses, phone/contact lines, and uncertain boundaries that must remain unchanged.
+
+The implementation introduced explicit block reflow and structural-line helpers, horizontal-only whitespace normalization, per-line sentence-flow cleanup, line-preserving Shorter reconstruction, and prose-block-bounded Expand handling. This is deliberately not a Markdown parser, grammar model, probabilistic classifier, or universal document-understanding guarantee.
+
+Structure attribution is now measured immediately before and after the reflow pass. `Reflowed text into cleaner paragraphs` and `SD-STRUCTURE-001` appear only when reflow itself joins a source line boundary; later cleanup cannot create the claim. No synthetic edit-map record is added.
+
+Regression coverage now includes the supplied five-line fragment/signoff fixture across all tones; `-`, `*`, and `•` bullets; `1.` and `1)` numbering; label/value and URL rows; four bounded signoffs and a multiline signature; greeting/body/signature blocks; exact hard-wrap joining; mixed prose/list/signature content; intentional fragments; negation and conditions; protected dates, times, identifiers, contact values, SSML, OTBS, and seasons; tone/length/reflow interactions; and truthful unchanged-versus-joined reporting. Existing Professional, Direct, modality, strength, notification, timing, repetition, registry, edit-map, and SSML-transfer regressions remain part of the invalidation suite.
+
+**Invalidation result:** The full regression suite and Journal validator pass after the repair. The durable `SD-STRUCTURE-001` concept remains appropriate and its metadata, rulebook description, and architecture contract were strengthened rather than split into micro-rules.
+
+**Known limitations:** Hard-wrap recognition is conservative and pattern-bounded. Ambiguous uppercase continuations, unusual list syntax, uncommon signoffs, tables, poetry, source code, and other specialized layouts may remain unreflowed. That false-negative bias is intentional because preserving an uncertain boundary is safer than merging it.
+
+**Exact next cycle:** After review, commit, push, and production-smoke this repair. Then run a separate knowledge-lane cycle to capture the verified Engine Room evidence packet for `Line Breaks Are Part of the Meaning`. After that, proceed to the bounded Concise-tone separation cycle.

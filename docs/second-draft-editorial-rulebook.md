@@ -187,11 +187,13 @@ The page's **Why it works** area renders the visible `changes` strings. The **Wh
 
 ## Current Structure Behavior
 
-Ordinary revision preserves blank-line-separated paragraph blocks. Sentence-flow cleanup runs inside each paragraph instead of flattening the full draft.
+Ordinary revision preserves meaningful single line breaks and blank-line-separated blocks. Horizontal-space and sentence-flow cleanup runs one physical line at a time so later cleanup does not flatten deliberate structure.
 
-When the user enables reflow, each non-empty source line is trimmed and treated as a paragraph. SecondDraft emits the visible reflow explanation and `SD-STRUCTURE-001` only when the paragraph count actually changes. Normalizing extra blank lines without changing paragraph count does not justify a reflow claim.
+When the user enables reflow, Second Draft joins only clearly hard-wrapped prose continuations. It preserves blank-line boundaries, bullets, numbered items, label/value rows, greetings, signoffs, signature blocks, contact lines, short fragments, and uncertain line roles. The model is deterministic and pattern-bounded; it is not a Markdown parser or general document-understanding system.
 
-Reflow does not infer semantic paragraph boundaries within a single long paragraph.
+Second Draft emits the visible reflow explanation and `SD-STRUCTURE-001` only when the reflow pass itself joins source lines. The comparison occurs immediately before and after reflow, before later cleanup can obscure attribution. Selecting reflow while preserving existing topology does not justify a claim.
+
+`SD-STRUCTURE-001` continues to represent this durable safe-reflow concept. Its registry metadata describes the engine behavior; it does not execute the structure classifier or transformation.
 
 ## Current Notification-Frame Behavior
 

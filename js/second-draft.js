@@ -212,9 +212,12 @@ function reviseSecondDraft(text, options) {
   ruleMatches.push(...lengthResult.ruleMatches);
 
   const beforeReflow = revised;
+  let reflowChangedStructure = false;
 
   if (options.reflow) {
     revised = reflowSecondDraftParagraphs(revised);
+    reflowChangedStructure =
+      hasSecondDraftLineStructureChanged(beforeReflow, revised);
   }
 
   revised = cleanupSecondDraftSentenceFlow(revised);
@@ -235,10 +238,6 @@ function reviseSecondDraft(text, options) {
       edit.change
     );
   });
-
-  const reflowChangedStructure =
-    options.reflow &&
-    hasSecondDraftParagraphStructureChanged(beforeReflow, revised);
 
   if (reflowChangedStructure) {
     changes.push("Reflowed text into cleaner paragraphs");
@@ -540,7 +539,7 @@ function applySecondDraftLengthRules(text, length) {
       .replace(/\bactually\b/gi, "")
       .replace(/\bin my opinion\b/gi, "")
       .replace(/\bi think that\b/gi, "I think")
-      .replace(/\s{2,}/g, " ")
+      .replace(/[ \t]{2,}/g, " ")
       .trim();
 
     const fillerText = revised;
@@ -590,42 +589,75 @@ function applySecondDraftLengthRules(text, length) {
 function reduceSecondDraftExactRedundancy(text) {
   const seen = new Set();
   const edits = [];
-  const protectedText = protectSecondDraftTimeAbbreviationsForSentenceSplitting(text);
-  const sentences = protectedText.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
-  const kept = [];
+  const lines = String(text).replace(/\r\n?/g, "\n").split("\n");
+  const revisedLines = lines.map((line) => {
+    const protectedText =
+      protectSecondDraftTimeAbbreviationsForSentenceSplitting(line);
+    const sentences = protectedText.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
+    const kept = [];
 
-  sentences.forEach((sentence) => {
-    const clean = restoreSecondDraftTimeAbbreviations(sentence.trim());
-    const words = clean.match(/[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g) || [];
-    const key = words.join(" ").toLowerCase();
-    const isEligible =
-      /[.!?]$/.test(clean) &&
-      words.length >= 5 &&
-      !/^(?:[-*•]|\d+[.)])\s/.test(clean);
+    sentences.forEach((sentence) => {
+      const clean = restoreSecondDraftTimeAbbreviations(sentence.trim());
+      const words = clean.match(/[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g) || [];
+      const key = words.join(" ").toLowerCase();
+      const isEligible =
+        /[.!?]$/.test(clean) &&
+        words.length >= 5 &&
+        !/^(?:[-*•]|\d+[.)])\s/.test(clean);
 
-    if (isEligible && seen.has(key)) {
-      edits.push({
-        before: clean,
-        after: "[removed repeated sentence]",
-        ruleId: "SD-REPETITION-002"
-      });
-      return;
-    }
+      if (isEligible && seen.has(key)) {
+        edits.push({
+          before: clean,
+          after: "[removed repeated sentence]",
+          ruleId: "SD-REPETITION-002"
+        });
+        return;
+      }
 
-    if (isEligible) seen.add(key);
-    kept.push(clean);
+      if (isEligible) seen.add(key);
+      kept.push(clean);
+    });
+
+    return kept.join(" ");
   });
 
   return {
-    text: edits.length > 0 ? kept.join(" ") : String(text),
+    text: edits.length > 0 ? revisedLines.join("\n").trim() : String(text),
     edits
   };
 }
 
 function expandSecondDraftText(text) {
+  const blocks = getSecondDraftParagraphs(text);
+  const eligibleBlocks = blocks.filter(
+    (block) => !block.includes("\n") && !isSecondDraftStructuralLine(block)
+  );
+  const sentenceCount = eligibleBlocks.reduce((count, block) => {
+    return count + (block.match(/[^.!?]+[.!?]+|\S[^.!?]*$/g) || [block]).length;
+  }, 0);
+  let hasSeenEligibleBlock = false;
+
+  return blocks
+    .map((block) => {
+      if (block.includes("\n") || isSecondDraftStructuralLine(block)) {
+        return block;
+      }
+
+      const expanded = expandSecondDraftProseBlock(
+        block,
+        sentenceCount,
+        !hasSeenEligibleBlock
+      );
+      hasSeenEligibleBlock = true;
+      return expanded;
+    })
+    .join("\n\n");
+}
+
+function expandSecondDraftProseBlock(text, sentenceCount, mayFrameFirstSentence) {
   const sentences = text.match(/[^.!?]+[.!?]+|\S[^.!?]*$/g) || [text];
 
-  if (sentences.length <= 1) {
+  if (sentenceCount <= 1) {
     return text + " This gives the reader a little more context while preserving the original meaning.";
   }
 
@@ -633,7 +665,11 @@ function expandSecondDraftText(text) {
     .map((sentence, index) => {
       const clean = sentence.trim();
 
-      if (index === 0 && clean.split(/\s+/).length < 14) {
+      if (
+        mayFrameFirstSentence &&
+        index === 0 &&
+        clean.split(/\s+/).length < 14
+      ) {
         return clean + " This helps frame the main point more clearly.";
       }
 
@@ -664,17 +700,75 @@ function replaceSecondDraftPhraseWithEdit(text, before, after, ruleId) {
 }
 
 function reflowSecondDraftParagraphs(text) {
-  return text
-    .split(/\n+/)
-    .map((line) => line.trim())
-    .filter(Boolean)
+  return getSecondDraftParagraphs(text)
+    .map(reflowSecondDraftBlock)
     .join("\n\n");
 }
 
+function reflowSecondDraftBlock(block) {
+  const lines = String(block).split("\n");
+  const signoffIndex = lines.findIndex(isSecondDraftSignoffLine);
+  const output = [];
+
+  lines.forEach((line, index) => {
+    const clean = line.trim();
+    const previous = output[output.length - 1];
+    const isSignatureLine = signoffIndex >= 0 && index >= signoffIndex;
+    const canJoin =
+      previous &&
+      !isSignatureLine &&
+      (!isSecondDraftStructuralLine(clean) || /^[a-z]/.test(clean)) &&
+      !isSecondDraftStructuralLine(previous) &&
+      isSecondDraftHardWrapBoundary(previous, clean);
+
+    if (canJoin) {
+      output[output.length - 1] = `${previous} ${clean}`;
+    } else {
+      output.push(clean);
+    }
+  });
+
+  return output.join("\n");
+}
+
+function isSecondDraftHardWrapBoundary(previous, next) {
+  const previousWords = previous.match(/[A-Za-z0-9]+/g) || [];
+
+  return (
+    !/[.!?]["')\]]?$/.test(previous) &&
+    previousWords.length >= 7 &&
+    (/^[a-z]/.test(next) ||
+      /(?:,|;|:|\b(?:and|or|but|for|nor|so|yet|to|of|in|on|with|from|by))$/i.test(previous))
+  );
+}
+
+function isSecondDraftStructuralLine(line) {
+  const clean = String(line || "").trim();
+  const words = clean.match(/[A-Za-z0-9]+/g) || [];
+
+  return (
+    !clean ||
+    /^(?:[-*•]|\d+[.)])\s+\S/.test(clean) ||
+    /^[A-Za-z][A-Za-z0-9 &'’/.-]{0,40}:\s+\S/.test(clean) ||
+    /^(?:Hi|Hello|Dear)\b[^.!?]*,?$/i.test(clean) ||
+    isSecondDraftSignoffLine(clean) ||
+    /(?:https?:\/\/|www\.|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|\+?\d[\d\s().-]{6,}\d)/i.test(clean) ||
+    (!/[.!?]$/.test(clean) && words.length <= 6)
+  );
+}
+
+function isSecondDraftSignoffLine(line) {
+  return /^(?:Thanks|Thank you|Best|Best regards|Regards|Sincerely),?$/i.test(
+    String(line || "").trim()
+  );
+}
+
 function cleanupSecondDraftSentenceFlow(text) {
-  return getSecondDraftParagraphs(text)
+  return String(text)
+    .replace(/\r\n?/g, "\n")
+    .split("\n")
     .map(cleanupSecondDraftParagraphFlow)
-    .join("\n\n")
+    .join("\n")
     .trim();
 }
 
@@ -693,18 +787,19 @@ function cleanupSecondDraftParagraphFlow(text) {
       /\b(Also),\s+(The|This|That|It|There|We)\b/g,
       (match, opener, word) => `${opener}, ${word.toLowerCase()}`
     )
-    .replace(/\s+\./g, ".")
+    .replace(/[ \t]+\./g, ".")
     .replace(/\.\./g, ".")
-    .replace(/\s+/g, " ")
+    .replace(/[ \t]+/g, " ")
     .trim();
 }
 
 function normalizeSecondDraftText(text) {
   return String(text)
+    .replace(/\r\n?/g, "\n")
     .replace(/[ \t]{2,}/g, " ")
-    .replace(/\s+([,.;!?])/g, "$1")
-    .replace(/\s+\./g, ".")
-    .replace(/\s+,/g, ",")
+    .replace(/[ \t]+([,.;!?])/g, "$1")
+    .replace(/[ \t]+\./g, ".")
+    .replace(/[ \t]+,/g, ",")
     .replace(/,\s*\./g, ".")
     .replace(/\.\s*,/g, preserveSecondDraftTimeAbbreviationComma)
     .replace(/([.!?])\1+/g, "$1")
@@ -768,11 +863,15 @@ function getSecondDraftParagraphs(text) {
     .filter(Boolean);
 }
 
-function hasSecondDraftParagraphStructureChanged(before, after) {
-  const beforeParagraphs = getSecondDraftParagraphs(before);
-  const afterParagraphs = getSecondDraftParagraphs(after);
+function hasSecondDraftLineStructureChanged(before, after) {
+  const getStructure = (text) =>
+    String(text)
+      .replace(/\r\n?/g, "\n")
+      .split("\n")
+      .map((line) => (line.trim() ? "content" : "blank"))
+      .join("|");
 
-  return beforeParagraphs.length !== afterParagraphs.length;
+  return getStructure(before) !== getStructure(after);
 }
 
 function capitalizeSecondDraftSentence(text) {

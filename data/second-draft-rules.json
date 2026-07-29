@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "registryVersion": "2026-07-27.3",
+  "registryVersion": "2026-07-29.1",
   "rules": [
     {
       "id": "SD-CLARITY-001",
@@ -193,10 +193,10 @@
       "category": "structure",
       "type": "mechanical",
       "status": "active",
-      "summary": "Reflows draft lines into cleaner paragraph breaks when the user asks for paragraph reflow.",
-      "rationale": "Copied or rough draft text can carry line breaks that make revision harder to scan.",
+      "summary": "Joins clearly hard-wrapped prose while preserving recognized and uncertain structural lines when the user asks for reflow.",
+      "rationale": "Copied prose can contain display-width line breaks, while lists, labels, greetings, signatures, and intentional fragments depend on their line boundaries.",
       "triggerDescription": "The user enables the SecondDraft reflow option.",
-      "changeDescription": "Trims lines and separates non-empty lines into paragraph blocks.",
+      "changeDescription": "Joins only high-confidence prose continuations and preserves blank-line blocks and structural lines.",
       "confidence": "high",
       "automation": "constrained",
       "source": {
@@ -205,15 +205,15 @@
       },
       "examples": [
         {
-          "before": "First line\nsecond line",
-          "after": "First line\n\nsecond line",
-          "explanation": "The revision makes paragraph boundaries easier to review."
+          "before": "The fall update is ready for review and\nincludes the revised calendar and audio\nfiles for the new season.",
+          "after": "The fall update is ready for review and includes the revised calendar and audio files for the new season.",
+          "explanation": "The revision removes clear display-width wrapping from one prose sentence."
         }
       ],
       "counterexamples": [
         {
-          "text": "A poem, transcript, address, or code sample depends on line-level structure.",
-          "reason": "Line breaks may carry meaning and should not be reflowed unless the user asks."
+          "text": "Thanks,\nGuy Teichman\nSolutions Consultant",
+          "reason": "A signoff and signature depend on line-level structure and remain separate even when reflow is enabled."
         }
       ],
       "tags": [

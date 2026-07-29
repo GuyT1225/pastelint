@@ -82,18 +82,20 @@ These IDs represent separate durable editorial concepts.
 
 ## Paragraph Preservation and Reflow
 
-Second Draft treats blank-line-separated blocks as paragraphs. Sentence-flow cleanup runs inside each paragraph, and the paragraphs are joined with one blank line. Existing paragraph boundaries therefore survive ordinary revision.
+Second Draft normalizes horizontal spacing without treating vertical whitespace as interchangeable with spaces. Sentence-flow cleanup runs per physical line, so meaningful single line breaks and blank-line-separated blocks survive ordinary revision.
 
 When reflow is enabled, `reflowSecondDraftParagraphs()`:
 
-- splits on one or more line breaks
-- trims each non-empty line
-- treats every remaining line as a paragraph
-- joins those paragraphs with one blank line
+- retains blank-line block boundaries
+- recognizes bullets, numbered items, label/value rows, greetings, signoffs, signature blocks, contact lines, and short fragments
+- joins a boundary only when the preceding prose line is long enough, lacks terminal punctuation, and the continuation has a high-confidence lowercase or connector relationship
+- preserves the original boundary when classification is uncertain
 
-Reflow does not infer semantic paragraph boundaries inside a single long paragraph.
+This is a small deterministic structure model, not Markdown parsing, grammar parsing, or semantic document inference. Conservative false negatives are intentional.
 
-Reporting is structural and truthful. The visible reflow note and `SD-STRUCTURE-001` match are emitted only when the number of paragraphs changes. Normalizing three or more blank lines down to one blank line does not produce a reflow claim.
+Reporting is structural and truthful. The engine compares text immediately before and after the reflow pass. The visible reflow note and `SD-STRUCTURE-001` match are emitted only when that pass joins a line boundary. Later wording cleanup, horizontal-space normalization, or an unchanged reflow selection does not produce a reflow claim.
+
+Shorter-mode exact-sentence detection operates across physical lines but reconstructs each line independently, so repetition removal does not flatten unrelated structure. Expand applies only to eligible one-line prose blocks; it does not append generated context to a multiline structural block.
 
 ## Notification-Frame Safeguards
 

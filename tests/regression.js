@@ -1462,14 +1462,19 @@ function testSecondDraftRuleMetadataPreservesOutput() {
 
   assert.strictEqual(
     directShorter.text,
-    "Review the draft before sending it over. The wording could be clearer and more concise. The current version feels long and repetitive in places. We should review the message, tighten the language, and make sure it sounds professional but still natural. Tell me whether we should handle this today or tomorrow."
+    [
+      "Review the draft before sending it over. The wording could be clearer and more concise.",
+      "",
+      "The current version feels long and repetitive in places. We should review the message, tighten the language, and make sure it sounds professional but still natural.",
+      "",
+      "Tell me whether we should handle this today or tomorrow."
+    ].join("\n")
   );
   assert.deepStrictEqual(Array.from(directShorter.changes), [
     "Rewrote a filler opening into a clearer sentence",
     "Condensed weak phrasing into a clearer sentence",
     "Removed setup wording and tightened the observation",
     "Tightened the timing question",
-    "Tightened wording to make the draft shorter",
     "Removed the main-point announcement while preserving the recommendation"
   ]);
 
@@ -1521,7 +1526,13 @@ function testSecondDraftRuleMetadataPreservesOutput() {
 
   assert.strictEqual(
     professionalExpand.text,
-    "We should probably take a look at the draft before sending it over. This helps frame the main point more clearly. I think there are a few areas where the wording could be improved. It may be helpful to make it a little clearer and more concise. Also, the current version feels a bit long and maybe slightly repetitive in certain places. The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural. Let me know if you think this is something we should handle today or if it can wait until tomorrow."
+    [
+      "We should probably take a look at the draft before sending it over. This helps frame the main point more clearly. I think there are a few areas where the wording could be improved. It may be helpful to make it a little clearer and more concise.",
+      "",
+      "Also, the current version feels a bit long and maybe slightly repetitive in certain places. The main point is that we should review the message, tighten the language, and make sure it sounds professional but still natural.",
+      "",
+      "Let me know if you think this is something we should handle today or if it can wait until tomorrow."
+    ].join("\n")
   );
   assert.deepStrictEqual(Array.from(professionalExpand.changes), [
     "Rewrote a filler opening into a clearer sentence",
@@ -1769,13 +1780,185 @@ function testSecondDraftParagraphReflowTruthfulness() {
     reflow: true
   });
 
-  assert.strictEqual(lineBreakResult.text, "First paragraph.\n\nSecond paragraph.");
-  assert.ok(lineBreakResult.changes.includes(reflowClaim));
+  assert.strictEqual(lineBreakResult.text, lineBreakSource);
+  assert.ok(!lineBreakResult.changes.includes(reflowClaim));
   assert.ok(
-    lineBreakResult.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
+    !lineBreakResult.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
   );
-  assert.ok(!lineBreakResult.changes.includes("No major revision needed. The text already reads cleanly."));
+  assert.ok(lineBreakResult.changes.includes("No major revision needed. The text already reads cleanly."));
   assertNoTrailingWhitespace(lineBreakResult.text);
+}
+
+function testSecondDraftStructurePreservation() {
+  const context = loadSecondDraftContext();
+  const revise = (text, tone = "natural", length = "same", reflow = false) =>
+    context.reviseSecondDraft(text, { tone, length, reflow });
+  const reflowClaim = "Reflowed text into cleaner paragraphs";
+  const userFixture = [
+    "Calendar feeds or event links",
+    "Desired go-live timeline",
+    "Happy to schedule a quick call if that would be easier.",
+    "Thanks,",
+    "Guy"
+  ].join("\n");
+
+  ["natural", "concise", "professional", "friendly", "direct"].forEach((tone) => {
+    assert.strictEqual(revise(userFixture, tone).text, userFixture);
+    assert.strictEqual(revise(userFixture, tone, "same", true).text, userFixture);
+  });
+
+  const bulletItems = [
+    "Please send the following:",
+    "- Calendar feed",
+    "- Desired go-live date",
+    "- Primary contact",
+    "- Approval status"
+  ].join("\n");
+  [false, true].forEach((reflow) => {
+    assert.strictEqual(revise(bulletItems, "natural", "same", reflow).text, bulletItems);
+  });
+
+  ["*", "•"].forEach((marker) => {
+    const source = `Please send the following:\n${marker} Calendar feed\n${marker} Approval status`;
+    assert.strictEqual(revise(source, "natural", "same", true).text, source);
+  });
+
+  const numbered = [
+    "Please review:",
+    "1. Main menu",
+    "2. Events calendar",
+    "3. Adult fiction",
+    "4. Adult nonfiction"
+  ].join("\n");
+  const numberedParenthesis = "Please review:\n1) Main menu\n2) Events calendar";
+  [false, true].forEach((reflow) => {
+    assert.strictEqual(revise(numbered, "natural", "same", reflow).text, numbered);
+    assert.strictEqual(
+      revise(numberedParenthesis, "natural", "same", reflow).text,
+      numberedParenthesis
+    );
+  });
+
+  const labels = [
+    "Library: RHPL",
+    "Season: Fall 2026",
+    "Go-live: September 1, 2026",
+    "Approval: Rebecca LaFave",
+    "Audio status: Ready for review",
+    "Calendar feed: https://example.org/calendar?feed=fall"
+  ].join("\n");
+  [false, true].forEach((reflow) => {
+    assert.strictEqual(revise(labels, "natural", "same", reflow).text, labels);
+  });
+
+  ["Thanks,", "Best,", "Regards,", "Sincerely,"].forEach((signoff) => {
+    const signature = [
+      signoff,
+      "Guy Teichman",
+      "Solutions Consultant",
+      "support@example.org",
+      "914-555-0123"
+    ].join("\n");
+    [false, true].forEach((reflow) => {
+      assert.strictEqual(revise(signature, "natural", "same", reflow).text, signature);
+    });
+  });
+
+  const message = [
+    "Hi Rebecca,",
+    "",
+    "The fall audio update is ready for review.",
+    "",
+    "Please let me know whether the calendar feed has changed.",
+    "",
+    "Thanks,",
+    "Guy"
+  ].join("\n");
+  [false, true].forEach((reflow) => {
+    assert.strictEqual(revise(message, "natural", "same", reflow).text, message);
+  });
+
+  const hardWrapped = [
+    "The fall update is ready for review and",
+    "includes the revised calendar and audio",
+    "files for the new season."
+  ].join("\n");
+  const hardWrappedExpected =
+    "The fall update is ready for review and includes the revised calendar and audio files for the new season.";
+  assert.strictEqual(revise(hardWrapped).text, hardWrapped);
+  const hardWrappedResult = revise(hardWrapped, "natural", "same", true);
+  assert.strictEqual(hardWrappedResult.text, hardWrappedExpected);
+  assert.ok(hardWrappedResult.changes.includes(reflowClaim));
+  assert.ok(
+    hardWrappedResult.ruleMatches.some((match) => match.ruleId === "SD-STRUCTURE-001")
+  );
+
+  const mixed = [
+    "Hi Rebecca,",
+    "",
+    "The fall update is ready for review and",
+    "includes the revised audio files.",
+    "",
+    "Please confirm:",
+    "- Calendar feed",
+    "- Desired go-live date",
+    "",
+    "Happy to schedule a quick call if that would be easier.",
+    "",
+    "Thanks,",
+    "Guy"
+  ].join("\n");
+  const mixedExpected = mixed.replace(
+    "The fall update is ready for review and\nincludes the revised audio files.",
+    "The fall update is ready for review and includes the revised audio files."
+  );
+  assert.strictEqual(revise(mixed, "direct", "same", true).text, mixedExpected);
+
+  const fragments = [
+    "Required materials",
+    "Calendar feeds or event links",
+    "Desired go-live timeline",
+    "Approval contact"
+  ].join("\n");
+  assert.strictEqual(revise(fragments, "natural", "same", true).text, fragments);
+
+  const conditions = [
+    "Do not replace the summer content until approval.",
+    "Only upload the files after Rebecca confirms.",
+    "The call is optional if email is sufficient."
+  ].join("\n");
+  [false, true].forEach((reflow) => {
+    assert.strictEqual(revise(conditions, "natural", "same", reflow).text, conditions);
+  });
+
+  const protectedValues = [
+    "Start time: 9 a.m.",
+    "End time: 2:30 p.m.",
+    "Go-live: September 1, 2026",
+    "Code: DB 1-2-3-4-5-6",
+    "Email: support@example.org",
+    "Calendar feed: https://example.org/calendar?feed=fall",
+    "Phone: 914-555-0123",
+    "Menu: Option 3",
+    "Format: SSML",
+    "System: OTBS",
+    "Season: Fall 2026"
+  ].join("\n");
+  [false, true].forEach((reflow) => {
+    assert.strictEqual(
+      revise(protectedValues, "natural", "same", reflow).text,
+      protectedValues
+    );
+  });
+
+  ["natural", "concise", "professional", "friendly", "direct"].forEach((tone) => {
+    ["same", "shorter", "expand"].forEach((length) => {
+      [false, true].forEach((reflow) => {
+        const result = revise(userFixture, tone, length, reflow);
+        assert.strictEqual(result.text, userFixture);
+      });
+    });
+  });
 }
 
 function testSecondDraftPrimaryReflowPreservesProtectedValues() {
@@ -2598,6 +2781,7 @@ function main() {
   runTest("SecondDraft rule metadata preserves output", testSecondDraftRuleMetadataPreservesOutput);
   runTest("SecondDraft Professional tone safety reset", testSecondDraftProfessionalToneSafetyReset);
   runTest("SecondDraft paragraph reflow truthfulness", testSecondDraftParagraphReflowTruthfulness);
+  runTest("SecondDraft structure preservation", testSecondDraftStructurePreservation);
   runTest("SecondDraft primary reflow preserves protected values", testSecondDraftPrimaryReflowPreservesProtectedValues);
   runTest("SecondDraft notification frame safety", testSecondDraftNotificationFrameSafety);
   runTest("SecondDraft Prepare for SSML transfer", testSecondDraftPrepareForSsmlTransfer);
