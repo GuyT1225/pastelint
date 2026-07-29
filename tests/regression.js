@@ -1993,7 +1993,11 @@ function testEditorialComponentsFoundation() {
   assert.strictEqual(demo.steps.length, 3);
   assert.deepStrictEqual(demo.rules, ["SD-STRUCTURE-001"]);
   assert.deepStrictEqual(demo.regressions, ["SecondDraft structure preservation"]);
-  assert.deepStrictEqual(demo.destinations, []);
+  assert.deepStrictEqual(demo.destinations, [{
+    surface: "journal",
+    file: "journal-engine-room-line-breaks-are-part-of-the-meaning.html",
+    rootSelector: '[data-demo-id="DEMO-001"]'
+  }]);
 
   const context = loadSecondDraftContext();
   const first = context.reviseSecondDraft(
@@ -2238,6 +2242,399 @@ function testEditorialComponentsFoundation() {
   } finally {
     fs.rmSync(tempRoot, { recursive: true, force: true });
   }
+}
+
+function testLineBreaksArticlePublication() {
+  const articleFile = "journal-engine-room-line-breaks-are-part-of-the-meaning.html";
+  const articlePath = path.join(ROOT, articleFile);
+  assert.ok(fs.existsSync(articlePath));
+  const html = fs.readFileSync(articlePath, "utf8");
+  const styles = fs.readFileSync(path.join(ROOT, "css", "styles.css"), "utf8");
+  const cssRuleBody = (selector) => {
+    const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const match = styles.match(new RegExp(`${escaped}\\s*\\{([^}]+)\\}`));
+    assert.ok(match, `Missing CSS selector: ${selector}`);
+    return match[1];
+  };
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "data", "journal-manifest.json"), "utf8")
+  );
+  const registry = JSON.parse(
+    fs.readFileSync(
+      path.join(ROOT, "data", "editorial-demonstrations.json"),
+      "utf8"
+    )
+  );
+  const indexHtml = fs.readFileSync(
+    path.join(ROOT, "text-preparation-journal.html"),
+    "utf8"
+  );
+  const sitemap = fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8");
+  const demo = registry.demonstrations.find((item) => item.id === "DEMO-001");
+  const article = manifest.articles.find(
+    (item) => item.slug === "line-breaks-are-part-of-the-meaning"
+  );
+  const canonical =
+    "https://guyt1225.github.io/pastelint/" + articleFile;
+
+  assert.ok(html.includes("<title>Line Breaks Are Part of the Meaning | PasteLint</title>"));
+  assert.ok(html.includes("<h1>Line Breaks Are Part of the Meaning</h1>"));
+  assert.ok(html.includes(`<link rel="canonical" href="${canonical}" />`));
+  assert.ok(
+    html.includes(
+      'class="journal-surface journal-track--engine-room engine-room-article line-breaks-article"'
+    )
+  );
+  assert.ok(html.includes('<span class="journal-author">By Guy Teichman</span>'));
+  assert.ok(html.includes('<time datetime="2026-07-29">Published July 29, 2026</time>'));
+  assert.ok(html.includes('<meta property="article:published_time" content="2026-07-29" />'));
+  assert.ok(html.includes('<meta property="article:modified_time" content="2026-07-29" />'));
+
+  const jsonLd = [...html.matchAll(
+    /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g
+  )].map((match) => JSON.parse(match[1]));
+  const articleJsonLd = jsonLd.find((item) => item["@type"] === "Article");
+  const breadcrumbJsonLd = jsonLd.find(
+    (item) => item["@type"] === "BreadcrumbList"
+  );
+  assert.ok(articleJsonLd);
+  assert.strictEqual(articleJsonLd.headline, "Line Breaks Are Part of the Meaning");
+  assert.strictEqual(articleJsonLd.datePublished, "2026-07-29");
+  assert.strictEqual(articleJsonLd.dateModified, "2026-07-29");
+  assert.strictEqual(articleJsonLd.author.name, "Guy Teichman");
+  assert.strictEqual(articleJsonLd.mainEntityOfPage, canonical);
+  assert.ok(breadcrumbJsonLd);
+  assert.strictEqual(breadcrumbJsonLd.itemListElement.length, 3);
+
+  assert.strictEqual((html.match(/data-demo-id="DEMO-001"/g) || []).length, 1);
+  assert.ok(html.includes('data-demo-registry="data/editorial-demonstrations.json"'));
+  assert.ok(html.includes('href="css/editorial-components.css"'));
+  assert.ok(html.includes('src="js/editorial-components.js"'));
+  assert.ok(!html.includes('src="js/second-draft.js"'));
+  assert.ok(!html.includes("reviseSecondDraft"));
+  assert.ok(!html.includes("function revise"));
+  assert.deepStrictEqual(demo.comparison.defaultVersionIds, ["previous", "current"]);
+
+  const explanationIndex = html.indexOf('data-demo-explanation="DEMO-001"');
+  const demoIndex = html.indexOf('data-demo-id="DEMO-001"');
+  assert.ok(explanationIndex >= 0 && explanationIndex < demoIndex);
+  const explanation = html.slice(explanationIndex, demoIndex);
+  assert.ok(explanation.includes("collapsed this five-line message into one paragraph"));
+  assert.ok(
+    explanation.includes(
+      "The repaired output matches the original because preservation&mdash;not rewriting&mdash;is the intended result."
+    )
+  );
+  assert.ok(explanation.includes("<dt>Original source</dt>"));
+  assert.ok(explanation.includes("<dd><strong>5</strong> lines</dd>"));
+  assert.ok(explanation.includes("<dt>Previous engine</dt>"));
+  assert.ok(explanation.includes("<dd><strong>1</strong> line</dd>"));
+  assert.ok(explanation.includes("<dt>Current engine</dt>"));
+  assert.ok(explanation.includes("<dd><strong>5</strong> lines preserved</dd>"));
+  assert.ok(!/<details\b|(?:^|\s)hidden(?:\s|=|>)/.test(explanation));
+
+  assert.ok(html.includes("Recorded Replay &middot; Captured from PasteLint engine commits 6774224 and 2d9454d"));
+  assert.ok(html.includes('<h2 data-demo-field="title">Line structure survives revision</h2>'));
+  assert.ok(html.includes('data-demo-field="source"'));
+  assert.ok(html.includes('data-demo-field="previous-output"'));
+  assert.ok(html.includes('data-demo-field="output"'));
+  assert.ok(html.includes('data-demo-field="limitation"'));
+  assert.ok(html.includes('data-demo-field="caption"'));
+  assert.ok(html.includes('data-demo-field="takeaway"'));
+  assert.ok(html.includes("editorial-demo__state--source-reference"));
+  assert.ok(html.includes(demo.fixture.input));
+  assert.ok(html.includes(demo.comparison.versions[0].output));
+  assert.ok(
+    html.includes(
+      "The current output matches the source because the engine is preserving the structure rather than rewriting it."
+    )
+  );
+  assert.ok(
+    html.includes(
+      "This comparison demonstrates one repaired fixture and does not establish that every newline is semantic."
+    )
+  );
+  assert.ok(html.includes('class="line-breaks-evidence-trail"'));
+  assert.ok(html.includes('class="structure-repair-layout"'));
+  assert.ok(html.includes("What the engine is preserving"));
+  assert.ok(html.includes('class="line-role-specimen"'));
+  assert.ok(html.includes("<code>Calendar feeds or event links</code>"));
+  assert.ok(html.includes("<dd>Label or requested item</dd>"));
+  assert.ok(html.includes("<code>Desired go-live timeline</code>"));
+  assert.ok(html.includes("<dd>Separate requirement</dd>"));
+  assert.ok(html.includes("<code>Thanks,</code>"));
+  assert.ok(html.includes("<dd>Signoff</dd>"));
+  assert.ok(html.includes("<code>Guy</code>"));
+  assert.ok(html.includes("<dd>Signature</dd>"));
+  assert.ok(html.includes("A line break is evidence, not proof."));
+  assert.ok(html.includes('class="repair-sequence"'));
+  assert.ok(html.includes("<strong>Reflow off</strong>"));
+  assert.ok(html.includes("<strong>Reflow on</strong>"));
+  assert.ok(html.includes("<strong>Uncertain structure</strong>"));
+
+  const evidenceBoundaryIndex = html.indexOf(
+    'class="line-breaks-evidence-trail evidence-boundary-region"'
+  );
+  const conclusionIndex = html.indexOf('class="line-breaks-conclusion"');
+  assert.ok(evidenceBoundaryIndex >= 0);
+  assert.ok(conclusionIndex > evidenceBoundaryIndex);
+  const evidenceBoundary = html.slice(
+    evidenceBoundaryIndex,
+    conclusionIndex
+  );
+  assert.ok(evidenceBoundary.includes("Evidence and boundary"));
+  assert.ok(evidenceBoundary.includes("Verified against"));
+  assert.ok(evidenceBoundary.includes("The claim stops here"));
+  [
+    "6774224",
+    "2d9454d",
+    "Natural",
+    "Keep similar",
+    "SD-STRUCTURE-001",
+    "SecondDraft structure preservation",
+    "July 29, 2026",
+    "Recorded Replay"
+  ].forEach((value) => assert.ok(evidenceBoundary.includes(value)));
+  [
+    "one repaired fixture",
+    "every newline is semantic",
+    "universal document understanding",
+    "arbitrary Markdown, tables, poetry, or source code",
+    "conservatively unreflowed",
+    "Recorded Replay accepts no reader input",
+    "named commits and verification date",
+    "High-stakes documents still require human review"
+  ].forEach((value) => assert.ok(evidenceBoundary.includes(value)));
+
+  assert.ok(
+    html.includes(
+      "Preserving words is insufficient when line boundaries carry document roles."
+    )
+  );
+  assert.ok(
+    html.includes(
+      "Sometimes the correct revision is to leave both the words and their arrangement alone."
+    )
+  );
+  assert.ok(html.includes('class="line-breaks-closing"'));
+  assert.ok(html.includes("Revise the wording without surrendering the structure."));
+  const ctaIndex = html.indexOf('class="line-breaks-closing-cta"');
+  const shareIndex = html.indexOf('class="journal-share line-breaks-closing-share"');
+  const relatedIndex = html.indexOf('class="line-breaks-related"');
+  assert.ok(ctaIndex >= 0 && ctaIndex < shareIndex && shareIndex < relatedIndex);
+  assert.ok(
+    /<a class="line-breaks-primary-action" href="second-draft\.html" data-statkit-event="Journal CTA \| line-breaks-are-part-of-the-meaning \| second-draft">/.test(
+      html
+    )
+  );
+  assert.ok(html.includes("<span>Open SecondDraft</span>"));
+  assert.ok(html.includes('<span aria-hidden="true">&rarr;</span>'));
+  const primaryActionRule = cssRuleBody(
+    ".line-breaks-article .line-breaks-primary-action"
+  );
+  const terminalActionRule = cssRuleBody(
+    'html[data-theme="terminal"] .line-breaks-article .line-breaks-primary-action'
+  );
+  const shareActionRule = cssRuleBody(
+    ".line-breaks-article .line-breaks-closing-share .journal-share-button"
+  );
+  assert.ok(
+    styles.includes(
+      ".line-breaks-article .line-breaks-primary-action:focus-visible {"
+    )
+  );
+  assert.ok(
+    styles.includes(
+      ".line-breaks-article .line-breaks-closing-share .journal-share-button:focus-visible {"
+    )
+  );
+  assert.ok(primaryActionRule.includes("min-height: 44px;"));
+  assert.ok(primaryActionRule.includes("background: transparent;"));
+  assert.ok(
+    primaryActionRule.includes(
+      "border-bottom: 3px solid var(--journal-track-accent);"
+    )
+  );
+  assert.ok(!primaryActionRule.includes("background: var(--journal-track-accent);"));
+  assert.ok(!primaryActionRule.includes("border: 2px solid"));
+  assert.ok(terminalActionRule.includes("background: transparent;"));
+  assert.ok(terminalActionRule.includes("color: var(--accent);"));
+  assert.ok(terminalActionRule.includes("border-bottom-color: var(--accent);"));
+  assert.ok(!terminalActionRule.includes("var(--journal-track-accent)"));
+  assert.ok(!terminalActionRule.includes("var(--warning)"));
+  assert.ok(shareActionRule.includes("min-height: 44px;"));
+  assert.ok(shareActionRule.includes("background: transparent;"));
+  assert.ok(
+    shareActionRule.includes(
+      "border-bottom: 1px solid var(--journal-track-rule);"
+    )
+  );
+  assert.ok(!shareActionRule.includes("border: 1px solid"));
+  assert.ok(
+    styles.includes(
+      ".line-breaks-article .line-breaks-closing-share .journal-share-status {"
+    )
+  );
+  assert.ok(styles.includes("min-height: 1.2em;"));
+  assert.strictEqual(
+    (html.match(/<button\b[^>]*data-journal-share\b/g) || []).length,
+    1
+  );
+  assert.ok(
+    html.includes(
+      'data-share-native-event="Journal Share | line-breaks-are-part-of-the-meaning | native"'
+    )
+  );
+  assert.ok(
+    html.includes(
+      'data-share-copy-event="Journal Share | line-breaks-are-part-of-the-meaning | copy-link"'
+    )
+  );
+  assert.ok(html.includes('data-journal-share-status role="status" aria-live="polite"'));
+  assert.ok(html.includes("Worth passing along?"));
+  assert.ok(html.includes("<span>Share article</span>"));
+  assert.strictEqual(
+    (html.match(/data-statkit-event="Journal Related \| line-breaks-are-part-of-the-meaning \|/g) || []).length,
+    3
+  );
+  assert.ok(
+    /<article class="journal-track line-breaks-related-featured" data-related-continuation="featured">[\s\S]*?Directness Without False Certainty[\s\S]*?<\/article>/.test(
+      html
+    )
+  );
+  assert.strictEqual(
+    (html.match(/data-related-continuation="supporting"/g) || []).length,
+    2
+  );
+  assert.ok(html.includes('class="line-breaks-related-supporting"'));
+  [
+    "directness-without-false-certainty",
+    "clearer-is-not-more-certain",
+    "ssml-catalog-chunks"
+  ].forEach((slug) => {
+    assert.strictEqual(
+      (
+        html.match(
+          new RegExp(
+            `data-statkit-event="Journal Related \\| line-breaks-are-part-of-the-meaning \\| ${slug}"`,
+            "g"
+          )
+        ) || []
+      ).length,
+      1
+    );
+  });
+
+  const headings = [...html.matchAll(/<h([1-6])\b[^>]*>/g)].map(
+    (match) => Number(match[1])
+  );
+  assert.strictEqual(headings[0], 1);
+  headings.slice(1).forEach((level, index) => {
+    assert.ok(
+      level <= headings[index] + 1,
+      `Article heading order jumps from h${headings[index]} to h${level}`
+    );
+  });
+  const executableScripts = [...html.matchAll(/<script(?:\s[^>]*)?src="([^"]+)"/g)].map(
+    (match) => match[1]
+  );
+  assert.deepStrictEqual(executableScripts, [
+    "https://cdn.statskit.ai/v.js",
+    "js/themes.js",
+    "journal-share.js",
+    "js/editorial-components.js"
+  ]);
+
+  assert.strictEqual(demo.status, "verified");
+  assert.strictEqual(demo.destinations.length, 1);
+  assert.deepStrictEqual(demo.destinations[0], {
+    surface: "journal",
+    file: articleFile,
+    rootSelector: '[data-demo-id="DEMO-001"]'
+  });
+  assert.ok(
+    !demo.destinations.some((destination) =>
+      destination.file.includes("tests/fixtures")
+    )
+  );
+  assert.deepStrictEqual(demo.rules, ["SD-STRUCTURE-001"]);
+  assert.deepStrictEqual(demo.regressions, ["SecondDraft structure preservation"]);
+  assert.deepStrictEqual(
+    demo.comparison.versions.map((version) => version.engineCommit),
+    ["6774224", "2d9454d"]
+  );
+
+  assert.ok(article);
+  assert.strictEqual(article.file, articleFile);
+  assert.strictEqual(article.canonical, canonical);
+  assert.strictEqual(article.track, "engine-room");
+  assert.strictEqual(article.published, "2026-07-29");
+  assert.strictEqual(article.modified, "2026-07-29");
+  assert.strictEqual(article.status, "published");
+  assert.deepStrictEqual(article.primaryCta, {
+    destination: "second-draft",
+    href: "second-draft.html",
+    event: "Journal CTA | line-breaks-are-part-of-the-meaning | second-draft"
+  });
+  assert.deepStrictEqual(article.related, [
+    "directness-without-false-certainty",
+    "clearer-is-not-more-certain",
+    "ssml-catalog-chunks"
+  ]);
+  assert.deepStrictEqual(article.sources, []);
+  assert.deepStrictEqual(article.engineCommits, ["6774224", "2d9454d"]);
+  assert.deepStrictEqual(article.ruleIds, ["SD-STRUCTURE-001"]);
+  assert.deepStrictEqual(article.knowledgeIds, []);
+
+  const journalEvents = [
+    article.analytics.open,
+    ...article.analytics.cta,
+    ...article.analytics.related,
+    ...article.analytics.media,
+    ...article.analytics.share
+  ];
+  assert.deepStrictEqual(journalEvents, [
+    "Journal Open | line-breaks-are-part-of-the-meaning",
+    "Journal CTA | line-breaks-are-part-of-the-meaning | second-draft",
+    "Journal Related | line-breaks-are-part-of-the-meaning | directness-without-false-certainty",
+    "Journal Related | line-breaks-are-part-of-the-meaning | clearer-is-not-more-certain",
+    "Journal Related | line-breaks-are-part-of-the-meaning | ssml-catalog-chunks",
+    "Journal Share | line-breaks-are-part-of-the-meaning | native",
+    "Journal Share | line-breaks-are-part-of-the-meaning | copy-link"
+  ]);
+  journalEvents.forEach((event) => {
+    assert.ok(!event.includes("?"));
+    assert.ok(!event.includes("Calendar feeds"));
+    assert.ok(!event.includes("Happy to schedule"));
+  });
+  assert.deepStrictEqual(demo.analytics, [
+    "Editorial Demo | DEMO-001 | replay-start",
+    "Editorial Demo | DEMO-001 | replay-complete",
+    "Editorial Demo | DEMO-001 | replay-step",
+    "Editorial Demo | DEMO-001 | compare-toggle",
+    "Editorial Demo | DEMO-001 | metadata-open",
+    "Editorial Demo | DEMO-001 | reset"
+  ]);
+
+  assert.strictEqual(
+    (
+      indexHtml.match(
+        /href="journal-engine-room-line-breaks-are-part-of-the-meaning\.html"/g
+      ) || []
+    ).length,
+    1
+  );
+  assert.ok(
+    indexHtml.includes(
+      'data-statkit-event="Journal Open | line-breaks-are-part-of-the-meaning"'
+    )
+  );
+  assert.ok(
+    indexHtml.indexOf(articleFile) <
+      indexHtml.indexOf("journal-engine-room-directness-without-false-certainty.html")
+  );
+  assert.strictEqual((sitemap.match(new RegExp(canonical, "g")) || []).length, 1);
+  assert.ok(!sitemap.includes("editorial-components-demo-001.html"));
 }
 
 function testSecondDraftPrimaryReflowPreservesProtectedValues() {
@@ -3062,6 +3459,7 @@ function main() {
   runTest("SecondDraft paragraph reflow truthfulness", testSecondDraftParagraphReflowTruthfulness);
   runTest("SecondDraft structure preservation", testSecondDraftStructurePreservation);
   runTest("Editorial Components foundation", testEditorialComponentsFoundation);
+  runTest("Line breaks article publication", testLineBreaksArticlePublication);
   runTest("SecondDraft primary reflow preserves protected values", testSecondDraftPrimaryReflowPreservesProtectedValues);
   runTest("SecondDraft notification frame safety", testSecondDraftNotificationFrameSafety);
   runTest("SecondDraft Prepare for SSML transfer", testSecondDraftPrepareForSsmlTransfer);

@@ -385,6 +385,52 @@
       "knowledgeIds": [
         "KN-0005"
       ]
+    },
+    {
+      "slug": "line-breaks-are-part-of-the-meaning",
+      "file": "journal-engine-room-line-breaks-are-part-of-the-meaning.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-engine-room-line-breaks-are-part-of-the-meaning.html",
+      "title": "Line Breaks Are Part of the Meaning",
+      "track": "engine-room",
+      "published": "2026-07-29",
+      "modified": "2026-07-29",
+      "summary": "An earlier version of SecondDraft preserved every word in a five-line message while collapsing its structure. The repaired engine now leaves those line boundaries intact.",
+      "status": "published",
+      "primaryCta": {
+        "destination": "second-draft",
+        "href": "second-draft.html",
+        "event": "Journal CTA | line-breaks-are-part-of-the-meaning | second-draft"
+      },
+      "related": [
+        "directness-without-false-certainty",
+        "clearer-is-not-more-certain",
+        "ssml-catalog-chunks"
+      ],
+      "sources": [],
+      "analytics": {
+        "open": "Journal Open | line-breaks-are-part-of-the-meaning",
+        "cta": [
+          "Journal CTA | line-breaks-are-part-of-the-meaning | second-draft"
+        ],
+        "related": [
+          "Journal Related | line-breaks-are-part-of-the-meaning | directness-without-false-certainty",
+          "Journal Related | line-breaks-are-part-of-the-meaning | clearer-is-not-more-certain",
+          "Journal Related | line-breaks-are-part-of-the-meaning | ssml-catalog-chunks"
+        ],
+        "media": [],
+        "share": [
+          "Journal Share | line-breaks-are-part-of-the-meaning | native",
+          "Journal Share | line-breaks-are-part-of-the-meaning | copy-link"
+        ]
+      },
+      "engineCommits": [
+        "6774224",
+        "2d9454d"
+      ],
+      "ruleIds": [
+        "SD-STRUCTURE-001"
+      ],
+      "knowledgeIds": []
     }
   ]
 }

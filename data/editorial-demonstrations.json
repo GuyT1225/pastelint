@@ -116,6 +116,10 @@
             "value": "scripts/validate-demonstrations.mjs"
           },
           {
+            "type": "file",
+            "value": "journal-engine-room-line-breaks-are-part-of-the-meaning.html"
+          },
+          {
             "type": "schema",
             "value": "1"
           }
@@ -142,8 +146,14 @@
         "Editorial Demo | DEMO-001 | metadata-open",
         "Editorial Demo | DEMO-001 | reset"
       ],
-      "destinations": [],
-      "notes": "Verified pre-publication evidence asset. The permanent QA fixture is not a publication destination."
+      "destinations": [
+        {
+          "surface": "journal",
+          "file": "journal-engine-room-line-breaks-are-part-of-the-meaning.html",
+          "rootSelector": "[data-demo-id=\"DEMO-001\"]"
+        }
+      ],
+      "notes": "The Engine Room article is DEMO-001's first production destination. The permanent QA fixture remains outside the publication destination list."
     }
   ]
 }

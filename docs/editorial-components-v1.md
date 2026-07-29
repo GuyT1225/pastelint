@@ -559,3 +559,29 @@ Browser QA passed at desktop, 375 × 812, and 320 × 812. Light, Dark, and Termi
 The updated claim remains narrow: both outputs came from named real commits; the comparison demonstrates one repaired fixture; it accepts no reader input; and it does not establish universal structure understanding, Markdown parsing, or semantic meaning for every newline. Live Engine, Inspect, Experiment, adapters, DEMO-002, public article integration, Journal metadata, and sitemap work remain deferred.
 
 **Exact next cycle:** Review, commit, and push this foundation, then production-smoke the deployed internal QA fixture. After a clean checkpoint, run a separate Engine Room publication cycle for **Line Breaks Are Part of the Meaning**, add its real destination, and activate article fallback drift validation. Do not begin DEMO-002 before that integration is published and production-smoked.
+
+## 36. First publication integration record
+
+**Integration date:** July 29, 2026
+
+**Article:** **Line Breaks Are Part of the Meaning**
+
+**File:** `journal-engine-room-line-breaks-are-part-of-the-meaning.html`
+
+The Engine Room article is DEMO-001's first production destination. The registry declares the article root through `[data-demo-id="DEMO-001"]`, which activates destination fallback-drift validation for classification, demonstration title, source topology, previous output, current output, and limitation. The permanent noindex QA fixture remains a verification surface rather than a publication destination.
+
+The public integration puts persistent explanation before interaction. It states that the previous engine collapsed five lines into one paragraph, that the current engine preserves all five lines, and that the current output matches the source because preservation—not rewriting—is the intended result. A semantic line-count ledger presents the evidence as Original source: 5 lines, Previous engine: 1 line, and Current engine: 5 lines preserved. The compact `5 → 1 → 5` shorthand is decorative and has an accessible text equivalent.
+
+Previous engine behavior versus Current verified behavior remains the default Compare presentation. Replay remains an optional guided action labeled **Step through the repair**. The original source is complete supporting evidence rather than a third default result. The article uses the canonical component runtime and registry; it does not load Second Draft, historical engine files, copied transformation rules, a live adapter, or any remote transformation service.
+
+The static fallback contains the exact source, previous output, current output, classification, title, caption, takeaway, and limitation. Persistent context and complete evidence remain readable without JavaScript. If registry loading fails, the static fallback remains in place and the fixed unavailable-data status does not fabricate output.
+
+Accessibility review covers semantic comparison markup, visible context before controls, native buttons and disabled states, keyboard operation, focus visibility, polite status, metadata disclosure, reduced-motion manual operation, and the accessible line-count ledger. Light, Dark, and Terminal preserve the article and component hierarchy. Desktop, 375 × 812, and 320 × 812 layouts retain readable evidence, wrapping controls, usable sharing, and no horizontal overflow.
+
+The article adds seven fixed Journal events: one Open, one CTA, three Related, and two Share events. Component analytics remain the six canonical DEMO-001 events. The primary directional question is: **After seeing the default previous-versus-current comparison, do readers choose to activate the guided replay?** Open, replay-start, replay-step, replay-complete, and compare-toggle counts do not prove comprehension, unique-user conversion, or causation.
+
+Automated validation passes for one verified Recorded Replay, both supported modes, six component events, and one publication destination. Full regressions include article identity, persistent context, exact fallback evidence, destination registration, Journal identity, index and sitemap synchronization, fixed analytics, privacy, and no-JavaScript comprehension. Journal validation reaches ten published articles and 59 Journal events. It retains the 13 historical warnings and reports one additional missing-knowledge warning for this article because no exact existing knowledge record applies; no warning was suppressed and no knowledge item was created merely to populate metadata.
+
+Known limitations remain unchanged: this is one fixture, not proof that every newline is semantic or that the engine understands arbitrary documents. It does not parse arbitrary Markdown, tables, poetry, or source code. Unusual structures may remain conservatively unreflowed. Recorded Replay accepts no reader input, represents the named commits and verification date, and does not replace human review.
+
+**Exact next cycle:** After browser-chat review, commit and push the publication checkpoint, production-smoke the live article and DEMO-001 destination, verify live metadata, sharing, themes, mobile behavior, data loading, and analytics attributes, then begin the 14-day component analytics window. Continue independent engine work while that window accrues. Do not begin DEMO-002 before this integration is committed, deployed, and production-smoked.
