@@ -2239,6 +2239,178 @@ html[data-theme="light"] body.journal-surface .journal-note {
   line-height: 1.55;
 }
 
+.tutor-prompt-article .sources-hero h1 {
+  max-width: min(100%, 12ch);
+}
+
+.tutor-prompt-article .journal-section-heading {
+  max-width: 54rem;
+}
+
+.tutor-prompt-article .journal-citation {
+  color: var(--journal-track-accent);
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 800;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.tutor-prompt-article .journal-citation:focus-visible {
+  border-radius: 0.12rem;
+  outline: 3px solid var(--journal-track-accent);
+  outline-offset: 3px;
+}
+
+.tutor-key-observation {
+  width: min(100%, 54rem);
+  margin: 0;
+  padding: clamp(1.3rem, 3vw, 2rem) 0 clamp(1.3rem, 3vw, 2rem) clamp(1rem, 3vw, 1.6rem);
+  border-block: 1px solid var(--journal-track-rule);
+  border-left: 3px double var(--journal-track-accent);
+}
+
+.tutor-key-observation p:last-child {
+  max-width: 26ch;
+  margin: 0.55rem 0 0;
+  font-family: var(--journal-display);
+  font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+
+.tutor-evidence-list,
+.tutor-source-list {
+  width: min(100%, 58rem);
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.tutor-evidence-list li,
+.tutor-source-list li {
+  padding: 0.85rem 0 0.85rem 0.4rem;
+  border-top: 1px solid var(--journal-track-rule);
+  color: var(--journal-muted);
+  line-height: 1.65;
+}
+
+.tutor-evidence-list li:last-child,
+.tutor-source-list li:last-child {
+  border-bottom: 1px solid var(--journal-track-rule);
+}
+
+.tutor-evidence-list strong,
+.tutor-source-list strong {
+  color: var(--journal-ink);
+}
+
+.tutor-paths {
+  margin: 0;
+  padding-top: clamp(1.4rem, 3.5vw, 2.2rem);
+  border-top: 3px double var(--journal-track-accent);
+}
+
+.tutor-paths > figcaption {
+  width: min(100%, 48rem);
+}
+
+.tutor-paths > figcaption h2 {
+  max-width: 20ch;
+  margin: 0.3rem 0 0.7rem;
+  font-family: var(--journal-display);
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  line-height: 1;
+}
+
+.tutor-paths > figcaption p:last-child {
+  color: var(--journal-muted);
+}
+
+.tutor-path-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: clamp(1.2rem, 3vw, 1.8rem);
+  border-block: 1px solid var(--journal-track-rule);
+}
+
+.tutor-path {
+  min-width: 0;
+  padding: clamp(1.1rem, 3vw, 1.7rem);
+}
+
+.tutor-path + .tutor-path {
+  border-left: 1px solid var(--journal-track-rule);
+}
+
+.tutor-path h3 {
+  margin: 0 0 1rem;
+  color: var(--journal-ink);
+  font-family: var(--journal-display);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1.1;
+}
+
+.tutor-path ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: tutor-step;
+}
+
+.tutor-path li {
+  position: relative;
+  min-height: 3rem;
+  padding: 0.75rem 0 0.75rem 2.75rem;
+  border-top: 1px solid var(--journal-track-rule);
+  color: var(--journal-muted);
+  counter-increment: tutor-step;
+  line-height: 1.5;
+}
+
+.tutor-path li::before {
+  position: absolute;
+  top: 0.78rem;
+  left: 0;
+  color: var(--journal-track-accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  content: "0" counter(tutor-step);
+}
+
+.tutor-path li:not(:last-child)::after {
+  position: absolute;
+  bottom: -0.55rem;
+  left: 0.55rem;
+  color: var(--journal-track-accent);
+  content: "↓";
+}
+
+.tutor-sources {
+  padding-top: clamp(1.4rem, 3.5vw, 2.2rem);
+  border-top: 2px solid var(--journal-track-accent);
+}
+
+.tutor-source-list a {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .tutor-path-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tutor-path + .tutor-path {
+    border-top: 3px double var(--journal-track-accent);
+    border-left: 0;
+  }
+
+  .tutor-key-observation p:last-child {
+    max-width: none;
+  }
+}
+
 .journal-media-section {
   display: grid;
   gap: clamp(1.2rem, 3vw, 2rem);

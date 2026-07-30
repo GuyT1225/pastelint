@@ -188,6 +188,44 @@
         "Future Sources & Case Studies claims about practitioner consensus"
       ],
       "lastReviewed": "2026-07-27"
+    },
+    {
+      "knowledgeId": "KN-0006",
+      "title": "A Tutor Prompt Is More Than a Refusal",
+      "cycle": "Tutor-not-ghostwriter evidence grounding and publication-readiness verification",
+      "commit": null,
+      "date": "2026-07-30",
+      "trigger": "A community-proposed tutor prompt raised a bounded design question about when an assistant should elicit retrieval, explanation, and choice before supplying finished prose.",
+      "reusableInsight": "For learning-oriented writing tasks, the useful intervention is not refusal alone but supported participation: retrieval, explanation, bounded feedback, and another attempt. Whether that effort helps depends on the task, prior knowledge, cognitive load, guidance, accessibility, and feedback.",
+      "evidence": [
+        "Primary community source: r/PromptEngineering post 1v2oglo, captured 2026-07-30 as a source signal rather than outcome evidence.",
+        "Self-explanation evidence: Chi et al. (1994) and Bisra et al. (2018).",
+        "Retrieval evidence and qualifications: Roediger and Karpicke (2006), Dunlosky et al. (2013), and Gonçalves, Muniz, and Jaeger (2025).",
+        "Difficulty and support boundaries: Lodge et al. (2018) and Chen, Castro-Alonso, Paas, and Sweller (2018).",
+        "Emerging AI evidence: Contractor and Reyes, arXiv:2607.08849v1 and IZA Discussion Paper No. 18792 (July 2026), verified against the full primary PDF."
+      ],
+      "inference": "A writing assistant may preserve more visible intellectual participation when it asks a learner to retrieve, explain, and choose before providing bounded feedback, but the cited studies do not prove that a refusal-first prompt preserves authorship or universally improves learning.",
+      "claimBoundary": "The Reddit post is a community observation, not validation. Classroom and laboratory findings do not transfer automatically to general-purpose writing tools. Contractor and Reyes randomized AI access, not augmentation versus automation; those usage categories were derived after treatment from conversation logs and do not establish a causal advantage for a tutor-only interface.",
+      "primaryDestination": "sources-case-studies",
+      "status": "Published",
+      "relatedRuleIds": [],
+      "relatedTests": [],
+      "relatedArticles": [
+        "tutor-not-ghostwriter"
+      ],
+      "secondaryReferences": [
+        "docs/knowledge-captures/KN-0006-tutor-prompt-more-than-refusal.md",
+        "docs/workflow-v2.md"
+      ],
+      "canonPromotionCandidate": false,
+      "handbookPromotionCandidate": false,
+      "invalidationRisk": "Peer review, later versions of Contractor and Reyes, inaccessible or deleted community-source content, replication evidence, accessibility testing, or direct experiments on tutor-style writing interfaces may narrow or reverse the current synthesis.",
+      "existingKnowledgePotentiallyAffected": [
+        "Future Journal claims about augmentation versus automation",
+        "Future product claims about authorship preservation",
+        "Future learning-oriented interface proposals"
+      ],
+      "lastReviewed": "2026-07-30"
     }
   ]
 }

@@ -387,6 +387,107 @@
       ]
     },
     {
+      "slug": "tutor-not-ghostwriter",
+      "file": "journal-sources-case-studies-tutor-not-ghostwriter.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-sources-case-studies-tutor-not-ghostwriter.html",
+      "title": "A Tutor Prompt Is More Than a Refusal",
+      "track": "sources-case-studies",
+      "published": "2026-07-30",
+      "modified": "2026-07-30",
+      "summary": "A student-designed prompt replaces assignment-ready prose with explanation, questions, and another attempt. Research supports parts of that learning loop—but not universal refusal, guaranteed learning, or a new requirement for writing tools.",
+      "status": "published",
+      "primaryCta": null,
+      "related": [],
+      "sources": [
+        {
+          "id": "reddit-source",
+          "type": "practitioner-community-case",
+          "url": "https://www.reddit.com/r/PromptEngineering/comments/1v2oglo/stop_letting_chatgpt_be_an_ai_writing_tool_for/",
+          "analyticsDestination": "reddit-source"
+        },
+        {
+          "id": "chi-self-explanation",
+          "type": "research-paper",
+          "url": "https://doi.org/10.1207/s15516709cog1803_3",
+          "analyticsDestination": "chi-self-explanation"
+        },
+        {
+          "id": "bisra-self-explanation-meta-analysis",
+          "type": "research-meta-analysis",
+          "url": "https://doi.org/10.1007/s10648-018-9434-x",
+          "analyticsDestination": "bisra-self-explanation-meta-analysis"
+        },
+        {
+          "id": "roediger-karpicke-retrieval",
+          "type": "research-paper",
+          "url": "https://doi.org/10.1111/j.1467-9280.2006.01693.x",
+          "analyticsDestination": "roediger-karpicke-retrieval"
+        },
+        {
+          "id": "dunlosky-learning-techniques",
+          "type": "research-review",
+          "url": "https://doi.org/10.1177/1529100612453266",
+          "analyticsDestination": "dunlosky-learning-techniques"
+        },
+        {
+          "id": "retrieval-practice-meta-analysis",
+          "type": "research-meta-analysis",
+          "url": "https://doi.org/10.1007/s10648-025-10076-6",
+          "analyticsDestination": "retrieval-practice-meta-analysis"
+        },
+        {
+          "id": "lodge-learning-confusion",
+          "type": "research-review",
+          "url": "https://doi.org/10.3389/feduc.2018.00049",
+          "analyticsDestination": "lodge-learning-confusion"
+        },
+        {
+          "id": "chen-undesirable-difficulty",
+          "type": "research-paper",
+          "url": "https://doi.org/10.3389/fpsyg.2018.01483",
+          "analyticsDestination": "chen-undesirable-difficulty"
+        },
+        {
+          "id": "contractor-reyes-arxiv",
+          "type": "emerging-research-preprint",
+          "url": "https://arxiv.org/abs/2607.08849",
+          "analyticsDestination": "contractor-reyes-arxiv"
+        },
+        {
+          "id": "contractor-reyes-iza",
+          "type": "emerging-research-working-paper",
+          "url": "https://www.iza.org/publications/dp/18792/experimental-evidence-on-the-learning-impact-of-generative-ai",
+          "analyticsDestination": "contractor-reyes-iza"
+        }
+      ],
+      "analytics": {
+        "open": "Journal Open | tutor-not-ghostwriter",
+        "cta": [],
+        "related": [],
+        "media": [
+          "Journal Media | tutor-not-ghostwriter | reddit-source",
+          "Journal Media | tutor-not-ghostwriter | chi-self-explanation",
+          "Journal Media | tutor-not-ghostwriter | bisra-self-explanation-meta-analysis",
+          "Journal Media | tutor-not-ghostwriter | roediger-karpicke-retrieval",
+          "Journal Media | tutor-not-ghostwriter | dunlosky-learning-techniques",
+          "Journal Media | tutor-not-ghostwriter | retrieval-practice-meta-analysis",
+          "Journal Media | tutor-not-ghostwriter | lodge-learning-confusion",
+          "Journal Media | tutor-not-ghostwriter | chen-undesirable-difficulty",
+          "Journal Media | tutor-not-ghostwriter | contractor-reyes-arxiv",
+          "Journal Media | tutor-not-ghostwriter | contractor-reyes-iza"
+        ],
+        "share": [
+          "Journal Share | tutor-not-ghostwriter | native",
+          "Journal Share | tutor-not-ghostwriter | copy-link"
+        ]
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": [
+        "KN-0006"
+      ]
+    },
+    {
       "slug": "line-breaks-are-part-of-the-meaning",
       "file": "journal-engine-room-line-breaks-are-part-of-the-meaning.html",
       "canonical": "https://guyt1225.github.io/pastelint/journal-engine-room-line-breaks-are-part-of-the-meaning.html",
