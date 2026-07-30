@@ -37,32 +37,43 @@
 
   <main class="journal-page">
     <section class="journal-hero">
-      <p class="eyebrow">Editorial research</p>
+      <p class="eyebrow journal-publication-id">A PasteLint publication</p>
       <h1>Text Preparation Journal</h1>
       <p class="journal-thesis">
         <span>Posts, scripts, prompts, and voiceovers all start as text.</span>
         <span>This Journal tracks how to clean that text before it becomes something else.</span>
       </p>
       <p>
-        A post, script, prompt, voiceover, support reply, article, or IVR menu all begin the same way: words in a box.
-      </p>
-      <p>
-        If that text is padded, broken, copied badly, or hard to revise, the final output gets worse. Text preparation is the step where you fix the words before they move into the next system.
-      </p>
-      <p>
-        This Journal is PasteLint&rsquo;s public notebook for that work: real examples, editing rules, and engine fixes from the cleanup bench.
+        When text is padded, broken, copied badly, or hard to revise, every downstream result suffers. This is PasteLint&rsquo;s public notebook for the real examples, editing rules, and engine fixes that make words ready for the next system.
       </p>
     </section>
 
     <section class="journal-shell" aria-label="Journal overview">
-      <div class="journal-opening">
-        <p>
-          The boring cleanup step is usually where the expensive downstream problems start.
-        </p>
-      </div>
+      <article class="journal-feature journal-department--engine-room" aria-labelledby="journal-feature-title">
+        <div class="journal-feature-copy">
+          <p class="journal-signal">Engine Room &middot; Featured investigation</p>
+          <h2 id="journal-feature-title" class="journal-feature-title">
+            <a class="journal-headline-link" href="journal-engine-room-line-breaks-are-part-of-the-meaning.html" data-statkit-event="Journal Open | line-breaks-are-part-of-the-meaning">
+              Line Breaks Are Part of the Meaning
+            </a>
+          </h2>
+          <p class="journal-story-deck">Why a five-line message became one paragraph&mdash;and why the safer repair was to preserve its original structure.</p>
+        </div>
+        <figure class="journal-artifact journal-line-specimen">
+          <div class="journal-line-specimen-text" aria-label="Five-line message whose line structure is preserved">
+            <span>Calendar feeds or event links</span>
+            <span>Desired go-live timeline</span>
+            <span>Happy to schedule a quick call if that would be easier.</span>
+            <span>Thanks,</span>
+            <span>Guy</span>
+          </div>
+          <figcaption>Verified fixture: five lines remain five lines when reflow is off.</figcaption>
+        </figure>
+        <p class="journal-meta"><time datetime="2026-07-29">Published July 29, 2026</time></p>
+      </article>
 
       <nav class="journal-track-nav" aria-label="Journal tracks">
-        <p class="journal-track-nav-label">Choose a track</p>
+        <p class="journal-track-nav-label">Departments</p>
         <div class="journal-track-nav-links">
           <a class="journal-track-link journal-track-link--engine-room" href="#engine-room" data-statkit-event="Journal Track | engine-room">
             <span>Engine Room</span>
@@ -79,29 +90,41 @@
         </div>
       </nav>
 
-      <section class="journal-track-overview" aria-labelledby="journal-track-overview-title">
-        <div class="journal-section-heading journal-track-overview-heading">
-          <p class="eyebrow">Journal tracks</p>
-          <h2 id="journal-track-overview-title">Three ways we study text cleanup.</h2>
+      <section class="journal-section journal-latest" aria-labelledby="journal-latest-title">
+        <div class="journal-section-heading journal-supporting-heading">
+          <p class="eyebrow">Recently published</p>
+          <h2 id="journal-latest-title">Latest from the Journal</h2>
         </div>
-
-        <div class="journal-track-overview-grid">
-          <article class="journal-track-card journal-track-card--sources">
-            <p class="journal-signal">Track 01</p>
-            <h3>Sources &amp; Case Studies</h3>
-            <p>Real examples of text problems found in posts, workflows, search data, and production work.</p>
+        <div class="journal-latest-grid">
+          <article class="journal-story">
+            <p class="journal-signal">Engine Room</p>
+            <figure class="journal-mini-artifact journal-modality-study">
+              <p><span>may</span> <span aria-hidden="true">&ne;</span> <span>can</span></p>
+              <figcaption>Possibility is not capability.</figcaption>
+            </figure>
+            <h3><a class="journal-headline-link" href="journal-engine-room-directness-without-false-certainty.html" data-statkit-event="Journal Open | directness-without-false-certainty">Directness Without False Certainty</a></h3>
+            <p class="journal-story-deck">Why SecondDraft stopped treating qualified language as something to delete in Direct mode.</p>
+            <p class="journal-meta"><time datetime="2026-07-27">Published July 27, 2026</time></p>
           </article>
-
-          <article class="journal-track-card journal-track-card--editors-desk">
-            <p class="journal-signal">Track 02</p>
-            <h3>Editor&rsquo;s Desk</h3>
-            <p>Simple writing and editing rules used by PasteLint Clean and SecondDraft.</p>
+          <article class="journal-story">
+            <p class="journal-signal">Editor&rsquo;s Desk</p>
+            <figure class="journal-mini-artifact journal-qualifier-study">
+              <p>The launch will <mark>probably</mark> be delayed.</p>
+              <figcaption>The qualifier defines the claim.</figcaption>
+            </figure>
+            <h3><a class="journal-headline-link" href="journal-editors-desk-clearer-is-not-more-certain.html" data-statkit-event="Journal Open | clearer-is-not-more-certain">Clearer Is Not More Certain</a></h3>
+            <p class="journal-story-deck">A practical test for deciding when qualified language carries meaning rather than clutter.</p>
+            <p class="journal-meta"><time datetime="2026-07-27">Published July 27, 2026</time></p>
           </article>
-
-          <article class="journal-track-card journal-track-card--engine-room">
-            <p class="journal-signal">Track 03</p>
-            <h3>Engine Room</h3>
-            <p>Recent cleanup fixes from real testing, especially SSML, PDF paste, hidden characters, and generated copy.</p>
+          <article class="journal-story">
+            <p class="journal-signal">Sources &amp; Case Studies</p>
+            <figure class="journal-mini-artifact journal-revision-study">
+              <p><span>Draft</span><span aria-hidden="true">&rarr;</span><span>Discovery</span><span aria-hidden="true">&rarr;</span><span>Revision</span></p>
+              <figcaption>Completion creates evidence for the next pass.</figcaption>
+            </figure>
+            <h3><a class="journal-headline-link" href="journal-sources-case-studies-first-draft-finds-the-story.html" data-statkit-event="Journal Open | first-draft-finds-the-story">The First Draft Finds the Story. Revision Makes It Work.</a></h3>
+            <p class="journal-story-deck">Three screenwriters on discovering what a script became, repairing how it begins, and letting the story evolve.</p>
+            <p class="journal-meta"><time datetime="2026-07-27">Published July 27, 2026</time></p>
           </article>
         </div>
       </section>
@@ -116,21 +139,27 @@
         </div>
 
         <div class="journal-note-list journal-published-notes">
-          <article class="journal-note journal-note-published">
-            <p class="journal-signal">Sources &amp; Case Studies &middot; Media File 001</p>
-            <h3><a href="journal-sources-case-studies-first-draft-finds-the-story.html" data-statkit-event="Journal Open | first-draft-finds-the-story">The First Draft Finds the Story. Revision Makes It Work.</a></h3>
-            <p>Three experienced screenwriters approach rewriting from complementary angles: discovering what the script became, repairing how it begins, and allowing the story to evolve when it meets production reality.</p>
-            <p><time datetime="2026-07-27">Published July 27, 2026</time></p>
-          </article>
-
-          <article class="journal-note journal-note-published">
+          <article class="journal-note journal-note-published journal-source-primary">
             <p class="journal-signal">Sources &amp; Case Studies · Field Note 004</p>
             <h3><a href="journal-sources-case-studies-the-new-bottleneck-is-taste.html" data-statkit-event="Journal Open | the-new-bottleneck-is-taste">The New Bottleneck Isn’t Code—It’s Taste</a></h3>
             <p>A practitioner built a functional AI-assisted application, then confronted the harder problem: making it feel considered rather than generated. The case suggests that as construction becomes easier, hierarchy, restraint, and design judgment become more valuable.</p>
+            <figure class="journal-artifact journal-evidence-map">
+              <div>
+                <span>Functional build</span>
+                <span aria-hidden="true">&rarr;</span>
+                <strong>Judgment gap</strong>
+              </div>
+              <ul>
+                <li>Hierarchy</li>
+                <li>Restraint</li>
+                <li>Interaction design</li>
+              </ul>
+              <figcaption>Source synthesis from one practitioner case and its community responses; not an industry-wide finding.</figcaption>
+            </figure>
             <p><time datetime="2026-07-27">Published July 27, 2026</time></p>
           </article>
 
-          <article class="journal-note journal-note-published">
+          <article class="journal-note journal-note-published journal-source-supporting">
             <p class="journal-signal">Field Note 003</p>
             <h3><a href="journal-tracing-with-the-model.html" data-statkit-event="Journal Open | tracing-with-the-model">Tracing Changes the Conditions Around the Output</a></h3>
             <p><strong>Source signal:</strong> Human is the Loop / Substack essay on tracing with language models.</p>
@@ -138,7 +167,7 @@
             <p class="journal-tools">Read the field note: <a href="journal-tracing-with-the-model.html">Tracing changes the conditions around the output</a>.</p>
           </article>
 
-          <article class="journal-note journal-note-published">
+          <article class="journal-note journal-note-published journal-source-supporting">
             <p class="journal-signal">Published note</p>
             <h3><a href="journal-content-pipeline-breaks-before-writing.html" data-statkit-event="Journal Open | content-pipeline-breaks-before-writing">The Content Pipeline Breaks Before the Writing Does</a></h3>
             <p><strong>Source signal:</strong> Reddit / r/micro_saas post about SEO growth after content automation.</p>
@@ -146,7 +175,7 @@
             <p class="journal-tools">Read the field note: <a href="journal-content-pipeline-breaks-before-writing.html">The content pipeline breaks before the writing does</a>.</p>
           </article>
 
-          <article class="journal-note journal-note-published">
+          <article class="journal-note journal-note-published journal-source-archive">
             <p class="journal-signal">Published note</p>
             <h3><a href="journal-cleanup-pass-voice-survives.html" data-statkit-event="Journal Open | cleanup-pass-voice-survives">The Cleanup Pass Is Where Voice Survives</a></h3>
             <p><strong>Source signal:</strong> OpenAI Academy article on revising papers without losing voice.</p>
@@ -166,32 +195,25 @@
         </div>
 
         <div class="journal-note-list">
-          <article class="journal-note">
-            <p class="journal-signal">Published Editor&rsquo;s Desk note</p>
-            <h3><a href="journal-editors-desk-clearer-is-not-more-certain.html" data-statkit-event="Journal Open | clearer-is-not-more-certain">Clearer Is Not More Certain</a></h3>
-            <p>A practical test for deciding when words such as <em>may</em>, <em>probably</em>, <em>I think</em>, and <em>should</em> carry meaning rather than clutter.</p>
-            <p><time datetime="2026-07-27">Published July 27, 2026</time></p>
-          </article>
-
-          <article class="journal-note">
+          <article class="journal-note journal-bench-note">
             <p class="journal-signal">Planned Editing Note</p>
             <h3>PDF line breaks are layout, not paragraphs</h3>
             <p>Why copied PDF text often breaks paragraph flow before the writing itself is edited.</p>
           </article>
 
-          <article class="journal-note">
+          <article class="journal-note journal-note-published">
             <p class="journal-signal">Published Editor&rsquo;s Desk note</p>
             <h3><a href="journal-editors-desk-filler-openings.html" data-statkit-event="Journal Open | filler-openings">Filler Openings Make AI Drafts Feel Unfinished</a></h3>
             <p>Why phrases like “it is important to note” and “in today&rsquo;s landscape” weaken generated copy.</p>
           </article>
 
-          <article class="journal-note">
+          <article class="journal-note journal-bench-note">
             <p class="journal-signal">Planned Editing Note</p>
             <h3>Why hidden characters can merge words</h3>
             <p>How invisible Unicode artifacts can turn normal-looking text into broken pasted output.</p>
           </article>
 
-          <article class="journal-note">
+          <article class="journal-note journal-bench-note">
             <p class="journal-signal">Planned Editing Note</p>
             <h3>Reviewable edits protect voice</h3>
             <p>Why revision works better when writers can compare, choose, and reject changes.</p>
@@ -215,39 +237,25 @@
         </div>
 
         <div class="journal-note-list">
-          <article class="journal-note">
-            <p class="journal-signal">Published Engine Room note</p>
-            <h3><a href="journal-engine-room-line-breaks-are-part-of-the-meaning.html" data-statkit-event="Journal Open | line-breaks-are-part-of-the-meaning">Line Breaks Are Part of the Meaning</a></h3>
-            <p>Why a five-line message became one paragraph&mdash;and why the safer repair was to preserve its original structure.</p>
-            <p><time datetime="2026-07-29">Published July 29, 2026</time></p>
-          </article>
-
-          <article class="journal-note">
-            <p class="journal-signal">Published Engine Room note</p>
-            <h3><a href="journal-engine-room-directness-without-false-certainty.html" data-statkit-event="Journal Open | directness-without-false-certainty">Directness Without False Certainty</a></h3>
-            <p>Why SecondDraft stopped treating qualified language as something to delete in Direct mode.</p>
-            <p><time datetime="2026-07-27">Published July 27, 2026</time></p>
-          </article>
-
-          <article class="journal-note">
+          <article class="journal-note journal-bench-note">
             <p class="journal-signal">Recent improvement</p>
             <h3>Speech cleanup: time abbreviations</h3>
             <p>Improved cases like “1pm” and “7 PM” so speech output reads more naturally.</p>
           </article>
 
-          <article class="journal-note">
+          <article class="journal-note journal-bench-note">
             <p class="journal-signal">Recent improvement</p>
             <h3>Speech cleanup: social handles</h3>
             <p>Improved handling of @handles so they are prepared as “at handle” for spoken output.</p>
           </article>
 
-          <article class="journal-note">
+          <article class="journal-note journal-note-published">
             <p class="journal-signal">Published Engine Room note</p>
             <h3><a href="journal-engine-ssml-catalog-chunks.html" data-statkit-event="Journal Open | ssml-catalog-chunks">Preserving Catalog Records Across SSML Chunks</a></h3>
             <p>Improved chunking so catalog titles, DB numbers, durations, authors, narrators, and descriptions stay together when possible.</p>
           </article>
 
-          <article class="journal-note">
+          <article class="journal-note journal-bench-note">
             <p class="journal-signal">Recent improvement</p>
             <h3>Hidden character cleanup</h3>
             <p>Improved recovery when invisible characters appear inside words, emails, or URLs.</p>
