@@ -42,7 +42,7 @@
       <h1>Text Preparation Journal</h1>
       <p class="journal-thesis">
         <span>Posts, scripts, prompts, and voiceovers all start as text.</span>
-        <span>This Journal tracks how to clean that text before it becomes something else.</span>
+        <span class="journal-thesis-purpose">Shape and refine it before its creative destination.</span>
       </p>
       <p>
         When text is padded, broken, copied badly, or hard to revise, every downstream result suffers. This is PasteLint&rsquo;s public notebook for the real examples, editing rules, and engine fixes that make words ready for the next system.
@@ -52,12 +52,14 @@
     <section class="journal-shell" aria-label="Journal overview">
       <article class="journal-feature journal-department--engine-room" aria-labelledby="journal-feature-title">
         <div class="journal-feature-copy">
-          <p class="journal-signal">Engine Room &middot; Featured investigation</p>
+          <p class="journal-feature-kicker">Featured Investigation</p>
           <h2 id="journal-feature-title" class="journal-feature-title">
             <a class="journal-headline-link" href="journal-engine-room-line-breaks-are-part-of-the-meaning.html" data-statkit-event="Journal Open | line-breaks-are-part-of-the-meaning">
               Line Breaks Are Part of the Meaning
             </a>
           </h2>
+          <p class="journal-meta journal-feature-date"><time datetime="2026-07-29">Published July 29, 2026</time></p>
+          <p class="journal-feature-department">Engine Room</p>
           <p class="journal-story-deck">Why a five-line message became one paragraph&mdash;and why the safer repair was to preserve its original structure.</p>
         </div>
         <figure class="journal-artifact journal-line-specimen">
@@ -70,8 +72,33 @@
           </div>
           <figcaption>Verified fixture: five lines remain five lines when reflow is off.</figcaption>
         </figure>
-        <p class="journal-meta"><time datetime="2026-07-29">Published July 29, 2026</time></p>
       </article>
+
+      <section class="journal-section journal-latest" aria-labelledby="journal-latest-title">
+        <div class="journal-section-heading journal-supporting-heading">
+          <h2 id="journal-latest-title">Recently Published</h2>
+        </div>
+        <div class="journal-latest-grid">
+          <article class="journal-story journal-department--sources">
+            <p class="journal-meta"><time datetime="2026-07-30">Jul 30, 2026</time></p>
+            <h3><a class="journal-headline-link" href="journal-sources-case-studies-tutor-not-ghostwriter.html" data-statkit-event="Journal Open | tutor-not-ghostwriter">A Tutor Prompt Is More Than a Refusal</a></h3>
+            <p class="journal-story-deck">Why retrieval, explanation, feedback, and another attempt matter more than refusal alone.</p>
+            <p class="journal-signal">Sources &amp; Case Studies</p>
+          </article>
+          <article class="journal-story journal-department--engine-room">
+            <p class="journal-meta"><time datetime="2026-07-27">Jul 27, 2026</time></p>
+            <h3><a class="journal-headline-link" href="journal-engine-room-directness-without-false-certainty.html" data-statkit-event="Journal Open | directness-without-false-certainty">Directness Without False Certainty</a></h3>
+            <p class="journal-story-deck">Why SecondDraft stopped treating qualified language as something to delete in Direct mode.</p>
+            <p class="journal-signal">Engine Room</p>
+          </article>
+          <article class="journal-story journal-department--editors-desk">
+            <p class="journal-meta"><time datetime="2026-07-27">Jul 27, 2026</time></p>
+            <h3><a class="journal-headline-link" href="journal-editors-desk-clearer-is-not-more-certain.html" data-statkit-event="Journal Open | clearer-is-not-more-certain">Clearer Is Not More Certain</a></h3>
+            <p class="journal-story-deck">A practical test for deciding when qualified language carries meaning rather than clutter.</p>
+            <p class="journal-signal">Editor&rsquo;s Desk</p>
+          </article>
+        </div>
+      </section>
 
       <nav class="journal-track-nav" aria-label="Journal tracks">
         <p class="journal-track-nav-label">Departments</p>
@@ -91,56 +118,17 @@
         </div>
       </nav>
 
-      <section class="journal-section journal-latest" aria-labelledby="journal-latest-title">
-        <div class="journal-section-heading journal-supporting-heading">
-          <p class="eyebrow">Recently published</p>
-          <h2 id="journal-latest-title">Latest from the Journal</h2>
-        </div>
-        <div class="journal-latest-grid">
-          <article class="journal-story">
-            <p class="journal-signal">Sources &amp; Case Studies</p>
-            <figure class="journal-mini-artifact journal-tutor-study">
-              <p><span>Refusal</span> <span aria-hidden="true">&ne;</span> <span>intervention</span></p>
-              <figcaption>Explanation &rarr; feedback &rarr; another attempt</figcaption>
-            </figure>
-            <h3><a class="journal-headline-link" href="journal-sources-case-studies-tutor-not-ghostwriter.html" data-statkit-event="Journal Open | tutor-not-ghostwriter">A Tutor Prompt Is More Than a Refusal</a></h3>
-            <p class="journal-story-deck">Why retrieval, explanation, feedback, and another attempt matter more than refusal alone.</p>
-            <p class="journal-meta"><time datetime="2026-07-30">Published July 30, 2026</time></p>
-          </article>
-          <article class="journal-story">
-            <p class="journal-signal">Engine Room</p>
-            <figure class="journal-mini-artifact journal-modality-study">
-              <p><span>may</span> <span aria-hidden="true">&ne;</span> <span>can</span></p>
-              <figcaption>Possibility is not capability.</figcaption>
-            </figure>
-            <h3><a class="journal-headline-link" href="journal-engine-room-directness-without-false-certainty.html" data-statkit-event="Journal Open | directness-without-false-certainty">Directness Without False Certainty</a></h3>
-            <p class="journal-story-deck">Why SecondDraft stopped treating qualified language as something to delete in Direct mode.</p>
-            <p class="journal-meta"><time datetime="2026-07-27">Published July 27, 2026</time></p>
-          </article>
-          <article class="journal-story">
-            <p class="journal-signal">Editor&rsquo;s Desk</p>
-            <figure class="journal-mini-artifact journal-qualifier-study">
-              <p>The launch will <mark>probably</mark> be delayed.</p>
-              <figcaption>The qualifier defines the claim.</figcaption>
-            </figure>
-            <h3><a class="journal-headline-link" href="journal-editors-desk-clearer-is-not-more-certain.html" data-statkit-event="Journal Open | clearer-is-not-more-certain">Clearer Is Not More Certain</a></h3>
-            <p class="journal-story-deck">A practical test for deciding when qualified language carries meaning rather than clutter.</p>
-            <p class="journal-meta"><time datetime="2026-07-27">Published July 27, 2026</time></p>
-          </article>
-        </div>
-      </section>
-
-      <section id="sources-case-studies" class="journal-section journal-published-section journal-department journal-department--sources">
+      <section id="sources-case-studies" class="journal-section journal-published-section journal-department journal-department--sources editorial-ledger-section">
         <div class="journal-section-heading">
           <p class="eyebrow">Sources &amp; Case Studies</p>
-          <h2>Real examples before theory.</h2>
+          <h2 id="sources-ledger-title">Real examples before theory.</h2>
           <p>
             Outside evidence, practitioner observations, and cases shaping text preparation.
           </p>
         </div>
 
-        <div class="journal-note-list journal-published-notes">
-          <article class="journal-note journal-note-published journal-source-primary">
+        <ul class="journal-note-list journal-published-notes editorial-ledger" aria-labelledby="sources-ledger-title">
+          <li class="journal-note journal-note-published journal-source-primary">
             <p class="journal-signal">Sources &amp; Case Studies &middot; Lead investigation</p>
             <h3><a href="journal-sources-case-studies-tutor-not-ghostwriter.html">A Tutor Prompt Is More Than a Refusal</a></h3>
             <p>A student-designed prompt replaces assignment-ready prose with explanation, questions, and another attempt. Research supports parts of that learning loop&mdash;but not universal refusal, guaranteed learning, or a new requirement for writing tools.</p>
@@ -155,9 +143,9 @@
               <figcaption>Refusal alone is not the intervention, and the learning value of this sequence remains task-dependent.</figcaption>
             </figure>
             <p><time datetime="2026-07-30">Published July 30, 2026</time></p>
-          </article>
+          </li>
 
-          <article class="journal-note journal-note-published journal-source-supporting">
+          <li class="journal-note journal-note-published journal-source-supporting">
             <p class="journal-signal">Sources &amp; Case Studies · Field Note 004</p>
             <h3><a href="journal-sources-case-studies-the-new-bottleneck-is-taste.html" data-statkit-event="Journal Open | the-new-bottleneck-is-taste">The New Bottleneck Isn’t Code—It’s Taste</a></h3>
             <p>A practitioner built a functional AI-assisted application, then confronted the harder problem: making it feel considered rather than generated. The case suggests that as construction becomes easier, hierarchy, restraint, and design judgment become more valuable.</p>
@@ -175,112 +163,112 @@
               <figcaption>Source synthesis from one practitioner case and its community responses; not an industry-wide finding.</figcaption>
             </figure>
             <p><time datetime="2026-07-27">Published July 27, 2026</time></p>
-          </article>
+          </li>
 
-          <article class="journal-note journal-note-published journal-source-archive">
+          <li class="journal-note journal-note-published journal-source-archive">
             <p class="journal-signal">Field Note 003</p>
             <h3><a href="journal-tracing-with-the-model.html" data-statkit-event="Journal Open | tracing-with-the-model">Tracing Changes the Conditions Around the Output</a></h3>
-          </article>
+          </li>
 
-          <article class="journal-note journal-note-published journal-source-archive">
+          <li class="journal-note journal-note-published journal-source-archive">
             <p class="journal-signal">Published note</p>
             <h3><a href="journal-content-pipeline-breaks-before-writing.html" data-statkit-event="Journal Open | content-pipeline-breaks-before-writing">The Content Pipeline Breaks Before the Writing Does</a></h3>
-          </article>
+          </li>
 
-          <article class="journal-note journal-note-published journal-source-archive">
+          <li class="journal-note journal-note-published journal-source-archive">
             <p class="journal-signal">Published investigation</p>
             <h3><a href="journal-sources-case-studies-first-draft-finds-the-story.html" data-statkit-event="Journal Open | first-draft-finds-the-story">The First Draft Finds the Story. Revision Makes It Work.</a></h3>
-          </article>
+          </li>
 
-          <article class="journal-note journal-note-published journal-source-archive">
+          <li class="journal-note journal-note-published journal-source-archive">
             <p class="journal-signal">Published note</p>
             <h3><a href="journal-cleanup-pass-voice-survives.html" data-statkit-event="Journal Open | cleanup-pass-voice-survives">The Cleanup Pass Is Where Voice Survives</a></h3>
-          </article>
-        </div>
+          </li>
+        </ul>
       </section>
 
-      <section id="editors-desk" class="journal-section journal-editor-section journal-department journal-department--editors-desk">
+      <section id="editors-desk" class="journal-section journal-editor-section journal-department journal-department--editors-desk editorial-ledger-section">
         <div class="journal-section-heading">
           <p class="eyebrow">Editor&rsquo;s Desk</p>
-          <h2>Editing rules behind the tools.</h2>
+          <h2 id="editors-ledger-title">Editing rules behind the tools.</h2>
           <p>
             Practical editorial principles for revision, clarity, speech, and publishing.
           </p>
         </div>
 
-        <div class="journal-note-list">
-          <article class="journal-note journal-bench-note">
+        <ul class="journal-note-list editorial-ledger" aria-labelledby="editors-ledger-title">
+          <li class="journal-note journal-bench-note">
             <p class="journal-signal">Planned Editing Note</p>
             <h3>PDF line breaks are layout, not paragraphs</h3>
             <p>Why copied PDF text often breaks paragraph flow before the writing itself is edited.</p>
-          </article>
+          </li>
 
-          <article class="journal-note journal-note-published">
+          <li class="journal-note journal-note-published">
             <p class="journal-signal">Published Editor&rsquo;s Desk note</p>
             <h3><a href="journal-editors-desk-filler-openings.html" data-statkit-event="Journal Open | filler-openings">Filler Openings Make AI Drafts Feel Unfinished</a></h3>
             <p>Why phrases like “it is important to note” and “in today&rsquo;s landscape” weaken generated copy.</p>
-          </article>
+          </li>
 
-          <article class="journal-note journal-bench-note">
+          <li class="journal-note journal-bench-note">
             <p class="journal-signal">Planned Editing Note</p>
             <h3>Why hidden characters can merge words</h3>
             <p>How invisible Unicode artifacts can turn normal-looking text into broken pasted output.</p>
-          </article>
+          </li>
 
-          <article class="journal-note journal-bench-note">
+          <li class="journal-note journal-bench-note">
             <p class="journal-signal">Planned Editing Note</p>
             <h3>Reviewable edits protect voice</h3>
             <p>Why revision works better when writers can compare, choose, and reject changes.</p>
-          </article>
+          </li>
 
-          <article class="journal-note">
+          <li class="journal-note">
             <p class="journal-signal">Planned Editing Note</p>
             <h3>When punctuation is an audio instruction</h3>
             <p>Why commas, periods, times, symbols, and abbreviations matter for TTS and IVR scripts.</p>
-          </article>
-        </div>
+          </li>
+        </ul>
       </section>
 
-      <section id="engine-room" class="journal-section journal-engine-section journal-department journal-department--engine-room">
+      <section id="engine-room" class="journal-section journal-engine-section journal-department journal-department--engine-room editorial-ledger-section">
         <div class="journal-section-heading">
           <p class="eyebrow">Engine Room</p>
-          <h2>What the engine learned recently.</h2>
+          <h2 id="engine-ledger-title">What the engine learned recently.</h2>
           <p>
             Transparent notes on deterministic engine changes, safeguards, and tests.
           </p>
         </div>
 
-        <div class="journal-note-list">
-          <article class="journal-note journal-bench-note">
+        <ul class="journal-note-list editorial-ledger" aria-labelledby="engine-ledger-title">
+          <li class="journal-note journal-bench-note">
             <p class="journal-signal">Recent improvement</p>
             <h3>Speech cleanup: time abbreviations</h3>
             <p>Improved cases like “1pm” and “7 PM” so speech output reads more naturally.</p>
-          </article>
+          </li>
 
-          <article class="journal-note journal-bench-note">
+          <li class="journal-note journal-bench-note">
             <p class="journal-signal">Recent improvement</p>
             <h3>Speech cleanup: social handles</h3>
             <p>Improved handling of @handles so they are prepared as “at handle” for spoken output.</p>
-          </article>
+          </li>
 
-          <article class="journal-note journal-note-published">
+          <li class="journal-note journal-note-published">
             <p class="journal-signal">Published Engine Room note</p>
             <h3><a href="journal-engine-ssml-catalog-chunks.html" data-statkit-event="Journal Open | ssml-catalog-chunks">Preserving Catalog Records Across SSML Chunks</a></h3>
             <p>Improved chunking so catalog titles, DB numbers, durations, authors, narrators, and descriptions stay together when possible.</p>
-          </article>
+          </li>
 
-          <article class="journal-note journal-bench-note">
+          <li class="journal-note journal-bench-note">
             <p class="journal-signal">Recent improvement</p>
             <h3>Hidden character cleanup</h3>
             <p>Improved recovery when invisible characters appear inside words, emails, or URLs.</p>
-          </article>
+          </li>
 
-          <article class="journal-note">
+          <li class="journal-note">
             <p class="journal-signal">Recent improvement</p>
             <h3>PDF paste cleanup</h3>
             <p>Improved line-break repair so copied PDF text can return to readable paragraph flow.</p>
-          </article>
-        </div>
+          </li>
+        </ul>
       </section>
 
       <section class="journal-section journal-method-section">
