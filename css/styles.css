@@ -2248,6 +2248,7 @@ body.journal-surface .tutor-source-list li {
 }
 
 body.journal-surface .journal-continuation {
+  order: 99;
   display: grid;
   gap: 0.35rem;
   max-width: var(--editorial-reading-measure);
@@ -2384,7 +2385,7 @@ body.journal-surface .site-footer p {
 
 @media (max-width: 360px) {
   body.journal-surface {
-    --editorial-gutter: 1rem;
+    --editorial-gutter: 1.125rem;
   }
 
   .tool-nav {
@@ -6273,6 +6274,61 @@ html[data-theme="terminal"] .line-breaks-article .line-breaks-primary-action:hov
   .line-breaks-article .line-breaks-related-featured {
     padding-right: 0;
   }
+}
+
+/* Journal editorial component normalization */
+
+body.journal-surface .journal-article :is(
+  .fieldnote-source-panel,
+  .editorial-note,
+  .source-dossier,
+  .evidence-boundary,
+  .tutor-key-observation,
+  .readiness-checkpoint,
+  .workflow-chain
+) {
+  margin-block: 0;
+}
+
+body.journal-surface .journal-article :is(
+  .fieldnote-source-panel,
+  .editorial-note,
+  .source-dossier,
+  .evidence-boundary,
+  .readiness-checkpoint,
+  .workflow-chain
+) :is(h2, h3) {
+  margin-bottom: 0.55rem;
+}
+
+body.journal-surface .journal-article :is(
+  .fieldnote-source-panel,
+  .editorial-note,
+  .source-dossier,
+  .evidence-boundary,
+  .readiness-checkpoint,
+  .workflow-chain
+) p {
+  margin-bottom: 0.8rem;
+}
+
+body.journal-surface .journal-article :is(
+  .fieldnote-source-panel,
+  .editorial-note,
+  .source-dossier,
+  .evidence-boundary,
+  .readiness-checkpoint,
+  .workflow-chain
+) p:last-child {
+  margin-bottom: 0;
+}
+
+body.journal-surface .journal-article :is(
+  .editorial-note,
+  .evidence-boundary,
+  .readiness-checkpoint
+) {
+  background: color-mix(in srgb, var(--journal-sheet) 62%, var(--journal-paper) 38%);
 }
 
 /* -----------------------------
