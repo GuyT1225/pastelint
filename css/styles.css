@@ -635,11 +635,30 @@ body.journal-surface .journal-hero {
 
 body.journal-surface .journal-publication-id {
   max-width: 24ch;
-  color: var(--accent);
-  font-size: clamp(1.9rem, 4vw, 2.4rem);
-  font-weight: 900;
-  letter-spacing: 0.11em;
-  line-height: 1.08;
+  color: #83332d;
+  font-family:
+    Newsreader,
+    "Iowan Old Style",
+    "Palatino Linotype",
+    "Book Antiqua",
+    Palatino,
+    Georgia,
+    serif;
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  font-weight: 600;
+  font-optical-sizing: auto;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+}
+
+html[data-theme="dark"] body.journal-surface .journal-publication-id {
+  color: #d36f66;
+}
+
+html[data-theme="terminal"] body.journal-surface .journal-publication-id {
+  color: #d06d64;
 }
 
 body.journal-surface .journal-hero .journal-thesis-purpose {
