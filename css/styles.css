@@ -6390,6 +6390,20 @@ body.journal-surface .journal-shell > :is(
   margin-top: calc(var(--editorial-section) * 0.875);
 }
 
+/* Let published work lead; keep navigation and explanatory material quieter. */
+body.journal-surface .journal-page:not(.journal-article) .journal-shell > .journal-track-nav {
+  margin-top: calc(var(--editorial-section) * 0.6);
+}
+
+body.journal-surface .journal-page:not(.journal-article) .journal-shell > :is(
+  .journal-method-section,
+  .journal-research-section,
+  .journal-docket-section,
+  .journal-close
+) {
+  margin-top: calc(var(--editorial-section) * 0.72);
+}
+
 body.journal-surface .journal-track-nav {
   gap: 0.5rem;
   padding-block: 0.65rem;
