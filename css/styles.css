@@ -6360,6 +6360,12 @@ body.journal-surface .journal-shell > * + * {
   margin-top: var(--editorial-section);
 }
 
+/* Keep article wayfinding attached to the opening it introduces. */
+body.journal-surface .journal-article .journal-shell > nav + .fieldnote-hero,
+body.journal-surface .journal-article .journal-shell > .journal-backlink + .fieldnote-hero {
+  margin-top: clamp(1.75rem, 4vw, 3rem);
+}
+
 body.journal-surface .journal-shell > :is(
   .journal-engine-section,
   .journal-editor-section,
