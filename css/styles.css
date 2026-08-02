@@ -6366,6 +6366,21 @@ body.journal-surface .journal-article .journal-shell > .journal-backlink + .fiel
   margin-top: clamp(1.75rem, 4vw, 3rem);
 }
 
+/* Give every article opening the same title, deck, then metadata rhythm. */
+body.journal-surface .fieldnote-hero-copy > :is(
+  .eyebrow,
+  h1,
+  .journal-thesis,
+  .journal-publication-meta,
+  .journal-track-lockup
+) {
+  margin-block: 0;
+}
+
+body.journal-surface .fieldnote-hero-copy > .journal-publication-meta {
+  order: 3;
+}
+
 body.journal-surface .journal-shell > :is(
   .journal-engine-section,
   .journal-editor-section,
