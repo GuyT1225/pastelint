@@ -2576,7 +2576,7 @@ function testLineBreaksArticlePublication() {
     (match) => match[1]
   );
   assert.deepStrictEqual(executableScripts, [
-    "https://cdn.statskit.ai/v.js",
+    "js/analytics-loader.js",
     "js/themes.js",
     "journal-share.js",
     "js/editorial-components.js"
