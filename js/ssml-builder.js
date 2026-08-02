@@ -527,8 +527,16 @@ function setSsmlStatus(message) {
   const status = document.getElementById("ssmlStatus");
   if (!status) return;
 
+  delete status.dataset.feedbackState;
   status.textContent = message;
   status.hidden = !message;
+}
+
+function setSsmlFeedback(state, message) {
+  const status = document.getElementById("ssmlStatus");
+  if (!status) return;
+
+  window.PasteLintFeedback.set(status, state, message);
 }
 
 function cleanOnly() {
@@ -538,18 +546,32 @@ function cleanOnly() {
   if (!raw.trim() && !footerText.trim()) {
     document.getElementById("cleanOutput").value = "";
     updateCounters();
-    setSsmlStatus("Paste some text first.");
+    setSsmlFeedback("blocked", "Add text to clean.");
     return "";
   }
 
-  const cleaned = buildFullCleanText();
+  try {
+    const cleaned = buildFullCleanText();
 
-  document.getElementById("cleanOutput").value = cleaned;
+    document.getElementById("cleanOutput").value = cleaned;
 
-  updateCounters();
-  setSsmlStatus("Cleaned text ready. Review it before generating SSML.");
+    updateCounters();
+    const unchanged = cleaned === raw.trim() && !footerText.trim();
+    setSsmlFeedback(
+      unchanged ? "unchanged" : "changed",
+      unchanged
+        ? "No speech cleanup needed. The text was preserved."
+        : "Speech text cleaned. Review it before generating SSML."
+    );
 
-  return cleaned;
+    return cleaned;
+  } catch (error) {
+    setSsmlFeedback(
+      "failed",
+      "Speech cleanup could not be completed. The source text was preserved."
+    );
+    return "";
+  }
 }
 
 function getSsmlSourceText() {
@@ -559,34 +581,50 @@ function getSsmlSourceText() {
   return cleaned.trim() ? cleaned : normalizeSocialHandlesForSpeech(raw);
 }
 
-function generateSsmlFromText(text) {
+function generateSsmlFromText(text, sourceLabel = "source text") {
   if (!text.trim()) {
-    setSsmlStatus("Nothing to generate yet.");
-    return;
+    setSsmlFeedback("blocked", "Add text before generating SSML.");
+    return "blocked";
   }
 
-  document.getElementById("ssmlOutput").value = wrapSSML(text);
+  try {
+    const output = document.getElementById("ssmlOutput");
+    const nextSsml = wrapSSML(text);
+    const unchanged = output.value === nextSsml;
+    output.value = nextSsml;
 
-  updateCounters();
-  setSsmlStatus("SSML generated. Review before final Polly audio.");
+    updateCounters();
+    setSsmlFeedback(
+      unchanged ? "unchanged" : "changed",
+      unchanged
+        ? `SSML already matches the ${sourceLabel}.`
+        : `SSML generated from ${sourceLabel}. Review it before final audio.`
+    );
+    return unchanged ? "unchanged" : "changed";
+  } catch (error) {
+    setSsmlFeedback(
+      "failed",
+      "SSML could not be generated. The source text was preserved."
+    );
+    return "failed";
+  }
 }
 
 function generateSsmlOnly() {
   const sourceText = getSsmlSourceText();
 
-  generateSsmlFromText(sourceText);
+  generateSsmlFromText(sourceText, "available text");
 }
 
 function generateSsmlFromCleanedText() {
   const cleaned = document.getElementById("cleanOutput")?.value || "";
 
   if (!cleaned.trim()) {
-    setSsmlStatus("Nothing to generate yet.");
+    setSsmlFeedback("blocked", "Clean text before generating SSML from it.");
     return;
   }
 
-  generateSsmlFromText(cleaned);
-  setSsmlStatus("SSML generated from cleaned text. Review before final Polly audio.");
+  generateSsmlFromText(cleaned, "cleaned text");
 }
 
 function cleanAndGenerate() {
@@ -601,7 +639,7 @@ function cleanAndGenerate() {
 
   if (!cleaned.trim()) return;
 
-  generateSsmlFromText(cleaned);
+  generateSsmlFromText(cleaned, "cleaned text");
 }
 
 function handleCleanEdit() {

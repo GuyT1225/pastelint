@@ -17,6 +17,7 @@ function loadScript(relativePath, context) {
 function createElementStub(value = "") {
   return {
     value,
+    dataset: {},
     textContent: "",
     hidden: false,
     readOnly: false,
@@ -177,12 +178,14 @@ function loadControllerContext(bodyClass = "") {
   const context = createContext({ bodyClass });
   loadScript("js/text-analyzer.js", context);
   loadScript("js/text-clean-engine.js", context);
+  loadScript("js/feedback-state.js", context);
   loadScript("js/script.js", context);
   return context;
 }
 
 function loadSecondDraftContext(options = {}) {
   const context = createContext(options);
+  loadScript("js/feedback-state.js", context);
   loadScript("js/second-draft.js", context);
   return context;
 }
@@ -233,6 +236,7 @@ function loadSsmlContext(elements = {}, options = {}) {
     documentEvents: options.documentEvents
   });
 
+  loadScript("js/feedback-state.js", context);
   loadScript("js/ssml-builder.js", context);
   return context;
 }
@@ -303,7 +307,8 @@ function testHomepageEmptyInputStatus() {
 
     context.handleClean(elements);
 
-    assert.strictEqual(elements.toolStatus.textContent, "Paste some text first.");
+    assert.strictEqual(elements.toolStatus.textContent, "Add text to clean.");
+    assert.strictEqual(elements.toolStatus.dataset.feedbackState, "blocked");
     assert.strictEqual(elements.toolStatus.hidden, false);
     assert.strictEqual(elements.output.value, "");
     assert.strictEqual(elements.postCleanActions.hidden, true);
@@ -314,11 +319,83 @@ function testHomepageEmptyInputStatus() {
 
   assert.strictEqual(
     realInputElements.toolStatus.textContent,
-    "Cleaned text ready. Review the changes, then copy or rewrite in SecondDraft."
+    "Text cleaned. Review the repairs, then continue when ready."
   );
+  assert.strictEqual(realInputElements.toolStatus.dataset.feedbackState, "changed");
   assert.strictEqual(realInputElements.toolStatus.hidden, false);
   assert.strictEqual(realInputElements.postCleanActions.hidden, false);
   assert.ok(realInputElements.output.value);
+
+  const unchangedElements = makeElements("This text is already clean.");
+  context.handleClean(unchangedElements);
+  assert.strictEqual(unchangedElements.toolStatus.dataset.feedbackState, "unchanged");
+  assert.strictEqual(
+    unchangedElements.toolStatus.textContent,
+    "No cleanup needed. The text was preserved."
+  );
+  assert.strictEqual(unchangedElements.output.value, unchangedElements.input.value);
+}
+
+function testFeedbackStateFoundation() {
+  const context = createContext();
+  loadScript("js/feedback-state.js", context);
+  const status = createElementStub();
+
+  ["changed", "unchanged", "blocked", "failed"].forEach((state) => {
+    context.window.PasteLintFeedback.set(status, state, state);
+    assert.strictEqual(status.dataset.feedbackState, state);
+    assert.strictEqual(status.textContent, state);
+    assert.strictEqual(status.hidden, false);
+  });
+
+  assert.throws(
+    () => context.window.PasteLintFeedback.set(status, "success", "Done"),
+    /Unknown feedback state/
+  );
+}
+
+function testSecondDraftFeedbackStates() {
+  const context = loadSecondDraftContext();
+
+  function makeElements(value) {
+    return {
+      input: createElementStub(value),
+      output: createElementStub(""),
+      outputPanel: createElementStub(),
+      toneSelect: createElementStub("natural"),
+      lengthSelect: createElementStub("same"),
+      reflowToggle: { ...createElementStub(), checked: false },
+      toolStatus: createElementStub(),
+      changeInsightEmpty: createElementStub(),
+      changeInsightList: createElementStub(),
+      editMapEmpty: createElementStub(),
+      editMapList: createElementStub(),
+      inputCharCount: createElementStub(),
+      inputWordCount: createElementStub(),
+      outputCharCount: createElementStub(),
+      outputWordCount: createElementStub()
+    };
+  }
+
+  const blocked = makeElements("");
+  context.handleSecondDraftRevise(blocked);
+  assert.strictEqual(blocked.toolStatus.dataset.feedbackState, "blocked");
+  assert.strictEqual(blocked.toolStatus.textContent, "Add text to revise.");
+
+  const unchanged = makeElements("The revised menu is ready for review.");
+  context.handleSecondDraftRevise(unchanged);
+  assert.strictEqual(unchanged.toolStatus.dataset.feedbackState, "unchanged");
+  assert.strictEqual(unchanged.output.value, unchanged.input.value);
+
+  const changed = makeElements("I wanted to mention that the schedule changed.");
+  context.handleSecondDraftRevise(changed);
+  assert.strictEqual(changed.toolStatus.dataset.feedbackState, "changed");
+  assert.notStrictEqual(changed.output.value, changed.input.value);
+
+  assert.strictEqual(
+    context.isTrustworthySecondDraftResult({ text: ", to finish." }),
+    false
+  );
 }
 
 function testScriptHiddenPageStructure() {
@@ -3441,18 +3518,21 @@ function testSsmlEmptyActionStatuses() {
   const context = loadSsmlContext(elements);
 
   context.cleanOnly();
-  assert.strictEqual(elements.ssmlStatus.textContent, "Paste some text first.");
+  assert.strictEqual(elements.ssmlStatus.textContent, "Add text to clean.");
+  assert.strictEqual(elements.ssmlStatus.dataset.feedbackState, "blocked");
   assert.strictEqual(elements.cleanOutput.value, "");
 
   elements.input.value = "   \n\t   ";
   elements.cleanOutput.value = "Previous cleaned text.";
   context.cleanOnly();
-  assert.strictEqual(elements.ssmlStatus.textContent, "Paste some text first.");
+  assert.strictEqual(elements.ssmlStatus.textContent, "Add text to clean.");
+  assert.strictEqual(elements.ssmlStatus.dataset.feedbackState, "blocked");
   assert.strictEqual(elements.cleanOutput.value, "");
 
   elements.input.value = "Welcome to the library.";
   const cleaned = context.cleanOnly();
-  assert.strictEqual(elements.ssmlStatus.textContent, "Cleaned text ready. Review it before generating SSML.");
+  assert.strictEqual(elements.ssmlStatus.textContent, "No speech cleanup needed. The text was preserved.");
+  assert.strictEqual(elements.ssmlStatus.dataset.feedbackState, "unchanged");
   assert.ok(cleaned.includes("Welcome to the library."));
   assert.ok(elements.cleanOutput.value.includes("Welcome to the library."));
 
@@ -3460,17 +3540,35 @@ function testSsmlEmptyActionStatuses() {
   elements.cleanOutput.value = "";
   elements.footerType.value = "calendar";
   const footerCleaned = context.cleanOnly();
-  assert.strictEqual(elements.ssmlStatus.textContent, "Cleaned text ready. Review it before generating SSML.");
+  assert.strictEqual(elements.ssmlStatus.textContent, "Speech text cleaned. Review it before generating SSML.");
+  assert.strictEqual(elements.ssmlStatus.dataset.feedbackState, "changed");
   assert.ok(footerCleaned.includes("To go back to the previous section, press 4."));
   assert.ok(elements.cleanOutput.value.includes("To go back to the previous section, press 4."));
 
   elements.footerType.value = "none";
+  elements.input.value = "";
   elements.cleanOutput.value = "";
   elements.ssmlOutput.value = "";
 
   context.generateSsmlOnly();
-  assert.strictEqual(elements.ssmlStatus.textContent, "Nothing to generate yet.");
+  assert.strictEqual(elements.ssmlStatus.textContent, "Add text before generating SSML.");
+  assert.strictEqual(elements.ssmlStatus.dataset.feedbackState, "blocked");
 
+  elements.input.value = "Welcome to the library.";
+  context.generateSsmlOnly();
+  assert.strictEqual(elements.ssmlStatus.dataset.feedbackState, "changed");
+  assert.ok(elements.ssmlOutput.value.includes("<speak>"));
+
+  context.generateSsmlOnly();
+  assert.strictEqual(elements.ssmlStatus.dataset.feedbackState, "unchanged");
+  assert.strictEqual(
+    elements.ssmlStatus.textContent,
+    "SSML already matches the available text."
+  );
+
+  elements.input.value = "";
+  elements.cleanOutput.value = "";
+  elements.ssmlOutput.value = "";
   context.speakTextById("cleanOutput");
   assert.strictEqual(elements.ssmlStatus.textContent, "Nothing to read yet.");
 
@@ -3480,11 +3578,13 @@ function testSsmlEmptyActionStatuses() {
 
 function main() {
   runTest("Hidden characters", testCleanEngineHiddenCharacters);
+  runTest("Feedback state foundation", testFeedbackStateFoundation);
   runTest("Homepage hidden-character smoke case", testHomepageHiddenCharacterSmokeCase);
   runTest("Homepage empty input status", testHomepageEmptyInputStatus);
   runTest("Hidden-character page structure", testScriptHiddenPageStructure);
   runTest("PDF paste reflow", testScriptPdfPostProcessing);
   runTest("SecondDraft rewrites", testSecondDraftRewrites);
+  runTest("SecondDraft feedback states", testSecondDraftFeedbackStates);
   runTest("SecondDraft Direct request differentiation", testSecondDraftDirectRequestDifferentiation);
   runTest("SecondDraft Direct modality preservation", testSecondDraftDirectModalityPreservation);
   runTest("SecondDraft strength preservation", testSecondDraftStrengthPreservation);

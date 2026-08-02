@@ -67,18 +67,55 @@ function bindSecondDraftEvents(els) {
 
 function handleSecondDraftRevise(els) {
   const raw = els.input?.value.trim() || "";
-  if (!raw) return;
+  if (!raw) {
+    setSecondDraftFeedback(els, "blocked", "Add text to revise.");
+    return;
+  }
 
-  const options = getSecondDraftOptions(els);
-  const result = reviseSecondDraft(raw, options);
+  try {
+    const options = getSecondDraftOptions(els);
+    const result = reviseSecondDraft(raw, options);
 
-  if (els.output) els.output.value = result.text;
-  els.outputPanel?.classList.add("is-active-result");
+    if (!isTrustworthySecondDraftResult(result)) {
+      setSecondDraftFeedback(
+        els,
+        "failed",
+        "Revision could not be completed safely. The source draft was preserved."
+      );
+      return;
+    }
 
-  renderSecondDraftInsights(els, result.changes);
-  renderSecondDraftEditMap(els, result.edits);
-  updateDraftCounters(els);
-  setToolStatus(els, "Draft revised. Review the result, then copy or adjust the settings.");
+    if (els.output) els.output.value = result.text;
+    els.outputPanel?.classList.add("is-active-result");
+
+    renderSecondDraftInsights(els, result.changes);
+    renderSecondDraftEditMap(els, result.edits);
+    updateDraftCounters(els);
+
+    const changed = result.text !== normalizeSecondDraftText(raw);
+    setSecondDraftFeedback(
+      els,
+      changed ? "changed" : "unchanged",
+      changed
+        ? "Draft revised. Review the changes before continuing."
+        : "No revision needed. The draft was preserved."
+    );
+  } catch (error) {
+    setSecondDraftFeedback(
+      els,
+      "failed",
+      "Revision could not be completed. The source draft was preserved."
+    );
+  }
+}
+
+function isTrustworthySecondDraftResult(result) {
+  return Boolean(
+    result &&
+    typeof result.text === "string" &&
+    result.text.trim() &&
+    !/^[,;:]/.test(result.text.trim())
+  );
 }
 
 function handleBuildAnalysisBrief(els) {
@@ -88,6 +125,7 @@ function handleBuildAnalysisBrief(els) {
     if (els.qualityHint) {
       els.qualityHint.textContent = "Paste text first to build an analysis brief.";
     }
+    setSecondDraftFeedback(els, "blocked", "Add text to build a brief.");
     return;
   }
 
@@ -112,7 +150,7 @@ function handleBuildAnalysisBrief(els) {
   ]);
 
   updateDraftCounters(els);
-  setToolStatus(els, "Draft revised. Review the result, then copy or adjust the settings.");
+  setSecondDraftFeedback(els, "changed", "Analysis brief built. Review it before continuing.");
 }
 
 function handlePrepareSecondDraftForSsml(els) {
@@ -997,8 +1035,15 @@ function updateDraftCounters(els) {
 function setToolStatus(els, message) {
   if (!els.toolStatus) return;
 
+  delete els.toolStatus.dataset.feedbackState;
   els.toolStatus.textContent = message;
   els.toolStatus.hidden = !message;
+}
+
+function setSecondDraftFeedback(els, state, message) {
+  if (!els.toolStatus) return;
+
+  window.PasteLintFeedback.set(els.toolStatus, state, message);
 }
 
 function copySecondDraftOutput(els) {

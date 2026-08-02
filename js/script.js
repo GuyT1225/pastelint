@@ -776,8 +776,15 @@ if (
 function setToolStatus(els, message) {
   if (!els.toolStatus) return;
 
+  delete els.toolStatus.dataset.feedbackState;
   els.toolStatus.textContent = message;
   els.toolStatus.hidden = !message;
+}
+
+function setCleanFeedback(els, state, message) {
+  if (!els.toolStatus) return;
+
+  window.PasteLintFeedback.set(els.toolStatus, state, message);
 }
 
 function setPageResultState(active) {
@@ -794,7 +801,7 @@ function handleClean(els) {
   const raw = getInputText(els);
   if (!raw) {
     setPageResultState(false);
-    setToolStatus(els, "Paste some text first.");
+    setCleanFeedback(els, "blocked", "Add text to clean.");
 
     if (els.postCleanActions) {
       els.postCleanActions.hidden = true;
@@ -803,48 +810,68 @@ function handleClean(els) {
     return;
   }
 
-  const cleanMode = getCleanMode(els);
-  const reviewMode = getReviewMode(els);
-  const result = getCleanResult(raw, cleanMode, reviewMode);
+  try {
+    const cleanMode = getCleanMode(els);
+    const reviewMode = getReviewMode(els);
+    const result = getCleanResult(raw, cleanMode, reviewMode);
 
-  const postCleanWarnings = filterResolvedWarnings(
-    result.warnings,
-    result.text
-  );
+    if (!result || typeof result.text !== "string") {
+      throw new Error("Cleanup did not return text.");
+    }
 
-  setOutput(els, result.text);
-  setPageResultState(Boolean(result.text));
+    const postCleanWarnings = filterResolvedWarnings(
+      result.warnings,
+      result.text
+    );
 
-  if (els.postCleanActions) {
-    els.postCleanActions.hidden = false;
+    setOutput(els, result.text);
+    setPageResultState(Boolean(result.text));
+
+    if (els.postCleanActions) {
+      els.postCleanActions.hidden = false;
+    }
+
+    const changed = result.text !== raw;
+    setCleanFeedback(
+      els,
+      changed ? "changed" : "unchanged",
+      changed
+        ? "Text cleaned. Review the repairs, then continue when ready."
+        : "No cleanup needed. The text was preserved."
+    );
+
+    runPreAnalysis(els, postCleanWarnings, result.text);
+
+    renderTextBrief(
+      els,
+      raw,
+      result.text,
+      result.changes,
+      postCleanWarnings
+    );
+
+    renderEditPreview(
+      els,
+      result.edits,
+      result.changes
+    );
+
+    renderVisualPreview(
+      els,
+      raw,
+      result.text,
+      result.changes
+    );
+
+    updateCounters(els);
+  } catch (error) {
+    setPageResultState(false);
+    setCleanFeedback(
+      els,
+      "failed",
+      "Cleaning could not be completed. The source text was preserved."
+    );
   }
-
-  setToolStatus(els, "Cleaned text ready. Review the changes, then copy or rewrite in SecondDraft.");
-
-  runPreAnalysis(els, postCleanWarnings, result.text);
-
-  renderTextBrief(
-    els,
-    raw,
-    result.text,
-    result.changes,
-    postCleanWarnings
-  );
-
-  renderEditPreview(
-    els,
-    result.edits,
-    result.changes
-  );
-
-  renderVisualPreview(
-    els,
-    raw,
-    result.text,
-    result.changes
-  );
-
-  updateCounters(els);
 }
 
 function getCleanResult(raw, cleanMode, reviewMode = "paragraph") {
