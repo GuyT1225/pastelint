@@ -2251,14 +2251,14 @@ body.journal-surface .journal-section-heading {
 }
 
 body.journal-surface .journal-article .journal-section-heading {
-  gap: 0.35rem;
+  gap: 0.2rem;
 }
 
 body.journal-surface .journal-article .journal-section-heading .eyebrow {
   margin: 0;
-  font-size: 0.84rem;
-  letter-spacing: 0.14em;
-  line-height: 1.35;
+  font-size: 0.88rem;
+  letter-spacing: 0.1em;
+  line-height: 1.15;
 }
 
 body.journal-surface .journal-section-heading p:not(.eyebrow) {
@@ -2295,6 +2295,14 @@ body.journal-surface .journal-article .journal-section + blockquote,
 body.journal-surface .journal-article blockquote + .journal-section,
 body.journal-surface .journal-article figure + .journal-section {
   margin-top: 0;
+}
+
+body.journal-surface .journal-article :is(
+  .journal-section,
+  blockquote,
+  figure
+) + .journal-section {
+  margin-top: calc(var(--editorial-cluster) * 2);
 }
 
 body.journal-surface .journal-article figure figcaption {
