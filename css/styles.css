@@ -670,6 +670,11 @@ body.journal-surface .journal-publication-utilities {
   align-items: center;
 }
 
+body.journal-surface .journal-publication-title-cluster {
+  display: grid;
+  gap: var(--editorial-cluster-tight);
+}
+
 body.journal-surface .journal-rss-link {
   display: inline-flex;
   align-items: center;
