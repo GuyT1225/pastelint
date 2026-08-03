@@ -665,6 +665,51 @@ body.journal-surface .journal-hero .journal-thesis-purpose {
   color: var(--accent);
 }
 
+body.journal-surface .journal-publication-utilities {
+  display: flex;
+  align-items: center;
+}
+
+body.journal-surface .journal-rss-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  width: fit-content;
+  color: var(--journal-muted);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+body.journal-surface .journal-rss-link svg {
+  width: 0.92rem;
+  height: 0.92rem;
+  flex: 0 0 auto;
+  fill: currentColor;
+}
+
+body.journal-surface .journal-rss-link path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
+body.journal-surface .journal-rss-link:hover,
+body.journal-surface .journal-rss-link:focus-visible {
+  color: var(--journal-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+body.journal-surface .footer-publication-utilities {
+  margin: 0.1rem 0 1rem;
+}
+
 body.journal-surface time[datetime] {
   color: var(--accent);
 }

@@ -531,12 +531,17 @@ const journalFeedDiscoveryCount = (
 if (journalFeedDiscoveryCount !== 1) {
   error("text-preparation-journal.html", `RSS discovery link must appear exactly once (${journalFeedDiscoveryCount})`);
 }
-const journalFeedUtilityCount = countLiteral(
-  indexHtml,
-  '<a href="journal.xml" type="application/rss+xml">RSS feed</a>'
-);
-if (journalFeedUtilityCount !== 1) {
-  error("text-preparation-journal.html", `RSS utility link must appear exactly once (${journalFeedUtilityCount})`);
+const journalFeedUtilityCount = (
+  indexHtml.match(/<a\s+class="journal-rss-link"\s+href="journal\.xml"\s+type="application\/rss\+xml"\s+aria-label="Subscribe to the Text Preparation Journal RSS feed">/gi) ?? []
+).length;
+if (journalFeedUtilityCount !== 2) {
+  error("text-preparation-journal.html", `RSS utility link must appear in the masthead and footer (${journalFeedUtilityCount}/2)`);
+}
+const journalFeedIconCount = (
+  indexHtml.match(/<svg\s+viewBox="0 0 24 24"\s+aria-hidden="true"\s+focusable="false">/gi) ?? []
+).length;
+if (journalFeedIconCount !== 2) {
+  error("text-preparation-journal.html", `RSS utility icons must be decorative and unfocusable (${journalFeedIconCount}/2)`);
 }
 
 if (!/^<\?xml version="1\.0" encoding="UTF-8"\?>/i.test(feedXml)) {
