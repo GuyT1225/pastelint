@@ -1,223 +1,160 @@
 # PasteLint
 
-Browser-only text preparation for copied, generated, and speech-ready text.
+PasteLint is a browser-first text preparation suite for copied, drafted, generated, and speech-ready text.
 
-PasteLint helps clean and prepare text before it becomes a post, script, prompt, voiceover, support reply, document, SSML file, or IVR recording.
+It helps people clean structural noise, revise wording through bounded editorial rules, and prepare reviewed text for its next destination—without uploading the text to a processing service.
 
-Live demo: <https://guyt1225.github.io/pastelint/> | [Text Preparation Journal](text-preparation-journal.html) | [Report an edge case](contact.html) | Repo: <https://github.com/GuyT1225/pastelint>
+[Open PasteLint](https://guyt1225.github.io/pastelint/) · [Read the Journal](text-preparation-journal.html) · [Subscribe by RSS](journal.xml) · [Report an edge case](contact.html)
 
-## Workflow
+## Why PasteLint exists
 
-PasteLint follows one browser-only preparation path:
+Text rarely stays where it was written. It moves through documents, websites, email, prompts, publishing systems, speech tools, and accessibility workflows. Small formatting defects and careless revisions can become larger downstream problems.
 
-**Paste -> Clean -> Revise -> Prepare**
+PasteLint treats preparation as a distinct editorial step. The goal is greater usefulness without quietly changing what the text claims, requires, permits, implies, or leaves uncertain. Meaning matters more than generic polish, and transformations should remain reviewable.
 
-1. **Paste** copied, generated, drafted, or exported text.
-2. **Clean** deterministic formatting and transfer problems.
-3. **Revise** with Second Draft's bounded editorial patterns and options.
-4. **Prepare** reviewed text for its destination, including an exact handoff to SSML Builder.
+## The workflow
 
-Clean and Revise are intentionally different. Clean performs mechanical normalization such as hidden-character, spacing, punctuation, and line-ending repair. Second Draft changes wording only through finite patterns and substitutions. It is not a model-backed rewrite or semantic summarization system.
+**Paste → Clean → Revise → Prepare**
 
-## Trust Model
+### Clean
 
-PasteLint is a static GitHub Pages project.
+Deterministic preparation for hidden characters, broken spacing, punctuation damage, copied line endings, repeated words, and related structural noise. Clean repairs transfer problems; it does not choose a tone or broadly rewrite meaning.
 
-- Runs in the browser
-- No login
-- No upload
-- No backend
-- No API
-- Pasted text stays in the browser
-- Analytics are used for basic page/event understanding, not pasted text
+### Revise
 
-Do not paste confidential, client, medical, legal, personal, or sensitive text into public reports or GitHub issues. Small anonymized examples are best.
+Second Draft applies finite editorial patterns and user-selected tone, length, and structure options. Its safeguards are designed to preserve tested meaning, uncertainty, force, actors, conditions, and protected values. It is bounded revision, not open-ended generation or semantic summarization.
 
-## What PasteLint Is Not
+### Prepare
 
-- Not an AI humanizer
-- Not detector bypass
-- Not a grammar subscription
-- Not a cloud editor
-- Not a place to paste confidential text for review
+Reviewed text moves into destination-aware treatment for speech, SSML, publishing, documentation, email, websites, and other workflows. The current Second Draft handoff transfers the exact selected text to SSML Builder; later preparation remains explicit.
 
-PasteLint is for cleanup, review, and preparation before text moves into the next system.
+## What makes it different
 
-## Tools
+PasteLint follows a small set of durable principles:
 
-| Tool/page | What it prepares | Link |
-| --- | --- | --- |
-| PasteLint Clean | General copied text, paste artifacts, hidden characters, spacing, and formatting noise | [index.html](index.html) |
-| Clean ChatGPT Output | Generated drafts with filler, inflated phrasing, rough spacing, or paste noise | [clean-chatgpt-output.html](clean-chatgpt-output.html) |
-| Fix PDF Paste | Text copied from PDFs with broken line breaks or paragraph flow | [fix-pdf-paste.html](fix-pdf-paste.html) |
-| Remove Hidden Characters | Zero-width characters, hard spaces, and invisible formatting residue | [remove-hidden-characters.html](remove-hidden-characters.html) |
-| Clean Text Message | Short messages, quick emails, and mobile drafts | [clean-text-message.html](clean-text-message.html) |
-| SecondDraft | Bounded deterministic revision options for tone, length, and structure | [second-draft.html](second-draft.html) |
-| SSML Builder | Speech-ready text, XML escaping, DB numbers, chunks, and SSML handoff | [SSML_builder.html](SSML_builder.html) |
-| TTS Text Cleanup | Read-aloud text before narration, TTS, or SSML | [tts-text-cleanup.html](tts-text-cleanup.html) |
-| IVR Text Prep | Phone menu copy, contact info, and public-service scripts | [ivr-text-prep.html](ivr-text-prep.html) |
-| Text Readiness Framework | The broader Paste -> Clean -> Revise -> Prepare model | [text-readiness-framework.html](text-readiness-framework.html) |
-| Text Preparation Journal | Field notes, writing rules, and engine notes from real cleanup cases | [text-preparation-journal.html](text-preparation-journal.html) |
+- Preserve meaning, uncertainty, force, attribution, and meaningful structure.
+- Explain transformations only when the resulting evidence supports the explanation.
+- Keep the user in control of editorial judgment and final wording.
+- Keep Clean, Revise, and Prepare distinct.
+- Prefer conservative preservation when a boundary is uncertain.
+- Ground behavior and public claims in tests, provenance, and observed results.
 
-## How It Works
+PasteLint is not an AI writer, AI humanizer, detector-bypass system, cloud editor, grammar checker or subscription, note-taking application, or generic writing assistant.
 
-At a high level:
+## What you can do
 
-1. Browser-side JavaScript cleans pasted text locally.
-2. The user reviews the mechanical cleanup.
-3. Second Draft can apply bounded pattern, phrase, tone, length, and structure revisions.
-4. Visible revision notes report observed changes; internal rule matches connect selected transformations to stable registry IDs.
-5. Prepare for SSML transfers the exact revised output, or the input when no revised output exists.
-6. SSML Builder can explicitly clean, generate, XML-escape, preview, and chunk speech-ready text.
-7. Regression tests protect known cleanup, revision, transfer, and SSML invariants.
-
-PasteLint does not need a server to process pasted text.
-
-## Current Engine Boundaries
-
-- The Second Draft rule registry describes behavior; it does not execute transformations.
-- If registry metadata cannot load or validate, Second Draft continues with an empty metadata lookup.
-- Existing paragraph blocks survive ordinary revision. Optional reflow treats each non-empty line as a paragraph and reports reflow only when paragraph count changes.
-- Notification-frame rules remove complete known frames and retain the tested main statement, negation, conditions, protected values, and following text.
-- Direct tone is a finite set of deterministic patterns, not a universal tone model.
-- Shorter removes defined filler and later exact normalized eligible sentence repetitions. It does not summarize, detect paraphrases, merge similar ideas, or rank importance.
-- Preservation claims are backed by regression fixtures and bounded patterns, not a universal semantic guarantee.
-
-See [Engine Architecture](docs/engine-architecture.md) for the exact behavior and [Engine Changelog](docs/engine-changelog.md) for the completed cycle.
-
-## Key Implementation Files
-
-| File | Purpose |
+| Tool or resource | Purpose |
 | --- | --- |
-| [js/text-clean-engine.js](js/text-clean-engine.js) | Shared cleanup rules for pasted text, hidden characters, PDF reflow, spacing, and related cleanup behavior |
-| [js/text-analyzer.js](js/text-analyzer.js) | Shared analysis helpers for detecting text issues and reporting what changed |
-| [js/script.js](js/script.js) | Main PasteLint Clean and shared task-page controller behavior |
-| [js/second-draft.js](js/second-draft.js) | SecondDraft revision, brief, and local rewrite-support behavior |
-| [js/second-draft-rule-registry.js](js/second-draft-rule-registry.js) | Rule-registry validation, active lookup, loading, and safe fallback |
-| [data/second-draft-rules.json](data/second-draft-rules.json) | Canonical Second Draft rule metadata and stable rule IDs |
-| [js/ssml-builder.js](js/ssml-builder.js) | SSML Builder cleanup, XML escaping, speech-safe formatting, and chunking logic |
-| [js/themes.js](js/themes.js) | Light, Dark, and Terminal theme switching |
-| [tests/regression.js](tests/regression.js) | No-dependency regression checks for cleanup, SecondDraft, and SSML behavior |
+| [PasteLint Clean](index.html) | Repair general paste artifacts, hidden characters, spacing, punctuation, and formatting noise. |
+| [Clean ChatGPT Output](clean-chatgpt-output.html) | Prepare generated drafts with filler, inflated phrasing, rough spacing, or copy residue. |
+| [Fix PDF Paste](fix-pdf-paste.html) | Repair hard line breaks and paragraph flow in text copied from PDFs. |
+| [Remove Hidden Characters](remove-hidden-characters.html) | Remove zero-width characters, hard spaces, and invisible formatting residue. |
+| [Clean Text Message](clean-text-message.html) | Prepare short messages, quick emails, and mobile drafts. |
+| [Second Draft](second-draft.html) | Apply bounded revision options for tone, length, clarity, and structure. |
+| [SSML Builder](SSML_builder.html) | Clean, review, escape, preview, chunk, and export speech-ready text and SSML. |
+| [TTS Text Cleanup](tts-text-cleanup.html) | Prepare text before narration, read-aloud, TTS, or SSML use. |
+| [IVR Text Prep](ivr-text-prep.html) | Prepare phone-menu copy, contact information, and public-service scripts. |
+| [Text Readiness Framework](text-readiness-framework.html) | See how Paste, Clean, Revise, and Prepare fit together. |
 
-## Engine Documentation
+## One editorial ecosystem
 
-| Document | Purpose |
+PasteLint is more than a set of isolated utilities. Its parts form one editorial system:
+
+- **Clean** provides deterministic preparation and structural repair.
+- **Second Draft** provides bounded, reviewable editorial revision.
+- **SSML Builder** provides destination-aware speech and markup preparation.
+- **Text Preparation Journal** publishes engine evidence, editorial principles, and research.
+- **Editorial Constitution** defines the principles every part must preserve.
+- **Codex Dispatch Standard** governs how repository implementation work is scoped, validated, and reported.
+
+The product performs the work. The Journal explains what was learned. Governance documents keep future changes coherent.
+
+## Text Preparation Journal
+
+The [Text Preparation Journal](text-preparation-journal.html) is PasteLint's public record of editorial reasoning, engineering safeguards, research, and evidence. It is not a product-marketing blog.
+
+Its departments have distinct roles:
+
+- **Engine Room** documents product behavior, verification, limitations, and engineering lessons.
+- **Editor's Desk** develops practical editorial principles without overstating product authority.
+- **Sources & Case Studies** separates external evidence, observed cases, and interpretation.
+
+The Journal is available as an [RSS feed](journal.xml). Published records are also checked against the repository manifest, metadata, analytics declarations, sitemap, and publication validator.
+
+## Privacy and trust
+
+PasteLint's current tools run in the browser with client-side JavaScript.
+
+- No login is required.
+- Text is pasted into the page rather than uploaded as a file.
+- PasteLint has no backend text-processing service or model call.
+- Pasted text is not sent to analytics; analytics are limited to basic site and fixed event usage.
+- The public site is deployed as a static GitHub Pages project.
+
+Local processing does not make every surrounding workflow private. Avoid placing confidential, client, medical, legal, personal, or sensitive text in public reports or GitHub issues. Review output before using it in factual, legal, medical, financial, professional, or sensitive communication.
+
+See the [Privacy Policy](privacy.html) for the current implementation disclosure.
+
+## Public resources
+
+- [PasteLint on GitHub Pages](https://guyt1225.github.io/pastelint/)
+- [Text Preparation Journal](text-preparation-journal.html)
+- [Journal RSS feed](journal.xml)
+- [GitHub repository](https://github.com/GuyT1225/pastelint)
+
+## Documentation map
+
+Start with the document that answers the question you have:
+
+| Document | Authority |
 | --- | --- |
-| [docs/engine-architecture.md](docs/engine-architecture.md) | Current stage boundaries, data flow, safeguards, invariants, and limitations |
-| [docs/second-draft-editorial-rulebook.md](docs/second-draft-editorial-rulebook.md) | Stable-ID policy and rule-registry governance |
-| [docs/engine-changelog.md](docs/engine-changelog.md) | Completed engine cycles, user-visible effects, tests, and known limitations |
-| [QA_CHECKLIST.md](QA_CHECKLIST.md) | Manual page checks and automated regression guidance |
+| **README** | Public project identity, workflow, tools, and contributor orientation. |
+| [Editorial Constitution](docs/editorial-constitution.md) | Highest-level authority for enduring editorial principles. |
+| [Workflow v2](docs/workflow-v2.md) | Technical and knowledge lanes, checkpoints, destinations, and invalidation. |
+| [Engine Architecture](docs/engine-architecture.md) | Current stage boundaries, behavior, safeguards, and limitations. |
+| [Journal Publication Identity](docs/journal-publication-identity.md) | Authorship, dates, sharing, analytics declarations, and publication validation. |
+| [Editorial Components v1](docs/editorial-components-v1.md) | Reusable evidence presentation, provenance, accessibility, and lifecycle rules. |
+| [QA Checklist](QA_CHECKLIST.md) | Operational regression and browser checks. |
+| [Codex Dispatch Standard](docs/codex-dispatch-standard.md) | Repository rehydration, implementation scope, validation, and return briefs. |
 
-## Local Development
+## Development
 
-Serve the static site locally:
+PasteLint is a static, framework-free HTML, CSS, and JavaScript project. There is no build step.
+
+Serve it locally:
 
 ```powershell
 python -m http.server 8000
 ```
 
-Then open:
+Then open `http://127.0.0.1:8000/`.
 
-```text
-http://127.0.0.1:8000/
-```
-
-Run the regression suite:
+Run the no-dependency regression suite:
 
 ```powershell
 node tests/regression.js
 ```
 
-There is no build step.
+Key implementation sources:
 
-## Text Preparation Journal
+| File | Responsibility |
+| --- | --- |
+| [js/text-clean-engine.js](js/text-clean-engine.js) | Shared deterministic cleanup rules. |
+| [js/text-analyzer.js](js/text-analyzer.js) | Shared findings and text analysis. |
+| [js/second-draft.js](js/second-draft.js) | Bounded editorial revision pipeline. |
+| [data/second-draft-rules.json](data/second-draft-rules.json) | Canonical Second Draft rule metadata and stable IDs. |
+| [js/ssml-builder.js](js/ssml-builder.js) | Speech cleanup, escaping, preview, chunking, and export. |
+| [tests/regression.js](tests/regression.js) | Regression protection for Clean, Second Draft, transfer, and SSML behavior. |
 
-The Text Preparation Journal is PasteLint's public notebook for text cleanup work.
+Development should remain browser-native, privacy-conscious, explainable, and conservative. Begin new engine work with a concrete failure fixture and preservation analysis; make small, reviewable changes; and claim only what validation demonstrates.
 
-Tracks:
+## Feedback and source signals
 
-- Sources & Case Studies: real examples of text problems found in posts, tools, search behavior, and production work
-- Editor's Desk: writing and editing rules used by PasteLint Clean and SecondDraft
-- Engine Room: cleanup rules and SSML fixes that came from real testing
+Use [GitHub Issues](https://github.com/GuyT1225/pastelint/issues) for repeatable bugs, broken links, cleanup edge cases, and technical reports. Friendly or nontechnical notes can go to `contact.pastelint@gmail.com`.
 
-The Journal is not a generic writing blog. It documents text-prep problems that affect reuse, revision, publishing, speech, SSML, IVR, and related handoffs.
+Useful reports identify the tool, input type, observed result, expected result, and a small anonymized example. Journal source signals should include the source link, what happened, why it appears to be a text-preparation problem, and any related tool.
 
-## Reporting Feedback, Source Signals, And Bugs
-
-Friendly/nontechnical notes can go to:
-
-```text
-contact.pastelint@gmail.com
-```
-
-GitHub Issues are public and are best for repeatable bugs, broken links, cleanup edge cases, and technical reports:
-
-<https://github.com/GuyT1225/pastelint/issues>
-
-Useful reports are usually small:
-
-```text
-Tool used:
-Input type:
-What happened:
-What you expected:
-Small safe example:
-Browser/device, if relevant:
-```
-
-For Journal source signals:
-
-```text
-Source link:
-What happened:
-Why it seems like a text-prep problem:
-Related tool, if any:
-```
-
-Please do not send confidential, client, medical, legal, personal, or sensitive text. Summaries and anonymized examples are best.
-
-## Development Principles
-
-PasteLint development is intentionally conservative:
-
-- Browser-native first
-- Minimal dependencies
-- No backend text processing
-- Explainable cleanup rules
-- Regression coverage for production-discovered edge cases
-- Small, reviewable changes
-
-The goal is boringly safe, useful text infrastructure.
-
-## Status
-
-PasteLint is actively developed and used as a live browser-only text preparation suite.
-
-Recent work has focused on:
-
-- Second Draft rule-registry metadata and safe fallback
-- Structural and tested protected-value preservation
-- Truthful paragraph-reflow reporting
-- Notification-frame and negation safeguards
-- Exact Second Draft to SSML Builder transfer
-- Exact repeated-sentence reduction in Shorter mode
-
-Shorter remains deliberately narrow: it removes defined filler and later exact eligible sentence repetitions, not broad semantic redundancy.
-
-## Workflow v2
-
-[Workflow v2](docs/workflow-v2.md) keeps verified technical work independent from optional editorial publication while preserving reusable knowledge and provenance.
-
-PasteLint's enduring editorial principles are governed by the [Editorial Constitution](docs/editorial-constitution.md).
-
-Implementation milestones handed to Codex follow the [Codex Dispatch Standard](docs/codex-dispatch-standard.md).
-
-- Record significant-cycle knowledge in `data/knowledge-ledger.json`.
-- Start a capture with `docs/templates/knowledge-capture-note.md`.
-- Keep every published or planned Journal record in `data/journal-manifest.json`.
-- Run `node scripts/validate-journal.mjs` after changing the manifest, ledger, Journal cards, article metadata, analytics, related reading, sources, or sitemap.
-
-Validation errors identify objective drift such as missing files, cards, canonicals, destinations, or required events. Warnings retain useful uncertainty such as incomplete historical provenance or absent optional dates. The next Sources & Case Studies article should begin with a capture note and a `draft` manifest entry before publication work starts.
+Do not include confidential or sensitive text in a public report.
 
 ## License
 
