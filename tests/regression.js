@@ -2744,8 +2744,8 @@ function testLineBreaksArticlePublication() {
     )
   );
   assert.ok(
-    indexHtml.indexOf(articleFile) <
-      indexHtml.indexOf("journal-engine-room-directness-without-false-certainty.html")
+    indexHtml.indexOf("journal-engine-room-directness-without-false-certainty.html") <
+      indexHtml.indexOf(articleFile)
   );
   assert.strictEqual((sitemap.match(new RegExp(canonical, "g")) || []).length, 1);
   assert.ok(!sitemap.includes("editorial-components-demo-001.html"));
