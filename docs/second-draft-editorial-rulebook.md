@@ -14,7 +14,7 @@ The engine in `js/second-draft.js` executes transformations. The loader in `js/s
 
 ## Relationship To The Editorial Constitution
 
-Every rule must respect PasteLint's editorial constitution:
+Every rule must respect PasteLint's [Editorial Constitution](editorial-constitution.md):
 
 - Preserve the user's meaning.
 - Keep the user in control of the final text.

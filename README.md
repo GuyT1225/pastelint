@@ -208,6 +208,8 @@ Shorter remains deliberately narrow: it removes defined filler and later exact e
 
 [Workflow v2](docs/workflow-v2.md) keeps verified technical work independent from optional editorial publication while preserving reusable knowledge and provenance.
 
+PasteLint's enduring editorial principles are governed by the [Editorial Constitution](docs/editorial-constitution.md).
+
 Implementation milestones handed to Codex follow the [Codex Dispatch Standard](docs/codex-dispatch-standard.md).
 
 - Record significant-cycle knowledge in `data/knowledge-ledger.json`.

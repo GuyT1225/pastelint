@@ -10,6 +10,8 @@ Use a dispatch for implementation, repository maintenance, publication work, val
 
 The current repository and its canonical documentation are authoritative. Domain contracts, architecture documents, data schemas, validators, and established repository conventions outrank a dispatch when they conflict. A dispatch may narrow a task or explicitly authorize an exceptional operation; it must not silently repeal a canonical project constraint. Codex must stop and report a conflict that cannot be resolved from repository evidence.
 
+The [Editorial Constitution](editorial-constitution.md) is the highest authority for enduring editorial principles. This standard governs how work is executed and reported; it does not override those principles.
+
 ## 2. Mandatory project rehydration
 
 Every implementation dispatch begins with Phase 0: Project Rehydration unless the dispatch contains an explicit, narrow waiver. Convenience, familiarity, or a recent session is not a waiver.

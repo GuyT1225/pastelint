@@ -8,7 +8,7 @@ This is an architecture contract. The component runtime, styles, Demonstration L
 
 ## 2. Purpose
 
-The milestone exists to turn selected verified behavior into canonical editorial evidence that may be reused by Engine Room, the Editorial Research Journal, Sources & Case Studies, the Editorial Constitution, the Second Draft Handbook, product documentation, and educational or launch media.
+The milestone exists to turn selected verified behavior into canonical editorial evidence that may be reused by Engine Room, the Editorial Research Journal, Sources & Case Studies, the [Editorial Constitution](editorial-constitution.md), the Second Draft Handbook, product documentation, and educational or launch media.
 
 The objective is trustworthy explanation, not novelty. A component should help a reader distinguish source, product output, interpretation, provenance, and limitation. It must not make a fixed example look like proof of universal capability.
 

@@ -4,6 +4,8 @@
 
 Workflow v2 connects verified product work with reusable knowledge without making publication a condition of shipping.
 
+The [Editorial Constitution](editorial-constitution.md) governs enduring editorial principles. This document translates those principles into lifecycle, evidence, and knowledge-flow rules.
+
 Implementation handoffs within this workflow follow the [Codex Dispatch Standard](codex-dispatch-standard.md). That standard governs project rehydration, repository auditing, scope, validation evidence, and return briefs; this document continues to govern lifecycle and knowledge flow.
 
 Technical lane:
@@ -53,7 +55,7 @@ Each item has exactly one current primary destination:
 - **Engine Room (`engine-room`):** “What changed in PasteLint, how is it tested, and what remains bounded?”
 - **Editor’s Desk (`editors-desk`):** a practical editorial principle readers can apply beyond PasteLint.
 - **Sources & Case Studies (`sources-case-studies`):** external evidence, practitioner experience, research, or an observed case is load-bearing.
-- **Editorial Canon (`editorial-canon`):** a mature, durable, source-backed principle that should govern future editorial decisions.
+- **Editorial Constitution (`editorial-canon`):** a mature, durable, source-backed principle approved for constitutional authority. The stable destination ID remains `editorial-canon`.
 - **Second Draft Handbook (`second-draft-handbook`):** stable, teachable material supported by examples, exercises, diagrams, checklists, or repeatable tests.
 - **Internal documentation (`internal-documentation`):** implementation-specific, mechanical, immature, or maintainer-only knowledge.
 
@@ -67,7 +69,7 @@ Every significant cycle asks whether it made any of these inaccurate, incomplete
 - Editor’s Desk principles
 - Sources & Case Studies interpretations
 - Architecture or rulebook statements
-- Editorial Canon principles
+- Editorial Constitution principles
 - Handbook examples
 - Regression fixtures
 - Published article examples

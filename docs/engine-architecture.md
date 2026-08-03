@@ -6,6 +6,8 @@ PasteLint is a browser-only text preparation suite. Its canonical workflow is:
 
 **Paste -> Clean -> Revise -> Prepare**
 
+The [Editorial Constitution](editorial-constitution.md) governs the enduring principles behind these boundaries. This document defines their current technical expression.
+
 Each stage has a different responsibility:
 
 1. **Paste** accepts copied, generated, drafted, or exported text.

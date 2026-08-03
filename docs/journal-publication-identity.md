@@ -1,6 +1,6 @@
 # Journal publication identity and sharing
 
-This is the durable contract for publication identity and article-level sharing in the PasteLint Journal.
+This is the durable contract for publication identity and article-level sharing in the PasteLint Journal. It applies the editorial principles established by the [Editorial Constitution](editorial-constitution.md).
 
 ## Authorship by track
 
