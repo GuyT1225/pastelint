@@ -2250,6 +2250,17 @@ body.journal-surface .journal-section-heading {
   margin-bottom: clamp(1.15rem, 2.5vw, 1.75rem);
 }
 
+body.journal-surface .journal-article .journal-section-heading {
+  gap: 0.35rem;
+}
+
+body.journal-surface .journal-article .journal-section-heading .eyebrow {
+  margin: 0;
+  font-size: 0.84rem;
+  letter-spacing: 0.14em;
+  line-height: 1.35;
+}
+
 body.journal-surface .journal-section-heading p:not(.eyebrow) {
   margin: 0;
   line-height: 1.6;
