@@ -8,6 +8,7 @@ const manifestPath = path.join(root, "data", "journal-manifest.json");
 const ledgerPath = path.join(root, "data", "knowledge-ledger.json");
 const indexPath = path.join(root, "text-preparation-journal.html");
 const sitemapPath = path.join(root, "sitemap.xml");
+const feedPath = path.join(root, "journal.xml");
 const shareHelperPath = path.join(root, "journal-share.js");
 
 const errors = new Map();
@@ -44,6 +45,12 @@ const authorsByTrack = {
   "sources-case-studies": { type: "Person", name: "Guy Teichman", visible: "By Guy Teichman" },
   "editors-desk": { type: "Organization", name: "PasteLint Editorial", visible: "By PasteLint Editorial" }
 };
+const feedCategoriesByTrack = {
+  "engine-room": "Engine Room",
+  "editors-desk": "Editor’s Desk",
+  "sources-case-studies": "Sources & Case Studies"
+};
+const feedUrl = "https://guyt1225.github.io/pastelint/journal.xml";
 
 function add(map, key, message) {
   if (!map.has(key)) map.set(key, []);
@@ -152,6 +159,7 @@ const manifest = readJson(manifestPath, "data/journal-manifest.json");
 const ledger = readJson(ledgerPath, "data/knowledge-ledger.json");
 const indexHtml = readText(indexPath, "text-preparation-journal.html");
 const sitemapXml = readText(sitemapPath, "sitemap.xml");
+const feedXml = readText(feedPath, "journal.xml");
 const shareHelper = readText(shareHelperPath, "journal-share.js");
 
 if (!shareHelper.includes('link[rel="canonical"]')) error("journal-share.js", "Share helper must derive the URL from canonical metadata");
@@ -386,6 +394,12 @@ for (const article of articles.filter((item) => item.status === "published")) {
     continue;
   }
   const html = readText(articlePath, key);
+  const feedDiscoveryCount = (
+    html.match(/<link\s+rel="alternate"\s+type="application\/rss\+xml"\s+title="Text Preparation Journal"\s+href="journal\.xml"\s*\/?>/gi) ?? []
+  ).length;
+  if (feedDiscoveryCount !== 1) {
+    error(key, `RSS discovery link must appear exactly once (${feedDiscoveryCount})`);
+  }
   const author = authorsByTrack[article.track];
   const canonical = html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
   if (canonical !== article.canonical) error(key, `Canonical mismatch: ${canonical ?? "missing"}`);
@@ -509,6 +523,96 @@ for (const article of articles.filter((item) => item.status === "published")) {
     new RegExp(`<url>\\s*<loc>${escapeRegex(article.canonical)}</loc>\\s*<lastmod>([^<]+)</lastmod>`, "i")
   );
   if (sitemapEntry?.[1] !== article.modified) error(key, "Sitemap lastmod does not match manifest modified date");
+}
+
+const journalFeedDiscoveryCount = (
+  indexHtml.match(/<link\s+rel="alternate"\s+type="application\/rss\+xml"\s+title="Text Preparation Journal"\s+href="journal\.xml"\s*\/?>/gi) ?? []
+).length;
+if (journalFeedDiscoveryCount !== 1) {
+  error("text-preparation-journal.html", `RSS discovery link must appear exactly once (${journalFeedDiscoveryCount})`);
+}
+const journalFeedUtilityCount = countLiteral(
+  indexHtml,
+  '<a href="journal.xml" type="application/rss+xml">RSS feed</a>'
+);
+if (journalFeedUtilityCount !== 1) {
+  error("text-preparation-journal.html", `RSS utility link must appear exactly once (${journalFeedUtilityCount})`);
+}
+
+if (!/^<\?xml version="1\.0" encoding="UTF-8"\?>/i.test(feedXml)) {
+  error("journal.xml", "Feed must declare UTF-8 XML");
+}
+if (!/<rss\b[^>]*version="2\.0"[^>]*xmlns:atom="http:\/\/www\.w3\.org\/2005\/Atom"/i.test(feedXml)) {
+  error("journal.xml", "Feed must be RSS 2.0 and declare the Atom namespace");
+}
+if (!feedXml.includes(`<atom:link href="${feedUrl}" rel="self" type="application/rss+xml" />`)) {
+  error("journal.xml", "Feed must contain its canonical Atom self link");
+}
+
+const feedChannelTitle = decode(feedXml.match(/<channel>[\s\S]*?<title>([\s\S]*?)<\/title>/i)?.[1] ?? "");
+const feedChannelLink = decode(feedXml.match(/<channel>[\s\S]*?<link>([\s\S]*?)<\/link>/i)?.[1] ?? "");
+const feedLanguage = decode(feedXml.match(/<language>([\s\S]*?)<\/language>/i)?.[1] ?? "");
+if (feedChannelTitle !== "Text Preparation Journal") error("journal.xml", "Channel title is incorrect");
+if (feedChannelLink !== "https://guyt1225.github.io/pastelint/text-preparation-journal.html") {
+  error("journal.xml", "Channel link is incorrect");
+}
+if (feedLanguage !== "en-us") error("journal.xml", "Channel language must be en-us");
+
+const publishedArticles = articles.filter((item) => item.status === "published");
+const feedItems = [...feedXml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].map((match) => match[1]);
+if (feedItems.length !== publishedArticles.length) {
+  error("journal.xml", `Feed item count must match published manifest articles (${feedItems.length}/${publishedArticles.length})`);
+}
+
+const feedItemsByLink = new Map();
+let previousFeedDate = Number.POSITIVE_INFINITY;
+for (const item of feedItems) {
+  const value = (tag) => decode(item.match(new RegExp(`<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`, "i"))?.[1] ?? "");
+  const link = value("link");
+  const title = value("title");
+  const guid = value("guid");
+  const pubDate = value("pubDate");
+  const category = value("category");
+  const description = value("description");
+  const timestamp = Date.parse(pubDate);
+
+  if (!link || feedItemsByLink.has(link)) error("journal.xml", `Feed item link is missing or duplicated: ${link || "missing"}`);
+  feedItemsByLink.set(link, { title, guid, pubDate, category, description });
+  if (!/^[A-Z][a-z]{2}, \d{2} [A-Z][a-z]{2} \d{4} 12:00:00 GMT$/.test(pubDate) || Number.isNaN(timestamp)) {
+    error("journal.xml", `Invalid RFC 822 publication date: ${pubDate || "missing"}`);
+  }
+  if (timestamp > previousFeedDate) error("journal.xml", "Feed items must be ordered newest first");
+  previousFeedDate = timestamp;
+  if (!item.includes(`<guid isPermaLink="true">${link}</guid>`)) {
+    error("journal.xml", `Item GUID must be the canonical permalink: ${link || "missing"}`);
+  }
+}
+
+for (const article of publishedArticles) {
+  const key = `article:${article.slug}`;
+  const item = feedItemsByLink.get(article.canonical);
+  if (!item) {
+    error(key, "Published article is missing from RSS");
+    continue;
+  }
+  if (item.title !== article.title) error(key, "RSS title does not match manifest");
+  if (item.guid !== article.canonical) error(key, "RSS GUID does not match canonical");
+  if (item.category !== feedCategoriesByTrack[article.track]) error(key, "RSS category does not match track");
+  if (item.description !== article.summary) error(key, "RSS description does not match manifest summary");
+  const itemDate = new Date(item.pubDate);
+  if (Number.isNaN(itemDate.valueOf()) || itemDate.toISOString().slice(0, 10) !== article.published) {
+    error(key, "RSS publication date does not match manifest");
+  }
+}
+
+const lastBuildDate = decode(feedXml.match(/<lastBuildDate>([\s\S]*?)<\/lastBuildDate>/i)?.[1] ?? "");
+const latestModified = publishedArticles.map((item) => item.modified).sort().at(-1);
+const parsedLastBuildDate = new Date(lastBuildDate);
+if (
+  Number.isNaN(parsedLastBuildDate.valueOf()) ||
+  parsedLastBuildDate.toISOString().slice(0, 10) !== latestModified
+) {
+  error("journal.xml", "lastBuildDate must match the latest published manifest modification date");
 }
 
 for (const event of [

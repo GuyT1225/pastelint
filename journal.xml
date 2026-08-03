@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Text Preparation Journal</title>
+    <link>https://guyt1225.github.io/pastelint/text-preparation-journal.html</link>
+    <description>Field notes on cleaning, structuring, and preparing text before it enters another system.</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 30 Jul 2026 12:00:00 GMT</lastBuildDate>
+    <atom:link href="https://guyt1225.github.io/pastelint/journal.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>A Tutor Prompt Is More Than a Refusal</title>
+      <link>https://guyt1225.github.io/pastelint/journal-sources-case-studies-tutor-not-ghostwriter.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-sources-case-studies-tutor-not-ghostwriter.html</guid>
+      <pubDate>Thu, 30 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Sources &amp; Case Studies</category>
+      <description>A student-designed prompt replaces assignment-ready prose with explanation, questions, and another attempt. Research supports parts of that learning loop—but not universal refusal, guaranteed learning, or a new requirement for writing tools.</description>
+    </item>
+
+    <item>
+      <title>Line Breaks Are Part of the Meaning</title>
+      <link>https://guyt1225.github.io/pastelint/journal-engine-room-line-breaks-are-part-of-the-meaning.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-engine-room-line-breaks-are-part-of-the-meaning.html</guid>
+      <pubDate>Wed, 29 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Engine Room</category>
+      <description>An earlier version of SecondDraft preserved every word in a five-line message while collapsing its structure. The repaired engine now leaves those line boundaries intact.</description>
+    </item>
+
+    <item>
+      <title>Clearer Is Not More Certain</title>
+      <link>https://guyt1225.github.io/pastelint/journal-editors-desk-clearer-is-not-more-certain.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-editors-desk-clearer-is-not-more-certain.html</guid>
+      <pubDate>Mon, 27 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Editor’s Desk</category>
+      <description>Removing a hedge can make a sentence cleaner while changing what it claims. Learn how to preserve uncertainty, judgment, and recommendation strength.</description>
+    </item>
+
+    <item>
+      <title>Directness Without False Certainty</title>
+      <link>https://guyt1225.github.io/pastelint/journal-engine-room-directness-without-false-certainty.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-engine-room-directness-without-false-certainty.html</guid>
+      <pubDate>Mon, 27 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Engine Room</category>
+      <description>Why SecondDraft stopped treating qualified language as something to delete.</description>
+    </item>
+
+    <item>
+      <title>The First Draft Finds the Story. Revision Makes It Work.</title>
+      <link>https://guyt1225.github.io/pastelint/journal-sources-case-studies-first-draft-finds-the-story.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-sources-case-studies-first-draft-finds-the-story.html</guid>
+      <pubDate>Mon, 27 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Sources &amp; Case Studies</category>
+      <description>Three experienced screenwriters approach rewriting from complementary angles: discovering what the script became, repairing how it begins, and allowing the story to evolve when it meets production reality.</description>
+    </item>
+
+    <item>
+      <title>The New Bottleneck Isn’t Code—It’s Taste</title>
+      <link>https://guyt1225.github.io/pastelint/journal-sources-case-studies-the-new-bottleneck-is-taste.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-sources-case-studies-the-new-bottleneck-is-taste.html</guid>
+      <pubDate>Mon, 27 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Sources &amp; Case Studies</category>
+      <description>A practitioner built a functional AI-assisted application, then confronted the harder problem: making it feel considered rather than generated. The case suggests that as construction becomes easier, hierarchy, restraint, and design judgment become more valuable.</description>
+    </item>
+
+    <item>
+      <title>Filler Openings Make AI Drafts Feel Unfinished</title>
+      <link>https://guyt1225.github.io/pastelint/journal-editors-desk-filler-openings.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-editors-desk-filler-openings.html</guid>
+      <pubDate>Fri, 24 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Editor’s Desk</category>
+      <description>An Editor's Desk note on why filler openings weaken generated copy and how cleaner revision starts by finding the real sentence underneath.</description>
+    </item>
+
+    <item>
+      <title>Preserving Catalog Records Across SSML Chunks</title>
+      <link>https://guyt1225.github.io/pastelint/journal-engine-ssml-catalog-chunks.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-engine-ssml-catalog-chunks.html</guid>
+      <pubDate>Fri, 24 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Engine Room</category>
+      <description>An Engine Room note on improving SSML Builder chunking so catalog titles, DB numbers, authors, narrators, and descriptions stay together when possible.</description>
+    </item>
+
+    <item>
+      <title>Tracing Changes the Conditions Around the Output</title>
+      <link>https://guyt1225.github.io/pastelint/journal-tracing-with-the-model.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-tracing-with-the-model.html</guid>
+      <pubDate>Fri, 24 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Sources &amp; Case Studies</category>
+      <description>A Text Preparation Journal source note on completion-oriented prompting, collapse prevention, and why text preparation begins before the next response is generated.</description>
+    </item>
+
+    <item>
+      <title>The Cleanup Pass Is Where Voice Survives</title>
+      <link>https://guyt1225.github.io/pastelint/journal-cleanup-pass-voice-survives.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-cleanup-pass-voice-survives.html</guid>
+      <pubDate>Wed, 22 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Sources &amp; Case Studies</category>
+      <description>A Text Preparation Journal note on why AI-assisted revision should make edits visible, reviewable, and owned by the writer.</description>
+    </item>
+
+    <item>
+      <title>The Content Pipeline Breaks Before the Writing Does</title>
+      <link>https://guyt1225.github.io/pastelint/journal-content-pipeline-breaks-before-writing.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-content-pipeline-breaks-before-writing.html</guid>
+      <pubDate>Tue, 21 Jul 2026 12:00:00 GMT</pubDate>
+      <category>Sources &amp; Case Studies</category>
+      <description>A Text Preparation Journal note on how one r/micro_saas SEO post reveals the workflow problem behind content consistency, cleanup, and publishing readiness.</description>
+    </item>
+  </channel>
+</rss>
