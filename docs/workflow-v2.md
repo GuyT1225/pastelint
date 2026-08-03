@@ -4,6 +4,8 @@
 
 Workflow v2 connects verified product work with reusable knowledge without making publication a condition of shipping.
 
+Implementation handoffs within this workflow follow the [Codex Dispatch Standard](codex-dispatch-standard.md). That standard governs project rehydration, repository auditing, scope, validation evidence, and return briefs; this document continues to govern lifecycle and knowledge flow.
+
 Technical lane:
 
 > Trigger → Scope → Audit → Implement → Regression tests → Manual QA → Technical documentation and rule metadata → Technical checkpoint → Ship verified behavior

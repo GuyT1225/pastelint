@@ -208,6 +208,8 @@ Shorter remains deliberately narrow: it removes defined filler and later exact e
 
 [Workflow v2](docs/workflow-v2.md) keeps verified technical work independent from optional editorial publication while preserving reusable knowledge and provenance.
 
+Implementation milestones handed to Codex follow the [Codex Dispatch Standard](docs/codex-dispatch-standard.md).
+
 - Record significant-cycle knowledge in `data/knowledge-ledger.json`.
 - Start a capture with `docs/templates/knowledge-capture-note.md`.
 - Keep every published or planned Journal record in `data/journal-manifest.json`.
