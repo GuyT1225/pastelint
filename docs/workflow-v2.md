@@ -86,6 +86,22 @@ Record affected knowledge in the ledger even when no immediate update is require
 
 Keep at most one article drafting, one article briefed, and one captured next. Everything else remains in the knowledge ledger without becoming an immediate publication obligation. Companion articles are optional.
 
+## Editorial Knowledge Graph v1
+
+The Journal uses a curated static relationship layer so a reader can follow the reasoning between published investigations without introducing automated recommendations.
+
+`data/journal-manifest.json` remains the article-identity authority. Its top-level `principles` and `sourceMaterials` arrays define stable non-article nodes. A participating article may declare one `knowledgeGraph` object with exactly three relationship types:
+
+- `continueTheRecord`: a typed edge to another manifest article, with a short editorial explanation of why the reader should continue;
+- `relatedPrinciples`: references to stable principle IDs; and
+- `sourceMaterial`: references to reviewed source or governance records.
+
+All relationships are selected by an editor. Shared keywords, department, recency, traffic goals, or empty-space pressure do not justify an edge. A relationship must show that one article supplies evidence, principle, consequence, context, or another necessary angle for the other. Reciprocal edges are optional and require their own explanation.
+
+The reader-facing label for article edges is **Continue the Record**. It replaces recommendation language for graph-backed continuations. Related Principles may remain unlinked until a dedicated destination exists. Source Material links only to records actually reviewed or captured.
+
+The Journal validator rejects unknown nodes, unsupported relationship types, duplicate edges, self-links, missing descriptions, missing analytics declarations for article edges, and missing static relationship markup. This structure is sufficient for a future visual graph to render article, principle, and source nodes with typed edges; that future view must consume this curated data rather than create a second knowledge model.
+
 ## Analytics windows
 
 - Run an immediate post-publication smoke test.

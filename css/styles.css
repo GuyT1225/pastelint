@@ -6674,6 +6674,133 @@ body.journal-surface .journal-article :is(
   background: color-mix(in srgb, var(--journal-sheet) 62%, var(--journal-paper) 38%);
 }
 
+/* Curated article, principle, and source relationships. */
+body.journal-surface .knowledge-trail {
+  width: min(100%, 58rem);
+  display: grid;
+  gap: clamp(1.6rem, 4vw, 2.4rem);
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
+  border-top: 3px double var(--journal-track-accent);
+}
+
+body.journal-surface .knowledge-trail-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+body.journal-surface .knowledge-trail-group > :is(.eyebrow, h2) {
+  margin: 0;
+}
+
+body.journal-surface .knowledge-trail-group > .eyebrow {
+  color: var(--journal-track-accent);
+  font-size: 0.84rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+body.journal-surface .knowledge-trail-group > h2 {
+  max-width: 20ch;
+  font-family: var(--journal-display);
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+  line-height: 1.08;
+}
+
+body.journal-surface .knowledge-trail-list,
+body.journal-surface .knowledge-principles,
+body.journal-surface .knowledge-sources {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.journal-surface .knowledge-trail-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 3vw, 1.5rem);
+}
+
+body.journal-surface .knowledge-trail--single .knowledge-trail-list {
+  grid-template-columns: minmax(0, 42rem);
+}
+
+body.journal-surface .knowledge-trail-list > li,
+body.journal-surface .knowledge-sources > li {
+  min-width: 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--journal-track-rule);
+}
+
+body.journal-surface .knowledge-trail-list .journal-signal {
+  margin: 0 0 0.35rem;
+}
+
+body.journal-surface .knowledge-trail-list h3 {
+  margin: 0 0 0.45rem;
+  font-family: var(--journal-display);
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  line-height: 1.12;
+}
+
+body.journal-surface .knowledge-trail-list h3 a {
+  color: var(--journal-ink);
+  text-decoration-color: color-mix(in srgb, var(--journal-track-accent) 70%, transparent);
+}
+
+body.journal-surface .knowledge-trail-list > li > p:last-child,
+body.journal-surface .knowledge-sources span {
+  margin: 0;
+  color: var(--journal-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+body.journal-surface .knowledge-trail-group--compact > h2 {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+body.journal-surface .knowledge-principles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1.15rem;
+  color: var(--journal-ink);
+  font-family: var(--journal-display);
+  font-size: 1.05rem;
+}
+
+body.journal-surface .knowledge-principles li::before {
+  content: "\2022";
+  margin-right: 0.45rem;
+  color: var(--journal-track-accent);
+}
+
+body.journal-surface .knowledge-sources {
+  display: grid;
+  gap: 0.75rem;
+}
+
+body.journal-surface .knowledge-sources > li {
+  display: grid;
+  gap: 0.2rem;
+}
+
+body.journal-surface .knowledge-sources a {
+  width: fit-content;
+  font-weight: 750;
+}
+
+@media (max-width: 700px) {
+  body.journal-surface .knowledge-trail-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* -----------------------------
    REDUCED MOTION
 ----------------------------- */

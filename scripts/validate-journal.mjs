@@ -166,6 +166,8 @@ if (!shareHelper.includes('link[rel="canonical"]')) error("journal-share.js", "S
 if (/https?:\/\/[^\s"'`]+/i.test(shareHelper)) error("journal-share.js", "Share helper must not contain a third-party endpoint or hardcoded article URL");
 
 const articles = Array.isArray(manifest?.articles) ? manifest.articles : [];
+const principles = Array.isArray(manifest?.principles) ? manifest.principles : [];
+const sourceMaterials = Array.isArray(manifest?.sourceMaterials) ? manifest.sourceMaterials : [];
 const knowledge = Array.isArray(ledger?.knowledge) ? ledger.knowledge : [];
 
 if (manifest && manifest.schemaVersion !== 1) {
@@ -173,6 +175,12 @@ if (manifest && manifest.schemaVersion !== 1) {
 }
 if (manifest && !Array.isArray(manifest.articles)) {
   error("data/journal-manifest.json", "articles must be an array");
+}
+if (manifest && !Array.isArray(manifest.principles)) {
+  error("data/journal-manifest.json", "principles must be an array");
+}
+if (manifest && !Array.isArray(manifest.sourceMaterials)) {
+  error("data/journal-manifest.json", "sourceMaterials must be an array");
 }
 if (ledger && ledger.schemaVersion !== 1) {
   error("data/knowledge-ledger.json", `Unsupported schemaVersion: ${ledger.schemaVersion}`);
@@ -182,7 +190,31 @@ if (ledger && !Array.isArray(ledger.knowledge)) {
 }
 
 const articleBySlug = new Map();
+const principleById = new Map();
+const sourceMaterialById = new Map();
 const files = new Set();
+
+for (const principle of principles) {
+  const key = `principle:${principle?.id ?? "unknown"}`;
+  if (!slugPattern.test(principle?.id ?? "") || !principle?.label) {
+    error(key, "Principles require a lowercase kebab-case id and visible label");
+  }
+  if (principleById.has(principle?.id)) error(key, `Duplicate principle ID: ${principle.id}`);
+  principleById.set(principle?.id, principle);
+}
+
+for (const source of sourceMaterials) {
+  const key = `source-material:${source?.id ?? "unknown"}`;
+  if (!slugPattern.test(source?.id ?? "") || !source?.type || !source?.title || !source?.href) {
+    error(key, "Source material requires id, type, title, and href");
+  }
+  if (sourceMaterialById.has(source?.id)) error(key, `Duplicate source material ID: ${source.id}`);
+  sourceMaterialById.set(source?.id, source);
+  if (source?.href && !/^https?:/i.test(source.href) && !fs.existsSync(path.join(root, source.href))) {
+    error(key, `Broken source material destination: ${source.href}`);
+  }
+}
+
 for (const article of articles) {
   const key = `article:${article?.slug ?? "unknown"}`;
   const required = [
@@ -241,6 +273,35 @@ for (const article of articles) {
   }
   for (const related of article?.related ?? []) {
     if (related === article.slug) error(key, "Related articles cannot self-reference");
+  }
+  if (article?.knowledgeGraph) {
+    const graph = article.knowledgeGraph;
+    const graphKeys = Object.keys(graph).sort();
+    const expectedGraphKeys = ["continueTheRecord", "relatedPrinciples", "sourceMaterial"];
+    if (JSON.stringify(graphKeys) !== JSON.stringify(expectedGraphKeys)) {
+      error(key, "knowledgeGraph supports only continueTheRecord, relatedPrinciples, and sourceMaterial");
+    }
+    if (!Array.isArray(graph.continueTheRecord) || !Array.isArray(graph.relatedPrinciples) || !Array.isArray(graph.sourceMaterial)) {
+      error(key, "Every knowledgeGraph relationship type must be an array");
+    }
+    const continuationIds = new Set();
+    for (const edge of graph.continueTheRecord ?? []) {
+      if (!slugPattern.test(edge?.articleId ?? "") || !edge?.description?.trim()) {
+        error(key, "Continue the Record edges require articleId and description");
+      }
+      if (edge?.articleId === article.slug) error(key, "Continue the Record cannot self-reference");
+      if (continuationIds.has(edge?.articleId)) error(key, `Duplicate Continue the Record edge: ${edge.articleId}`);
+      continuationIds.add(edge?.articleId);
+    }
+    for (const [field, values] of [
+      ["relatedPrinciples", graph.relatedPrinciples ?? []],
+      ["sourceMaterial", graph.sourceMaterial ?? []]
+    ]) {
+      if (new Set(values).size !== values.length) error(key, `Duplicate ${field} relationship`);
+      for (const id of values) {
+        if (!slugPattern.test(id ?? "")) error(key, `Invalid ${field} ID: ${id}`);
+      }
+    }
   }
   for (const ruleId of article?.ruleIds ?? []) {
     if (!ruleIdPattern.test(ruleId)) error(key, `Invalid rule ID: ${ruleId}`);
@@ -328,6 +389,19 @@ for (const article of articles) {
   const key = `article:${article.slug}`;
   for (const related of article.related ?? []) {
     if (!articleBySlug.has(related)) error(key, `Unknown related article slug: ${related}`);
+  }
+  for (const edge of article.knowledgeGraph?.continueTheRecord ?? []) {
+    if (!articleBySlug.has(edge.articleId)) error(key, `Unknown Continue the Record article: ${edge.articleId}`);
+    const expectedEvent = `Journal Related | ${article.slug} | ${edge.articleId}`;
+    if (!article.analytics?.related?.includes(expectedEvent)) {
+      error(key, `Continue the Record edge is missing analytics event: ${expectedEvent}`);
+    }
+  }
+  for (const principleId of article.knowledgeGraph?.relatedPrinciples ?? []) {
+    if (!principleById.has(principleId)) error(key, `Unknown related principle: ${principleId}`);
+  }
+  for (const sourceId of article.knowledgeGraph?.sourceMaterial ?? []) {
+    if (!sourceMaterialById.has(sourceId)) error(key, `Unknown source material: ${sourceId}`);
   }
 }
 
@@ -459,6 +533,29 @@ for (const article of articles.filter((item) => item.status === "published")) {
   for (const related of article.related ?? []) {
     const target = articleBySlug.get(related);
     if (!target || !html.includes(`href="${target.file}"`)) error(key, `Related destination missing: ${related}`);
+  }
+  if (article.knowledgeGraph) {
+    if (!html.includes("data-knowledge-graph")) error(key, "Knowledge graph component is missing");
+    for (const edge of article.knowledgeGraph.continueTheRecord ?? []) {
+      const target = articleBySlug.get(edge.articleId);
+      if (!target || !html.includes(`href="${target.file}"`)) {
+        error(key, `Continue the Record destination missing: ${edge.articleId}`);
+      }
+      if (!html.includes(`data-relationship-article="${edge.articleId}"`)) {
+        error(key, `Continue the Record marker missing: ${edge.articleId}`);
+      }
+    }
+    for (const principleId of article.knowledgeGraph.relatedPrinciples ?? []) {
+      if (!html.includes(`data-relationship-principle="${principleId}"`)) {
+        error(key, `Related principle marker missing: ${principleId}`);
+      }
+    }
+    for (const sourceId of article.knowledgeGraph.sourceMaterial ?? []) {
+      const source = sourceMaterialById.get(sourceId);
+      if (!source || !html.includes(`href="${source.href}"`) || !html.includes(`data-relationship-source="${sourceId}"`)) {
+        error(key, `Source Material destination missing: ${sourceId}`);
+      }
+    }
   }
   for (const source of article.sources ?? []) {
     if (!html.includes(`href="${source.url}"`)) error(key, `Declared source link missing: ${source.id}`);

@@ -1,5 +1,37 @@
 {
   "schemaVersion": 1,
+  "principles": [
+    {
+      "id": "evidence-before-narrative",
+      "label": "Evidence Before Narrative"
+    },
+    {
+      "id": "meaning-preservation",
+      "label": "Meaning Preservation"
+    },
+    {
+      "id": "verification-before-publication",
+      "label": "Verification Before Publication"
+    },
+    {
+      "id": "editorial-transparency",
+      "label": "Editorial Transparency"
+    }
+  ],
+  "sourceMaterials": [
+    {
+      "id": "workflow-v2",
+      "type": "governance-document",
+      "title": "Workflow v2",
+      "href": "docs/workflow-v2.md"
+    },
+    {
+      "id": "editorial-constitution",
+      "type": "governance-document",
+      "title": "Editorial Constitution",
+      "href": "docs/editorial-constitution.md"
+    }
+  ],
   "articles": [
     {
       "slug": "cleanup-pass-voice-survives",
@@ -209,7 +241,7 @@
       "title": "Directness Without False Certainty",
       "track": "engine-room",
       "published": "2026-07-27",
-      "modified": "2026-07-28",
+      "modified": "2026-08-03",
       "summary": "Why SecondDraft stopped treating qualified language as something to delete.",
       "status": "published",
       "primaryCta": {
@@ -222,6 +254,20 @@
         "cleanup-pass-voice-survives",
         "filler-openings"
       ],
+      "knowledgeGraph": {
+        "continueTheRecord": [
+          {
+            "articleId": "record-behind-product-transparency",
+            "description": "Why this safeguard belongs in a durable public record of product reasoning, evidence, and limits."
+          }
+        ],
+        "relatedPrinciples": [
+          "meaning-preservation",
+          "verification-before-publication",
+          "editorial-transparency"
+        ],
+        "sourceMaterial": []
+      },
       "sources": [],
       "analytics": {
         "open": "Journal Open | directness-without-false-certainty",
@@ -231,7 +277,8 @@
         "related": [
           "Journal Related | directness-without-false-certainty | clearer-is-not-more-certain",
           "Journal Related | directness-without-false-certainty | cleanup-pass-voice-survives",
-          "Journal Related | directness-without-false-certainty | filler-openings"
+          "Journal Related | directness-without-false-certainty | filler-openings",
+          "Journal Related | directness-without-false-certainty | record-behind-product-transparency"
         ],
         "media": [],
         "share": [
@@ -393,11 +440,24 @@
       "title": "A Tutor Prompt Is More Than a Refusal",
       "track": "sources-case-studies",
       "published": "2026-07-30",
-      "modified": "2026-07-30",
+      "modified": "2026-08-03",
       "summary": "A student-designed prompt replaces assignment-ready prose with explanation, questions, and another attempt. Research supports parts of that learning loop—but not universal refusal, guaranteed learning, or a new requirement for writing tools.",
       "status": "published",
       "primaryCta": null,
       "related": [],
+      "knowledgeGraph": {
+        "continueTheRecord": [
+          {
+            "articleId": "record-behind-product-transparency",
+            "description": "How this source-led investigation expands the record from engine behavior into capability, limitation, and expectation."
+          }
+        ],
+        "relatedPrinciples": [
+          "evidence-before-narrative",
+          "editorial-transparency"
+        ],
+        "sourceMaterial": []
+      },
       "sources": [
         {
           "id": "reddit-source",
@@ -463,7 +523,9 @@
       "analytics": {
         "open": "Journal Open | tutor-not-ghostwriter",
         "cta": [],
-        "related": [],
+        "related": [
+          "Journal Related | tutor-not-ghostwriter | record-behind-product-transparency"
+        ],
         "media": [
           "Journal Media | tutor-not-ghostwriter | reddit-source",
           "Journal Media | tutor-not-ghostwriter | chi-self-explanation",
@@ -494,7 +556,7 @@
       "title": "Line Breaks Are Part of the Meaning",
       "track": "engine-room",
       "published": "2026-07-29",
-      "modified": "2026-07-29",
+      "modified": "2026-08-03",
       "summary": "An earlier version of SecondDraft preserved every word in a five-line message while collapsing its structure. The repaired engine now leaves those line boundaries intact.",
       "status": "published",
       "primaryCta": {
@@ -507,6 +569,20 @@
         "clearer-is-not-more-certain",
         "ssml-catalog-chunks"
       ],
+      "knowledgeGraph": {
+        "continueTheRecord": [
+          {
+            "articleId": "record-behind-product-transparency",
+            "description": "Why preserving the reasoning behind a structural safeguard matters as much as recording the fix."
+          }
+        ],
+        "relatedPrinciples": [
+          "meaning-preservation",
+          "verification-before-publication",
+          "editorial-transparency"
+        ],
+        "sourceMaterial": []
+      },
       "sources": [],
       "analytics": {
         "open": "Journal Open | line-breaks-are-part-of-the-meaning",
@@ -516,7 +592,8 @@
         "related": [
           "Journal Related | line-breaks-are-part-of-the-meaning | directness-without-false-certainty",
           "Journal Related | line-breaks-are-part-of-the-meaning | clearer-is-not-more-certain",
-          "Journal Related | line-breaks-are-part-of-the-meaning | ssml-catalog-chunks"
+          "Journal Related | line-breaks-are-part-of-the-meaning | ssml-catalog-chunks",
+          "Journal Related | line-breaks-are-part-of-the-meaning | record-behind-product-transparency"
         ],
         "media": [],
         "share": [
@@ -532,6 +609,65 @@
         "SD-STRUCTURE-001"
       ],
       "knowledgeIds": []
+    },
+    {
+      "slug": "record-behind-product-transparency",
+      "file": "journal-editors-desk-record-behind-product-transparency.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-editors-desk-record-behind-product-transparency.html",
+      "title": "The Record Behind Product Transparency",
+      "track": "editors-desk",
+      "published": "2026-08-03",
+      "modified": "2026-08-03",
+      "summary": "Why durable reasoning, evidence, tradeoffs, corrections, and limits reveal more than release notes or announcements alone.",
+      "status": "published",
+      "primaryCta": null,
+      "related": [],
+      "knowledgeGraph": {
+        "continueTheRecord": [
+          {
+            "articleId": "directness-without-false-certainty",
+            "description": "How preserving uncertainty became an engine safeguard after direct edits quietly strengthened users' claims."
+          },
+          {
+            "articleId": "line-breaks-are-part-of-the-meaning",
+            "description": "Why formatting changes sometimes alter interpretation even when every word remains unchanged."
+          },
+          {
+            "articleId": "tutor-not-ghostwriter",
+            "description": "How prompt design communicates capability, limitation, and expectation before the first answer is generated."
+          }
+        ],
+        "relatedPrinciples": [
+          "evidence-before-narrative",
+          "meaning-preservation",
+          "verification-before-publication",
+          "editorial-transparency"
+        ],
+        "sourceMaterial": [
+          "workflow-v2",
+          "editorial-constitution"
+        ]
+      },
+      "sources": [],
+      "analytics": {
+        "open": "Journal Open | record-behind-product-transparency",
+        "cta": [],
+        "related": [
+          "Journal Related | record-behind-product-transparency | directness-without-false-certainty",
+          "Journal Related | record-behind-product-transparency | line-breaks-are-part-of-the-meaning",
+          "Journal Related | record-behind-product-transparency | tutor-not-ghostwriter"
+        ],
+        "media": [],
+        "share": [
+          "Journal Share | record-behind-product-transparency | native",
+          "Journal Share | record-behind-product-transparency | copy-link"
+        ]
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": [
+        "KN-0007"
+      ]
     }
   ]
 }

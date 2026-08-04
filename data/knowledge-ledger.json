@@ -226,6 +226,49 @@
         "Future learning-oriented interface proposals"
       ],
       "lastReviewed": "2026-07-30"
+    },
+    {
+      "knowledgeId": "KN-0007",
+      "title": "The Record Behind Product Transparency",
+      "cycle": "Editorial Knowledge Graph v1 and cornerstone publication",
+      "commit": null,
+      "date": "2026-08-03",
+      "trigger": "Eleven published Journal articles documented individual lessons, but readers lacked one curated relationship model for following the reasoning between them.",
+      "reusableInsight": "Product transparency becomes durable when decisions remain connected to evidence, tradeoffs, corrections, failed approaches, tested behavior, known limitations, and editorial judgment.",
+      "evidence": [
+        "Workflow v2 separates verified technical shipment from optional knowledge publication.",
+        "The Editorial Constitution requires evidence, bounded claims, visible limitations, and correction.",
+        "Published investigations on uncertainty preservation, line structure, and tutor-style prompting demonstrate the same standards across different editorial problems.",
+        "Editorial Knowledge Graph v1 adds explicit curated article, principle, and source relationships to the canonical Journal manifest."
+      ],
+      "inference": "A connected record can reveal consistency over time more effectively than isolated announcements, provided every relationship remains editorially justified and inspectable.",
+      "claimBoundary": "A public record does not prove that every decision is correct, complete, or unbiased. Its value depends on evidence quality, correction, sustained curation, and clear limits.",
+      "primaryDestination": "editors-desk",
+      "status": "Published",
+      "relatedRuleIds": [],
+      "relatedTests": [
+        "Editorial Knowledge Graph publication"
+      ],
+      "relatedArticles": [
+        "record-behind-product-transparency",
+        "directness-without-false-certainty",
+        "line-breaks-are-part-of-the-meaning",
+        "tutor-not-ghostwriter"
+      ],
+      "secondaryReferences": [
+        "docs/workflow-v2.md",
+        "docs/editorial-constitution.md",
+        "data/journal-manifest.json"
+      ],
+      "canonPromotionCandidate": false,
+      "handbookPromotionCandidate": false,
+      "invalidationRisk": "Future relationship types, article retirement, renamed principles, or weak curation could make the mesh misleading or create a competing source of truth.",
+      "existingKnowledgePotentiallyAffected": [
+        "Journal continuation patterns",
+        "Publication workflow documentation",
+        "Future visual graph architecture"
+      ],
+      "lastReviewed": "2026-08-03"
     }
   ]
 }

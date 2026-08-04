@@ -2370,7 +2370,7 @@ function testLineBreaksArticlePublication() {
   assert.ok(html.includes('<span class="journal-author">By Guy Teichman</span>'));
   assert.ok(html.includes('<time datetime="2026-07-29">Published July 29, 2026</time>'));
   assert.ok(html.includes('<meta property="article:published_time" content="2026-07-29" />'));
-  assert.ok(html.includes('<meta property="article:modified_time" content="2026-07-29" />'));
+  assert.ok(html.includes('<meta property="article:modified_time" content="2026-08-03" />'));
 
   const jsonLd = [...html.matchAll(
     /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g
@@ -2382,7 +2382,7 @@ function testLineBreaksArticlePublication() {
   assert.ok(articleJsonLd);
   assert.strictEqual(articleJsonLd.headline, "Line Breaks Are Part of the Meaning");
   assert.strictEqual(articleJsonLd.datePublished, "2026-07-29");
-  assert.strictEqual(articleJsonLd.dateModified, "2026-07-29");
+  assert.strictEqual(articleJsonLd.dateModified, "2026-08-03");
   assert.strictEqual(articleJsonLd.author.name, "Guy Teichman");
   assert.strictEqual(articleJsonLd.mainEntityOfPage, canonical);
   assert.ok(breadcrumbJsonLd);
@@ -2609,7 +2609,7 @@ function testLineBreaksArticlePublication() {
   assert.ok(html.includes("<span>Share article</span>"));
   assert.strictEqual(
     (html.match(/data-statkit-event="Journal Related \| line-breaks-are-part-of-the-meaning \|/g) || []).length,
-    3
+    4
   );
   assert.ok(
     /<article class="journal-track line-breaks-related-featured" data-related-continuation="featured">[\s\S]*?Directness Without False Certainty[\s\S]*?<\/article>/.test(
@@ -2683,7 +2683,7 @@ function testLineBreaksArticlePublication() {
   assert.strictEqual(article.canonical, canonical);
   assert.strictEqual(article.track, "engine-room");
   assert.strictEqual(article.published, "2026-07-29");
-  assert.strictEqual(article.modified, "2026-07-29");
+  assert.strictEqual(article.modified, "2026-08-03");
   assert.strictEqual(article.status, "published");
   assert.deepStrictEqual(article.primaryCta, {
     destination: "second-draft",
@@ -2713,6 +2713,7 @@ function testLineBreaksArticlePublication() {
     "Journal Related | line-breaks-are-part-of-the-meaning | directness-without-false-certainty",
     "Journal Related | line-breaks-are-part-of-the-meaning | clearer-is-not-more-certain",
     "Journal Related | line-breaks-are-part-of-the-meaning | ssml-catalog-chunks",
+    "Journal Related | line-breaks-are-part-of-the-meaning | record-behind-product-transparency",
     "Journal Share | line-breaks-are-part-of-the-meaning | native",
     "Journal Share | line-breaks-are-part-of-the-meaning | copy-link"
   ]);
@@ -2744,11 +2745,102 @@ function testLineBreaksArticlePublication() {
     )
   );
   assert.ok(
-    indexHtml.indexOf("journal-engine-room-directness-without-false-certainty.html") <
-      indexHtml.indexOf(articleFile)
+    indexHtml.indexOf(articleFile) <
+      indexHtml.indexOf("journal-engine-room-directness-without-false-certainty.html")
   );
   assert.strictEqual((sitemap.match(new RegExp(canonical, "g")) || []).length, 1);
   assert.ok(!sitemap.includes("editorial-components-demo-001.html"));
+}
+
+function testEditorialKnowledgeGraphPublication() {
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "data", "journal-manifest.json"), "utf8")
+  );
+  const article = manifest.articles.find(
+    (item) => item.slug === "record-behind-product-transparency"
+  );
+  const html = fs.readFileSync(path.join(ROOT, article.file), "utf8");
+  const indexHtml = fs.readFileSync(
+    path.join(ROOT, "text-preparation-journal.html"),
+    "utf8"
+  );
+  const feed = fs.readFileSync(path.join(ROOT, "journal.xml"), "utf8");
+
+  assert.ok(article);
+  assert.strictEqual(article.track, "editors-desk");
+  assert.strictEqual(article.published, "2026-08-03");
+  assert.strictEqual(article.modified, "2026-08-03");
+  assert.deepStrictEqual(
+    article.knowledgeGraph.continueTheRecord.map((edge) => edge.articleId),
+    [
+      "directness-without-false-certainty",
+      "line-breaks-are-part-of-the-meaning",
+      "tutor-not-ghostwriter"
+    ]
+  );
+  assert.deepStrictEqual(article.knowledgeGraph.relatedPrinciples, [
+    "evidence-before-narrative",
+    "meaning-preservation",
+    "verification-before-publication",
+    "editorial-transparency"
+  ]);
+  assert.deepStrictEqual(article.knowledgeGraph.sourceMaterial, [
+    "workflow-v2",
+    "editorial-constitution"
+  ]);
+  assert.deepStrictEqual(
+    manifest.principles.map((principle) => principle.id),
+    [
+      "evidence-before-narrative",
+      "meaning-preservation",
+      "verification-before-publication",
+      "editorial-transparency"
+    ]
+  );
+  assert.deepStrictEqual(
+    manifest.sourceMaterials.map((source) => source.id),
+    ["workflow-v2", "editorial-constitution"]
+  );
+  assert.ok(html.includes("The record is not a polished account"));
+  assert.ok(html.includes("No single investigation establishes trust."));
+  assert.ok(html.includes("Software changes. Can anyone later understand why?"));
+  assert.strictEqual((html.match(/data-knowledge-graph/g) || []).length, 1);
+  assert.strictEqual(
+    (html.match(/data-relationship-article=/g) || []).length,
+    3
+  );
+  assert.ok(
+    indexHtml.indexOf(article.file) <
+      indexHtml.indexOf("journal-sources-case-studies-tutor-not-ghostwriter.html")
+  );
+  assert.ok(
+    feed.indexOf(article.canonical) <
+      feed.indexOf(
+        "https://guyt1225.github.io/pastelint/journal-sources-case-studies-tutor-not-ghostwriter.html"
+      )
+  );
+
+  for (const slug of [
+    "directness-without-false-certainty",
+    "line-breaks-are-part-of-the-meaning",
+    "tutor-not-ghostwriter"
+  ]) {
+    const participant = manifest.articles.find((item) => item.slug === slug);
+    const participantHtml = fs.readFileSync(
+      path.join(ROOT, participant.file),
+      "utf8"
+    );
+    assert.ok(
+      participant.knowledgeGraph.continueTheRecord.some(
+        (edge) => edge.articleId === article.slug
+      )
+    );
+    assert.ok(
+      participantHtml.includes(
+        'data-relationship-article="record-behind-product-transparency"'
+      )
+    );
+  }
 }
 
 function testSecondDraftPrimaryReflowPreservesProtectedValues() {
@@ -3597,6 +3689,7 @@ function main() {
   runTest("SecondDraft structure preservation", testSecondDraftStructurePreservation);
   runTest("Editorial Components foundation", testEditorialComponentsFoundation);
   runTest("Line breaks article publication", testLineBreaksArticlePublication);
+  runTest("Editorial Knowledge Graph publication", testEditorialKnowledgeGraphPublication);
   runTest("SecondDraft primary reflow preserves protected values", testSecondDraftPrimaryReflowPreservesProtectedValues);
   runTest("SecondDraft notification frame safety", testSecondDraftNotificationFrameSafety);
   runTest("SecondDraft Prepare for SSML transfer", testSecondDraftPrepareForSsmlTransfer);
