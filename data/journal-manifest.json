@@ -48,7 +48,9 @@
         "href": "contact.html",
         "event": "Journal CTA | cleanup-pass-voice-survives | suggest-field-note"
       },
-      "related": [],
+      "related": [
+        "directness-without-false-certainty"
+      ],
       "sources": [
         {
           "id": "openai-academy-source",
@@ -62,7 +64,9 @@
         "cta": [
           "Journal CTA | cleanup-pass-voice-survives | suggest-field-note"
         ],
-        "related": [],
+        "related": [
+          "Journal Related | cleanup-pass-voice-survives | directness-without-false-certainty"
+        ],
         "media": [
           "Journal Media | cleanup-pass-voice-survives | openai-academy-source"
         ],
@@ -174,14 +178,18 @@
         "href": "contact.html",
         "event": "Journal CTA | filler-openings | share-source-signal"
       },
-      "related": [],
+      "related": [
+        "clearer-is-not-more-certain"
+      ],
       "sources": [],
       "analytics": {
         "open": "Journal Open | filler-openings",
         "cta": [
           "Journal CTA | filler-openings | share-source-signal"
         ],
-        "related": [],
+        "related": [
+          "Journal Related | filler-openings | clearer-is-not-more-certain"
+        ],
         "media": [],
         "share": [
           "Journal Share | filler-openings | native",
@@ -315,14 +323,18 @@
         "href": "contact.html",
         "event": "Journal CTA | ssml-catalog-chunks | share-source-signal"
       },
-      "related": [],
+      "related": [
+        "line-breaks-are-part-of-the-meaning"
+      ],
       "sources": [],
       "analytics": {
         "open": "Journal Open | ssml-catalog-chunks",
         "cta": [
           "Journal CTA | ssml-catalog-chunks | share-source-signal"
         ],
-        "related": [],
+        "related": [
+          "Journal Related | ssml-catalog-chunks | line-breaks-are-part-of-the-meaning"
+        ],
         "media": [],
         "share": [
           "Journal Share | ssml-catalog-chunks | native",
@@ -345,7 +357,8 @@
       "status": "published",
       "primaryCta": null,
       "related": [
-        "filler-openings"
+        "filler-openings",
+        "first-draft-finds-the-story"
       ],
       "sources": [
         {
@@ -359,7 +372,8 @@
         "open": "Journal Open | the-new-bottleneck-is-taste",
         "cta": [],
         "related": [
-          "Journal Related | the-new-bottleneck-is-taste | filler-openings"
+          "Journal Related | the-new-bottleneck-is-taste | filler-openings",
+          "Journal Related | the-new-bottleneck-is-taste | first-draft-finds-the-story"
         ],
         "media": [
           "Journal Media | the-new-bottleneck-is-taste | make-my-app-look-man-made"
