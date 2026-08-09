@@ -2887,6 +2887,55 @@ function testEditorsOptimizeForReadersPublication() {
   assert.strictEqual((sitemap.match(new RegExp(article.canonical, "g")) || []).length, 1);
 }
 
+function testTextReadinessHandoffPublication() {
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "data", "journal-manifest.json"), "utf8")
+  );
+  const ledger = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "data", "knowledge-ledger.json"), "utf8")
+  );
+  const article = manifest.articles.find(
+    (item) => item.slug === "text-readiness-is-a-handoff-discipline"
+  );
+  const html = fs.readFileSync(path.join(ROOT, article.file), "utf8");
+  const indexHtml = fs.readFileSync(
+    path.join(ROOT, "text-preparation-journal.html"),
+    "utf8"
+  );
+  const feed = fs.readFileSync(path.join(ROOT, "journal.xml"), "utf8");
+  const sitemap = fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8");
+  const knowledge = ledger.knowledge.find((item) => item.knowledgeId === "KN-0009");
+
+  assert.ok(article);
+  assert.strictEqual(article.track, "editors-desk");
+  assert.strictEqual(article.published, "2026-08-09");
+  assert.deepStrictEqual(article.knowledgeIds, ["KN-0009"]);
+  assert.deepStrictEqual(article.related, [
+    "content-pipeline-breaks-before-writing",
+    "cleanup-pass-voice-survives",
+    "clearer-is-not-more-certain",
+    "line-breaks-are-part-of-the-meaning",
+    "record-behind-product-transparency"
+  ]);
+  assert.ok(knowledge);
+  assert.strictEqual(knowledge.primaryDestination, "editors-desk");
+  assert.ok(html.includes("A draft is not ready in the abstract."));
+  assert.ok(html.includes("The destination determines the preparation."));
+  assert.ok(html.includes("Automation can prepare a handoff. It cannot accept one on the reader&rsquo;s behalf."));
+  assert.ok(html.includes("Every destination requires deliberate preparation."));
+  assert.strictEqual(
+    (html.match(/Journal Related \| text-readiness-is-a-handoff-discipline \|/g) || []).length,
+    5
+  );
+  assert.ok(indexHtml.includes(article.file));
+  assert.ok(
+    indexHtml.indexOf(article.file) <
+      indexHtml.indexOf("journal-sources-case-studies-editors-optimize-for-readers.html")
+  );
+  assert.ok(feed.indexOf(article.canonical) < feed.indexOf("editors-optimize-for-readers"));
+  assert.strictEqual((sitemap.match(new RegExp(article.canonical, "g")) || []).length, 1);
+}
+
 function testSecondDraftPrimaryReflowPreservesProtectedValues() {
   const context = loadSecondDraftContext();
   const input = [
@@ -3763,6 +3812,7 @@ function main() {
   runTest("Line breaks article publication", testLineBreaksArticlePublication);
   runTest("Editorial Knowledge Graph publication", testEditorialKnowledgeGraphPublication);
   runTest("Editors optimize for readers publication", testEditorsOptimizeForReadersPublication);
+  runTest("Text readiness handoff publication", testTextReadinessHandoffPublication);
   runTest("SecondDraft primary reflow preserves protected values", testSecondDraftPrimaryReflowPreservesProtectedValues);
   runTest("SecondDraft notification frame safety", testSecondDraftNotificationFrameSafety);
   runTest("SecondDraft Prepare for SSML transfer", testSecondDraftPrepareForSsmlTransfer);

@@ -21,6 +21,7 @@ const EXPECTED_PAGES = [
   "journal-editors-desk-clearer-is-not-more-certain.html",
   "journal-editors-desk-filler-openings.html",
   "journal-editors-desk-record-behind-product-transparency.html",
+  "journal-editors-desk-text-readiness-is-a-handoff-discipline.html",
   "journal-engine-room-directness-without-false-certainty.html",
   "journal-engine-room-line-breaks-are-part-of-the-meaning.html",
   "journal-engine-ssml-catalog-chunks.html",

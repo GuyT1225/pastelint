@@ -751,6 +751,81 @@
       "knowledgeIds": [
         "KN-0008"
       ]
+    },
+    {
+      "slug": "text-readiness-is-a-handoff-discipline",
+      "file": "journal-editors-desk-text-readiness-is-a-handoff-discipline.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-editors-desk-text-readiness-is-a-handoff-discipline.html",
+      "title": "Text Readiness Is a Handoff Discipline",
+      "track": "editors-desk",
+      "published": "2026-08-09",
+      "modified": "2026-08-09",
+      "summary": "Good writing is only part of successful communication. Every destination requires deliberate preparation, and every handoff deserves editorial care.",
+      "status": "published",
+      "primaryCta": null,
+      "related": [
+        "content-pipeline-breaks-before-writing",
+        "cleanup-pass-voice-survives",
+        "clearer-is-not-more-certain",
+        "line-breaks-are-part-of-the-meaning",
+        "record-behind-product-transparency"
+      ],
+      "knowledgeGraph": {
+        "continueTheRecord": [
+          {
+            "articleId": "content-pipeline-breaks-before-writing",
+            "description": "A source-led case about the publishing handoffs that fail even when drafts exist."
+          },
+          {
+            "articleId": "cleanup-pass-voice-survives",
+            "description": "Why visible, reviewable revision protects authorship during an editorial handoff."
+          },
+          {
+            "articleId": "clearer-is-not-more-certain",
+            "description": "How a preparation pass can improve clarity without increasing the strength of a claim."
+          },
+          {
+            "articleId": "line-breaks-are-part-of-the-meaning",
+            "description": "A verified case where words survived a handoff but meaningful structure did not."
+          },
+          {
+            "articleId": "record-behind-product-transparency",
+            "description": "Why evidence, decisions, and limits must survive the handoff into publication."
+          }
+        ],
+        "relatedPrinciples": [
+          "evidence-before-narrative",
+          "meaning-preservation",
+          "verification-before-publication",
+          "editorial-transparency"
+        ],
+        "sourceMaterial": [
+          "workflow-v2",
+          "editorial-constitution"
+        ]
+      },
+      "sources": [],
+      "analytics": {
+        "open": "Journal Open | text-readiness-is-a-handoff-discipline",
+        "cta": [],
+        "related": [
+          "Journal Related | text-readiness-is-a-handoff-discipline | content-pipeline-breaks-before-writing",
+          "Journal Related | text-readiness-is-a-handoff-discipline | cleanup-pass-voice-survives",
+          "Journal Related | text-readiness-is-a-handoff-discipline | clearer-is-not-more-certain",
+          "Journal Related | text-readiness-is-a-handoff-discipline | line-breaks-are-part-of-the-meaning",
+          "Journal Related | text-readiness-is-a-handoff-discipline | record-behind-product-transparency"
+        ],
+        "media": [],
+        "share": [
+          "Journal Share | text-readiness-is-a-handoff-discipline | native",
+          "Journal Share | text-readiness-is-a-handoff-discipline | copy-link"
+        ]
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": [
+        "KN-0009"
+      ]
     }
   ]
 }

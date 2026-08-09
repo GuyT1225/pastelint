@@ -313,6 +313,52 @@
         "Future editorial acceptance criteria"
       ],
       "lastReviewed": "2026-08-09"
+    },
+    {
+      "knowledgeId": "KN-0009",
+      "title": "Text Readiness Is a Handoff Discipline",
+      "cycle": "Destination-readiness cornerstone publication",
+      "commit": null,
+      "date": "2026-08-09",
+      "trigger": "The Journal documented individual preparation failures but lacked one durable Editor's Desk principle explaining why different destinations require different acceptance checks.",
+      "reusableInsight": "Text readiness is not an abstract property of writing. It describes whether reviewed text has been deliberately prepared for the constraints, audience, and evidence requirements of its next destination.",
+      "evidence": [
+        "The Editorial Constitution defines distinct Clean, Revise, and Prepare responsibilities and requires destination-aware transformation.",
+        "Workflow v2 separates evidence intake, validation, editorial decision, verification, and publication destinations.",
+        "Published Journal cases document handoff failures involving publishing consistency, reviewable voice, uncertainty preservation, line structure, and the public record.",
+        "The current product keeps mechanical cleanup, bounded revision, and SSML preparation as separate stages with different permissions."
+      ],
+      "inference": "Many preventable text failures are better understood as inadequately prepared handoffs than as failures of drafting alone.",
+      "claimBoundary": "A disciplined handoff does not guarantee comprehension, accessibility in every context, correct model output, natural speech, successful publication, or factual truth. It identifies destination-specific preparation and review responsibilities.",
+      "primaryDestination": "editors-desk",
+      "status": "Published",
+      "relatedRuleIds": [],
+      "relatedTests": [
+        "Text readiness handoff publication"
+      ],
+      "relatedArticles": [
+        "text-readiness-is-a-handoff-discipline",
+        "content-pipeline-breaks-before-writing",
+        "cleanup-pass-voice-survives",
+        "clearer-is-not-more-certain",
+        "line-breaks-are-part-of-the-meaning",
+        "record-behind-product-transparency"
+      ],
+      "secondaryReferences": [
+        "docs/editorial-constitution.md",
+        "docs/workflow-v2.md",
+        "docs/engine-architecture.md",
+        "text-readiness-framework.html"
+      ],
+      "canonPromotionCandidate": true,
+      "handbookPromotionCandidate": true,
+      "invalidationRisk": "Future stage definitions, destinations, or claims about automated completion could blur the separation between preparation, execution, and human review.",
+      "existingKnowledgePotentiallyAffected": [
+        "Text Readiness Framework",
+        "Journal continuation patterns",
+        "Future destination-preparation guidance"
+      ],
+      "lastReviewed": "2026-08-09"
     }
   ]
 }
