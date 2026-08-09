@@ -682,6 +682,75 @@
       "knowledgeIds": [
         "KN-0007"
       ]
+    },
+    {
+      "slug": "editors-optimize-for-readers",
+      "file": "journal-sources-case-studies-editors-optimize-for-readers.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-sources-case-studies-editors-optimize-for-readers.html",
+      "title": "Editors Optimize for Readers. Humanizers Optimize for Detectors.",
+      "track": "sources-case-studies",
+      "published": "2026-08-09",
+      "modified": "2026-08-09",
+      "summary": "Three cases show why editorial preparation and detector optimization are different objectives: one improves communication; the other pursues a classifier score.",
+      "status": "published",
+      "primaryCta": null,
+      "related": [
+        "cleanup-pass-voice-survives",
+        "clearer-is-not-more-certain",
+        "directness-without-false-certainty",
+        "record-behind-product-transparency"
+      ],
+      "sources": [
+        {
+          "id": "cairo-book-fair-report",
+          "type": "regional-news-report",
+          "url": "https://www.egyptke.com/179111",
+          "analyticsDestination": "cairo-book-fair-report"
+        },
+        {
+          "id": "gulf-news-book-report",
+          "type": "secondary-news-report",
+          "url": "https://gulfnews.com/world/mena/ai-written-novels-spark-backlash-at-cairo-book-fair-after-chatbot-text-slips-into-print-1.500432899",
+          "analyticsDestination": "gulf-news-book-report"
+        },
+        {
+          "id": "sewing-machine-discussion",
+          "type": "practitioner-community-case",
+          "url": "https://www.reddit.com/r/WritingWithAI/comments/1vgbtu7/the_sewing_machine_analogy_why_dismissing/",
+          "analyticsDestination": "sewing-machine-discussion"
+        },
+        {
+          "id": "humanizer-discussion",
+          "type": "practitioner-community-case",
+          "url": "https://www.reddit.com/r/WritingWithAI/comments/1kbn04d/mega_thread_humanizer_applications_discussion/",
+          "analyticsDestination": "humanizer-discussion"
+        }
+      ],
+      "analytics": {
+        "open": "Journal Open | editors-optimize-for-readers",
+        "cta": [],
+        "related": [
+          "Journal Related | editors-optimize-for-readers | cleanup-pass-voice-survives",
+          "Journal Related | editors-optimize-for-readers | clearer-is-not-more-certain",
+          "Journal Related | editors-optimize-for-readers | directness-without-false-certainty",
+          "Journal Related | editors-optimize-for-readers | record-behind-product-transparency"
+        ],
+        "media": [
+          "Journal Media | editors-optimize-for-readers | cairo-book-fair-report",
+          "Journal Media | editors-optimize-for-readers | gulf-news-book-report",
+          "Journal Media | editors-optimize-for-readers | sewing-machine-discussion",
+          "Journal Media | editors-optimize-for-readers | humanizer-discussion"
+        ],
+        "share": [
+          "Journal Share | editors-optimize-for-readers | native",
+          "Journal Share | editors-optimize-for-readers | copy-link"
+        ]
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": [
+        "KN-0008"
+      ]
     }
   ]
 }

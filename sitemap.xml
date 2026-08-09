@@ -31,8 +31,15 @@
 
   <url>
     <loc>https://guyt1225.github.io/pastelint/text-preparation-journal.html</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-09</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
+  </url>
+
+  <url>
+    <loc>https://guyt1225.github.io/pastelint/journal-sources-case-studies-editors-optimize-for-readers.html</loc>
+    <lastmod>2026-08-09</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.72</priority>
   </url>
 

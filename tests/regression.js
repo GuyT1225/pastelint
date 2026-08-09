@@ -2843,6 +2843,50 @@ function testEditorialKnowledgeGraphPublication() {
   }
 }
 
+function testEditorsOptimizeForReadersPublication() {
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "data", "journal-manifest.json"), "utf8")
+  );
+  const article = manifest.articles.find(
+    (item) => item.slug === "editors-optimize-for-readers"
+  );
+  const html = fs.readFileSync(path.join(ROOT, article.file), "utf8");
+  const indexHtml = fs.readFileSync(
+    path.join(ROOT, "text-preparation-journal.html"),
+    "utf8"
+  );
+  const feed = fs.readFileSync(path.join(ROOT, "journal.xml"), "utf8");
+  const sitemap = fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8");
+
+  assert.ok(article);
+  assert.strictEqual(article.track, "sources-case-studies");
+  assert.strictEqual(article.published, "2026-08-09");
+  assert.deepStrictEqual(article.related, [
+    "cleanup-pass-voice-survives",
+    "clearer-is-not-more-certain",
+    "directness-without-false-certainty",
+    "record-behind-product-transparency"
+  ]);
+  assert.strictEqual(article.sources.length, 4);
+  assert.ok(html.includes("Does this improve communication?"));
+  assert.ok(html.includes("What editorial process transformed the draft before publication?"));
+  assert.ok(html.includes("PasteLint does not claim that these changes alter detector outcomes."));
+  assert.ok(html.includes("View the image in the source report"));
+  assert.ok(!html.includes("journal-cairo-book-fair-prompt-page.jpeg"));
+  assert.strictEqual(
+    (html.match(/Journal Related \| editors-optimize-for-readers \|/g) || []).length,
+    4
+  );
+  assert.strictEqual(
+    (html.match(/Journal Media \| editors-optimize-for-readers \|/g) || []).length,
+    4
+  );
+  assert.ok(indexHtml.includes(article.file));
+  assert.ok(indexHtml.indexOf(article.file) < indexHtml.indexOf("journal-editors-desk-record-behind-product-transparency.html"));
+  assert.ok(feed.indexOf(article.canonical) < feed.indexOf("journal-editors-desk-record-behind-product-transparency.html"));
+  assert.strictEqual((sitemap.match(new RegExp(article.canonical, "g")) || []).length, 1);
+}
+
 function testSecondDraftPrimaryReflowPreservesProtectedValues() {
   const context = loadSecondDraftContext();
   const input = [
@@ -3690,6 +3734,7 @@ function main() {
   runTest("Editorial Components foundation", testEditorialComponentsFoundation);
   runTest("Line breaks article publication", testLineBreaksArticlePublication);
   runTest("Editorial Knowledge Graph publication", testEditorialKnowledgeGraphPublication);
+  runTest("Editors optimize for readers publication", testEditorsOptimizeForReadersPublication);
   runTest("SecondDraft primary reflow preserves protected values", testSecondDraftPrimaryReflowPreservesProtectedValues);
   runTest("SecondDraft notification frame safety", testSecondDraftNotificationFrameSafety);
   runTest("SecondDraft Prepare for SSML transfer", testSecondDraftPrepareForSsmlTransfer);

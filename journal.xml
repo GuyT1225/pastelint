@@ -5,8 +5,17 @@
     <link>https://guyt1225.github.io/pastelint/text-preparation-journal.html</link>
     <description>Field notes on cleaning, structuring, and preparing text before it enters another system.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 03 Aug 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 09 Aug 2026 12:00:00 GMT</lastBuildDate>
     <atom:link href="https://guyt1225.github.io/pastelint/journal.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>Editors Optimize for Readers. Humanizers Optimize for Detectors.</title>
+      <link>https://guyt1225.github.io/pastelint/journal-sources-case-studies-editors-optimize-for-readers.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-sources-case-studies-editors-optimize-for-readers.html</guid>
+      <pubDate>Sun, 09 Aug 2026 12:00:00 GMT</pubDate>
+      <category>Sources &amp; Case Studies</category>
+      <description>Three cases show why editorial preparation and detector optimization are different objectives: one improves communication; the other pursues a classifier score.</description>
+    </item>
 
     <item>
       <title>The Record Behind Product Transparency</title>

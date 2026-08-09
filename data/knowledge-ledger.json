@@ -269,6 +269,50 @@
         "Future visual graph architecture"
       ],
       "lastReviewed": "2026-08-03"
+    },
+    {
+      "knowledgeId": "KN-0008",
+      "title": "Editors Optimize for Readers. Humanizers Optimize for Detectors.",
+      "cycle": "Detector optimization and editorial preparation case synthesis",
+      "commit": null,
+      "date": "2026-08-09",
+      "trigger": "Three outside cases exposed a recurring mismatch between classifier-oriented rewriting and destination-oriented editorial preparation.",
+      "reusableInsight": "Editorial preparation and detector optimization use different acceptance tests. A classifier score cannot establish accuracy, clarity, preservation, accessibility, or publication readiness.",
+      "evidence": [
+        "Regional and secondary reporting documented chatbot process text left in printed novels while preserving unresolved attribution and verification limits.",
+        "A WritingWithAI practitioner discussion used a sewing-machine analogy to locate craft in selection, direction, deletion, and revision after a draft exists.",
+        "A WritingWithAI humanizer discussion documented detector-oriented goals alongside inconsistent results and reports of degraded text.",
+        "PasteLint product research recorded large-scale production reports involving inflated wording, altered proper nouns, Unicode punctuation corruption, and manual restoration of original edited copy."
+      ],
+      "inference": "When a transformation is accepted because it changes a classifier score rather than because it improves communication for a known destination, editorial quality and protected meaning can become secondary.",
+      "claimBoundary": "The cases are not a controlled comparison and do not establish that every detector or humanizer behaves the same way. The book reporting contains unresolved attribution, the community discussions are practitioner evidence, and the large-scale observations remain production reports.",
+      "primaryDestination": "sources-case-studies",
+      "status": "Published",
+      "relatedRuleIds": [],
+      "relatedTests": [
+        "Editors optimize for readers publication"
+      ],
+      "relatedArticles": [
+        "editors-optimize-for-readers",
+        "cleanup-pass-voice-survives",
+        "clearer-is-not-more-certain",
+        "directness-without-false-certainty",
+        "record-behind-product-transparency"
+      ],
+      "secondaryReferences": [
+        "docs/editorial-constitution.md",
+        "docs/editorial-knowledgebase-map.md",
+        "data/journal-manifest.json"
+      ],
+      "canonPromotionCandidate": true,
+      "handbookPromotionCandidate": true,
+      "invalidationRisk": "Primary-source corrections, deleted community material, controlled comparisons, or better-documented production evidence may narrow the case synthesis.",
+      "existingKnowledgePotentiallyAffected": [
+        "PasteLint anti-humanizer positioning",
+        "Journal guidance on reviewable revision",
+        "Future editorial acceptance criteria"
+      ],
+      "lastReviewed": "2026-08-09"
     }
   ]
 }
