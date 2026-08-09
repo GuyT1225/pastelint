@@ -3195,6 +3195,34 @@ function testSsmlBuilderLoadsTransferText() {
   assert.strictEqual(waitingStorage["pastelint-transfer-text"], "Transferred text should wait.");
 }
 
+function testWorkflowContinuityPresentation() {
+  const cleanHtml = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+  const secondDraftHtml = fs.readFileSync(
+    path.join(ROOT, "second-draft.html"),
+    "utf8"
+  );
+  const ssmlHtml = fs.readFileSync(
+    path.join(ROOT, "SSML_builder.html"),
+    "utf8"
+  );
+
+  assert.ok(cleanHtml.includes('href="index.html" aria-current="page">Clean</a>'));
+  assert.ok(
+    secondDraftHtml.includes(
+      'href="second-draft.html" aria-current="page">SecondDraft</a>'
+    )
+  );
+  assert.ok(
+    ssmlHtml.includes(
+      'href="SSML_builder.html" aria-current="page">SSML Builder</a>'
+    )
+  );
+  assert.ok(ssmlHtml.includes("Take the approved output to its destination."));
+  assert.ok(ssmlHtml.includes("PasteLint prepares and exports the text or SSML; it does not publish it."));
+  assert.ok(ssmlHtml.includes('href="text-readiness-framework.html"'));
+  assert.ok(ssmlHtml.includes('href="text-preparation-journal.html"'));
+}
+
 function testSsmlCleanup() {
   const context = loadSsmlContext();
 
@@ -3739,6 +3767,7 @@ function main() {
   runTest("SecondDraft notification frame safety", testSecondDraftNotificationFrameSafety);
   runTest("SecondDraft Prepare for SSML transfer", testSecondDraftPrepareForSsmlTransfer);
   runTest("SSML Builder loads transfer text", testSsmlBuilderLoadsTransferText);
+  runTest("Workflow continuity presentation", testWorkflowContinuityPresentation);
   runTest("SSML cleanup", testSsmlCleanup);
   runTest("SSML IVR menu cleanup", testSsmlIvrMenuCleanup);
   runTest("SSML XML escaping", testSsmlXmlEscaping);

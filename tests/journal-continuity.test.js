@@ -42,11 +42,18 @@ const articleSlugs = new Set(published.map((article) => article.slug));
 
 published.forEach((article) => {
   const section = getDepartmentSection(article.track);
+  const articleHtml = fs.readFileSync(path.join(ROOT, article.file), "utf8");
   const href = `href="${article.file}"`;
   assert.strictEqual(
     countOccurrences(section, href),
     1,
     `${article.title} must appear exactly once in its permanent department ledger`
+  );
+  assert.ok(
+    articleHtml.includes(
+      'class="tool-nav-journal" href="text-preparation-journal.html" aria-current="page"'
+    ),
+    `${article.title} must identify Journal as the current navigation section`
   );
 
   article.related.forEach((relatedSlug) => {

@@ -227,6 +227,14 @@ select {
   text-decoration: underline;
 }
 
+.tool-nav a[aria-current="page"] {
+  color: var(--text);
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 0.24em;
+}
+
 .theme-switcher {
   justify-self: end;
   display: flex;
@@ -5695,6 +5703,17 @@ body.task-landing-page > .hero > * {
   gap: 1.25rem;
 }
 
+.ssml-builder-page .ssml-next-step {
+  max-width: 46rem;
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.ssml-builder-page .ssml-next-step > p:not(.eyebrow) {
+  max-width: 62ch;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
 .ssml-builder-page .section {
   padding: 0;
   border: 0;
@@ -6798,6 +6817,18 @@ body.journal-surface .knowledge-sources a {
 @media (max-width: 700px) {
   body.journal-surface .knowledge-trail-list {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .workflow-actions > :is(button, a) {
+    min-height: 2.75rem;
+  }
+
+  #cleanBtn,
+  .second-draft-page #reviseBtn,
+  .ssml-builder-page .primary-btn {
+    min-height: 2.75rem;
   }
 }
 
