@@ -2799,7 +2799,7 @@ function testEditorialKnowledgeGraphPublication() {
   );
   assert.deepStrictEqual(
     manifest.sourceMaterials.map((source) => source.id),
-    ["workflow-v2", "editorial-constitution"]
+    ["workflow-v2", "editorial-constitution", "editorial-canon"]
   );
   assert.ok(html.includes("The record is not a polished account"));
   assert.ok(html.includes("No single investigation establishes trust."));
@@ -2934,6 +2934,71 @@ function testTextReadinessHandoffPublication() {
   );
   assert.ok(feed.indexOf(article.canonical) < feed.indexOf("editors-optimize-for-readers"));
   assert.strictEqual((sitemap.match(new RegExp(article.canonical, "g")) || []).length, 1);
+}
+
+function testPreparedHandoffPublication() {
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "data", "journal-manifest.json"), "utf8")
+  );
+  const ledger = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "data", "knowledge-ledger.json"), "utf8")
+  );
+  const article = manifest.articles.find(
+    (item) => item.slug === "prepared-handoff-is-not-accepted-outcome"
+  );
+  const html = fs.readFileSync(path.join(ROOT, article.file), "utf8");
+  const indexHtml = fs.readFileSync(
+    path.join(ROOT, "text-preparation-journal.html"),
+    "utf8"
+  );
+  const feed = fs.readFileSync(path.join(ROOT, "journal.xml"), "utf8");
+  const sitemap = fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8");
+  const canon = fs.readFileSync(
+    path.join(ROOT, "docs", "editorial-canon.md"),
+    "utf8"
+  );
+  const knowledge = ledger.knowledge.find((item) => item.knowledgeId === "KN-0010");
+
+  assert.ok(article);
+  assert.strictEqual(article.track, "engine-room");
+  assert.strictEqual(article.published, "2026-08-09");
+  assert.deepStrictEqual(article.engineCommits, ["154631a"]);
+  assert.deepStrictEqual(article.knowledgeIds, ["KN-0010"]);
+  assert.deepStrictEqual(article.related, [
+    "text-readiness-is-a-handoff-discipline",
+    "content-pipeline-breaks-before-writing",
+    "record-behind-product-transparency"
+  ]);
+  assert.ok(manifest.sourceMaterials.some((item) => item.id === "editorial-canon"));
+  assert.ok(knowledge);
+  assert.strictEqual(knowledge.primaryDestination, "engine-room");
+  assert.strictEqual(knowledge.commit, "154631a");
+  assert.ok(html.includes("Four outcomes describe what the preparation action actually did."));
+  assert.ok(html.includes("A truthful workflow reports only what has actually happened."));
+  assert.ok(html.includes("Preparation is valuable. Preparation is necessary. Preparation is not execution."));
+  assert.ok(html.includes("PasteLint does not verify editorial approval, publication, delivery, model execution, generated audio, deployment, reader comprehension, or downstream acceptance."));
+  assert.strictEqual(
+    (html.match(/Journal Related \| prepared-handoff-is-not-accepted-outcome \|/g) || []).length,
+    3
+  );
+  assert.strictEqual((html.match(/data-relationship-article=/g) || []).length, 3);
+  assert.ok(indexHtml.includes(article.file));
+  assert.ok(
+    indexHtml.indexOf(article.file) <
+      indexHtml.indexOf("journal-sources-case-studies-editors-optimize-for-readers.html")
+  );
+  assert.ok(feed.indexOf(article.canonical) < feed.indexOf("text-readiness-is-a-handoff-discipline"));
+  assert.strictEqual((sitemap.match(new RegExp(article.canonical, "g")) || []).length, 1);
+
+  for (const nextId of ["EC-0002", "EC-0003", "EC-0013"]) {
+    const startId = nextId === "EC-0002" ? "EC-0001" : nextId === "EC-0003" ? "EC-0002" : "EC-0012";
+    const start = canon.indexOf(`### ${startId}`);
+    const end = canon.indexOf(`### ${nextId}`, start);
+    assert.ok(
+      canon.slice(start, end).includes(article.file),
+      `${startId} must cite the prepared handoff implementation record`
+    );
+  }
 }
 
 function testSecondDraftPrimaryReflowPreservesProtectedValues() {
@@ -3813,6 +3878,7 @@ function main() {
   runTest("Editorial Knowledge Graph publication", testEditorialKnowledgeGraphPublication);
   runTest("Editors optimize for readers publication", testEditorsOptimizeForReadersPublication);
   runTest("Text readiness handoff publication", testTextReadinessHandoffPublication);
+  runTest("Prepared handoff publication", testPreparedHandoffPublication);
   runTest("SecondDraft primary reflow preserves protected values", testSecondDraftPrimaryReflowPreservesProtectedValues);
   runTest("SecondDraft notification frame safety", testSecondDraftNotificationFrameSafety);
   runTest("SecondDraft Prepare for SSML transfer", testSecondDraftPrepareForSsmlTransfer);

@@ -30,6 +30,12 @@
       "type": "governance-document",
       "title": "Editorial Constitution",
       "href": "docs/editorial-constitution.md"
+    },
+    {
+      "id": "editorial-canon",
+      "type": "governance-document",
+      "title": "Editorial Canon",
+      "href": "docs/editorial-canon.md"
     }
   ],
   "articles": [
@@ -825,6 +831,71 @@
       "ruleIds": [],
       "knowledgeIds": [
         "KN-0009"
+      ]
+    },
+    {
+      "slug": "prepared-handoff-is-not-accepted-outcome",
+      "file": "journal-engine-room-prepared-handoff-is-not-accepted-outcome.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-engine-room-prepared-handoff-is-not-accepted-outcome.html",
+      "title": "A Prepared Handoff Is Not an Accepted Outcome",
+      "track": "engine-room",
+      "published": "2026-08-09",
+      "modified": "2026-08-09",
+      "summary": "PasteLint reports the preparation it can observe without implying publication, deployment, delivery, or downstream acceptance.",
+      "status": "published",
+      "primaryCta": null,
+      "related": [
+        "text-readiness-is-a-handoff-discipline",
+        "content-pipeline-breaks-before-writing",
+        "record-behind-product-transparency"
+      ],
+      "knowledgeGraph": {
+        "continueTheRecord": [
+          {
+            "articleId": "text-readiness-is-a-handoff-discipline",
+            "description": "The editorial principle behind destination readiness and deliberate handoffs."
+          },
+          {
+            "articleId": "content-pipeline-breaks-before-writing",
+            "description": "A source-led case showing why drafts alone do not complete a publishing workflow."
+          },
+          {
+            "articleId": "record-behind-product-transparency",
+            "description": "Why status, evidence, decisions, and limits need a record that survives implementation."
+          }
+        ],
+        "relatedPrinciples": [
+          "evidence-before-narrative",
+          "verification-before-publication",
+          "editorial-transparency"
+        ],
+        "sourceMaterial": [
+          "editorial-constitution",
+          "editorial-canon",
+          "workflow-v2"
+        ]
+      },
+      "sources": [],
+      "analytics": {
+        "open": "Journal Open | prepared-handoff-is-not-accepted-outcome",
+        "cta": [],
+        "related": [
+          "Journal Related | prepared-handoff-is-not-accepted-outcome | text-readiness-is-a-handoff-discipline",
+          "Journal Related | prepared-handoff-is-not-accepted-outcome | content-pipeline-breaks-before-writing",
+          "Journal Related | prepared-handoff-is-not-accepted-outcome | record-behind-product-transparency"
+        ],
+        "media": [],
+        "share": [
+          "Journal Share | prepared-handoff-is-not-accepted-outcome | native",
+          "Journal Share | prepared-handoff-is-not-accepted-outcome | copy-link"
+        ]
+      },
+      "engineCommits": [
+        "154631a"
+      ],
+      "ruleIds": [],
+      "knowledgeIds": [
+        "KN-0010"
       ]
     }
   ]

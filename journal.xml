@@ -9,6 +9,15 @@
     <atom:link href="https://guyt1225.github.io/pastelint/journal.xml" rel="self" type="application/rss+xml" />
 
     <item>
+      <title>A Prepared Handoff Is Not an Accepted Outcome</title>
+      <link>https://guyt1225.github.io/pastelint/journal-engine-room-prepared-handoff-is-not-accepted-outcome.html</link>
+      <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-engine-room-prepared-handoff-is-not-accepted-outcome.html</guid>
+      <pubDate>Sun, 09 Aug 2026 12:00:00 GMT</pubDate>
+      <category>Engine Room</category>
+      <description>PasteLint reports the preparation it can observe without implying publication, deployment, delivery, or downstream acceptance.</description>
+    </item>
+
+    <item>
       <title>Text Readiness Is a Handoff Discipline</title>
       <link>https://guyt1225.github.io/pastelint/journal-editors-desk-text-readiness-is-a-handoff-discipline.html</link>
       <guid isPermaLink="true">https://guyt1225.github.io/pastelint/journal-editors-desk-text-readiness-is-a-handoff-discipline.html</guid>

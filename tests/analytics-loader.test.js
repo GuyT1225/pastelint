@@ -24,6 +24,7 @@ const EXPECTED_PAGES = [
   "journal-editors-desk-text-readiness-is-a-handoff-discipline.html",
   "journal-engine-room-directness-without-false-certainty.html",
   "journal-engine-room-line-breaks-are-part-of-the-meaning.html",
+  "journal-engine-room-prepared-handoff-is-not-accepted-outcome.html",
   "journal-engine-ssml-catalog-chunks.html",
   "journal-sources-case-studies-editors-optimize-for-readers.html",
   "journal-sources-case-studies-first-draft-finds-the-story.html",

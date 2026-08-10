@@ -359,6 +359,56 @@
         "Future destination-preparation guidance"
       ],
       "lastReviewed": "2026-08-09"
+    },
+    {
+      "knowledgeId": "KN-0010",
+      "title": "A Prepared Handoff Is Not an Accepted Outcome",
+      "cycle": "Shared feedback-state implementation record",
+      "commit": "154631a",
+      "date": "2026-08-09",
+      "trigger": "The Editorial Canon Coverage Audit found that Destination Readiness, Handoff Discipline, and Preparation Is Not Execution had strong editorial and source support but lacked one verified Engine Room implementation record.",
+      "reusableInsight": "A workflow should report only the action and state it can observe. Preparation, review, export, delivery, execution, and downstream acceptance require different evidence and must not be collapsed into one completion claim.",
+      "evidence": [
+        "Commit 154631a introduced the shared Changed, Unchanged, Blocked, and Failed feedback-state contract across Clean, SecondDraft, and SSML Builder.",
+        "The shared feedback module rejects unknown state names instead of translating them into generic success.",
+        "Regression fixtures verify changed, unchanged, blocked, failed, preserved-source, and repeated-generation behavior at the local transformation boundary.",
+        "The Engine Architecture separates Paste, Clean, Revise, and Prepare and states that preparation does not establish downstream execution."
+      ],
+      "inference": "Restricting status language to observed local outcomes reduces false confidence about publication, deployment, delivery, model execution, audio generation, and destination acceptance.",
+      "claimBoundary": "The implementation verifies selected browser-side transformation states. It does not observe editorial approval, clipboard use after copying, publication, delivery, model output, generated audio, deployment, reader comprehension, or acceptance by another system. The four-state contract is not a general workflow engine or universal correctness proof.",
+      "primaryDestination": "engine-room",
+      "status": "Published",
+      "relatedRuleIds": [],
+      "relatedTests": [
+        "Feedback state foundation",
+        "Homepage empty input status",
+        "SecondDraft feedback states",
+        "SSML empty action statuses",
+        "Prepared handoff publication"
+      ],
+      "relatedArticles": [
+        "prepared-handoff-is-not-accepted-outcome",
+        "text-readiness-is-a-handoff-discipline",
+        "content-pipeline-breaks-before-writing",
+        "record-behind-product-transparency"
+      ],
+      "secondaryReferences": [
+        "docs/editorial-constitution.md",
+        "docs/editorial-canon.md",
+        "docs/workflow-v2.md",
+        "docs/engine-architecture.md",
+        "data/journal-manifest.json"
+      ],
+      "canonPromotionCandidate": false,
+      "handbookPromotionCandidate": false,
+      "invalidationRisk": "Changes to feedback messages, state semantics, transfer behavior, copy behavior, stage boundaries, or external integrations could narrow or invalidate the implementation account.",
+      "existingKnowledgePotentiallyAffected": [
+        "EC-0001 Destination Readiness coverage",
+        "EC-0002 Handoff Discipline coverage",
+        "EC-0012 Preparation Is Not Execution coverage",
+        "Future transfer-provenance and control-readiness work"
+      ],
+      "lastReviewed": "2026-08-09"
     }
   ]
 }

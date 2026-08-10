@@ -2,7 +2,7 @@
 
 ## Status and authority
 
-**Status:** Internal editorial reference, version 1.
+**Status:** Internal editorial reference, version 1.1.
 
 **Scope:** Durable principles supported by the published Text Preparation Journal.
 
@@ -40,6 +40,9 @@ Statuses are used conservatively:
 
 - Editor's Desk: [Text Readiness Is a Handoff Discipline](../journal-editors-desk-text-readiness-is-a-handoff-discipline.html)
 - Sources & Case Studies: [The Content Pipeline Breaks Before the Writing Does](../journal-content-pipeline-breaks-before-writing.html), [Tracing Changes the Conditions Around the Output](../journal-tracing-with-the-model.html), [Editors Optimize for Readers. Humanizers Optimize for Detectors.](../journal-sources-case-studies-editors-optimize-for-readers.html)
+- Engine Room: [A Prepared Handoff Is Not an Accepted Outcome](../journal-engine-room-prepared-handoff-is-not-accepted-outcome.html)
+
+**Implemented by:** [A Prepared Handoff Is Not an Accepted Outcome](../journal-engine-room-prepared-handoff-is-not-accepted-outcome.html)
 
 **Status:** Core
 
@@ -53,9 +56,9 @@ Statuses are used conservatively:
 
 - Editor's Desk: [Text Readiness Is a Handoff Discipline](../journal-editors-desk-text-readiness-is-a-handoff-discipline.html)
 - Sources & Case Studies: [The Content Pipeline Breaks Before the Writing Does](../journal-content-pipeline-breaks-before-writing.html), [Tracing Changes the Conditions Around the Output](../journal-tracing-with-the-model.html)
-- Engine Room: [Preserving Catalog Records Across SSML Chunks](../journal-engine-ssml-catalog-chunks.html)
+- Engine Room: [Preserving Catalog Records Across SSML Chunks](../journal-engine-ssml-catalog-chunks.html), [A Prepared Handoff Is Not an Accepted Outcome](../journal-engine-room-prepared-handoff-is-not-accepted-outcome.html)
 
-**Implemented by:** [Preserving Catalog Records Across SSML Chunks](../journal-engine-ssml-catalog-chunks.html)
+**Implemented by:** [Preserving Catalog Records Across SSML Chunks](../journal-engine-ssml-catalog-chunks.html), [A Prepared Handoff Is Not an Accepted Outcome](../journal-engine-room-prepared-handoff-is-not-accepted-outcome.html)
 
 **Status:** Core
 
@@ -208,6 +211,9 @@ Statuses are used conservatively:
 
 - Editor's Desk: [Text Readiness Is a Handoff Discipline](../journal-editors-desk-text-readiness-is-a-handoff-discipline.html)
 - Sources & Case Studies: [A Tutor Prompt Is More Than a Refusal](../journal-sources-case-studies-tutor-not-ghostwriter.html), [Tracing Changes the Conditions Around the Output](../journal-tracing-with-the-model.html), [Editors Optimize for Readers. Humanizers Optimize for Detectors.](../journal-sources-case-studies-editors-optimize-for-readers.html)
+- Engine Room: [A Prepared Handoff Is Not an Accepted Outcome](../journal-engine-room-prepared-handoff-is-not-accepted-outcome.html)
+
+**Implemented by:** [A Prepared Handoff Is Not an Accepted Outcome](../journal-engine-room-prepared-handoff-is-not-accepted-outcome.html)
 
 **Status:** Core
 
@@ -324,6 +330,7 @@ This mapping identifies which principles each publication reinforces. It is not 
 | [The Record Behind Product Transparency](../journal-editors-desk-record-behind-product-transparency.html) | Editor's Desk | EC-0007 Reviewable Change; EC-0009 Evidence Before Narrative; EC-0010 Bounded Claims; EC-0018 The Editorial Record Must Survive the Implementation |
 | [Editors Optimize for Readers. Humanizers Optimize for Detectors.](../journal-sources-case-studies-editors-optimize-for-readers.html) | Sources & Case Studies | EC-0001 Destination Readiness; EC-0009 Evidence Before Narrative; EC-0010 Bounded Claims; EC-0011 Editorial Judgment Before Automation; EC-0012 Preparation Is Not Execution; EC-0018 The Editorial Record Must Survive the Implementation |
 | [Text Readiness Is a Handoff Discipline](../journal-editors-desk-text-readiness-is-a-handoff-discipline.html) | Editor's Desk | EC-0001 Destination Readiness; EC-0002 Handoff Discipline; EC-0003 Meaning Preservation; EC-0006 Structure Carries Meaning; EC-0011 Editorial Judgment Before Automation; EC-0012 Preparation Is Not Execution; EC-0013 Distinct Stages Carry Distinct Permissions; EC-0014 Constraints Are Editorial Information; EC-0018 The Editorial Record Must Survive the Implementation |
+| [A Prepared Handoff Is Not an Accepted Outcome](../journal-engine-room-prepared-handoff-is-not-accepted-outcome.html) | Engine Room | EC-0001 Destination Readiness; EC-0002 Handoff Discipline; EC-0012 Preparation Is Not Execution |
 
 ## Principles not yet ready for Canon
 
@@ -373,3 +380,4 @@ The Journal's voice is calm and restrained, but tone alone does not establish co
 ## Version record
 
 - **Version 1 — 2026-08-09:** Established 18 publication-supported principles, mapped all 14 published Journal articles, and separated five insufficiently supported future principles from the Canon.
+- **Version 1.1 — 2026-08-09:** Added the verified feedback-state implementation record to EC-0001, EC-0002, and EC-0012 and mapped the fifteenth published Journal article. The principles and statuses remain unchanged.

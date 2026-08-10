@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>A Prepared Handoff Is Not an Accepted Outcome | PasteLint</title>
+  <meta name="description" content="PasteLint reports the preparation it can observe without implying publication, deployment, delivery, or downstream acceptance." />
+  <link rel="canonical" href="https://guyt1225.github.io/pastelint/journal-engine-room-prepared-handoff-is-not-accepted-outcome.html" />
+  <link rel="alternate" type="application/rss+xml" title="Text Preparation Journal" href="journal.xml" />
+  <meta name="author" content="Guy Teichman" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="PasteLint" />
+  <meta property="og:title" content="A Prepared Handoff Is Not an Accepted Outcome" />
+  <meta property="og:description" content="A truthful workflow reports only the stages it has actually observed." />
+  <meta property="og:url" content="https://guyt1225.github.io/pastelint/journal-engine-room-prepared-handoff-is-not-accepted-outcome.html" />
+  <meta property="article:section" content="Engine Room" />
+  <meta property="article:published_time" content="2026-08-09" />
+  <meta property="article:modified_time" content="2026-08-09" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="A Prepared Handoff Is Not an Accepted Outcome" />
+  <meta name="twitter:description" content="A truthful workflow reports only the stages it has actually observed." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "A Prepared Handoff Is Not an Accepted Outcome",
+    "description": "PasteLint reports the preparation it can observe without implying publication, deployment, delivery, or downstream acceptance.",
+    "datePublished": "2026-08-09",
+    "dateModified": "2026-08-09",
+    "articleSection": "Engine Room",
+    "author": {
+      "@type": "Person",
+      "name": "Guy Teichman"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PasteLint",
+      "url": "https://guyt1225.github.io/pastelint/"
+    },
+    "mainEntityOfPage": "https://guyt1225.github.io/pastelint/journal-engine-room-prepared-handoff-is-not-accepted-outcome.html"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "PasteLint",
+        "item": "https://guyt1225.github.io/pastelint/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Text Preparation Journal",
+        "item": "https://guyt1225.github.io/pastelint/text-preparation-journal.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "A Prepared Handoff Is Not an Accepted Outcome",
+        "item": "https://guyt1225.github.io/pastelint/journal-engine-room-prepared-handoff-is-not-accepted-outcome.html"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="js/analytics-loader.js"></script>
+</head>
+
+<body class="journal-surface journal-track--engine-room engine-room-article">
+  <header class="site-header">
+    <a class="brand-link" href="index.html">PasteLint</a>
+    <nav class="tool-nav" aria-label="Tool navigation">
+      <a href="index.html">Clean</a>
+      <a href="second-draft.html">SecondDraft</a>
+      <a href="SSML_builder.html">SSML Builder</a>
+      <a class="tool-nav-journal" href="text-preparation-journal.html" aria-current="page">Journal</a>
+    </nav>
+    <nav class="theme-switcher" aria-label="Theme selector">
+      <button class="theme-btn active" type="button" data-theme-choice="light">Light</button>
+      <button class="theme-btn" type="button" data-theme-choice="dark">Dark</button>
+      <button class="theme-btn" type="button" data-theme-choice="terminal">Terminal</button>
+    </nav>
+  </header>
+
+  <main class="journal-page journal-article">
+    <article class="journal-shell">
+      <nav aria-label="Breadcrumb">
+        <a class="journal-backlink" href="text-preparation-journal.html">&larr; Back to Text Preparation Journal</a>
+      </nav>
+
+      <header class="fieldnote-hero">
+        <div class="fieldnote-hero-copy">
+          <div class="journal-track-lockup">
+            <p class="journal-track-lockup-name">Engine Room</p>
+            <p>Transparent notes on how PasteLint&rsquo;s deterministic preparation tools report their work.</p>
+          </div>
+          <h1>A Prepared Handoff Is Not an Accepted Outcome</h1>
+          <p class="journal-thesis">PasteLint can report the preparation it performed. It cannot report what happened after the text left its boundary.</p>
+          <p class="journal-publication-meta"><span class="journal-author">By Guy Teichman</span><span class="journal-publication-separator" aria-hidden="true">&middot;</span><time datetime="2026-08-09">Published August 9, 2026</time></p>
+        </div>
+        <aside class="fieldnote-source-panel" aria-label="Engine Room summary">
+          <div>
+            <p class="journal-signal">Implementation summary</p>
+            <h2 class="fieldnote-source-title">Report the local outcome, then stop.</h2>
+            <dl class="fieldnote-source-meta">
+              <div><dt>Area</dt><dd>Shared transformation feedback</dd></div>
+              <div><dt>Surfaces</dt><dd>Clean, SecondDraft, SSML Builder</dd></div>
+              <div><dt>Contract</dt><dd>Changed, Unchanged, Blocked, Failed</dd></div>
+              <div><dt>Implementation</dt><dd><code>154631a</code></dd></div>
+              <div><dt>Boundary</dt><dd>Browser-side preparation, not downstream acceptance</dd></div>
+            </dl>
+          </div>
+        </aside>
+      </header>
+
+      <section class="journal-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">The claim inside the status</p>
+          <h2>A status message can be accurate about an action and misleading about the outcome.</h2>
+        </div>
+        <p>When a tool says that text is ready, complete, or successful, the words do more than acknowledge a click. They make a factual claim about what happened.</p>
+        <p>That claim can travel farther than the evidence. A browser can observe that it produced cleaned text. It cannot see whether an editor approved the revision, a publishing system accepted the document, a speech service deployed the audio, or a reader understood the result.</p>
+        <p>The feedback contract introduced in <code>154631a</code> narrows PasteLint&rsquo;s language to the operation it can inspect. It reports the transformation and leaves the next decision visible.</p>
+      </section>
+
+      <section class="journal-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">The observable result</p>
+          <h2>Four outcomes describe what the preparation action actually did.</h2>
+        </div>
+        <dl class="preservation-ledger">
+          <div>
+            <dt>Changed</dt>
+            <dd>The action returned text that differs from its source.</dd>
+          </div>
+          <div>
+            <dt>Unchanged</dt>
+            <dd>The action completed and preservation was the result.</dd>
+          </div>
+          <div>
+            <dt>Blocked</dt>
+            <dd>A required input or prerequisite was missing.</dd>
+          </div>
+          <div>
+            <dt>Failed</dt>
+            <dd>The action could not return a trustworthy result, so the source remained available.</dd>
+          </div>
+        </dl>
+        <p>These are outcomes of a local action. They are not estimates of quality, approval, publication, or downstream success.</p>
+      </section>
+
+      <section class="journal-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">The handoff boundary</p>
+          <h2>Only completed stages should appear complete.</h2>
+        </div>
+        <div class="workflow-chain" aria-label="Text handoff stages from input to observed acceptance">
+          <p>Input <span aria-hidden="true">&rarr;</span> Preparation <span aria-hidden="true">&rarr;</span> Review <span aria-hidden="true">&rarr;</span> Export <span aria-hidden="true">&rarr;</span> Downstream destination <span aria-hidden="true">&rarr;</span> Observed acceptance</p>
+        </div>
+        <p>PasteLint operates near the beginning of this sequence. It accepts text, performs a selected preparation action, presents the result, and makes the result available for review or transfer. The later stages belong to the person and system receiving the text.</p>
+        <p>A successful preparation does not collapse those stages into one. Review still has to happen. Copying or transferring output does not establish that the destination was updated. Arrival does not establish acceptance.</p>
+      </section>
+
+      <section class="readiness-checkpoint">
+        <div class="journal-section-heading">
+          <p class="eyebrow">The implemented language</p>
+          <h2>The message names the transformation and the remaining review.</h2>
+        </div>
+        <ul>
+          <li>Clean reports: <q>Text cleaned. Review the repairs, then continue when ready.</q></li>
+          <li>When Clean finds nothing to repair, it reports: <q>No cleanup needed. The text was preserved.</q></li>
+          <li>SecondDraft reports: <q>Draft revised. Review the changes before continuing.</q></li>
+          <li>SSML Builder reports: <q>SSML generated from cleaned text. Review it before final audio.</q></li>
+          <li>Running the same SSML generation again reports that the SSML already matches its available source instead of claiming another change.</li>
+        </ul>
+        <p>Each message identifies what the tool observed. Each stops before the next unobserved outcome.</p>
+      </section>
+
+      <section class="journal-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">What the result does not establish</p>
+          <h2>Preparation and acceptance require different evidence.</h2>
+        </div>
+        <dl class="preservation-ledger">
+          <div><dt>Prepared text</dt><dd>Does not mean published.</dd></div>
+          <div><dt>Generated SSML</dt><dd>Does not mean audio was generated, reviewed, or deployed.</dd></div>
+          <div><dt>Copied text</dt><dd>Does not mean documentation was updated.</dd></div>
+          <div><dt>Prepared prompt</dt><dd>Does not mean an AI workflow ran or returned the intended result.</dd></div>
+          <div><dt>Prepared manuscript</dt><dd>Does not mean a publication accepted it.</dd></div>
+        </dl>
+        <p>The distinctions are ordinary, but status language often erases them. PasteLint keeps them separate because a later system can fail, reject, reinterpret, or never receive otherwise well-prepared text.</p>
+      </section>
+
+      <section class="journal-section engine-under-hood">
+        <div class="journal-section-heading">
+          <p class="eyebrow">Under the hood</p>
+          <h2>One small contract serves three different preparation tools.</h2>
+        </div>
+        <p>The shared browser module accepts only four state names: <code>changed</code>, <code>unchanged</code>, <code>blocked</code>, and <code>failed</code>. It attaches the state to the existing status region and presents the action-specific message. An unknown state is rejected rather than silently translated into generic success.</p>
+        <p>Clean compares cleaned output with the submitted source. SecondDraft compares its bounded revision with normalized input and rejects malformed results. SSML Builder compares generated markup with the output already present. Empty prerequisites become Blocked; caught execution failures become Failed.</p>
+        <p>The implementation is shared, but the evidence remains local to each action. The state contract does not become a workflow engine, an approval system, or a monitor for external destinations.</p>
+      </section>
+
+      <section class="journal-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">Regression evidence</p>
+          <h2>The claim is checked at the same boundary where it is made.</h2>
+        </div>
+        <ul>
+          <li><code>Feedback state foundation</code> verifies the four accepted state names and rejects a generic <code>success</code> state.</li>
+          <li><code>Homepage empty input status</code> verifies Blocked, Changed, and Unchanged outcomes for Clean.</li>
+          <li><code>SecondDraft feedback states</code> verifies empty input, a preserved draft, a changed draft, and rejection of an unsafe result.</li>
+          <li><code>SSML empty action statuses</code> verifies blocked prerequisites, preserved speech text, changed generation, and repeated unchanged generation.</li>
+        </ul>
+        <p>These fixtures establish the tested browser behavior. They do not establish that every downstream destination interprets or accepts the prepared text correctly.</p>
+      </section>
+
+      <section class="principle-callout" aria-label="Engine principle">
+        <p class="eyebrow">Engine principle</p>
+        <h2>A truthful workflow reports only what has actually happened.</h2>
+        <p>Preparation is valuable. Preparation is necessary. Preparation is not execution.</p>
+      </section>
+
+      <section class="journal-section">
+        <div class="journal-section-heading">
+          <p class="eyebrow">Canon traceability</p>
+          <h2>The implementation gives three editorial principles a technical boundary.</h2>
+        </div>
+        <ul>
+          <li><strong>EC-0001, Destination Readiness:</strong> preparation is named relative to its next destination without claiming that the destination accepted it.</li>
+          <li><strong>EC-0002, Handoff Discipline:</strong> preparation, review, export, delivery, and acceptance remain distinct stages.</li>
+          <li><strong>EC-0012, Preparation Is Not Execution:</strong> status language stops at the last outcome the browser can observe.</li>
+        </ul>
+        <p>The <a href="docs/editorial-canon.md">Editorial Canon</a> states the durable principles. This implementation record shows one bounded way the current product follows them.</p>
+      </section>
+
+      <aside class="journal-section engine-limitations" aria-labelledby="handoff-limitations-title">
+        <div class="journal-section-heading">
+          <p class="eyebrow">Bounded limitations</p>
+          <h2 id="handoff-limitations-title">The feedback contract cannot observe beyond the browser.</h2>
+        </div>
+        <p>PasteLint does not verify editorial approval, publication, delivery, model execution, generated audio, deployment, reader comprehension, or downstream acceptance.</p>
+        <p>The four-state contract governs the primary transformation actions documented here. It does not turn every secondary control into a complete workflow state machine, and it does not prove universal semantic correctness.</p>
+        <p>Review remains part of every handoff. A later system&rsquo;s confirmation, rejection, or failure must come from evidence produced by that system.</p>
+      </aside>
+
+      <section class="journal-share" aria-labelledby="share-article-title">
+        <div class="journal-share-copy"><p class="eyebrow">Share</p><h2 id="share-article-title">Share this article.</h2></div>
+        <button class="journal-share-button" type="button" data-journal-share data-share-native-event="Journal Share | prepared-handoff-is-not-accepted-outcome | native" data-share-copy-event="Journal Share | prepared-handoff-is-not-accepted-outcome | copy-link"><svg class="journal-share-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v7h14v-7"/></svg><span>Share article</span></button>
+        <p class="journal-share-status" data-journal-share-status role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="knowledge-trail" data-knowledge-graph aria-labelledby="continue-reading-title">
+        <div class="knowledge-trail-group">
+          <p class="eyebrow">Continue the record</p>
+          <h2 id="continue-reading-title">Follow the boundary from principle to evidence.</h2>
+          <ul class="knowledge-trail-list">
+            <li data-relationship-article="text-readiness-is-a-handoff-discipline"><p class="journal-signal">Editor&rsquo;s Desk</p><h3><a href="journal-editors-desk-text-readiness-is-a-handoff-discipline.html" data-statkit-event="Journal Related | prepared-handoff-is-not-accepted-outcome | text-readiness-is-a-handoff-discipline">Text Readiness Is a Handoff Discipline</a></h3><p>The editorial principle behind destination readiness and deliberate handoffs.</p></li>
+            <li data-relationship-article="content-pipeline-breaks-before-writing"><p class="journal-signal">Sources &amp; Case Studies</p><h3><a href="journal-content-pipeline-breaks-before-writing.html" data-statkit-event="Journal Related | prepared-handoff-is-not-accepted-outcome | content-pipeline-breaks-before-writing">The Content Pipeline Breaks Before the Writing Does</a></h3><p>A source-led case showing why drafts alone do not complete a publishing workflow.</p></li>
+            <li data-relationship-article="record-behind-product-transparency"><p class="journal-signal">Editor&rsquo;s Desk</p><h3><a href="journal-editors-desk-record-behind-product-transparency.html" data-statkit-event="Journal Related | prepared-handoff-is-not-accepted-outcome | record-behind-product-transparency">The Record Behind Product Transparency</a></h3><p>Why status, evidence, decisions, and limits need a record that survives implementation.</p></li>
+          </ul>
+        </div>
+        <div class="knowledge-trail-group knowledge-trail-group--compact">
+          <h2>Related Principles</h2>
+          <ul class="knowledge-principles" aria-label="Related principles">
+            <li data-relationship-principle="evidence-before-narrative">Evidence Before Narrative</li>
+            <li data-relationship-principle="verification-before-publication">Verification Before Publication</li>
+            <li data-relationship-principle="editorial-transparency">Editorial Transparency</li>
+          </ul>
+        </div>
+        <div class="knowledge-trail-group knowledge-trail-group--compact">
+          <h2>Source Material</h2>
+          <ul class="knowledge-sources">
+            <li data-relationship-source="editorial-constitution"><a href="docs/editorial-constitution.md">Editorial Constitution</a><span>The governing boundary for truthful status, destination preparation, and user review.</span></li>
+            <li data-relationship-source="editorial-canon"><a href="docs/editorial-canon.md">Editorial Canon</a><span>Destination Readiness, Handoff Discipline, and Preparation Is Not Execution.</span></li>
+            <li data-relationship-source="workflow-v2"><a href="docs/workflow-v2.md">Workflow v2</a><span>Evidence, verification, publication, and acceptance remain separate checkpoints.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <nav class="journal-continuation" aria-label="Continue reading">
+        <p>Continue reading</p>
+        <a href="text-preparation-journal.html">Return to the Text Preparation Journal <span aria-hidden="true">&rarr;</span></a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-brand">PasteLint &mdash; browser-based text cleanup tools.</p>
+      <p class="footer-note">No login. No upload. Everything runs in your browser.</p>
+      <div class="footer-columns">
+        <div><h4>Popular cleanup tasks</h4><p><a href="fix-pdf-paste.html">Fix Text Copied from PDF</a> <span>|</span> <a href="clean-chatgpt-output.html">Clean ChatGPT Output</a> <span>|</span> <a href="remove-hidden-characters.html">Remove Hidden Characters</a></p><p><a href="tts-text-cleanup.html">Prepare Text for TTS</a> <span>|</span> <a href="ivr-text-prep.html">IVR Text Prep</a> <span>|</span> <a href="SSML_builder.html">SSML Builder</a></p></div>
+        <div><h4>Core tools</h4><p><a href="index.html">PasteLint Clean</a> <span>|</span> <a href="second-draft.html">SecondDraft</a> <span>|</span> <a href="SSML_builder.html">SSML Builder</a> <span>|</span> <a href="text-readiness-framework.html">Text Readiness Framework</a></p></div>
+        <div><h4>Legal</h4><p><a href="privacy.html">Privacy Policy</a> <span>|</span> <a href="terms.html">Terms</a> <span>|</span> <a href="contact.html">Contact</a></p></div>
+      </div>
+    </div>
+  </footer>
+  <script src="js/themes.js"></script>
+  <script src="journal-share.js"></script>
+</body>
+</html>
