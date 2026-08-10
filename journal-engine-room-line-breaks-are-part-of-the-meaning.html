@@ -19,7 +19,7 @@
   <meta property="og:url" content="https://guyt1225.github.io/pastelint/journal-engine-room-line-breaks-are-part-of-the-meaning.html" />
   <meta property="article:section" content="Engine Room" />
   <meta property="article:published_time" content="2026-07-29" />
-  <meta property="article:modified_time" content="2026-08-03" />
+  <meta property="article:modified_time" content="2026-08-09" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Line Breaks Are Part of the Meaning" />
   <meta name="twitter:description" content="An earlier version of SecondDraft preserved every word in a five-line message while collapsing its structure. The repaired engine now leaves those line boundaries intact." />
@@ -31,7 +31,7 @@
     "headline": "Line Breaks Are Part of the Meaning",
     "description": "An earlier version of SecondDraft preserved every word in a five-line message while collapsing its structure. The repaired engine now leaves those line boundaries intact.",
     "datePublished": "2026-07-29",
-    "dateModified": "2026-08-03",
+    "dateModified": "2026-08-09",
     "articleSection": "Engine Room",
     "author": {
       "@type": "Person",
@@ -200,6 +200,23 @@ Guy</pre>
         </div>
         <figcaption data-demo-field="caption">Both outputs were captured from real production commits. The previous engine flattened the fixture; the repaired engine preserves all five lines.</figcaption>
         <p data-demo-field="takeaway"><strong>Takeaway:</strong> Preserving words is insufficient when line boundaries carry document roles.</p>
+        <details class="editorial-demo__reasoning" data-demo-reasoning>
+          <summary>Why this result is editorially different</summary>
+          <dl>
+            <div>
+              <dt>Preserved</dt>
+              <dd data-demo-field="preserved">Every word and all five deliberate line boundaries remain in the current output.</dd>
+            </div>
+            <div>
+              <dt>Changed</dt>
+              <dd data-demo-field="changed">SecondDraft no longer collapses the five-line source into one paragraph when reflow is off.</dd>
+            </div>
+            <div>
+              <dt>Intentionally unchanged</dt>
+              <dd data-demo-field="intentionally-unchanged">The current wording matches the source because preservation, rather than rewriting, is the intended result.</dd>
+            </div>
+          </dl>
+        </details>
         <p data-demo-field="limitation"><strong>Limitation:</strong> This comparison demonstrates one repaired fixture and does not establish that every newline is semantic.</p>
         <noscript><p class="editorial-demo__noscript">The complete comparison is shown above. Replay controls require JavaScript, but the evidence and limitation do not.</p></noscript>
         <p data-demo-runtime-status role="status" aria-live="polite">Complete static fallback. Enhancement has not loaded.</p>
@@ -255,7 +272,7 @@ Guy</pre>
               <div><dt>Rule</dt><dd><code>SD-STRUCTURE-001</code></dd></div>
               <div><dt>Regression</dt><dd>SecondDraft structure preservation</dd></div>
               <div><dt>Captured</dt><dd>July 29, 2026</dd></div>
-              <div><dt>Verified</dt><dd>July 29, 2026</dd></div>
+              <div><dt>Verified</dt><dd>August 9, 2026</dd></div>
               <div><dt>Classification</dt><dd>Recorded Replay</dd></div>
             </dl>
             <p>Both committed engine sources were loaded and executed twice with the same options. Each version returned the same deterministic result on both runs. No historical output was written manually for this article; the page consumes the canonical DEMO-001 registry.</p>

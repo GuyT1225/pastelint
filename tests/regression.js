@@ -2048,7 +2048,7 @@ function testEditorialComponentsFoundation() {
     )
   );
   assert.strictEqual(registry.schemaVersion, 1);
-  assert.strictEqual(registry.demonstrations.length, 1);
+  assert.strictEqual(registry.demonstrations.length, 3);
   const demo = registry.demonstrations[0];
   assert.strictEqual(demo.id, "DEMO-001");
   assert.strictEqual(demo.classification, "recorded-replay");
@@ -2074,6 +2074,36 @@ function testEditorialComponentsFoundation() {
     surface: "journal",
     file: "journal-engine-room-line-breaks-are-part-of-the-meaning.html",
     rootSelector: '[data-demo-id="DEMO-001"]'
+  }]);
+  assert.deepStrictEqual(demo.reasoning, {
+    preserved: "Every word and all five deliberate line boundaries remain in the current output.",
+    changed: "SecondDraft no longer collapses the five-line source into one paragraph when reflow is off.",
+    intentionallyUnchanged: "The current wording matches the source because preservation, rather than rewriting, is the intended result."
+  });
+
+  const decisionDemo = registry.demonstrations.find((item) => item.id === "DEMO-003");
+  const readinessDemo = registry.demonstrations.find((item) => item.id === "DEMO-004");
+  assert.ok(decisionDemo);
+  assert.strictEqual(decisionDemo.classification, "concept-illustration");
+  assert.deepStrictEqual(decisionDemo.componentModes, []);
+  assert.strictEqual(decisionDemo.concept.pattern, "editorial-decision");
+  assert.strictEqual(decisionDemo.engine, null);
+  assert.strictEqual(decisionDemo.comparison, null);
+  assert.strictEqual(decisionDemo.fixture, null);
+  assert.deepStrictEqual(decisionDemo.analytics, []);
+  assert.deepStrictEqual(decisionDemo.destinations, [{
+    surface: "journal",
+    file: "journal-engine-room-directness-without-false-certainty.html",
+    rootSelector: '[data-demo-id="DEMO-003"]'
+  }]);
+  assert.ok(readinessDemo);
+  assert.strictEqual(readinessDemo.classification, "concept-illustration");
+  assert.strictEqual(readinessDemo.concept.pattern, "destination-readiness");
+  assert.deepStrictEqual(readinessDemo.analytics, []);
+  assert.deepStrictEqual(readinessDemo.destinations, [{
+    surface: "journal",
+    file: "journal-engine-room-prepared-handoff-is-not-accepted-outcome.html",
+    rootSelector: '[data-demo-id="DEMO-004"]'
   }]);
 
   const context = loadSecondDraftContext();
@@ -2201,6 +2231,32 @@ function testEditorialComponentsFoundation() {
   assert.strictEqual(runtime.fixedMessages.draft, "Demonstration not yet verified.");
   assert.strictEqual(runtime.fixedMessages["recheck-required"], "Recheck required.");
   assert.strictEqual(runtime.fixedMessages.retired, "Historical demonstration.");
+  let conceptToggleHandler = null;
+  const conceptStatus = { textContent: "" };
+  const conceptReasoning = {
+    open: false,
+    addEventListener(type, handler) {
+      if (type === "toggle") conceptToggleHandler = handler;
+    }
+  };
+  const conceptRoot = {
+    dataset: {},
+    querySelector(selector) {
+      return selector === "[data-demo-reasoning]"
+        ? conceptReasoning
+        : conceptStatus;
+    }
+  };
+  const conceptRuntime = runtime.enhance(conceptRoot, decisionDemo);
+  assert.ok(conceptRuntime);
+  assert.strictEqual(conceptRoot.dataset.demoEnhanced, "true");
+  assert.strictEqual(conceptStatus.textContent, "Complete concept illustration available.");
+  conceptReasoning.open = true;
+  conceptToggleHandler();
+  assert.strictEqual(conceptStatus.textContent, "Editorial reasoning expanded.");
+  conceptReasoning.open = false;
+  conceptToggleHandler();
+  assert.strictEqual(conceptStatus.textContent, "Editorial reasoning collapsed.");
   [
     ["draft", "Demonstration not yet verified."],
     ["recheck-required", "Recheck required."],
@@ -2231,9 +2287,40 @@ function testEditorialComponentsFoundation() {
   assert.ok(fixtureHtml.includes('data-demo-field="source"'));
   assert.ok(fixtureHtml.includes('data-demo-field="output"'));
   assert.ok(fixtureHtml.includes('data-demo-field="previous-output"'));
+  assert.ok(fixtureHtml.includes('data-demo-field="preserved"'));
+  assert.ok(fixtureHtml.includes('data-demo-field="changed"'));
+  assert.ok(fixtureHtml.includes('data-demo-field="intentionally-unchanged"'));
   assert.ok(fixtureHtml.includes('data-demo-field="limitation"'));
   assert.ok(fixtureHtml.includes(demo.fixture.input));
   assert.ok(fixtureHtml.includes(demo.fixture.output));
+
+  const directnessHtml = fs.readFileSync(
+    path.join(ROOT, "journal-engine-room-directness-without-false-certainty.html"),
+    "utf8"
+  );
+  const handoffHtml = fs.readFileSync(
+    path.join(ROOT, "journal-engine-room-prepared-handoff-is-not-accepted-outcome.html"),
+    "utf8"
+  );
+  for (const [articleHtml, demoId] of [
+    [directnessHtml, "DEMO-003"],
+    [handoffHtml, "DEMO-004"]
+  ]) {
+    assert.strictEqual((articleHtml.match(new RegExp(`data-demo-id="${demoId}"`, "g")) || []).length, 1);
+    assert.ok(articleHtml.includes("Concept Illustration &middot; Does not execute PasteLint"));
+    assert.ok(articleHtml.includes('data-demo-field="text-alternative"'));
+    assert.ok(articleHtml.includes("data-demo-reasoning"));
+    assert.ok(articleHtml.includes('href="css/editorial-components.css"'));
+    assert.ok(articleHtml.includes('src="js/editorial-components.js"'));
+    assert.ok(!articleHtml.includes('src="js/second-draft.js"'));
+    assert.ok(!articleHtml.includes('src="js/ssml-builder.js"'));
+  }
+  assert.ok(directnessHtml.includes('data-demo-field="possible-revision"'));
+  assert.ok(directnessHtml.includes('data-demo-field="intentionally-unchanged"'));
+  assert.ok(directnessHtml.includes("editorial-demo__protected-term"));
+  assert.ok(handoffHtml.includes('data-demo-field="ready-for-destination"'));
+  assert.ok(handoffHtml.includes('data-demo-field="boundary"'));
+  assert.ok(handoffHtml.includes("Preparation does not establish publication or downstream acceptance."));
 
   const validator = path.join(ROOT, "scripts", "validate-demonstrations.mjs");
   const canonicalResult = spawnSync(process.execPath, [validator], {
@@ -2273,7 +2360,10 @@ function testEditorialComponentsFoundation() {
     ["module", (data) => { data.demonstrations[0].engine.module = "js/missing.js"; }],
     ["adapter", (data) => { data.demonstrations[0].engine.adapter = "fake"; }],
     ["step text", (data) => { delete data.demonstrations[0].steps[0].text; }],
-    ["step ID", (data) => { data.demonstrations[0].steps[1].id = data.demonstrations[0].steps[0].id; }]
+    ["step ID", (data) => { data.demonstrations[0].steps[1].id = data.demonstrations[0].steps[0].id; }],
+    ["concept text alternative", (data) => { data.demonstrations[1].concept.textAlternative = ""; }],
+    ["concept engine claim", (data) => { data.demonstrations[1].engine = { name: "Fake" }; }],
+    ["concept field", (data) => { data.demonstrations[2].concept.fields[0].value = ""; }]
   ];
 
   try {
@@ -2370,7 +2460,7 @@ function testLineBreaksArticlePublication() {
   assert.ok(html.includes('<span class="journal-author">By Guy Teichman</span>'));
   assert.ok(html.includes('<time datetime="2026-07-29">Published July 29, 2026</time>'));
   assert.ok(html.includes('<meta property="article:published_time" content="2026-07-29" />'));
-  assert.ok(html.includes('<meta property="article:modified_time" content="2026-08-03" />'));
+  assert.ok(html.includes('<meta property="article:modified_time" content="2026-08-09" />'));
 
   const jsonLd = [...html.matchAll(
     /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g
@@ -2382,7 +2472,7 @@ function testLineBreaksArticlePublication() {
   assert.ok(articleJsonLd);
   assert.strictEqual(articleJsonLd.headline, "Line Breaks Are Part of the Meaning");
   assert.strictEqual(articleJsonLd.datePublished, "2026-07-29");
-  assert.strictEqual(articleJsonLd.dateModified, "2026-08-03");
+  assert.strictEqual(articleJsonLd.dateModified, "2026-08-09");
   assert.strictEqual(articleJsonLd.author.name, "Guy Teichman");
   assert.strictEqual(articleJsonLd.mainEntityOfPage, canonical);
   assert.ok(breadcrumbJsonLd);
@@ -2683,7 +2773,7 @@ function testLineBreaksArticlePublication() {
   assert.strictEqual(article.canonical, canonical);
   assert.strictEqual(article.track, "engine-room");
   assert.strictEqual(article.published, "2026-07-29");
-  assert.strictEqual(article.modified, "2026-08-03");
+  assert.strictEqual(article.modified, "2026-08-09");
   assert.strictEqual(article.status, "published");
   assert.deepStrictEqual(article.primaryCta, {
     destination: "second-draft",

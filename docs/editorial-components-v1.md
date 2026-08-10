@@ -585,3 +585,52 @@ Automated validation passes for one verified Recorded Replay, both supported mod
 Known limitations remain unchanged: this is one fixture, not proof that every newline is semantic or that the engine understands arbitrary documents. It does not parse arbitrary Markdown, tables, poetry, or source code. Unusual structures may remain conservatively unreflowed. Recorded Replay accepts no reader input, represents the named commits and verification date, and does not replace human review.
 
 **Exact next cycle:** After browser-chat review, commit and push the publication checkpoint, production-smoke the live article and DEMO-001 destination, verify live metadata, sharing, themes, mobile behavior, data loading, and analytics attributes, then begin the 14-day component analytics window. Continue independent engine work while that window accrues. Do not begin DEMO-002 before this integration is committed, deployed, and production-smoked.
+
+## 37. Interactive editorial reasoning patterns
+
+**Implementation date:** August 9, 2026
+
+The first educational expansion keeps the existing registry, runtime, CSS, validator, and progressive-enhancement boundary. It does not create a second demonstration system. Three reusable patterns now cover the smallest set of explanations that materially improve the current Journal.
+
+### Before / After / Why
+
+Use a verified Recorded Replay when the before and after states are product evidence. Source and output remain complete in the static fallback. A native `details` disclosure may add three explicit reasoning fields:
+
+- **Preserved:** meaning, structure, or values that remain intact;
+- **Changed:** the specific observable difference; and
+- **Intentionally unchanged:** material left alone because preservation was the editorial decision.
+
+The disclosure supplements the visible evidence. It must not become the only place where the reader can discover the source, result, takeaway, or limitation. DEMO-001 is the first implementation.
+
+### Editorial Decision with Protected Meaning
+
+Use a Concept Illustration when the purpose is to explain editorial judgment rather than claim product execution. Show the original sentence, one possible revision, the decision, and a native reasoning disclosure. Mark protected language in the sentence, then name what was preserved, changed, and intentionally left unchanged.
+
+The visible classification is `Concept Illustration · Does not execute PasteLint`. Manually authored text must never be labeled as a captured or live output. DEMO-003 applies this pattern to the distinction between possibility and capability in **Directness Without False Certainty**.
+
+### Destination Readiness
+
+Use a Concept Illustration for a short semantic progression such as Draft → Reviewed → Prepared → Ready for destination. The final preparation state must be followed immediately by a textual evidence boundary stating what remains unobserved. Preparation, publication, deployment, delivery, and acceptance must not collapse into one completion state.
+
+DEMO-004 applies this pattern in **A Prepared Handoff Is Not an Accepted Outcome**. It uses an ordered list and native disclosure; it does not simulate workflow progress or destination acceptance.
+
+### Authoring contract
+
+1. Decide whether the evidence is Recorded Replay or Concept Illustration before writing markup.
+2. Add one stable record to `data/editorial-demonstrations.json`. Keep DEMO-002 reserved for the documented Clean live-engine candidate.
+3. Put complete readable evidence, reasoning, text alternative, and limitation in the article HTML.
+4. Use shared `editorial-demo` classes and `data-demo-field` markers. Do not add page-specific component CSS.
+5. Use native `details` and `summary` for optional reasoning. The article must remain understandable while the disclosure is closed and without JavaScript.
+6. Keep analytics empty unless a later editorial question justifies one of the fixed component events. Interaction is not evidence of comprehension.
+7. Declare the article destination and component dependencies in the registry.
+8. Run demonstration drift validation, Journal validation, regressions, continuity, analytics, and responsive accessibility QA.
+
+### Candidate selection
+
+The initial integrations remain deliberately limited to three Engine Room records because their implementation evidence and claim boundaries are already established. If later evidence justifies expansion, the strongest next candidates are:
+
+- **Clearer Is Not More Certain** for an Editor’s Desk reuse of Editorial Decision and Protected Meaning;
+- **The Content Pipeline Breaks Before the Writing Does** for a Sources & Case Studies destination-readiness illustration; and
+- a future verified Clean demonstration for DEMO-002 only after the documented live-adapter review.
+
+These are candidates, not an automatic retrofit queue. A component should be added only when it improves the reader’s mental model more than the existing prose already does.

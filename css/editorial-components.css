@@ -24,6 +24,142 @@
   line-height: 1.08;
 }
 
+.editorial-demo--concept {
+  gap: 1rem;
+  padding-block: clamp(1rem, 2.5vw, 1.5rem);
+  background: color-mix(in srgb, var(--panel) 72%, transparent);
+  border-top-width: 1px;
+  border-left: 3px solid var(--accent);
+}
+
+.editorial-demo--concept [data-demo-field="title"] {
+  font-size: clamp(1.25rem, 3vw, 1.8rem);
+  line-height: 1.2;
+}
+
+.editorial-demo__decision-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.editorial-demo__decision {
+  min-width: 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--editor-border);
+}
+
+.editorial-demo__decision h3,
+.editorial-demo__reasoning dt,
+.editorial-demo__readiness-step-label {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.editorial-demo__decision p,
+.editorial-demo__reasoning dd,
+.editorial-demo__boundary,
+.editorial-demo__text-alternative {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.editorial-demo__decision--outcome {
+  border-top-color: var(--accent);
+}
+
+.editorial-demo__protected-term {
+  padding: 0 0.12em;
+  color: inherit;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-bottom: 2px solid var(--accent);
+}
+
+.editorial-demo__reasoning {
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--editor-border);
+}
+
+.editorial-demo__reasoning summary {
+  width: fit-content;
+  min-height: 44px;
+  cursor: pointer;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.editorial-demo__reasoning dl {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0.9rem 0 0;
+}
+
+.editorial-demo__reasoning > p {
+  margin-top: 0.75rem;
+}
+
+.editorial-demo__reasoning dl > div {
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--editor-border);
+}
+
+.editorial-demo__reasoning dd {
+  margin-left: 0;
+  color: var(--muted);
+}
+
+.editorial-demo__readiness {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.editorial-demo__readiness li {
+  position: relative;
+  min-width: 0;
+  padding: 0.85rem 1.4rem 0.85rem 0;
+  border-top: 1px solid var(--editor-border);
+}
+
+.editorial-demo__readiness li:not(:last-child)::after {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.45rem;
+  color: var(--muted);
+  content: "→";
+}
+
+.editorial-demo__readiness li:last-child {
+  border-top-color: var(--accent);
+}
+
+.editorial-demo__readiness-step-label {
+  display: block;
+  margin: 0;
+}
+
+.editorial-demo__boundary {
+  padding: 0.85rem 0 0 0.85rem;
+  color: var(--muted);
+  border-top: 1px dashed var(--editor-border);
+  border-left: 3px solid var(--accent);
+}
+
+.editorial-demo__text-alternative {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .editorial-demo__comparison {
   display: grid;
   gap: 1rem;
@@ -90,7 +226,8 @@
 }
 
 .editorial-demo__control:focus-visible,
-.editorial-demo__metadata summary:focus-visible {
+.editorial-demo__metadata summary:focus-visible,
+.editorial-demo__reasoning summary:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
@@ -236,6 +373,10 @@ html[data-theme="terminal"] .line-breaks-article .editorial-demo--article .edito
   .editorial-demo--side-by-side .editorial-demo__comparison {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .editorial-demo__decision-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -269,5 +410,27 @@ html[data-theme="terminal"] .line-breaks-article .editorial-demo--article .edito
 
   .editorial-demo__metadata dl {
     grid-template-columns: 1fr;
+  }
+
+  .editorial-demo__readiness {
+    grid-template-columns: 1fr;
+  }
+
+  .editorial-demo__readiness li {
+    padding: 0.75rem 0 1.5rem 0.85rem;
+    border-top: 0;
+    border-left: 1px solid var(--editor-border);
+  }
+
+  .editorial-demo__readiness li:not(:last-child)::after {
+    top: auto;
+    right: auto;
+    bottom: 0.25rem;
+    left: 0.7rem;
+    content: "↓";
+  }
+
+  .editorial-demo__readiness li:last-child {
+    border-left: 3px solid var(--accent);
   }
 }

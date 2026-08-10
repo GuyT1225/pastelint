@@ -88,13 +88,35 @@
     element.append(details);
   }
 
-  function enhance(element, record) {
-    if (record.classification !== "recorded-replay") {
-      fail(element, fixedMessages.type);
+  function enhanceConcept(element, record) {
+    const reasoning = element.querySelector("[data-demo-reasoning]");
+    if (!reasoning) {
+      fail(element, fixedMessages.record);
       return null;
     }
+    reasoning.addEventListener("toggle", () => {
+      setStatus(
+        element,
+        reasoning.open
+          ? "Editorial reasoning expanded."
+          : "Editorial reasoning collapsed."
+      );
+    });
+    element.dataset.demoEnhanced = "true";
+    setStatus(element, "Complete concept illustration available.");
+    return { reasoning };
+  }
+
+  function enhance(element, record) {
     if (record.status !== "verified") {
       fail(element, fixedMessages[record.status] || fixedMessages.record);
+      return null;
+    }
+    if (record.classification === "concept-illustration") {
+      return enhanceConcept(element, record);
+    }
+    if (record.classification !== "recorded-replay") {
+      fail(element, fixedMessages.type);
       return null;
     }
     if (!record.componentModes?.every((mode) => supportedModes.has(mode))) {

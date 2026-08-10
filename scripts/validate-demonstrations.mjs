@@ -33,6 +33,12 @@ const requiredMethods = new Set([
   "accessibility-qa",
   "privacy-review"
 ]);
+const requiredConceptMethods = new Set([
+  "browser-qa",
+  "static-fallback-qa",
+  "accessibility-qa",
+  "privacy-review"
+]);
 const allowedActions = new Set([
   "replay-start",
   "replay-complete",
@@ -105,17 +111,6 @@ function getField(html, field, preserveLines = false) {
     : decoded.replace(/\s+/g, " ").trim();
 }
 
-function extractFallback(html) {
-  return {
-    classification: getField(html, "classification"),
-    title: getField(html, "title"),
-    source: getField(html, "source", true),
-    output: getField(html, "output", true),
-    previousOutput: getField(html, "previous-output", true),
-    limitation: getField(html, "limitation")
-  };
-}
-
 function extractFallbackRoot(html, selector) {
   const demoSelector = String(selector).match(
     /^\[data-demo-id=["'](DEMO-\d{3})["']\]$/
@@ -140,6 +135,16 @@ function extractFallbackRoot(html, selector) {
 }
 
 function expectedFallback(record) {
+  if (record.classification === "concept-illustration") {
+    return {
+      classification: "Concept Illustration · Does not execute PasteLint",
+      title: record.title,
+      "text-alternative": record.concept.textAlternative,
+      ...Object.fromEntries(
+        record.concept.fields.map((field) => [field.id, field.value])
+      )
+    };
+  }
   return {
     classification:
       `Recorded Replay · Captured from PasteLint engine commits ` +
@@ -148,31 +153,34 @@ function expectedFallback(record) {
     title: record.title,
     source: normalizeLines(record.fixture.input),
     output: normalizeLines(record.fixture.output),
-    previousOutput: normalizeLines(record.comparison.versions[0].output)
+    "previous-output": normalizeLines(record.comparison.versions[0].output),
+    preserved: record.reasoning?.preserved,
+    changed: record.reasoning?.changed,
+    "intentionally-unchanged": record.reasoning?.intentionallyUnchanged
   };
 }
 
 function compareFallback(record, html, context, error) {
-  const found = extractFallback(html);
   const expected = expectedFallback(record);
-  for (const field of [
-    "classification",
-    "title",
-    "source",
-    "previousOutput",
-    "output"
-  ]) {
-    if (found[field] === null) {
+  for (const [field, expectedValue] of Object.entries(expected)) {
+    if (expectedValue === undefined) continue;
+    const preserveLines = ["source", "previous-output", "output"].includes(field);
+    const found = getField(html, field, preserveLines);
+    const normalizedExpected = preserveLines
+      ? normalizeLines(expectedValue)
+      : normalizeInline(expectedValue);
+    if (found === null) {
       error(context, `Missing fallback field: ${field}`);
-    } else if (found[field] !== expected[field]) {
+    } else if (found !== normalizedExpected) {
       error(context, `Fallback drift: ${field}`);
     }
   }
-  if (!found.limitation) {
+  const limitation = getField(html, "limitation");
+  if (!limitation) {
     error(context, "Missing fallback field: limitation");
   } else {
     const matches = record.limitations.some((item) =>
-      normalizeInline(found.limitation).includes(normalizeInline(item))
+      normalizeInline(limitation).includes(normalizeInline(item))
     );
     if (!matches) error(context, "Fallback drift: limitation");
   }
@@ -272,6 +280,7 @@ function validateRegistryData(registry, options = {}) {
       }
     }
 
+    const verifiedRecord = record?.status === "verified";
     const verifiedReplay =
       record?.status === "verified" &&
       record?.classification === "recorded-replay";
@@ -303,10 +312,11 @@ function validateRegistryData(registry, options = {}) {
     }
 
     const comparison = record?.comparison;
-    if (!comparison || !Array.isArray(comparison.versions) ||
-        comparison.versions.length !== 2) {
+    if (record?.classification === "recorded-replay" &&
+        (!comparison || !Array.isArray(comparison.versions) ||
+         comparison.versions.length !== 2)) {
       error(context, "Recorded comparison requires exactly two versions");
-    } else {
+    } else if (record?.classification === "recorded-replay") {
       const expectedVersions = [
         ["previous", "Previous engine behavior"],
         ["current", "Current verified behavior"]
@@ -340,6 +350,43 @@ function validateRegistryData(registry, options = {}) {
         comparison.versions[1]?.output !== record?.fixture?.output
       ) {
         error(context, "Current comparison output must equal fixture output");
+      }
+    }
+
+    if (record?.classification === "concept-illustration") {
+      if (record.engine !== null || record.comparison !== null || record.fixture !== null) {
+        error(context, "Concept Illustration must not declare engine output");
+      }
+      if (record.captureDate !== null) {
+        error(context, "Concept Illustration captureDate must be null");
+      }
+      if (!validDate(record.lastVerified)) {
+        error(context, "Invalid Concept Illustration lastVerified");
+      }
+      if (record.componentModes?.length !== 0) {
+        error(context, "Concept Illustration does not use Replay or Compare modes");
+      }
+      if (!record.concept ||
+          !["editorial-decision", "destination-readiness"].includes(record.concept.pattern) ||
+          !String(record.concept.subject || "").trim() ||
+          !String(record.concept.textAlternative || "").trim() ||
+          !Array.isArray(record.concept.fields) ||
+          record.concept.fields.length === 0) {
+        error(context, "Concept Illustration requires a supported pattern and text alternative");
+      } else {
+        const conceptFieldIds = new Set();
+        for (const field of record.concept.fields) {
+          if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(field?.id || "") ||
+              !String(field?.value || "").trim()) {
+            error(context, "Invalid Concept Illustration field");
+          } else if (conceptFieldIds.has(field.id)) {
+            error(context, `Duplicate Concept Illustration field: ${field.id}`);
+          }
+          conceptFieldIds.add(field?.id);
+        }
+      }
+      if (record.steps?.length || record.rules?.length || record.regressions?.length) {
+        error(context, "Concept Illustration must not declare replay or engine evidence");
       }
     }
 
@@ -404,6 +451,12 @@ function validateRegistryData(registry, options = {}) {
           error(context, `Missing verification method: ${method}`);
         }
       }
+    } else if (verifiedRecord && record.classification === "concept-illustration") {
+      for (const method of requiredConceptMethods) {
+        if (!record.verification.methods.includes(method)) {
+          error(context, `Missing Concept Illustration verification method: ${method}`);
+        }
+      }
     }
     if (!Array.isArray(record?.verification?.dependencies)) {
       error(context, "Verification dependencies must be an array");
@@ -436,7 +489,7 @@ function validateRegistryData(registry, options = {}) {
     for (const field of ["staticFallback", "reducedMotion", "textAlternative"]) {
       if (typeof record?.accessibility?.[field] !== "boolean") {
         error(context, `Missing accessibility declaration: ${field}`);
-      } else if (verifiedReplay && record.accessibility[field] !== true) {
+      } else if (verifiedRecord && record.accessibility[field] !== true) {
         error(context, `Verified demonstration requires accessibility.${field}`);
       }
     }
@@ -562,7 +615,6 @@ if (isDirect) runCli();
 
 export {
   compareFallback,
-  extractFallback,
   extractFallbackRoot,
   normalizeLines,
   validateRegistryData

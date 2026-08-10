@@ -73,6 +73,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/editorial-components.css">
   <script defer src="js/analytics-loader.js"></script>
 </head>
 
@@ -164,9 +165,24 @@
           <p class="eyebrow">The handoff boundary</p>
           <h2>Only completed stages should appear complete.</h2>
         </div>
-        <div class="workflow-chain" aria-label="Text handoff stages from input to observed acceptance">
-          <p>Input <span aria-hidden="true">&rarr;</span> Preparation <span aria-hidden="true">&rarr;</span> Review <span aria-hidden="true">&rarr;</span> Export <span aria-hidden="true">&rarr;</span> Downstream destination <span aria-hidden="true">&rarr;</span> Observed acceptance</p>
-        </div>
+        <figure class="editorial-demo editorial-demo--concept" data-demo-id="DEMO-004" data-demo-registry="data/editorial-demonstrations.json" aria-labelledby="destination-readiness-title">
+          <p data-demo-field="classification">Concept Illustration &middot; Does not execute PasteLint</p>
+          <h3 id="destination-readiness-title" data-demo-field="title">Preparation stops before acceptance</h3>
+          <ol class="editorial-demo__readiness" aria-label="Draft, reviewed, prepared, then ready for destination">
+            <li><span class="editorial-demo__readiness-step-label" data-demo-field="draft">Draft</span></li>
+            <li><span class="editorial-demo__readiness-step-label" data-demo-field="reviewed">Reviewed</span></li>
+            <li><span class="editorial-demo__readiness-step-label" data-demo-field="prepared">Prepared</span></li>
+            <li><span class="editorial-demo__readiness-step-label" data-demo-field="ready-for-destination">Ready for destination</span></li>
+          </ol>
+          <p class="editorial-demo__boundary" data-demo-field="boundary"><strong>Evidence boundary:</strong> Preparation does not establish publication or downstream acceptance.</p>
+          <details class="editorial-demo__reasoning" data-demo-reasoning>
+            <summary>Why the boundary remains visible</summary>
+            <p data-demo-field="reasoning">PasteLint can observe the preparation it performs. Publication, deployment, delivery, and acceptance require evidence from the receiving system.</p>
+          </details>
+          <p class="editorial-demo__text-alternative" data-demo-field="text-alternative"><strong>Text summary:</strong> Draft, reviewed, prepared, then ready for destination. PasteLint can report preparation; publication or downstream acceptance requires evidence from the destination.</p>
+          <p data-demo-field="limitation"><strong>Limitation:</strong> This is a conceptual workflow illustration and does not observe a downstream destination.</p>
+          <p data-demo-runtime-status role="status" aria-live="polite">Complete concept illustration available without interaction.</p>
+        </figure>
         <p>PasteLint operates near the beginning of this sequence. It accepts text, performs a selected preparation action, presents the result, and makes the result available for review or transfer. The later stages belong to the person and system receiving the text.</p>
         <p>A successful preparation does not collapse those stages into one. Review still has to happen. Copying or transferring output does not establish that the destination was updated. Arrival does not establish acceptance.</p>
       </section>
@@ -308,5 +324,6 @@
   </footer>
   <script src="js/themes.js"></script>
   <script src="journal-share.js"></script>
+  <script src="js/editorial-components.js"></script>
 </body>
 </html>

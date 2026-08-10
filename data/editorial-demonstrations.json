@@ -74,6 +74,11 @@
           "engineCommit": "2d9454d"
         }
       ],
+      "reasoning": {
+        "preserved": "Every word and all five deliberate line boundaries remain in the current output.",
+        "changed": "SecondDraft no longer collapses the five-line source into one paragraph when reflow is off.",
+        "intentionallyUnchanged": "The current wording matches the source because preservation, rather than rewriting, is the intended result."
+      },
       "rules": [
         "SD-STRUCTURE-001"
       ],
@@ -81,7 +86,7 @@
         "SecondDraft structure preservation"
       ],
       "captureDate": "2026-07-29",
-      "lastVerified": "2026-07-29",
+      "lastVerified": "2026-08-09",
       "verification": {
         "methods": [
           "regression",
@@ -153,7 +158,205 @@
           "rootSelector": "[data-demo-id=\"DEMO-001\"]"
         }
       ],
-      "notes": "The Engine Room article is DEMO-001's first production destination. The permanent QA fixture remains outside the publication destination list."
+      "notes": "The Engine Room article is DEMO-001's first production destination. The permanent QA fixture remains outside the publication destination list. The reasoning disclosure distinguishes preserved, changed, and intentionally unchanged evidence."
+    },
+    {
+      "id": "DEMO-003",
+      "slug": "preserve-possibility-in-direct-revision",
+      "title": "Possibility is not capability",
+      "classification": "concept-illustration",
+      "status": "verified",
+      "componentModes": [],
+      "summary": "An editorial decision showing why a possible event should not be rewritten as an event someone has the ability or authority to cancel.",
+      "engine": null,
+      "comparison": null,
+      "fixture": null,
+      "steps": [],
+      "reasoning": null,
+      "concept": {
+        "pattern": "editorial-decision",
+        "subject": "Preserving modality during direct revision",
+        "textAlternative": "Text summary: Original: The event may be canceled if severe weather continues. Possible revision: The event can be canceled if severe weather continues. Decision: do not apply the revision; preserve may because possibility is not capability.",
+        "fields": [
+          {
+            "id": "original",
+            "value": "The event may be canceled if severe weather continues."
+          },
+          {
+            "id": "possible-revision",
+            "value": "The event can be canceled if severe weather continues."
+          },
+          {
+            "id": "decision",
+            "value": "Do not apply this revision. Preserve may."
+          },
+          {
+            "id": "reasoning",
+            "value": "May describes an uncertain outcome here. Can may describe ability, authority, or permission, so the proposed substitution would change the claim."
+          },
+          {
+            "id": "preserved",
+            "value": "Possibility, the severe-weather condition, and the event remain intact."
+          },
+          {
+            "id": "changed",
+            "value": "No wording changes in this example."
+          },
+          {
+            "id": "intentionally-unchanged",
+            "value": "The sentence remains unchanged because the proposed edit would convert possibility into capability."
+          }
+        ]
+      },
+      "rules": [],
+      "regressions": [],
+      "captureDate": null,
+      "lastVerified": "2026-08-09",
+      "verification": {
+        "methods": [
+          "browser-qa",
+          "static-fallback-qa",
+          "accessibility-qa",
+          "privacy-review"
+        ],
+        "dependencies": [
+          {
+            "type": "file",
+            "value": "journal-engine-room-directness-without-false-certainty.html"
+          },
+          {
+            "type": "file",
+            "value": "js/editorial-components.js"
+          },
+          {
+            "type": "file",
+            "value": "css/editorial-components.css"
+          },
+          {
+            "type": "file",
+            "value": "scripts/validate-demonstrations.mjs"
+          },
+          {
+            "type": "schema",
+            "value": "1"
+          }
+        ]
+      },
+      "limitations": [
+        "This illustration explains one editorial distinction and does not execute PasteLint.",
+        "The decision is bounded to the sentence and context shown."
+      ],
+      "accessibility": {
+        "staticFallback": true,
+        "reducedMotion": true,
+        "textAlternative": true
+      },
+      "analytics": [],
+      "destinations": [
+        {
+          "surface": "journal",
+          "file": "journal-engine-room-directness-without-false-certainty.html",
+          "rootSelector": "[data-demo-id=\"DEMO-003\"]"
+        }
+      ],
+      "notes": "DEMO-002 remains reserved for the documented future Clean live-engine candidate. This concept illustration replaces an existing article comparison without claiming live execution."
+    },
+    {
+      "id": "DEMO-004",
+      "slug": "destination-readiness-stops-before-acceptance",
+      "title": "Preparation stops before acceptance",
+      "classification": "concept-illustration",
+      "status": "verified",
+      "componentModes": [],
+      "summary": "A destination-readiness progression that keeps preparation distinct from publication and downstream acceptance.",
+      "engine": null,
+      "comparison": null,
+      "fixture": null,
+      "steps": [],
+      "reasoning": null,
+      "concept": {
+        "pattern": "destination-readiness",
+        "subject": "The evidence boundary between preparation and downstream acceptance",
+        "textAlternative": "Text summary: Draft, reviewed, prepared, then ready for destination. PasteLint can report preparation; publication or downstream acceptance requires evidence from the destination.",
+        "fields": [
+          {
+            "id": "draft",
+            "value": "Draft"
+          },
+          {
+            "id": "reviewed",
+            "value": "Reviewed"
+          },
+          {
+            "id": "prepared",
+            "value": "Prepared"
+          },
+          {
+            "id": "ready-for-destination",
+            "value": "Ready for destination"
+          },
+          {
+            "id": "boundary",
+            "value": "Evidence boundary: Preparation does not establish publication or downstream acceptance."
+          },
+          {
+            "id": "reasoning",
+            "value": "PasteLint can observe the preparation it performs. Publication, deployment, delivery, and acceptance require evidence from the receiving system."
+          }
+        ]
+      },
+      "rules": [],
+      "regressions": [],
+      "captureDate": null,
+      "lastVerified": "2026-08-09",
+      "verification": {
+        "methods": [
+          "browser-qa",
+          "static-fallback-qa",
+          "accessibility-qa",
+          "privacy-review"
+        ],
+        "dependencies": [
+          {
+            "type": "file",
+            "value": "journal-engine-room-prepared-handoff-is-not-accepted-outcome.html"
+          },
+          {
+            "type": "file",
+            "value": "js/editorial-components.js"
+          },
+          {
+            "type": "file",
+            "value": "css/editorial-components.css"
+          },
+          {
+            "type": "file",
+            "value": "scripts/validate-demonstrations.mjs"
+          },
+          {
+            "type": "schema",
+            "value": "1"
+          }
+        ]
+      },
+      "limitations": [
+        "This is a conceptual workflow illustration and does not observe a downstream destination.",
+        "Ready for destination does not mean published, deployed, delivered, or accepted."
+      ],
+      "accessibility": {
+        "staticFallback": true,
+        "reducedMotion": true,
+        "textAlternative": true
+      },
+      "analytics": [],
+      "destinations": [
+        {
+          "surface": "journal",
+          "file": "journal-engine-room-prepared-handoff-is-not-accepted-outcome.html",
+          "rootSelector": "[data-demo-id=\"DEMO-004\"]"
+        }
+      ],
+      "notes": "This illustration reuses the article's existing handoff argument and introduces no product state or downstream claim."
     }
   ]
 }

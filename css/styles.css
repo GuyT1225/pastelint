@@ -5906,6 +5906,7 @@ body.task-landing-page > .hero > * {
 }
 
 .line-breaks-article .preservation-ledger div {
+  grid-template-columns: 1fr;
   min-width: 0;
   padding: 1rem clamp(0.75rem, 2vw, 1.25rem);
   border-left: 1px solid var(--journal-track-rule);
