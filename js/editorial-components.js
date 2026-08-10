@@ -4,6 +4,7 @@
   const registryRequests = new Map();
   const supportedModes = new Set(["compare", "replay"]);
   const replayIntervalMs = 2000;
+  const mobileReadingQuery = "(max-width: 480px)";
   const fixedMessages = {
     data: "Demonstration data unavailable",
     record: "Demonstration record unavailable",
@@ -107,6 +108,54 @@
     return { reasoning };
   }
 
+  function enhanceMobileReading(element, record, panels) {
+    const labels = {
+      source: "Original source",
+      previous: "Previous engine behavior",
+      current: "Current verified behavior"
+    };
+    const disclosures = {};
+
+    Object.entries(panels).forEach(([key, panel]) => {
+      const heading = panel.querySelector("h3");
+      const disclosure = root.document.createElement("details");
+      const summary = root.document.createElement("summary");
+      disclosure.className =
+        `${panel.className} editorial-demo__evidence-disclosure`;
+      disclosure.open = key !== "source";
+      disclosure.dataset.demoEvidence = key;
+      summary.textContent = heading?.textContent || labels[key];
+      if (heading?.id) summary.id = heading.id;
+      const event = eventFor(record, "replay-step");
+      if (event) summary.dataset.statkitEvent = event;
+      heading?.remove();
+      disclosure.append(summary, ...Array.from(panel.childNodes));
+      panel.replaceWith(disclosure);
+      let ignoreInitialToggle = disclosure.open;
+      disclosure.addEventListener("toggle", () => {
+        if (ignoreInitialToggle) {
+          ignoreInitialToggle = false;
+          return;
+        }
+        setStatus(
+          element,
+          `${labels[key]} ${disclosure.open ? "expanded" : "collapsed"}.`
+        );
+      });
+      disclosures[key] = disclosure;
+    });
+
+    element.classList.add("editorial-demo--reading");
+    element.dataset.demoInteraction = "progressive-disclosure";
+    renderMetadata(element, record);
+    element.dataset.demoEnhanced = "true";
+    setStatus(
+      element,
+      "Previous and current evidence are open. Original source is available."
+    );
+    return { disclosures, mode: "reading" };
+  }
+
   function enhance(element, record) {
     if (record.status !== "verified") {
       fail(element, fixedMessages[record.status] || fixedMessages.record);
@@ -138,6 +187,10 @@
     if (Object.values(panels).some((panel) => !panel)) {
       fail(element, fixedMessages.record);
       return null;
+    }
+    if (typeof root.matchMedia === "function" &&
+        root.matchMedia(mobileReadingQuery).matches) {
+      return enhanceMobileReading(element, record, panels);
     }
 
     const state = {
@@ -318,6 +371,7 @@
     enhance,
     loadRegistry,
     eventFor,
+    mobileReadingQuery,
     fixedMessages
   };
 

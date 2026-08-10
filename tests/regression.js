@@ -2175,6 +2175,8 @@ function testEditorialComponentsFoundation() {
   assert.ok(runtimeSource.includes('renderStep(state.index - 1);'));
   assert.ok(runtimeSource.includes('renderStep(state.index + 1);'));
   assert.ok(runtimeSource.includes('renderStep(0, "Showing the original source.");'));
+  assert.ok(runtimeSource.includes("function enhanceMobileReading"));
+  assert.ok(runtimeSource.includes('dataset.demoInteraction = "progressive-disclosure"'));
   assert.ok(
     runtimeSource.includes(
       'renderStep(state.steps.length - 1, "Showing the current verified output.");'
@@ -2204,6 +2206,8 @@ function testEditorialComponentsFoundation() {
   );
   assert.ok(componentCss.includes("@media (prefers-reduced-motion: reduce)"));
   assert.ok(componentCss.includes("transition: none !important;"));
+  assert.ok(componentCss.includes(".editorial-demo--reading .editorial-demo__comparison"));
+  assert.ok(componentCss.includes(".editorial-demo__evidence-disclosure summary:focus-visible"));
   const runtimeContext = createContext();
   let registryFetches = 0;
   runtimeContext.window.fetch = () => {
@@ -2218,6 +2222,7 @@ function testEditorialComponentsFoundation() {
   loadScript("js/editorial-components.js", runtimeContext);
   const runtime = runtimeContext.window.PasteLintEditorialComponents;
   assert.ok(runtime);
+  assert.strictEqual(runtime.mobileReadingQuery, "(max-width: 480px)");
   const firstRegistryRequest = runtime.loadRegistry("/registry.json");
   const secondRegistryRequest = runtime.loadRegistry("/registry.json");
   assert.strictEqual(firstRegistryRequest, secondRegistryRequest);

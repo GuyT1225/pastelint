@@ -634,3 +634,24 @@ The initial integrations remain deliberately limited to three Engine Room record
 - a future verified Clean demonstration for DEMO-002 only after the documented live-adapter review.
 
 These are candidates, not an automatic retrofit queue. A component should be added only when it improves the reader’s mental model more than the existing prose already does.
+
+## 38. Mobile evidence reading model
+
+**Refinement date:** August 10, 2026
+
+Recorded Replay keeps its existing Compare and Replay behavior above the phone breakpoint. At `480px` and below, the same verified source, previous output, and current output are presented as independent native disclosures instead of a detached control panel.
+
+Previous and current evidence begin open so the editorial difference remains immediately readable. Original source remains available through its adjacent summary. Opening one state does not close or replace another state, and each result appears directly beneath the control that reveals it. The reasoning and verification disclosures retain their existing roles.
+
+This mobile model was selected after measuring the published DEMO-001 interaction at `375px`. The generated control panel began 530 pixels below the changing evidence and occupied 423 pixels. After selecting **Show source**, the requested source ended 420 pixels above the viewport. Moving the same controls above or below the evidence would reduce distance without resolving the software-control-panel character or the unexpected replacement of large blocks.
+
+Use the mobile reading model when a Recorded Replay contains complete static evidence and the reader benefits more from inspecting states in place than from timed playback. Do not use it to hide missing evidence, simulate an engine result, or convert a Concept Illustration into a replay. The implementation reuses the canonical registry, fields, verification metadata, status region, and fixed `replay-step` event; it introduces no transformation logic or new analytics vocabulary.
+
+The interaction contract is:
+
+1. Keep the evidence label attached to its content.
+2. Reveal content immediately below that label.
+3. Allow multiple evidence states to remain open for comparison.
+4. Never move focus or scroll the viewport after disclosure.
+5. Keep the complete unenhanced fallback readable without JavaScript.
+6. Preserve the desktop Replay and Compare model when there is enough space for controls and evidence to remain visually connected.

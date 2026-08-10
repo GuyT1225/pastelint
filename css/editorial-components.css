@@ -227,7 +227,8 @@
 
 .editorial-demo__control:focus-visible,
 .editorial-demo__metadata summary:focus-visible,
-.editorial-demo__reasoning summary:focus-visible {
+.editorial-demo__reasoning summary:focus-visible,
+.editorial-demo__evidence-disclosure summary:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
@@ -406,6 +407,36 @@ html[data-theme="terminal"] .line-breaks-article .editorial-demo--article .edito
 
   .editorial-demo__control-group {
     flex: 1 1 100%;
+  }
+
+  .editorial-demo--reading .editorial-demo__comparison {
+    gap: 0.35rem;
+  }
+
+  .editorial-demo__evidence-disclosure {
+    padding: 0.25rem 0 0;
+  }
+
+  .editorial-demo__evidence-disclosure summary {
+    min-height: 44px;
+    padding: 0.7rem 0;
+    cursor: pointer;
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .editorial-demo__evidence-disclosure[open] summary {
+    margin-bottom: 0.55rem;
+    color: var(--accent);
+  }
+
+  .editorial-demo__evidence-disclosure summary::marker {
+    color: var(--accent);
   }
 
   .editorial-demo__metadata dl {
