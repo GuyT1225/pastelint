@@ -3745,55 +3745,56 @@ function testSsmlCatalogRecordChunking() {
   assert.strictEqual(normalizeChunkText(chunks.join("\n\n")), normalizeChunkText(source));
 }
 
-function testSsmlLargeOtbsScriptCleanup() {
+function testSsmlLargeCommunityScriptCleanup() {
+  // This fixture is intentionally fictional while preserving the original cleanup edge cases.
   const input = [
     "Dial-In Discussions",
     "",
     "Each month we will gather to discuss various topics over the phone. For updated information about monthly topics, call ",
-    "248-650-7150. ",
+    "212-555-0140. ",
     "",
     "Third Monday of each month at 1 p.m.",
     "",
-    "To join the call, dial 888-916-5522. No pin or password is needed. ",
+    "To join the call, dial 888-555-0199. No pin or password is needed. ",
     "",
-    "August 24, 1 p.m.: Vicky Preddy from Vanda Pharmaceuticals shares information and resources about Non-24-Hour Sleep-Wake Disorder, a common disorder for people who are blind. (Note: this meeting is the fourth Monday of August)",
+    "August 24, 1 p.m.: Mira Vale from Example Health Collaborative shares information and resources about accessible sleep routines, a common concern for people with changing schedules. (Note: this meeting is the fourth Monday of August)",
     "",
-    "September 21, 1 p.m.: Dan Mancina, a blind skateboarder who made a skatepark designed for the visually impaired, will join us to tell his story and all about his skate park project. He shares his skate videos on his instagram account, @danthemancina.",
+    "September 21, 1 p.m.: Leo Mercer, an accessibility coach who helped design an inclusive recreation space, will join us to tell his story and all about the community project. He shares his project videos on his instagram account, @fictional_coach.",
     "",
-    "October 19, 1 p.m.: ACB Get Up and Get Moving Committee talks about their mission to engage, empower, and educate individuals to help everyone take responsibility over their own health.",
+    "October 19, 1 p.m.: Example Community Wellness Committee talks about their mission to engage, empower, and educate individuals to help everyone take responsibility over their own health.",
     "",
     "Where itâ€™s A.T.",
     "",
-    "Each month, Chad will host a discussion on Accessible Technology (A.T.) topics over the phone. If you have questions, call Chad at ",
-    "248-650-5683.",
+    "Each month, Rowan will host a discussion on Accessible Technology (A.T.) topics over the phone. If you have questions, call Rowan at ",
+    "212-555-0153.",
     "",
     "Second Monday of each month at 1pm. ",
     "",
-    "To join the call, dial 888-916-5522. No pin or password is needed. ",
+    "To join the call, dial 888-555-0199. No pin or password is needed. ",
     "",
-    "August 10: Ray-Ban Meta Glasses",
+    "August 10: Smart Audio Glasses",
     "",
-    "September 14: Humanware eReader",
+    "September 14: Accessible eReader",
     "",
-    "October 12: Siri and Hey Google",
+    "October 12: Voice Assistant Tools",
     "",
-    "OTBS Book Discussion Groups",
+    "EARS Book Discussion Groups",
     "",
-    "Are you looking for an opportunity to discuss great books and meet other Oakland Talking Book Service (OTBS) patrons? Consider joining one (or both!) of our book discussion groups. If you have questions or want to receive the books, call 248-650-5681.",
+    "Are you looking for an opportunity to discuss great books and meet other Example Accessible Reading Service (EARS) patrons? Consider joining one (or both!) of our book discussion groups. If you have questions or want to receive the books, call 212-555-0161.",
     "",
     "Monday, August 3 at 1 p.m. (In-person)",
     "",
-    "FH Brunch Factory, 25938 Middlebelt Rd., Farmington Hills MI, 48336",
+    "Example Brunch House, 100 Example Rd., Sample City MI, 48999",
     "",
     "Join us for an in person meeting! Come with a book recommendation to share with the group. Food available for purchase.",
     "",
     "First Monday of each month at 1 p.m.",
     "",
-    "To join the call, dial 888-916-5522. No pin or password is needed.",
+    "To join the call, dial 888-555-0199. No pin or password is needed.",
     "",
     "September 7: No meeting due to the Labor Day holiday.",
     "",
-    "October 5: Cheesecake: A Novel by Mark Kurlansky DB134728",
+    "October 5: Harbor Light: A Novel by Mira Ellison DB134728",
     "",
     "Third Wednesday of each month at 1 p.m.",
     "",
@@ -3801,18 +3802,18 @@ function testSsmlLargeOtbsScriptCleanup() {
     "",
     "August: No Meeting ",
     "",
-    "September 16: Weird Universe: Everything We Donâ€™t Know About Space (and Why Itâ€™s Important) by Erika Hamden DB134289",
+    "September 16: Distant Horizons: Everything We Donâ€™t Know About Place (and Why Itâ€™s Important) by Theo Arden DB134289",
     "",
-    "October 21: Killers of a Certain Age by Deanna Raybourn DB 110076",
+    "October 21: Travelers of a Certain Hour by Lila Rowan DB 110076",
     "",
-    "Low Vision Expo at Leader Dogs For the Blind",
+    "Accessibility Expo at Example Center For Inclusive Mobility",
     "",
     "Wednesday, September 23 from 10 a.m.â€“1:30 p.m.",
     "",
-    "Leader Dogs for the Blind campus, Polk Residence Building, ",
-    "1039 S Rochester Rd, Rochester Hills, MI, 48307",
+    "Example Center for Inclusive Mobility campus, North Hall, ",
+    "100 Example Rd, Sample City, MI, 48999",
     "",
-    "Rochester Hills Public Library and Leader Dogs for the BlindÂ® are pleased to present the third Low Vision Expo. In addition to a variety of exhibitors who will demonstrate the latest products and services for the blind and visually impaired, presentations will be offered on topics relating to services for the visually impaired and adaptive technology."
+    "Example Public Library and Example Center for Inclusive MobilityÂ® are pleased to present the third Accessibility Expo. In addition to a variety of exhibitors who will demonstrate the latest products and services for accessible travel, presentations will be offered on topics relating to inclusive services and adaptive technology."
   ].join("\n");
 
   const elements = {
@@ -3825,40 +3826,40 @@ function testSsmlLargeOtbsScriptCleanup() {
   const cleaned = context.buildFullCleanText();
   const ssml = context.wrapSSML(cleaned);
 
-  assert.ok(cleaned.includes("call 248-650-7150."));
-  assert.ok(cleaned.includes("call Chad at 248-650-5683."));
-  assert.ok(!cleaned.includes("call.\n248-650-7150."));
-  assert.ok(!cleaned.includes("call Chad at.\n248-650-5683."));
-  assert.ok(cleaned.includes("August 24, 1 p.m.: Vicky Preddy"));
+  assert.ok(cleaned.includes("call 212-555-0140."));
+  assert.ok(cleaned.includes("call Rowan at 212-555-0153."));
+  assert.ok(!cleaned.includes("call.\n212-555-0140."));
+  assert.ok(!cleaned.includes("call Rowan at.\n212-555-0153."));
+  assert.ok(cleaned.includes("August 24, 1 p.m.: Mira Vale"));
   assert.ok(!cleaned.includes("August 24, 1 p.m. :"));
   assert.ok(cleaned.includes("(A.T.)"));
   assert.ok(!cleaned.includes("(A.T. )"));
-  assert.ok(cleaned.includes("instagram account, at danthemancina."));
-  assert.ok(!cleaned.includes("@danthemancina"));
+  assert.ok(cleaned.includes("instagram account, at fictional_coach."));
+  assert.ok(!cleaned.includes("@fictional_coach"));
   assert.ok(cleaned.includes("one (or both!)"));
   assert.ok(!cleaned.includes("one (or both! )"));
-  assert.ok(cleaned.includes("Middlebelt Rd.,"));
-  assert.ok(!cleaned.includes("Middlebelt Rd. ,"));
+  assert.ok(cleaned.includes("Example Rd.,"));
+  assert.ok(!cleaned.includes("Example Rd. ,"));
   assert.ok(
     cleaned.includes(
-      "October 5: Cheesecake: A Novel by Mark Kurlansky, DB 1-3-4-7-2-8."
+      "October 5: Harbor Light: A Novel by Mira Ellison, DB 1-3-4-7-2-8."
     )
   );
   assert.ok(
     cleaned.includes(
-      "September 16: Weird Universe: Everything We Don't Know About Space (and Why It's Important) by Erika Hamden, DB 1-3-4-2-8-9."
+      "September 16: Distant Horizons: Everything We Don't Know About Place (and Why It's Important) by Theo Arden, DB 1-3-4-2-8-9."
     )
   );
   assert.ok(
     cleaned.includes(
-      "October 21: Killers of a Certain Age by Deanna Raybourn, DB 1-1-0-0-7-6."
+      "October 21: Travelers of a Certain Hour by Lila Rowan, DB 1-1-0-0-7-6."
     )
   );
-  assert.ok(!cleaned.includes("Kurlansky,, DB"));
-  assert.ok(!cleaned.includes("Hamden,, DB"));
-  assert.ok(!cleaned.includes("Raybourn,, DB"));
-  assert.ok(cleaned.includes("Low Vision Expo at Leader Dogs for the Blind."));
-  assert.ok(!cleaned.includes("DB 1-1-0-0-7-6 Rochester Hills Public Library"));
+  assert.ok(!cleaned.includes("Ellison,, DB"));
+  assert.ok(!cleaned.includes("Arden,, DB"));
+  assert.ok(!cleaned.includes("Rowan,, DB"));
+  assert.ok(cleaned.includes("Accessibility Expo at Example Center For Inclusive Mobility."));
+  assert.ok(!cleaned.includes("DB 1-1-0-0-7-6 Example Public Library"));
   assert.ok(cleaned.includes("from 10 a.m. to 1:30 p.m."));
   assert.ok(!cleaned.includes("p. m."));
   assert.ok(!cleaned.includes("a. m."));
@@ -3986,7 +3987,7 @@ function main() {
   runTest("SSML approved cleaned text preservation", testSsmlApprovedCleanedTextPreservation);
   runTest("SSML chunking safety", testSsmlChunkingSafety);
   runTest("SSML catalog record chunking", testSsmlCatalogRecordChunking);
-  runTest("SSML large OTBS script cleanup", testSsmlLargeOtbsScriptCleanup);
+  runTest("SSML large fictional community script cleanup", testSsmlLargeCommunityScriptCleanup);
   runTest("SSML empty action statuses", testSsmlEmptyActionStatuses);
 
   console.log("All regression checks passed.");
