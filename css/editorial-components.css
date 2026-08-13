@@ -401,12 +401,39 @@ html[data-theme="terminal"] .line-breaks-article .editorial-demo--article .edito
     padding: 1rem;
   }
 
-  .editorial-demo__control {
-    flex: 1 1 9rem;
+  /* Mobile control cluster: a calmer editorial hierarchy.
+     Every control stays available; the primary action leads,
+     step navigation reads as a compact pair, and the remaining
+     options recede into a smaller, quieter cluster. Layout/size
+     only — tier colors and theme overrides are left intact. */
+  .editorial-demo__controls {
+    gap: 0.55rem;
   }
 
   .editorial-demo__control-group {
     flex: 1 1 100%;
+    gap: 0.5rem;
+  }
+
+  .editorial-demo__control {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  /* Step navigation reads as a two-up pair. */
+  .editorial-demo__control[data-demo-action="previous"],
+  .editorial-demo__control[data-demo-action="next"] {
+    flex: 1 1 calc(50% - 0.25rem);
+  }
+
+  /* Remaining options recede into a compact cluster. */
+  .editorial-demo__control--tertiary,
+  .editorial-demo__control[data-demo-action="pause"],
+  .editorial-demo__control[data-demo-action="restart"] {
+    flex: 1 1 7rem;
+    min-height: 40px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.82rem;
   }
 
   .editorial-demo--reading .editorial-demo__comparison {
