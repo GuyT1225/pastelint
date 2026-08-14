@@ -258,6 +258,16 @@
       panels[key].setAttribute("aria-hidden", String(!visible));
     }
 
+    // Entering single-panel replay must retire the compare side-by-side
+    // view; otherwise the lone visible panel renders in a half-width grid
+    // column and the Compare control keeps a stale aria-pressed state.
+    function clearSideBySide() {
+      if (!element.classList.contains("editorial-demo--side-by-side")) return;
+      element.classList.remove("editorial-demo--side-by-side");
+      actionButtons.compare.setAttribute("aria-pressed", "false");
+      actionButtons.compare.textContent = "Compare side by side";
+    }
+
     function renderCompare(message) {
       state.mode = "compare";
       showPanel("source", false);
@@ -270,6 +280,7 @@
 
     function renderStep(index, message) {
       state.mode = "replay";
+      clearSideBySide();
       state.index = Math.max(0, Math.min(index, state.steps.length - 1));
       const step = state.steps[state.index];
       const stateMessage = step.id === "source"
