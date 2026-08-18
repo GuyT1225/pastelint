@@ -18,6 +18,7 @@ const EXPECTED_PAGES = [
   "ivr-text-prep.html",
   "journal-cleanup-pass-voice-survives.html",
   "journal-content-pipeline-breaks-before-writing.html",
+  "journal-editors-desk-clean-up-chatgpt-text-without-overwriting-your-voice.html",
   "journal-editors-desk-clearer-is-not-more-certain.html",
   "journal-editors-desk-filler-openings.html",
   "journal-editors-desk-record-behind-product-transparency.html",

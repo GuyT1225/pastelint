@@ -40,6 +40,47 @@
   ],
   "articles": [
     {
+      "slug": "clean-up-chatgpt-text-without-overwriting-your-voice",
+      "file": "journal-editors-desk-clean-up-chatgpt-text-without-overwriting-your-voice.html",
+      "canonical": "https://guyt1225.github.io/pastelint/journal-editors-desk-clean-up-chatgpt-text-without-overwriting-your-voice.html",
+      "title": "How to Clean Up ChatGPT Text Without Overwriting Your Voice",
+      "track": "editors-desk",
+      "published": "2026-08-18",
+      "modified": "2026-08-18",
+      "summary": "An Editor's Desk guide to cleaning ChatGPT text without turning cleanup into an invisible rewrite.",
+      "status": "published",
+      "primaryCta": {
+        "destination": "clean-chatgpt-output",
+        "href": "clean-chatgpt-output.html",
+        "event": "Journal CTA | clean-up-chatgpt-text-without-overwriting-your-voice | clean-chatgpt-output"
+      },
+      "related": [
+        "filler-openings",
+        "clearer-is-not-more-certain",
+        "cleanup-pass-voice-survives"
+      ],
+      "sources": [],
+      "analytics": {
+        "open": "Journal Open | clean-up-chatgpt-text-without-overwriting-your-voice",
+        "cta": [
+          "Journal CTA | clean-up-chatgpt-text-without-overwriting-your-voice | clean-chatgpt-output"
+        ],
+        "related": [
+          "Journal Related | clean-up-chatgpt-text-without-overwriting-your-voice | filler-openings",
+          "Journal Related | clean-up-chatgpt-text-without-overwriting-your-voice | clearer-is-not-more-certain",
+          "Journal Related | clean-up-chatgpt-text-without-overwriting-your-voice | cleanup-pass-voice-survives"
+        ],
+        "media": [],
+        "share": [
+          "Journal Share | clean-up-chatgpt-text-without-overwriting-your-voice | native",
+          "Journal Share | clean-up-chatgpt-text-without-overwriting-your-voice | copy-link"
+        ]
+      },
+      "engineCommits": [],
+      "ruleIds": [],
+      "knowledgeIds": []
+    },
+    {
       "slug": "cleanup-pass-voice-survives",
       "file": "journal-cleanup-pass-voice-survives.html",
       "canonical": "https://guyt1225.github.io/pastelint/journal-cleanup-pass-voice-survives.html",
