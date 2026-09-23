@@ -945,12 +945,16 @@ body.journal-surface .journal-method-section {
   order: 9;
 }
 
-body.journal-surface .journal-close {
+body.journal-surface .journal-influences-section {
   order: 10;
 }
 
-body.journal-surface .journal-invite {
+body.journal-surface .journal-close {
   order: 11;
+}
+
+body.journal-surface .journal-invite {
+  order: 12;
 }
 
 body.journal-surface .journal-department > .journal-section-heading h2 {
@@ -961,7 +965,8 @@ body.journal-surface .journal-department > .journal-section-heading h2 {
 body.journal-surface .journal-supporting-heading h2,
 body.journal-surface .journal-research-section h2,
 body.journal-surface .journal-docket-section h2,
-body.journal-surface .journal-method-section h2 {
+body.journal-surface .journal-method-section h2,
+body.journal-surface .journal-influences-section h2 {
   font-size: clamp(1.9rem, 3vw, 2.25rem);
 }
 
@@ -995,6 +1000,72 @@ body.journal-surface .journal-method-section {
 
 body.journal-surface .journal-method-section {
   max-width: 58rem;
+}
+
+body.journal-surface .journal-influences-section {
+  max-width: 64rem;
+}
+
+body.journal-surface .journal-influences-section .journal-section-heading {
+  max-width: var(--journal-narrative-measure);
+}
+
+body.journal-surface .journal-influences-section .eyebrow {
+  color: var(--journal-muted);
+}
+
+body.journal-surface .journal-influence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+body.journal-surface .journal-influence {
+  min-width: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--journal-rule);
+}
+
+body.journal-surface .journal-influence h3,
+body.journal-surface .journal-origin-note h3 {
+  margin: 0 0 0.35rem;
+  color: var(--journal-ink);
+  font-family: var(--journal-display);
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  line-height: 1.15;
+}
+
+body.journal-surface .journal-influence h3 a {
+  color: inherit;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.16em;
+}
+
+body.journal-surface .journal-influence h3 a:hover,
+body.journal-surface .journal-influence h3 a:focus-visible {
+  color: var(--accent);
+}
+
+body.journal-surface .journal-influence p,
+body.journal-surface .journal-origin-note p {
+  max-width: 44rem;
+  color: var(--journal-muted);
+  font-size: 0.95rem;
+  line-height: 1.62;
+}
+
+body.journal-surface .journal-influence .journal-influence-author {
+  margin: 0 0 0.8rem;
+  color: var(--journal-ink);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+body.journal-surface .journal-origin-note {
+  max-width: 52rem;
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  padding-top: 1rem;
+  border-top: 1px solid var(--journal-rule);
 }
 
 body.journal-surface .journal-method {
@@ -1218,6 +1289,10 @@ body.journal-surface .journal-evidence-map li::before {
   }
 
   body.journal-surface .journal-method {
+    grid-template-columns: 1fr;
+  }
+
+  body.journal-surface .journal-influence-grid {
     grid-template-columns: 1fr;
   }
 

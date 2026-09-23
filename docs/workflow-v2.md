@@ -102,6 +102,23 @@ The reader-facing label for article edges is **Continue the Record**. It replace
 
 The Journal validator rejects unknown nodes, unsupported relationship types, duplicate edges, self-links, missing descriptions, missing analytics declarations for article edges, and missing static relationship markup. This structure is sufficient for a future visual graph to render article, principle, and source nodes with typed edges; that future view must consume this curated data rather than create a second knowledge model.
 
+## Influence evidence
+
+Externally influenced product decisions use the existing top-level `sourceMaterials` records in `data/journal-manifest.json`. A verified external source may carry one `influenceEvidence` object that records this chain:
+
+> source → principle/concept → PasteLint artifact/rule/decision → evidence
+
+The fields are:
+
+- `source`: the source title and author or publishing organization;
+- `principleConcept`: the narrow idea taken from the source;
+- `artifactRuleDecision`: the specific PasteLint artifact, rule, or decision the idea influenced; and
+- `evidence`: one or more repository paths, selectors, tests, or other inspectable records showing the connection.
+
+An influence record is not a claim that PasteLint complies with, follows, or endorses the source as a whole. Do not add a source because it is plausible, prestigious, or adjacent to a decision. Add it only after the source and the direct PasteLint connection have been verified.
+
+Product findings that emerged from PasteLint's own engine tests, regressions, and editorial review remain internal evidence and inference in the knowledge ledger. Do not retroactively assign an external source to those findings.
+
 ## Analytics windows
 
 - Run an immediate post-publication smoke test.

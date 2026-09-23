@@ -2894,8 +2894,30 @@ function testEditorialKnowledgeGraphPublication() {
   );
   assert.deepStrictEqual(
     manifest.sourceMaterials.map((source) => source.id),
-    ["workflow-v2", "editorial-constitution", "editorial-canon"]
+    [
+      "workflow-v2",
+      "editorial-constitution",
+      "editorial-canon",
+      "thinking-with-type",
+      "grid-systems-in-graphic-design",
+      "nielsen-usability-heuristics",
+      "amazon-polly-documentation"
+    ]
   );
+  const influenceSources = manifest.sourceMaterials.filter(
+    (source) => source.type === "external-influence"
+  );
+  assert.strictEqual(influenceSources.length, 4);
+  assert.strictEqual(
+    (indexHtml.match(/data-source-material=/g) || []).length,
+    4
+  );
+  influenceSources.forEach((source) => {
+    assert.ok(indexHtml.includes(`data-source-material="${source.id}"`));
+    assert.ok(indexHtml.includes(`href="${source.href}"`));
+    assert.ok(source.influenceEvidence);
+  });
+  assert.ok(indexHtml.includes('class="journal-origin-note"'));
   assert.ok(html.includes("The record is not a polished account"));
   assert.ok(html.includes("No single investigation establishes trust."));
   assert.ok(html.includes("Software changes. Can anyone later understand why?"));

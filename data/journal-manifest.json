@@ -36,6 +36,67 @@
       "type": "governance-document",
       "title": "Editorial Canon",
       "href": "docs/editorial-canon.md"
+    },
+    {
+      "id": "thinking-with-type",
+      "type": "external-influence",
+      "title": "Thinking with Type",
+      "href": "https://papress.com/products/thinking-with-type-3-edition",
+      "influenceEvidence": {
+        "source": "Thinking with Type — Ellen Lupton",
+        "principleConcept": "Typography-first hierarchy, whitespace, and visual rhythm.",
+        "artifactRuleDecision": "The Journal publication hierarchy and the shift from stacked interface cards toward an editorial document structure.",
+        "evidence": [
+          "text-preparation-journal.html",
+          "css/styles.css: Journal homepage publication hierarchy and typography rules"
+        ]
+      }
+    },
+    {
+      "id": "grid-systems-in-graphic-design",
+      "type": "external-influence",
+      "title": "Grid Systems in Graphic Design",
+      "href": "https://niggli.ch/products/rastersysteme-fur-die-visuelle-gestaltung",
+      "influenceEvidence": {
+        "source": "Grid Systems in Graphic Design — Josef Müller-Brockmann",
+        "principleConcept": "Grid-based alignment, column relationships, and consistent spacing.",
+        "artifactRuleDecision": "The invisible grid used to place Journal content and the product workflow's input, evidence, and output regions.",
+        "evidence": [
+          "css/styles.css: Journal shell, ledger, and workflow grid rules",
+          "text-preparation-journal.html"
+        ]
+      }
+    },
+    {
+      "id": "nielsen-usability-heuristics",
+      "type": "external-influence",
+      "title": "10 Usability Heuristics for User Interface Design",
+      "href": "https://www.nngroup.com/articles/ten-usability-heuristics/",
+      "influenceEvidence": {
+        "source": "10 Usability Heuristics for User Interface Design — Jakob Nielsen / Nielsen Norman Group",
+        "principleConcept": "Visible feedback, user control, consistency, error recovery, restraint, and contextual guidance.",
+        "artifactRuleDecision": "Workflow reviews and interaction decisions across PasteLint's cleanup, revision, and handoff surfaces.",
+        "evidence": [
+          "QA_CHECKLIST.md",
+          "css/styles.css: shared focus, status, action, and feedback rules"
+        ]
+      }
+    },
+    {
+      "id": "amazon-polly-documentation",
+      "type": "external-influence",
+      "title": "Amazon Polly Documentation",
+      "href": "https://docs.aws.amazon.com/polly/latest/dg/limits.html",
+      "influenceEvidence": {
+        "source": "Amazon Polly documentation — Amazon Web Services",
+        "principleConcept": "A SynthesizeSpeech request accepts up to 3,000 billed characters.",
+        "artifactRuleDecision": "The SSML Builder warns at 3,000 characters, offers Auto Chunk, and prepares text that exceeds one synthesis request as reviewable chunks.",
+        "evidence": [
+          "SSML_builder.html",
+          "js/ssml-builder.js",
+          "tests/regression.js: SSML chunking regression coverage"
+        ]
+      }
     }
   ],
   "articles": [

@@ -213,6 +213,28 @@ for (const source of sourceMaterials) {
   if (source?.href && !/^https?:/i.test(source.href) && !fs.existsSync(path.join(root, source.href))) {
     error(key, `Broken source material destination: ${source.href}`);
   }
+  if (source?.type === "external-influence") {
+    const influence = source.influenceEvidence;
+    if (!/^https:\/\//i.test(source.href)) {
+      error(key, "External influence source material requires an HTTPS destination");
+    }
+    if (!influence || typeof influence !== "object" || Array.isArray(influence)) {
+      error(key, "External influence source material requires influenceEvidence");
+    } else {
+      for (const field of ["source", "principleConcept", "artifactRuleDecision"]) {
+        if (typeof influence[field] !== "string" || !influence[field].trim()) {
+          error(key, `influenceEvidence.${field} must be a non-empty string`);
+        }
+      }
+      if (
+        !Array.isArray(influence.evidence) ||
+        influence.evidence.length === 0 ||
+        influence.evidence.some((item) => typeof item !== "string" || !item.trim())
+      ) {
+        error(key, "influenceEvidence.evidence must contain at least one inspectable record");
+      }
+    }
+  }
 }
 
 for (const article of articles) {

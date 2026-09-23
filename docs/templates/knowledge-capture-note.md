@@ -8,6 +8,7 @@ Complete this after a significant cycle when it created reusable knowledge. Aim 
 - **Trigger:** What failure, evidence, or product change prompted the cycle?
 - **Reusable insight:** What should remain useful beyond this patch?
 - **Evidence:** Direct observations: commits, tests, fixtures, sources, or rendered behavior.
+- **Influence evidence:** When an external source materially influenced a decision, record `source → principle/concept → PasteLint artifact/rule/decision → evidence`; otherwise write `None — internal product finding`.
 - **Inference:** What principle or conclusion follows from that evidence?
 - **Claim boundary:** Where would that conclusion become too broad?
 - **Primary destination:** Where should a reader encounter this first? Choose exactly one approved destination.
