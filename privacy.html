@@ -35,7 +35,7 @@
 
   <section class="info-card legal-card">
     <h2>Privacy Policy</h2>
-    <p><strong>Last updated:</strong> 2026-04-27</p>
+    <p><strong>Last updated:</strong> 2026-11-18</p>
 
     <p>
       PasteLint is designed as a privacy-first, browser-based text utility site. The core tools are intended to run in your browser without requiring a login, file upload, backend account, or AI API call.
@@ -51,19 +51,24 @@
       PasteLint does not require user accounts, usernames, passwords, or login credentials.
     </p>
 
-    <h3>No intentional text storage</h3>
+    <h3>Browser storage and tool handoffs</h3>
     <p>
-      PasteLint does not intentionally store the text you paste into its tools. You should still avoid pasting sensitive information into any web tool unless you are comfortable doing so.
+      PasteLint does not store your pasted text on a PasteLint server. When you choose to transfer text between tools, the site temporarily stores it in your browser's local storage. The receiving tool removes the transfer value after reading it. An interrupted transfer may leave text in browser storage until it is retrieved, overwritten or cleared. Theme and analytics preferences may also be stored locally. You can clear site data in your browser settings.
     </p>
 
     <h3>Hosting and third parties</h3>
     <p>
-      This site may be hosted on GitHub Pages or another static hosting provider. Hosting providers may receive basic technical information such as IP address, browser type, device information, referring pages, and request logs as part of normal web delivery.
+      PasteLint is hosted on GitHub Pages. Hosting providers may receive basic technical information such as IP address, browser type, device information, referring pages and request logs as part of normal web delivery. Some pages also request fonts from Google Fonts. External links and third-party services are governed by their own privacy practices.
     </p>
 
     <h3>Analytics</h3>
     <p>
-      PasteLint uses basic, privacy-conscious analytics to understand page visits and improve the site. Analytics are for page-level usage only. PasteLint does not send the text you paste into the tools to an analytics service.
+      Website usage analytics are currently paused. The legacy analytics script has been disabled while a replacement is being tested. The site's analytics loader does not send usage events. Existing analytics preferences remain in browser storage. PasteLint will update this policy before enabling replacement analytics.
+    </p>
+
+    <h3>Speech preview</h3>
+    <p>
+      SSML Builder prepares text and markup in your browser. If you choose to play an audio preview, the browser's speech synthesis feature processes the preview text. Depending on your selected voice, browser and operating system, speech generation may use an external service. Use a local voice when available if you need offline speech processing.
     </p>
 
     <h3>Important reminder</h3>
@@ -76,7 +81,7 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <p class="footer-brand">PasteLint — browser-based text cleanup tools.</p>
-    <p class="footer-note">No login. No upload. Everything runs in your browser.</p>
+    <p class="footer-note">No login. No text upload. Text preparation runs in your browser.</p>
 
     <div class="footer-columns">
       <div>

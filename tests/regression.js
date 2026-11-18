@@ -2551,7 +2551,8 @@ function testLineBreaksArticlePublication() {
   assert.ok(html.includes('data-demo-field="caption"'));
   assert.ok(html.includes('data-demo-field="takeaway"'));
   assert.ok(html.includes("editorial-demo__state--source-reference"));
-  assert.ok(html.includes(demo.fixture.input));
+  // Git may check out HTML with CRLF on Windows; preserve every logical line.
+  assert.ok(html.replace(/\r\n/g, "\n").includes(demo.fixture.input));
   assert.ok(html.includes(demo.comparison.versions[0].output));
   assert.ok(
     html.includes(
