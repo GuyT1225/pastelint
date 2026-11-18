@@ -81,21 +81,13 @@ function runLoader(href, initialStorage = {}) {
   return { storage, appended, replacements, logs };
 }
 
-function assertStatsKitScript(script) {
-  assert.strictEqual(script.async, false);
-  assert.strictEqual(script.defer, true);
-  assert.strictEqual(script.src, "https://cdn.statskit.ai/v.js");
-  assert.strictEqual(script.attributes["data-site-id"], "vpk_live_20e8d5020dab682829ccd0beafbe17c93cacdfd20d14f200");
-  assert.strictEqual(script.attributes["data-api"], "https://edge.statskit.ai");
-}
-
 function testExcludedState() {
   const result = runLoader("https://pastelint.com/index.html?foo=1&analytics=exclude#tools");
   assert.strictEqual(result.storage.get(STORAGE_KEY), "excluded");
   assert.strictEqual(result.appended.length, 0);
   assert.strictEqual(result.replacements.length, 1);
   assert.strictEqual(result.replacements[0].url, "/index.html?foo=1#tools");
-  assert.deepStrictEqual(result.logs, ["[PasteLint] StatsKit analytics excluded for this browser."]);
+  assert.deepStrictEqual(result.logs, ["[PasteLint] Analytics preference: excluded for this browser."]);
 }
 
 function testIncludedState() {
@@ -103,10 +95,9 @@ function testIncludedState() {
     [STORAGE_KEY]: "excluded"
   });
   assert.strictEqual(result.storage.has(STORAGE_KEY), false);
-  assert.strictEqual(result.appended.length, 1);
-  assertStatsKitScript(result.appended[0]);
+  assert.strictEqual(result.appended.length, 0);
   assert.strictEqual(result.replacements[0].url, "/second-draft.html?mode=shorter#editor");
-  assert.deepStrictEqual(result.logs, ["[PasteLint] StatsKit analytics included for this browser."]);
+  assert.deepStrictEqual(result.logs, ["[PasteLint] Analytics preference: included for this browser."]);
 }
 
 function testPersistedExcludedState() {
@@ -120,10 +111,15 @@ function testPersistedExcludedState() {
 
 function testNormalPublicState() {
   const result = runLoader("https://pastelint.com/privacy.html?source=footer#analytics");
-  assert.strictEqual(result.appended.length, 1);
-  assertStatsKitScript(result.appended[0]);
+  assert.strictEqual(result.appended.length, 0);
   assert.strictEqual(result.replacements.length, 0);
   assert.strictEqual(result.logs.length, 0);
+}
+
+function testNoProviderDependency() {
+  assert.ok(!/statskit\.ai|workers\.dev|sendBeacon|\bfetch\s*\(/i.test(LOADER));
+  const context = vm.createContext({ URL, window: { location: { href: 'https://example.com/?analytics=exclude' } }, localStorage: { setItem() { throw new Error('blocked'); } } });
+  vm.runInContext(LOADER, context);
 }
 
 function testPageCoverage() {
@@ -144,5 +140,6 @@ testExcludedState();
 testIncludedState();
 testPersistedExcludedState();
 testNormalPublicState();
+testNoProviderDependency();
 testPageCoverage();
 console.log("Analytics loader checks passed.");

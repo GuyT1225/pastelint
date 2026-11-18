@@ -88,7 +88,9 @@ PasteLint's current tools run in the browser with client-side JavaScript.
 - No login is required.
 - Text is pasted into the page rather than uploaded as a file.
 - PasteLint has no backend text-processing service or model call.
-- Pasted text is not sent to analytics; analytics are limited to basic site and fixed event usage.
+- Usage analytics are paused; fixed Journal event declarations are retained but the loader does not send events.
+- Explicit tool-to-tool handoffs temporarily use browser local storage; an interrupted handoff may leave text there until retrieved or cleared.
+- Speech preview uses browser speech synthesis; some voices may rely on an external service.
 - The public site is deployed as a static GitHub Pages project.
 
 Local processing does not make every surrounding workflow private. Avoid placing confidential, client, medical, legal, personal, or sensitive text in public reports or GitHub issues. Review output before using it in factual, legal, medical, financial, professional, or sensitive communication.
