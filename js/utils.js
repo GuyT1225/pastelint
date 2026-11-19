@@ -40,31 +40,34 @@ const PasteLintUtils = {
     return matches ? matches.length : 0;
   },
 
-  copyToClipboard(text) {
-    if (!text) return Promise.resolve(false);
-
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(text).then(() => true);
-    }
-
-    const temp = document.createElement("textarea");
-    temp.value = text;
-    temp.setAttribute("readonly", "");
-    temp.style.position = "absolute";
-    temp.style.left = "-9999px";
-
-    document.body.appendChild(temp);
-    temp.select();
-
-    let successful = false;
+  async copyToClipboard(text) {
+    if (typeof text !== "string" || !text) return false;
 
     try {
-      successful = document.execCommand("copy");
-    } catch (error) {
-      successful = false;
+      if (navigator.clipboard?.writeText && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (_) {
+      // Try the legacy fallback when the modern API rejects.
     }
 
-    document.body.removeChild(temp);
-    return Promise.resolve(successful);
+    let temp;
+    const previousFocus = document.activeElement;
+    try {
+      temp = document.createElement("textarea");
+      temp.value = text;
+      temp.setAttribute("readonly", "");
+      temp.style.position = "fixed";
+      temp.style.left = "-9999px";
+      document.body.appendChild(temp);
+      temp.select();
+      return document.execCommand("copy") === true;
+    } catch (_) {
+      return false;
+    } finally {
+      temp?.remove();
+      try { previousFocus?.focus({ preventScroll: true }); } catch (_) {}
+    }
   }
 };
