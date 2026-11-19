@@ -1432,38 +1432,31 @@ function countWords(text) {
    COPY + CLEAR
 ----------------------------- */
 
-function copyOutput(els) {
+async function copyOutput(els) {
   if (!els.output?.value) {
     setToolStatus(els, "Nothing to copy yet.");
-    return;
+    return false;
   }
 
-  const confirmCopied = () => {
-    if (!els.copyBtn) return;
+  const copied = await PasteLintUtils.copyToClipboard(els.output.value);
+  if (!copied) {
+    setToolStatus(els, "Copy failed. Select the text and copy manually.");
+    return false;
+  }
 
-    const originalText = els.copyBtn.textContent;
-    els.copyBtn.textContent = "Copied";
-
-    setTimeout(() => {
-      els.copyBtn.textContent = originalText;
+  if (els.copyBtn) {
+    const button = els.copyBtn;
+    const originalText = button.dataset.copyOriginalLabel ?? button.textContent;
+    button.dataset.copyOriginalLabel = originalText;
+    button.textContent = "Copied";
+    clearTimeout(button.copyResetTimer);
+    button.copyResetTimer = setTimeout(() => {
+      button.textContent = originalText;
+      delete button.dataset.copyOriginalLabel;
     }, 1200);
-
-    setToolStatus(els, "Copied to clipboard.");
-  };
-
-  if (navigator.clipboard?.writeText) {
-    navigator.clipboard.writeText(els.output.value)
-      .then(confirmCopied)
-      .catch(() => {
-        els.output.select();
-        document.execCommand("copy");
-        confirmCopied();
-      });
-  } else {
-    els.output.select();
-    document.execCommand("copy");
-    confirmCopied();
   }
+  setToolStatus(els, "Copied to clipboard.");
+  return true;
 }
 
 function clearAll(els) {

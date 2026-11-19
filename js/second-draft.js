@@ -1046,34 +1046,14 @@ function setSecondDraftFeedback(els, state, message) {
   window.PasteLintFeedback.set(els.toolStatus, state, message);
 }
 
-function copySecondDraftOutput(els) {
+async function copySecondDraftOutput(els) {
   if (!els.output?.value) {
     setToolStatus(els, "Nothing to copy yet.");
-    return;
+    return false;
   }
-
-  const confirmCopied = () => {
-    setToolStatus(els, "Copied to clipboard.");
-  };
-
-  const fallbackCopy = () => {
-    try {
-      els.output.select();
-      document.execCommand("copy");
-      confirmCopied();
-    } catch (error) {
-      setToolStatus(els, "Copy failed. Select the text and copy manually.");
-    }
-  };
-
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(els.output.value)
-      .then(confirmCopied)
-      .catch(fallbackCopy);
-    return;
-  }
-
-  fallbackCopy();
+  const copied = await PasteLintUtils.copyToClipboard(els.output.value);
+  setToolStatus(els, copied ? "Copied to clipboard." : "Copy failed. Select the text and copy manually.");
+  return copied;
 }
 
 function clearSecondDraft(els) {

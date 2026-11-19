@@ -1006,31 +1006,16 @@ function toggleEdit(id, button) {
   }
 }
 
-function copyText(id) {
+async function copyText(id) {
   const box = document.getElementById(id);
-  if (!box) return;
-
+  if (!box) return false;
   if (!box.value.trim()) {
     setSsmlStatus("Nothing to copy yet.");
-    return;
+    return false;
   }
-
-  box.select();
-  box.setSelectionRange(0, 999999);
-
-  const confirmCopied = function () {
-    setSsmlStatus("Copied to clipboard.");
-  };
-
-  if (navigator.clipboard?.writeText) {
-    navigator.clipboard.writeText(box.value).then(confirmCopied).catch(function () {
-      document.execCommand("copy");
-      confirmCopied();
-    });
-  } else {
-    document.execCommand("copy");
-    confirmCopied();
-  }
+  const copied = await PasteLintUtils.copyToClipboard(box.value);
+  setSsmlStatus(copied ? "Copied to clipboard." : "Copy failed. Select the text and copy manually.");
+  return copied;
 }
 
 function speakTextById(id) {
