@@ -72,6 +72,8 @@ function handleSecondDraftRevise(els) {
     return;
   }
 
+  const operation = PasteLintUtils.beginAnalyticsOperation();
+
   try {
     const options = getSecondDraftOptions(els);
     const result = reviseSecondDraft(raw, options);
@@ -100,6 +102,7 @@ function handleSecondDraftRevise(els) {
         ? "Draft revised. Review the changes before continuing."
         : "No revision needed. The draft was preserved."
     );
+    operation.complete();
   } catch (error) {
     setSecondDraftFeedback(
       els,
@@ -129,6 +132,7 @@ function handleBuildAnalysisBrief(els) {
     return;
   }
 
+  const operation = PasteLintUtils.beginAnalyticsOperation();
   const brief = buildAnalysisBrief(raw);
 
   if (els.output) {
@@ -151,6 +155,7 @@ function handleBuildAnalysisBrief(els) {
 
   updateDraftCounters(els);
   setSecondDraftFeedback(els, "changed", "Analysis brief built. Review it before continuing.");
+  if (brief.trim()) operation.complete();
 }
 
 function handlePrepareSecondDraftForSsml(els) {
@@ -1052,6 +1057,7 @@ async function copySecondDraftOutput(els) {
     return false;
   }
   const copied = await PasteLintUtils.copyToClipboard(els.output.value);
+  if (copied) PasteLintUtils.recordAnalyticsCopy();
   setToolStatus(els, copied ? "Copied to clipboard." : "Copy failed. Select the text and copy manually.");
   return copied;
 }

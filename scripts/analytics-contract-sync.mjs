@@ -6,7 +6,7 @@ import { createRequire } from "node:module";
 
 const referenceRoot = process.argv[2];
 if (!referenceRoot) {
-  throw new Error("Usage: node tests/analytics-contract-sync.test.mjs <analytics-repository>");
+  throw new Error("Usage: node scripts/analytics-contract-sync.mjs <analytics-repository>");
 }
 
 const require = createRequire(import.meta.url);

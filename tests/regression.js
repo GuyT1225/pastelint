@@ -178,6 +178,7 @@ function loadControllerContext(bodyClass = "") {
   const context = createContext({ bodyClass });
   loadScript("js/text-analyzer.js", context);
   loadScript("js/text-clean-engine.js", context);
+  loadScript("js/utils.js", context);
   loadScript("js/feedback-state.js", context);
   loadScript("js/script.js", context);
   return context;
@@ -185,6 +186,7 @@ function loadControllerContext(bodyClass = "") {
 
 function loadSecondDraftContext(options = {}) {
   const context = createContext(options);
+  loadScript("js/utils.js", context);
   loadScript("js/feedback-state.js", context);
   loadScript("js/second-draft.js", context);
   return context;
@@ -236,6 +238,7 @@ function loadSsmlContext(elements = {}, options = {}) {
     documentEvents: options.documentEvents
   });
 
+  loadScript("js/utils.js", context);
   loadScript("js/feedback-state.js", context);
   loadScript("js/ssml-builder.js", context);
   return context;

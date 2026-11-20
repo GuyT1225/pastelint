@@ -1,3 +1,9 @@
+const INACTIVE_ANALYTICS_OPERATION = Object.freeze({
+  complete() {
+    return false;
+  }
+});
+
 const PasteLintUtils = {
   getElement(id) {
     return document.getElementById(id);
@@ -68,6 +74,35 @@ const PasteLintUtils = {
     } finally {
       temp?.remove();
       try { previousFocus?.focus({ preventScroll: true }); } catch (_) {}
+    }
+  },
+
+  beginAnalyticsOperation() {
+    try {
+      const operation = window.PasteLintAnalyticsOperations?.beginOperation?.();
+      if (!operation || typeof operation.complete !== "function") {
+        return INACTIVE_ANALYTICS_OPERATION;
+      }
+
+      return Object.freeze({
+        complete() {
+          try {
+            return operation.complete() === true;
+          } catch (_error) {
+            return false;
+          }
+        }
+      });
+    } catch (_error) {
+      return INACTIVE_ANALYTICS_OPERATION;
+    }
+  },
+
+  recordAnalyticsCopy() {
+    try {
+      return window.PasteLintAnalyticsOperations?.recordCopy?.() === true;
+    } catch (_error) {
+      return false;
     }
   }
 };
