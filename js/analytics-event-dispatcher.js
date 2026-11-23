@@ -135,20 +135,27 @@
     return Object.freeze({ dispatch() { return false; } });
   }
 
-  function initializeDispatcher(browser, gateFactory, sink) {
+  function initializeDispatcher(browser, mode, gateFactory, sink) {
     const documentRef = browser && browser.document;
     if ((typeof documentRef !== "object" || documentRef === null) &&
         typeof documentRef !== "function") {
       return inertDispatcher();
     }
     if (dispatchersByDocument.has(documentRef)) {
-      return dispatchersByDocument.get(documentRef);
+      const existing = dispatchersByDocument.get(documentRef);
+      if (existing.mode !== mode) {
+        existing.mixed = true;
+        return inertDispatcher();
+      }
+      return existing.dispatcher;
     }
 
     const gate = gateFactory();
     let pageViewDispatched = false;
+    const record = { mode, mixed: false, dispatcher: null };
     const dispatcher = Object.freeze({
       dispatch(eventType) {
+        if (record.mixed) return false;
         if (typeof sink !== "function") return false;
         if (eventType === "page_view" && pageViewDispatched) return false;
         const pagePath = gate.authorize(eventType);
@@ -167,13 +174,15 @@
       }
     });
 
-    dispatchersByDocument.set(documentRef, dispatcher);
+    record.dispatcher = dispatcher;
+    dispatchersByDocument.set(documentRef, record);
     return dispatcher;
   }
 
   function initialize(browser, config, sink) {
     return initializeDispatcher(
       browser,
+      "standalone",
       () => createGate(browser, config || {}),
       sink
     );
@@ -227,6 +236,7 @@
   function initializeResolved(browser, decision, config, sink) {
     return initializeDispatcher(
       browser,
+      "resolved",
       () => createResolvedGate(browser, decision, config || {}),
       sink
     );

@@ -279,6 +279,46 @@ test("repeated initialization returns the same document dispatcher", () => {
   assert.equal(events.length, 1);
 });
 
+test("mixed standalone then resolved initialization fails closed", () => {
+  const events = [];
+  const instance = browser();
+  const standalone = analytics.initialize(
+    instance,
+    ENABLED,
+    (payload) => events.push(payload)
+  );
+  const resolved = analytics.initializeResolved(
+    instance,
+    Object.freeze({ state: "blocked" }),
+    ENABLED,
+    (payload) => events.push(payload)
+  );
+  assert.notEqual(standalone, resolved);
+  assert.equal(resolved.dispatch("tool_start"), false);
+  assert.equal(standalone.dispatch("tool_start"), false);
+  assert.deepEqual(events, []);
+});
+
+test("mixed resolved then standalone initialization fails closed", () => {
+  const events = [];
+  const instance = browser();
+  const resolved = analytics.initializeResolved(
+    instance,
+    Object.freeze({ state: "included" }),
+    ENABLED,
+    (payload) => events.push(payload)
+  );
+  const standalone = analytics.initialize(
+    instance,
+    ENABLED,
+    (payload) => events.push(payload)
+  );
+  assert.notEqual(resolved, standalone);
+  assert.equal(standalone.dispatch("tool_start"), false);
+  assert.equal(resolved.dispatch("tool_start"), false);
+  assert.deepEqual(events, []);
+});
+
 test("legitimate repeated operation events remain countable", () => {
   const { dispatcher, events } = setup("/pastelint/SSML_builder.html");
   assert.equal(dispatcher.dispatch("tool_start"), true);
