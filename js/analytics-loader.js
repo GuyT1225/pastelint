@@ -5,21 +5,24 @@
   const EXCLUDED_VALUE = "excluded";
   // Usage analytics paused. Preserve existing preferences; never load a provider here.
 
-  let control = null;
-
   try {
     const url = new URL(window.location.href);
-    control = url.searchParams.get("analytics");
+    const controls = url.searchParams.getAll("analytics");
 
-    if (control === "exclude") {
-      localStorage.setItem(STORAGE_KEY, EXCLUDED_VALUE);
-      console.info("[PasteLint] Analytics preference: excluded for this browser.");
-    } else if (control === "include") {
-      localStorage.removeItem(STORAGE_KEY);
-      console.info("[PasteLint] Analytics preference: included for this browser.");
-    }
+    if (controls.length) {
+      const hasExclusion = controls.includes("exclude");
+      const isExplicitInclusion = controls.length === 1 && controls[0] === "include";
 
-    if (control === "exclude" || control === "include") {
+      if (hasExclusion || !isExplicitInclusion) {
+        localStorage.setItem(STORAGE_KEY, EXCLUDED_VALUE);
+        if (localStorage.getItem(STORAGE_KEY) !== EXCLUDED_VALUE) throw new Error("Preference write failed");
+        console.info("[PasteLint] Analytics preference: excluded for this browser.");
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+        if (localStorage.getItem(STORAGE_KEY) !== null) throw new Error("Preference removal failed");
+        console.info("[PasteLint] Analytics preference: included for this browser.");
+      }
+
       url.searchParams.delete("analytics");
       history.replaceState(history.state, "", `${url.pathname}${url.search}${url.hash}`);
     }

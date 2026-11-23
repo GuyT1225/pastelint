@@ -57,7 +57,9 @@ Blocked input emits nothing. A valid attempt emits one `tool_start`; exceptions,
 
 ## Deferred browser lifecycle ownership
 
-`analytics-loader.js` remains the sole public owner of analytics URL preference controls. The operation adapter and enabled dispatcher are not loaded by public HTML, so neither can independently consume those controls. A later browser lifecycle milestone must use one bootstrap to process controls once, initialize the dispatcher once and supply that dispatcher to operation instrumentation. Exclusion behavior is not claimed as fully integrated until that single-owner flow has browser acceptance coverage.
+`analytics-loader.js` remains the sole public owner of analytics URL preference controls. It evaluates every `analytics` value, gives exclusion precedence, accepts only one exact `include`, persists exclusion for malformed or ambiguous controls and verifies storage changes before cleaning the URL. The operation adapter and enabled dispatcher are not loaded by public HTML, so neither can independently consume those controls.
+
+A later browser lifecycle milestone must use one bootstrap to process controls once, initialize the dispatcher once and supply that dispatcher to operation instrumentation. It must not run a second parser over the same raw controls. Exclusion behavior is not claimed as fully integrated until that single-owner flow has browser acceptance coverage.
 
 ## Privacy and limitations
 
