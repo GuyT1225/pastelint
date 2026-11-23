@@ -279,6 +279,34 @@ test("repeated initialization returns the same document dispatcher", () => {
   assert.equal(events.length, 1);
 });
 
+test("repeated resolved initialization reuses the same active dispatcher", () => {
+  const events = [];
+  const instance = browser();
+  const decision = Object.freeze({ state: "included" });
+
+  const first = analytics.initializeResolved(
+    instance,
+    decision,
+    ENABLED,
+    (payload) => events.push(payload)
+  );
+
+  const second = analytics.initializeResolved(
+    instance,
+    decision,
+    ENABLED,
+    () => { throw new Error("replacement sink used"); }
+  );
+
+  assert.equal(first, second);
+  assert.equal(first.dispatch("tool_start"), true);
+  assert.equal(second.dispatch("tool_complete"), true);
+  assert.deepEqual(events.map((payload) => payload.event_type), [
+    "tool_start",
+    "tool_complete"
+  ]);
+});
+
 test("mixed standalone then resolved initialization fails closed", () => {
   const events = [];
   const instance = browser();
