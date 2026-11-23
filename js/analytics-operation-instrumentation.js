@@ -1,13 +1,15 @@
 (function (root, factory) {
   "use strict";
 
+  const api = Object.freeze({ create: factory });
   if (typeof module === "object" && module.exports) {
-    module.exports = Object.freeze({ create: factory });
+    module.exports = api;
     return;
   }
+  if (Object.prototype.hasOwnProperty.call(root, "PasteLintAnalyticsOperationAdapter")) return;
 
-  Object.defineProperty(root, "PasteLintAnalyticsOperations", {
-    value: factory(null),
+  Object.defineProperty(root, "PasteLintAnalyticsOperationAdapter", {
+    value: api,
     writable: false,
     configurable: false
   });

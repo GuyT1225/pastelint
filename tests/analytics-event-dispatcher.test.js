@@ -176,6 +176,70 @@ test("eligibility is rechecked immediately before every dispatch and denial latc
   assert.equal(events.length, 1);
 });
 
+test("resolved integration consumes only a frozen authoritative decision", () => {
+  for (const decision of [
+    Object.freeze({ state: "excluded" }),
+    Object.freeze({ state: "blocked" }),
+    Object.freeze({ state: "unknown" }),
+    { state: "included" },
+    Object.freeze({ state: "included", extra: true })
+  ]) {
+    const instance = browser();
+    const dispatcher = analytics.initializeResolved(instance, decision, ENABLED, () => {
+      throw new Error("blocked decision reached sink");
+    });
+    assert.equal(dispatcher.dispatch("page_view"), false);
+  }
+});
+
+test("resolved integration does not reinterpret or mutate raw controls", () => {
+  const instance = browser("/pastelint/?analytics=exclude");
+  const originalHref = instance.location.href;
+  let historyCalls = 0;
+  instance.history.replaceState = () => { historyCalls += 1; };
+  instance.localStorage.setItem = () => { throw new Error("raw control was reinterpreted"); };
+  const dispatcher = analytics.initializeResolved(
+    instance,
+    Object.freeze({ state: "included" }),
+    ENABLED,
+    () => { throw new Error("unresolved control reached sink"); }
+  );
+  assert.equal(dispatcher.dispatch("tool_start"), false);
+  assert.equal(instance.location.href, originalHref);
+  assert.equal(historyCalls, 0);
+});
+
+test("resolved integration rechecks persisted exclusion before every event", () => {
+  const instance = browser();
+  const events = [];
+  const dispatcher = analytics.initializeResolved(
+    instance,
+    Object.freeze({ state: "included" }),
+    ENABLED,
+    (payload) => events.push(payload)
+  );
+  assert.equal(dispatcher.dispatch("tool_start"), true);
+  instance.localStorage.setItem(KEY, "excluded");
+  assert.equal(dispatcher.dispatch("tool_complete"), false);
+  instance.localStorage.removeItem(KEY);
+  assert.equal(dispatcher.dispatch("output_copy"), false);
+  assert.equal(events.length, 1);
+});
+
+test("resolved integration fails closed when storage becomes unavailable", () => {
+  const instance = browser();
+  const events = [];
+  const dispatcher = analytics.initializeResolved(
+    instance,
+    Object.freeze({ state: "included" }),
+    ENABLED,
+    (payload) => events.push(payload)
+  );
+  instance.localStorage.getItem = () => { throw new Error("restricted"); };
+  assert.equal(dispatcher.dispatch("tool_start"), false);
+  assert.deepEqual(events, []);
+});
+
 test("location and analytics controls are rechecked before every dispatch", () => {
   const first = setup("/pastelint/");
   first.instance.location.href = ORIGIN + "/pastelint/?analytics=exclude";

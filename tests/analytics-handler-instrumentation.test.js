@@ -234,16 +234,18 @@ test("operation adapter gives each action one start and at most one completion",
   ]);
 });
 
-test("browser operation adapter is frozen, immutable and sinkless", () => {
+test("browser operation adapter exposes an immutable factory without preinstalling an adapter", () => {
   const source = fs.readFileSync(
     path.join(ROOT, "js", "analytics-operation-instrumentation.js"),
     "utf8"
   );
   const context = vm.createContext({ Object });
   vm.runInContext(source, context, { filename: "js/analytics-operation-instrumentation.js" });
-  const adapter = context.PasteLintAnalyticsOperations;
-  assert.equal(Object.isFrozen(adapter), true);
-  assert.equal(Object.getOwnPropertyDescriptor(context, "PasteLintAnalyticsOperations").writable, false);
+  const factory = context.PasteLintAnalyticsOperationAdapter;
+  assert.equal(Object.isFrozen(factory), true);
+  assert.equal(Object.getOwnPropertyDescriptor(context, "PasteLintAnalyticsOperationAdapter").writable, false);
+  assert.equal(Object.prototype.hasOwnProperty.call(context, "PasteLintAnalyticsOperations"), false);
+  const adapter = factory.create(null);
   assert.doesNotThrow(() => adapter.beginOperation().complete());
   assert.equal(adapter.recordCopy(), false);
 });

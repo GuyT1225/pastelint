@@ -135,7 +135,7 @@
     return Object.freeze({ dispatch() { return false; } });
   }
 
-  function initialize(browser, config, sink) {
+  function initializeDispatcher(browser, gateFactory, sink) {
     const documentRef = browser && browser.document;
     if ((typeof documentRef !== "object" || documentRef === null) &&
         typeof documentRef !== "function") {
@@ -145,7 +145,7 @@
       return dispatchersByDocument.get(documentRef);
     }
 
-    const gate = createGate(browser, config || {});
+    const gate = gateFactory();
     let pageViewDispatched = false;
     const dispatcher = Object.freeze({
       dispatch(eventType) {
@@ -171,11 +171,73 @@
     return dispatcher;
   }
 
+  function initialize(browser, config, sink) {
+    return initializeDispatcher(
+      browser,
+      () => createGate(browser, config || {}),
+      sink
+    );
+  }
+
+  function isResolvedDecision(decision) {
+    return Boolean(
+      decision &&
+      Object.isFrozen(decision) &&
+      Object.keys(decision).length === 1 &&
+      ["included", "excluded", "blocked"].includes(decision.state)
+    );
+  }
+
+  function createResolvedGate(browser, decision, config) {
+    let blocked = !isResolvedDecision(decision) || decision.state !== "included";
+    const enabled = config && config.enabled === true;
+    const allowedOrigin = config && typeof config.allowedOrigin === "string"
+      ? config.allowedOrigin
+      : null;
+    const deny = function () { blocked = true; };
+
+    return Object.freeze({
+      authorize(eventType) {
+        if (blocked) return null;
+        try {
+          if (!enabled || !allowedOrigin) return null;
+          const configured = new URL(allowedOrigin);
+          if (configured.protocol !== "https:" || configured.origin !== allowedOrigin) {
+            return null;
+          }
+          const url = new URL(browser.location.href);
+          if (url.origin !== allowedOrigin || url.searchParams.has("analytics")) {
+            deny();
+            return null;
+          }
+          if (browser.localStorage.getItem(ANALYTICS_PREFERENCE_KEY) !== null) {
+            deny();
+            return null;
+          }
+          const pagePath = normalizePagePath(url.pathname);
+          return isAllowedEvent(eventType, pagePath) ? pagePath : null;
+        } catch (_error) {
+          deny();
+          return null;
+        }
+      }
+    });
+  }
+
+  function initializeResolved(browser, decision, config, sink) {
+    return initializeDispatcher(
+      browser,
+      () => createResolvedGate(browser, decision, config || {}),
+      sink
+    );
+  }
+
   return Object.freeze({
     ANALYTICS_PREFERENCE_KEY,
     EVENT_TYPES,
     PAGE_PATHS,
     initialize,
+    initializeResolved,
     isAllowedEvent,
     normalizePagePath
   });

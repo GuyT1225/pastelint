@@ -43,7 +43,7 @@ const EXPECTED_PAGES = [
   "tts-text-cleanup.html"
 ];
 
-function runLoader(href, initialStorage = {}, storageOverrides = {}) {
+function runLoader(href, initialStorage = {}, storageOverrides = {}, historyOverrides = {}) {
   const storage = new Map(Object.entries(initialStorage));
   const appended = [];
   const replacements = [];
@@ -68,20 +68,42 @@ function runLoader(href, initialStorage = {}, storageOverrides = {}) {
     removeItem(key) { storage.delete(key); },
     ...storageOverrides
   };
+  const window = { location: { href } };
+  const historyApi = {
+    state: { preserved: true },
+    replaceState(state, title, url) {
+      replacements.push({ state, title, url });
+      window.location.href = new URL(url, window.location.href).href;
+    },
+    ...historyOverrides
+  };
   const context = vm.createContext({
     URL,
-    window: { location: { href } },
+    window,
     document,
     localStorage: storageApi,
-    history: {
-      state: { preserved: true },
-      replaceState(state, title, url) { replacements.push({ state, title, url }); }
-    },
+    history: historyApi,
     console: { info(message) { logs.push(message); } }
   });
 
   vm.runInContext(LOADER, context, { filename: "js/analytics-loader.js" });
-  return { storage, appended, replacements, logs };
+  return {
+    storage,
+    appended,
+    replacements,
+    logs,
+    decision: window.PasteLintAnalyticsPreferenceDecision,
+    decisionDescriptor: Object.getOwnPropertyDescriptor(
+      window,
+      "PasteLintAnalyticsPreferenceDecision"
+    )
+  };
+}
+
+function assertDecision(result, state) {
+  assert.strictEqual(result.decision.state, state);
+  assert.deepStrictEqual(Object.keys(result.decision), ["state"]);
+  assert.strictEqual(Object.isFrozen(result.decision), true);
 }
 
 function testExcludedState() {
@@ -91,6 +113,8 @@ function testExcludedState() {
   assert.strictEqual(result.replacements.length, 1);
   assert.strictEqual(result.replacements[0].url, "/index.html?foo=1#tools");
   assert.deepStrictEqual(result.logs, ["[PasteLint] Analytics preference: excluded for this browser."]);
+  assertDecision(result, "excluded");
+  assert.strictEqual(result.decisionDescriptor.writable, false);
 }
 
 function testIncludedState() {
@@ -101,6 +125,7 @@ function testIncludedState() {
   assert.strictEqual(result.appended.length, 0);
   assert.strictEqual(result.replacements[0].url, "/second-draft.html?mode=shorter#editor");
   assert.deepStrictEqual(result.logs, ["[PasteLint] Analytics preference: included for this browser."]);
+  assertDecision(result, "included");
 }
 
 function testPersistedExcludedState() {
@@ -110,6 +135,7 @@ function testPersistedExcludedState() {
   assert.strictEqual(result.appended.length, 0);
   assert.strictEqual(result.replacements.length, 0);
   assert.strictEqual(result.logs.length, 0);
+  assertDecision(result, "excluded");
 }
 
 function testNormalPublicState() {
@@ -117,6 +143,7 @@ function testNormalPublicState() {
   assert.strictEqual(result.appended.length, 0);
   assert.strictEqual(result.replacements.length, 0);
   assert.strictEqual(result.logs.length, 0);
+  assertDecision(result, "included");
 }
 
 function testAmbiguousAndMalformedControlsFailClosed() {
@@ -131,6 +158,7 @@ function testAmbiguousAndMalformedControlsFailClosed() {
     const result = runLoader(`https://pastelint.com/index.html?analytics=${controls}`);
     assert.strictEqual(result.storage.get(STORAGE_KEY), "excluded", controls);
     assert.strictEqual(result.replacements.length, 1, controls);
+    assertDecision(result, "excluded");
     assert.deepStrictEqual(
       result.logs,
       ["[PasteLint] Analytics preference: excluded for this browser."],
@@ -158,6 +186,7 @@ function testStorageFailuresDoNotClearExclusion() {
   assert.strictEqual(throwingRemoval.storage.get(STORAGE_KEY), "excluded");
   assert.strictEqual(throwingRemoval.replacements.length, 0);
   assert.strictEqual(throwingRemoval.logs.length, 0);
+  assertDecision(throwingRemoval, "blocked");
 
   const silentRemoval = runLoader(
     "https://pastelint.com/index.html?analytics=include",
@@ -166,6 +195,7 @@ function testStorageFailuresDoNotClearExclusion() {
   );
   assert.strictEqual(silentRemoval.storage.get(STORAGE_KEY), "excluded");
   assert.strictEqual(silentRemoval.replacements.length, 0);
+  assertDecision(silentRemoval, "blocked");
 
   for (const setItem of [
     () => { throw new Error("blocked"); },
@@ -178,6 +208,23 @@ function testStorageFailuresDoNotClearExclusion() {
     );
     assert.strictEqual(failedWrite.storage.has(STORAGE_KEY), false);
     assert.strictEqual(failedWrite.replacements.length, 0);
+    assertDecision(failedWrite, "blocked");
+  }
+}
+
+function testHistoryFailuresBlockIntegration() {
+  for (const replaceState of [
+    () => {},
+    () => { throw new Error("blocked"); }
+  ]) {
+    const result = runLoader(
+      "https://pastelint.com/index.html?analytics=exclude",
+      {},
+      {},
+      { replaceState }
+    );
+    assertDecision(result, "blocked");
+    assert.strictEqual(result.logs.length, 0);
   }
 }
 
@@ -198,6 +245,13 @@ function testPageCoverage() {
     const html = fs.readFileSync(path.join(ROOT, file), "utf8");
     assert.ok(!html.includes("https://cdn.statskit.ai/v.js"), `${file} still loads StatsKit directly`);
     assert.strictEqual((html.match(/src="js\/analytics-loader\.js"/g) || []).length, 1);
+    for (const inactiveModule of [
+      "js/analytics-event-dispatcher.js",
+      "js/analytics-operation-instrumentation.js",
+      "js/analytics-browser-bootstrap.js"
+    ]) {
+      assert.strictEqual(html.includes(inactiveModule), false, `${file} loads ${inactiveModule}`);
+    }
   });
 }
 
@@ -247,6 +301,7 @@ testNormalPublicState();
 testAmbiguousAndMalformedControlsFailClosed();
 testExistingExclusionSurvivesAmbiguousControls();
 testStorageFailuresDoNotClearExclusion();
+testHistoryFailuresBlockIntegration();
 testNoProviderDependency();
 testPageCoverage();
 testCombinedConflictingControlsFailClosed();

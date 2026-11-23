@@ -2,7 +2,7 @@
 
 ## Status and boundary
 
-The dispatcher in `js/analytics-event-dispatcher.js` is a standalone browser-compatible candidate. It is not loaded by any HTML page, does not emit events automatically and has no network transport, endpoint, retry, queue or production activation mechanism.
+The dispatcher and inactive lifecycle bootstrap are browser-compatible candidates. They are not loaded by any HTML page, emit no events automatically and have no network transport, endpoint, retry, queue or production activation mechanism.
 
 Tool-handler instrumentation is present through an inactive operation adapter. Live collection and deployment remain separate milestones.
 
@@ -33,9 +33,11 @@ This check lives outside `tests/` so ordinary public test discovery does not req
 
 The browser API object is frozen and installed as a non-writable global only when the file is explicitly loaded. Configuration is captured inside the document dispatcher; there is no query-string, local-storage or mutable-global activation flag.
 
+`PasteLintAnalyticsDispatcher.initializeResolved(browser, decision, config, sink)` is the integration-specific trust boundary. It accepts only the loader's frozen one-field `included`, `excluded` or `blocked` decision. It never parses or mutates raw controls, rejects a URL that still contains an unresolved `analytics` control and rechecks persisted exclusion before every enabled dispatch. Standalone `initialize()` retains its original fail-closed control processing for isolated use and contract tests.
+
 ## Operation instrumentation
 
-The operation adapter remains disconnected from public HTML. Core handlers call the exception-safe bridge in `utils.js`; tests inject the frozen adapter, while the browser fallback remains inert when it is absent. This preserves testable operation boundaries without adding a second public preference-control owner.
+The operation adapter remains disconnected from public HTML. Its browser build exposes only an immutable factory; it does not preinstall `PasteLintAnalyticsOperations`. The lifecycle bootstrap owns installation of the final document adapter. Core handlers call the exception-safe bridge in `utils.js`, so a missing adapter remains inert and cannot interrupt tool behavior.
 
 | Tool | Explicit handler | Start boundary | Completion boundary |
 | --- | --- | --- | --- |
@@ -55,11 +57,13 @@ Each explicit valid action owns one operation token. A token can complete at mos
 
 Blocked input emits nothing. A valid attempt emits one `tool_start`; exceptions, trustworthiness rejection, empty results, failed generation and empty chunking do not emit `tool_complete`. Analytics adapter absence, denial or exceptions cannot change tool output or clipboard feedback. No handler passes input, output, clipboard content, lengths, URLs, identifiers or metadata into the adapter.
 
-## Deferred browser lifecycle ownership
+## Inactive browser lifecycle ownership
 
-`analytics-loader.js` remains the sole public owner of analytics URL preference controls. It evaluates every `analytics` value, gives exclusion precedence, accepts only one exact `include`, persists exclusion for malformed or ambiguous controls and verifies storage changes before cleaning the URL. The operation adapter and enabled dispatcher are not loaded by public HTML, so neither can independently consume those controls.
+`analytics-loader.js` remains the sole public owner of analytics URL preference controls. It evaluates every `analytics` value, gives exclusion precedence, accepts only one exact `include`, persists exclusion for malformed or ambiguous controls and verifies storage and history changes before cleaning the URL. It publishes one frozen `PasteLintAnalyticsPreferenceDecision` with an `included`, `excluded` or `blocked` state.
 
-A later browser lifecycle milestone must use one bootstrap to process controls once, initialize the dispatcher once and supply that dispatcher to operation instrumentation. It must not run a second parser over the same raw controls. Exclusion behavior is not claimed as fully integrated until that single-owner flow has browser acceptance coverage.
+`analytics-browser-bootstrap.js` creates at most one lifecycle per document, initializes the resolved dispatcher and installs one non-writable operation adapter. Its browser entry is permanently inactive: `enabled` is false, the sink is null and page-view emission is false. Test-only CommonJS initialization can inject an in-memory sink and enabled configuration; no URL, storage or public global can activate it.
+
+Public HTML still loads only the preference loader. Loading the dispatcher, adapter factory and bootstrap requires separate operator approval. Until then, the preference decision is published but no dispatcher or operation lifecycle is initialized publicly.
 
 ## Privacy and limitations
 
