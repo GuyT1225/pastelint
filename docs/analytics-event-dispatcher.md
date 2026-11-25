@@ -2,7 +2,7 @@
 
 ## Status and boundary
 
-The dispatcher and inactive lifecycle bootstrap are browser-compatible candidates. They are not loaded by any HTML page, emit no events automatically and have no network transport, endpoint, retry, queue or production activation mechanism.
+The dispatcher and inactive lifecycle bootstrap are loaded by approved public HTML pages. They emit no events automatically and have no network transport, endpoint, retry, queue or production activation mechanism.
 
 Tool-handler instrumentation is present through an inactive operation adapter. Live collection and deployment remain separate milestones.
 
@@ -37,7 +37,7 @@ The browser API object is frozen and installed as a non-writable global only whe
 
 ## Operation instrumentation
 
-The operation adapter remains disconnected from public HTML. Its browser build exposes only an immutable factory; it does not preinstall `PasteLintAnalyticsOperations`. The lifecycle bootstrap owns installation of the final document adapter. Core handlers call the exception-safe bridge in `utils.js`, so a missing adapter remains inert and cannot interrupt tool behavior.
+The operation-adapter factory is loaded after the dispatcher. It does not preinstall `PasteLintAnalyticsOperations`; the lifecycle bootstrap owns installation of the final document adapter. Core handlers call the exception-safe bridge in `utils.js`, so a missing adapter remains inert and cannot interrupt tool behavior.
 
 | Tool | Explicit handler | Start boundary | Completion boundary |
 | --- | --- | --- | --- |
@@ -63,7 +63,7 @@ Blocked input emits nothing. A valid attempt emits one `tool_start`; exceptions,
 
 `analytics-browser-bootstrap.js` creates at most one lifecycle per document, initializes the resolved dispatcher and installs one non-writable operation adapter. Its browser entry is permanently inactive: `enabled` is false, the sink is null and page-view emission is false. Test-only CommonJS initialization can inject an in-memory sink and enabled configuration; no URL, storage or public global can activate it.
 
-Public HTML still loads only the preference loader. Loading the dispatcher, adapter factory and bootstrap requires separate operator approval. Until then, the preference decision is published but no dispatcher or operation lifecycle is initialized publicly.
+Each approved public page loads exactly one deferred lifecycle sequence: loader, dispatcher, operation-adapter factory and bootstrap. The loader resolves preference controls before the bootstrap consumes its frozen decision. The public bootstrap initializes the document lifecycle with `enabled: false`, a null sink and page-view emission disabled, so connecting the scripts does not enable collection.
 
 ## Privacy and limitations
 

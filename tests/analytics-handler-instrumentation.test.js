@@ -440,9 +440,17 @@ test("public integration stays inactive, private sync stays explicit and no tran
 
   for (const file of ["index.html", "second-draft.html", "SSML_builder.html"]) {
     const html = fs.readFileSync(path.join(ROOT, file), "utf8");
-    assert.equal(html.includes("js/analytics-operation-instrumentation.js"), false, file);
-    assert.equal(html.includes("js/analytics-event-dispatcher.js"), false, file);
+    assert.equal(html.includes("js/analytics-operation-instrumentation.js"), true, file);
+    assert.equal(html.includes("js/analytics-event-dispatcher.js"), true, file);
+    assert.equal(html.includes("js/analytics-browser-bootstrap.js"), true, file);
   }
+
+  const bootstrapSource = fs.readFileSync(
+    path.join(ROOT, "js", "analytics-browser-bootstrap.js"),
+    "utf8"
+  );
+  assert.match(bootstrapSource, /enabled:\s*false/);
+  assert.match(bootstrapSource, /emitPageView:\s*false/);
 
   assert.equal(fs.existsSync(path.join(ROOT, "tests", "analytics-contract-sync.test.mjs")), false);
   assert.equal(fs.existsSync(path.join(ROOT, "scripts", "analytics-contract-sync.mjs")), true);

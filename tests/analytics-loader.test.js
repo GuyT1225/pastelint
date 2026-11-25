@@ -235,6 +235,12 @@ function testNoProviderDependency() {
 }
 
 function testPageCoverage() {
+  const lifecycleScripts = [
+    "js/analytics-loader.js",
+    "js/analytics-event-dispatcher.js",
+    "js/analytics-operation-instrumentation.js",
+    "js/analytics-browser-bootstrap.js"
+  ];
   const actualPages = fs.readdirSync(ROOT)
     .filter((file) => file.endsWith(".html"))
     .filter((file) => fs.readFileSync(path.join(ROOT, file), "utf8").includes('src="js/analytics-loader.js"'))
@@ -244,13 +250,23 @@ function testPageCoverage() {
   EXPECTED_PAGES.forEach((file) => {
     const html = fs.readFileSync(path.join(ROOT, file), "utf8");
     assert.ok(!html.includes("https://cdn.statskit.ai/v.js"), `${file} still loads StatsKit directly`);
-    assert.strictEqual((html.match(/src="js\/analytics-loader\.js"/g) || []).length, 1);
-    for (const inactiveModule of [
-      "js/analytics-event-dispatcher.js",
-      "js/analytics-operation-instrumentation.js",
-      "js/analytics-browser-bootstrap.js"
-    ]) {
-      assert.strictEqual(html.includes(inactiveModule), false, `${file} loads ${inactiveModule}`);
+    const positions = lifecycleScripts.map((script) => {
+      const reference = `src="${script}"`;
+      assert.strictEqual(
+        html.split(reference).length - 1,
+        1,
+        `${file} must load ${script} exactly once`
+      );
+      return html.indexOf(reference);
+    });
+    for (let index = 1; index < positions.length; index += 1) {
+      assert.ok(positions[index - 1] < positions[index], `${file} lifecycle script order`);
+    }
+    for (const script of lifecycleScripts) {
+      assert.ok(
+        html.includes(`<script defer src="${script}"></script>`),
+        `${file} must defer ${script}`
+      );
     }
   });
 }
