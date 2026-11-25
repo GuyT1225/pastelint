@@ -539,7 +539,21 @@ function setSsmlFeedback(state, message) {
   window.PasteLintFeedback.set(status, state, message);
 }
 
+function hasCleanableSsmlInput() {
+  const raw = document.getElementById("input")?.value || "";
+  return Boolean(raw.trim() || getFooterText().trim());
+}
+
 function cleanOnly() {
+  if (!hasCleanableSsmlInput()) return performCleanOnly();
+
+  const operation = PasteLintUtils.beginAnalyticsOperation();
+  const cleaned = performCleanOnly();
+  if (cleaned.trim()) operation.complete();
+  return cleaned;
+}
+
+function performCleanOnly() {
   const raw = document.getElementById("input")?.value || "";
   const footerText = getFooterText();
 
@@ -613,7 +627,14 @@ function generateSsmlFromText(text, sourceLabel = "source text") {
 function generateSsmlOnly() {
   const sourceText = getSsmlSourceText();
 
-  generateSsmlFromText(sourceText, "available text");
+  if (!sourceText.trim()) {
+    return generateSsmlFromText(sourceText, "available text");
+  }
+
+  const operation = PasteLintUtils.beginAnalyticsOperation();
+  const result = generateSsmlFromText(sourceText, "available text");
+  if (result === "changed" || result === "unchanged") operation.complete();
+  return result;
 }
 
 function generateSsmlFromCleanedText() {
@@ -624,22 +645,32 @@ function generateSsmlFromCleanedText() {
     return;
   }
 
-  generateSsmlFromText(cleaned, "cleaned text");
+  const operation = PasteLintUtils.beginAnalyticsOperation();
+  const result = generateSsmlFromText(cleaned, "cleaned text");
+  if (result === "changed" || result === "unchanged") operation.complete();
+  return result;
 }
 
 function cleanAndGenerate() {
   const raw = document.getElementById("input").value || "";
 
+  if (!hasCleanableSsmlInput()) return performCleanOnly();
+
+  const operation = PasteLintUtils.beginAnalyticsOperation();
+
   if (raw.length > CHARACTER_LIMIT) {
-    generateChunks(true);
-    return;
+    const chunked = performGenerateChunks(true);
+    if (chunked) operation.complete();
+    return chunked;
   }
 
-  const cleaned = cleanOnly();
+  const cleaned = performCleanOnly();
 
-  if (!cleaned.trim()) return;
+  if (!cleaned.trim()) return false;
 
-  generateSsmlFromText(cleaned, "cleaned text");
+  const result = generateSsmlFromText(cleaned, "cleaned text");
+  if (result === "changed" || result === "unchanged") operation.complete();
+  return result;
 }
 
 function handleCleanEdit() {
@@ -872,6 +903,15 @@ function splitIntoBookAwareChunks(text, limit) {
 }
 
 function generateChunks(wasRedirected) {
+  if (!hasCleanableSsmlInput()) return performGenerateChunks(wasRedirected);
+
+  const operation = PasteLintUtils.beginAnalyticsOperation();
+  const chunked = performGenerateChunks(wasRedirected);
+  if (chunked) operation.complete();
+  return chunked;
+}
+
+function performGenerateChunks(wasRedirected) {
   const cleaned = buildFullCleanText();
   const chunks = splitIntoBookAwareChunks(cleaned, CHARACTER_LIMIT);
 
@@ -949,6 +989,8 @@ function generateChunks(wasRedirected) {
     behavior: "smooth",
     block: "start"
   });
+
+  return chunks.length > 0;
 }
 
 function updateCounters() {
@@ -1014,6 +1056,7 @@ async function copyText(id) {
     return false;
   }
   const copied = await PasteLintUtils.copyToClipboard(box.value);
+  if (copied) PasteLintUtils.recordAnalyticsCopy();
   setSsmlStatus(copied ? "Copied to clipboard." : "Copy failed. Select the text and copy manually.");
   return copied;
 }

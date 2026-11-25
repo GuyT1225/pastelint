@@ -797,6 +797,19 @@ function setPageResultState(active) {
   document.body.classList.toggle("has-clean-result", Boolean(active));
 }
 
+function beginCleanAnalyticsOperation() {
+  try {
+    if (typeof PasteLintUtils !== "undefined" &&
+        typeof PasteLintUtils.beginAnalyticsOperation === "function") {
+      return PasteLintUtils.beginAnalyticsOperation();
+    }
+  } catch (_error) {
+    // Analytics must never interrupt cleanup.
+  }
+
+  return { complete() { return false; } };
+}
+
 function handleClean(els) {
   const raw = getInputText(els);
   if (!raw) {
@@ -809,6 +822,8 @@ function handleClean(els) {
 
     return;
   }
+
+  const operation = beginCleanAnalyticsOperation();
 
   try {
     const cleanMode = getCleanMode(els);
@@ -864,6 +879,7 @@ function handleClean(els) {
     );
 
     updateCounters(els);
+    if (result.text.trim()) operation.complete();
   } catch (error) {
     setPageResultState(false);
     setCleanFeedback(
@@ -1443,6 +1459,8 @@ async function copyOutput(els) {
     setToolStatus(els, "Copy failed. Select the text and copy manually.");
     return false;
   }
+
+  PasteLintUtils.recordAnalyticsCopy();
 
   if (els.copyBtn) {
     const button = els.copyBtn;
